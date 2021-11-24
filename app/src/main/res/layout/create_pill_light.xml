@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_background"
+
+    app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_light" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/mGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.335" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.925" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.815" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+
+    <ImageView
+        android:id="@+id/pillBottleImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/pill_bottle_icon"
+        android:scaleX="1"
+        android:scaleY="0.9"
+        app:layout_constraintBottom_toTopOf="@+id/clock"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/mGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/pill_bottle_color_2" />
+
+    <ImageView
+        android:id="@+id/clock"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/clock"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        app:layout_constraintBottom_toTopOf="@+id/calendar"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/mGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/pillBottleImage"
+        app:srcCompat="@drawable/clock" />
+
+    <ImageView
+        android:id="@+id/calendar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/calendar"
+        android:scaleX="0.9"
+        android:scaleY="1"
+        app:layout_constraintBottom_toTopOf="@id/pill"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/mGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/clock"
+        app:srcCompat="@drawable/calendar" />
+
+    <ImageView
+        android:id="@+id/pill"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/pill"
+        android:scaleX="0.9"
+        android:scaleY="0.8"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline5"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/mGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/calendar"
+        app:srcCompat="@drawable/pill" />
+
+
+    <TextView
+        android:id="@+id/enterPillName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:hint="@string/enterPillNameHere"
+        android:letterSpacing="0.01"
+        android:textSize="28sp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/pillBottleImage"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/pillBottleImage"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck"
+        tools:targetApi="lollipop" />
+
+    <TextView
+        android:id="@+id/enterPillTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:clickable="false"
+        android:hint="@string/enterPillTimeHere"
+        android:isScrollContainer="false"
+        android:letterSpacing="0.01"
+        android:textSize="28sp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/clock"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/clock"
+        tools:ignore="Autofill,UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/enterPillDateReminder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:clickable="false"
+        android:hint="@string/enterPillDateReminder"
+        android:importantForAutofill="no"
+        android:letterSpacing="0.01"
+        android:textSize="28sp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/calendar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/calendar"
+        tools:ignore="UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/enterPillSupplyNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:clickable="false"
+        android:gravity="center_vertical"
+        android:hint="@string/pillAmount"
+        android:importantForAutofill="no"
+        android:letterSpacing="0.01"
+        android:textSize="28sp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/pill"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/pill"
+        tools:ignore="DuplicateSpeakableTextCheck"
+        tools:targetApi="lollipop" />
+
+
+    <Button
+        android:id="@+id/pillNameButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/enterPillNameHere"
+        app:layout_constraintBottom_toBottomOf="@id/pillBottleImage"
+        app:layout_constraintEnd_toStartOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/mGuideline"
+        app:layout_constraintTop_toTopOf="@id/pillBottleImage" />
+
+    <Button
+        android:id="@+id/pillClockButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/enterPillTimeHere"
+        android:scaleX="0.8"
+        android:scaleY="0.9"
+        app:layout_constraintBottom_toBottomOf="@+id/clock"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/mGuideline"
+        app:layout_constraintTop_toTopOf="@+id/clock"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <Button
+        android:id="@+id/pillDateButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/reminder_date"
+        app:layout_constraintBottom_toBottomOf="@+id/calendar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/mGuideline"
+        app:layout_constraintTop_toTopOf="@+id/calendar" />
+
+    <Button
+        android:id="@+id/pillAmountButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/pillAmount"
+        app:layout_constraintBottom_toBottomOf="@id/pill"
+        app:layout_constraintEnd_toStartOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="@id/mGuideline"
+        app:layout_constraintTop_toTopOf="@id/pill" />
+
+    <Button
+        android:id="@+id/create_new_pill"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/btn_background_blue_magenta"
+        android:letterSpacing="0.01"
+        android:text="@string/createNewPill"
+        android:textSize="28sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@id/horizontalGuideline7"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/mGuideline"
+        app:layout_constraintTop_toTopOf="@+id/horizontalGuideline6"
+        tools:ignore="UnusedAttribute" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
