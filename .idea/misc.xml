@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.4336801040312094" />
+        <entry key="app/src/main/res/drawable/addicon.xml" value="0.5354166666666667" />
+        <entry key="app/src/main/res/drawable/bitcoin.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/btn_background.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/drawable/btn_background_blue_magenta.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/drawable/btn_background_red.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/drawable/calendar.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/clock.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/dialog_background.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/drawable/dialog_background_light.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/drawable/dialog_background_red.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/drawable/ic_check_tick_svgrepo_com.xml" value="0.4015625" />
+        <entry key="app/src/main/res/drawable/ic_icon.xml" value="0.3381578947368421" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/ic_minus.xml" value="0.5083333333333333" />
+        <entry key="app/src/main/res/drawable/ic_pandacoin.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/monero.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/pandacoin.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill.xml" value="0.2069078947368421" />
+        <entry key="app/src/main/res/drawable/pill_bottle.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/pill_bottle_blue.xml" value="0.4027777777777778" />
+        <entry key="app/src/main/res/drawable/pill_bottle_color_2.xml" value="0.46531531531531534" />
+        <entry key="app/src/main/res/drawable/pill_bottle_color_3.xml" value="0.46531531531531534" />
+        <entry key="app/src/main/res/drawable/pill_bottle_color_4.xml" value="0.46531531531531534" />
+        <entry key="app/src/main/res/drawable/pill_bottle_color_5.xml" value="0.30256410256410254" />
+        <entry key="app/src/main/res/drawable/pill_bottle_dark_green.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill_bottle_dark_orange.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill_bottle_dark_purple.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill_bottle_green.xml" value="0.30256410256410254" />
+        <entry key="app/src/main/res/drawable/pill_bottle_light_green.xml" value="0.25256410256410255" />
+        <entry key="app/src/main/res/drawable/pill_bottle_light_orange.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill_bottle_light_red.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill_bottle_orange.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill_bottle_pink.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/pill_bottle_red.xml" value="0.4393162393162393" />
+        <entry key="app/src/main/res/drawable/question.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/question_light.xml" value="0.2075657894736842" />
+        <entry key="app/src/main/res/drawable/reset.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/settings.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/settings1.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/settings_light.xml" value="0.2075657894736842" />
+        <entry key="app/src/main/res/drawable/tick.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/title_background.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/drawable/title_background_light.xml" value="0.3401315789473684" />
+        <entry key="app/src/main/res/font/.xml" value="0.3470394736842105" />
+        <entry key="app/src/main/res/font/abril_fatface.xml" value="0.24473684210526317" />
+        <entry key="app/src/main/res/font/advent_pro_thin.xml" value="0.24473684210526317" />
+        <entry key="app/src/main/res/font/hi.xml" value="0.3470394736842105" />
+        <entry key="app/src/main/res/font/work_sans.xml" value="0.24473684210526317" />
+        <entry key="app/src/main/res/layout-v21/activity_update_pill.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/about.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/about1.xml" value="0.3787568306010929" />
+        <entry key="app/src/main/res/layout/about_light.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/activity_choose_color.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_create_pill.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main_light.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_update_pill.xml" value="1.0" />
+        <entry key="app/src/main/res/layout/choose_color.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/choose_color_light.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/create_pill.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/create_pill_light.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/custom_dialog_layout.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/custom_dialog_layout_light.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/db_reset_dialog_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/db_reset_dialog_layout_light.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/delete_pill_dialog_layout.xml" value="0.5223958333333333" />
+        <entry key="app/src/main/res/layout/delete_pill_dialog_layout_light.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/enter_amount_dialog.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/enter_amount_dialog_light.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/enter_name_dialog.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/enter_name_dialog_light.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/example_dialog.xml" value="0.264453125" />
+        <entry key="app/src/main/res/layout/example_pill.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/example_pill_light.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/example_setting.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/main.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/main_light.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/past_date_dialog_layout.xml" value="0.5223958333333333" />
+        <entry key="app/src/main/res/layout/past_date_dialog_layout_light.xml" value="0.5223958333333333" />
+        <entry key="app/src/main/res/layout/settings.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/settings_light.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/toolbar_light.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/update_pill.xml" value="0.33026315789473687" />
+        <entry key="app/src/main/res/layout/update_pill_light.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/warning_dialog_layout.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/warning_dialog_layout_light.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/welcome_dialog_layout.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/layout/welcome_dialog_layout_light.xml" value="0.3299342105263158" />
+        <entry key="app/src/main/res/menu/bottle_menu.xml" value="0.30495495495495495" />
+      </map>
+    </option>
+  </component>
+  <component name="NullableNotNullManager">
+    <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
+    <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
+    <option name="myNullables">
+      <value>
+        <list size="14">
+          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
+          <item index="1" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
+          <item index="2" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
+          <item index="3" class="java.lang.String" itemvalue="androidx.annotation.Nullable" />
+          <item index="4" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNullable" />
+          <item index="5" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
+          <item index="6" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
+          <item index="7" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
+          <item index="8" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.Nullable" />
+          <item index="9" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableDecl" />
+          <item index="10" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableType" />
+          <item index="11" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
+          <item index="12" class="java.lang.String" itemvalue="io.reactivex.annotations.Nullable" />
+          <item index="13" class="java.lang.String" itemvalue="io.reactivex.rxjava3.annotations.Nullable" />
+        </list>
+      </value>
+    </option>
+    <option name="myNotNulls">
+      <value>
+        <list size="14">
+          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
+          <item index="1" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
+          <item index="2" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
+          <item index="3" class="java.lang.String" itemvalue="androidx.annotation.NonNull" />
+          <item index="4" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNonNull" />
+          <item index="5" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
+          <item index="6" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
+          <item index="7" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.NonNull" />
+          <item index="8" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullDecl" />
+          <item index="9" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullType" />
+          <item index="10" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
+          <item index="11" class="java.lang.String" itemvalue="io.reactivex.annotations.NonNull" />
+          <item index="12" class="java.lang.String" itemvalue="io.reactivex.rxjava3.annotations.NonNull" />
+          <item index="13" class="java.lang.String" itemvalue="lombok.NonNull" />
+        </list>
+      </value>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
