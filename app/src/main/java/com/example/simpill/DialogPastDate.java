@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +28,7 @@ public class DialogPastDate extends AppCompatDialogFragment {
     View dialogView;
     TextView titleTextView, titleMessageView;
     Button okBtn;
-    Dialog dbResetDialog;
+    Dialog pastDateDialog;
 
     @NonNull
     @Override
@@ -37,7 +36,7 @@ public class DialogPastDate extends AppCompatDialogFragment {
         initAll();
         createDialogWithFormatting();
         createOnClickListeners();
-        return dbResetDialog;
+        return pastDateDialog;
     }
 
     private void initAll() {
@@ -95,17 +94,13 @@ public class DialogPastDate extends AppCompatDialogFragment {
     }
 
     private void createOnClickListeners() {
-        okBtn.setOnClickListener(view -> {
-            if(myDatabase.deleteDatabase()) {
-                dbResetDialog.dismiss();
-            }
-        });
+        okBtn.setOnClickListener(view -> pastDateDialog.dismiss());
     }
 
 
     private void createDialogWithFormatting() {
-        dbResetDialog = dialogBuilder.create();
-        dbResetDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        pastDateDialog = dialogBuilder.create();
+        pastDateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
         titleTextView.setTypeface(truenoReg);
         titleMessageView.setTypeface(truenoReg);
