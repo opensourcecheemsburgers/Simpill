@@ -115,7 +115,7 @@ public class DialogDatabaseReset extends AppCompatDialogFragment {
         titleMessageView.setText(getString(R.string.pill_db_reset_warning));
 
         titleTextView.setTypeface(truenoReg);
-        titleMessageView.setTypeface(truenoReg);
+        titleMessageView.setTypeface(truenoLight);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             titleTextView.setLetterSpacing(0.025f);

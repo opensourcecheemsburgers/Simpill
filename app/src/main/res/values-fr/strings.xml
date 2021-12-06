@@ -3,4 +3,5 @@
     <string name="app_name">Simpill</string>
     <string name="welcome">Bienvenue à Simpill</string>
     <string name="introduction_message">"Merci pour choisir Simpill :) "</string>
+    <string name="delete_all_pills">Delete All Pills</string>
 </resources>

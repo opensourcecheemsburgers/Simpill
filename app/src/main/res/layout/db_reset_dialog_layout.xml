@@ -43,7 +43,7 @@
             android:layout_marginEnd="18dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/truenolight"
             android:text="@string/pill_db_reset_warning"
             android:textColor="@color/white"
             android:textSize="18sp"

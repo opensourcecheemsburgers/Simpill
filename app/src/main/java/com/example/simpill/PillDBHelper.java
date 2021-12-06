@@ -9,6 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class PillDBHelper extends SQLiteOpenHelper {
 
 
@@ -27,6 +31,8 @@ public class PillDBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_BOTTLECOLOR = "BottleColor";
 
     private static final String SELECTION = "PillName = ?";
+
+    private static final long MONTH_IN_MS = 2592000000L;
 
     public PillDBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -280,6 +286,16 @@ public class PillDBHelper extends SQLiteOpenHelper {
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
         cursor.close();
     }
+    public void addMonthToPillSupplyInDatabase(Context ct, String pillName)
+    {
+        DateTimeManager dateTimeManager = new DateTimeManager();
+        String oldPillDate =  getPillDate(pillName);
+        Calendar calendar =  dateTimeManager.formatDateStringAsCalendar(ct, dateTimeManager.getUserTimezone(), oldPillDate);
+        calendar.setTimeInMillis(calendar.getTimeInMillis() + MONTH_IN_MS);
+        Date newPillDate = calendar.getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.date_format));
+        setPillDate(pillName, simpleDateFormat.format(newPillDate));
+    }
 
     public String getTimeTaken(String pillName) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
@@ -444,14 +460,11 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
     public void createTestingPills() {
         String currentTime = "23:06";
-        addNewPill(1, "Melatonin", currentTime , "2021-10-31", 0, 0, "null", 0, 2);
-        addNewPill(2, "Equasym XL", currentTime, "2021-10-31", 0, 0, "null", 0, 2);
-        addNewPill(3, "Fluoxetine", currentTime, "2021-10-31", -1, 0, "null", 0, 2);
-        addNewPill(4, "Prozac", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
-        addNewPill(5, "Prozac1", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
-        addNewPill(6, "Prozac2", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
-        addNewPill(7, "Prozac3", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
-        addNewPill(8, "Prozac4", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
+        String stockup = "2021-10-31";
+        String takenTime = "null";
+        addNewPill(1, "Melatonin", currentTime , stockup, 0, 0, takenTime, 0, 2);
+        addNewPill(2, "Equasym XL", currentTime, stockup, 0, 0, takenTime, 0, 2);
+        addNewPill(3, "Fluoxetine", currentTime, stockup, 0, 0, takenTime, 0, 2);
     }
 
     public Boolean checkIfPillNameExists(String pillName){

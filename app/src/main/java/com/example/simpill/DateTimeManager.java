@@ -14,8 +14,6 @@ import java.util.TimeZone;
 
 public class DateTimeManager {
 
-    private static final long MONTH_IN_MS = 2592000000L;
-
     public TimeZone getUserTimezone() {
         return TimeZone.getDefault();
     }
@@ -90,16 +88,6 @@ public class DateTimeManager {
         }
     }
 
-    public void addMonthToPillSupplyInDatabase(Context ct, PillDBHelper myDatabase, String pillName)
-    {
-        String oldPillDate =  myDatabase.getPillDate(pillName);
-        Calendar calendar = formatDateStringAsCalendar(ct, getUserTimezone(), oldPillDate);
-        calendar.setTimeInMillis(calendar.getTimeInMillis() + MONTH_IN_MS);
-        Date newPillDate = calendar.getTime();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.date_format));
-        myDatabase.setPillDate(pillName, simpleDateFormat.format(newPillDate));
-    }
-
     public Calendar formatDateStringAsCalendar(Context ct, TimeZone userTimezone, String dateString) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.date_format));
 
@@ -152,4 +140,5 @@ public class DateTimeManager {
             throw new NullPointerException();
         }
     }
+
 }

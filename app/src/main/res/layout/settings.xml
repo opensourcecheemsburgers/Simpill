@@ -10,33 +10,104 @@
         android:id="@+id/include"
         layout="@layout/toolbar" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Theme"
+        android:fontFamily="@font/truenolight"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/dark_theme_switch"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/dark_theme_switch"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="4dp"
-        android:checked="true"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/truenolight"
         android:text="@string/dark_theme"
-        android:textSize="28sp"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@+id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Time"
+        android:fontFamily="@font/truenolight"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/clock_24hr_switch"
+        app:layout_constraintTop_toBottomOf="@+id/dark_theme_switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/clock_24hr_switch"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/truenolight"
         android:text="24 Hour Format"
-        android:textSize="28sp"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@+id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Database"
+        android:fontFamily="@font/truenolight"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/deleteAllBtn"
+        app:layout_constraintTop_toBottomOf="@+id/clock_24hr_switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/deleteAllBtn"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/truenolight"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:text="@string/delete_all_pills"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <View
         android:id="@+id/divider"
@@ -44,39 +115,36 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toStartOf="@id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@id/mGuideline"
-        app:layout_constraintTop_toTopOf="@+id/dark_theme_switch" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dark_theme_switch" />
     <View
         android:id="@+id/divider1"
         android:backgroundTint="@color/white"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toStartOf="@id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/dark_theme_switch" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dark_theme_switch" />
     <View
         android:id="@+id/divider2"
         android:backgroundTint="@color/white"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toStartOf="@id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/deleteAllBtn" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/clock_24hr_switch" />
     <View
         android:id="@+id/divider3"
         android:backgroundTint="@color/white"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toStartOf="@id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@id/mGuideline"
-        app:layout_constraintTop_toTopOf="@+id/deleteAllBtn" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clock_24hr_switch" />
 
     <View
         android:id="@+id/divider4"
@@ -84,9 +152,9 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toStartOf="@id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@id/mGuideline"
-        app:layout_constraintTop_toTopOf="@+id/clock_24hr_switch" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/deleteAllBtn" />
 
     <View
         android:id="@+id/divider5"
@@ -94,81 +162,9 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toStartOf="@id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@id/clock_24hr_switch" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.075" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mGuideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.925" />
-
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/theme"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@+id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Time Formatting"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@+id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@id/dark_theme_switch" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Database"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@+id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@id/clock_24hr_switch" />
-
-    <Button
-        android:id="@+id/deleteAllBtn"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="4dp"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:textSize="28sp"
-        android:textAllCaps="false"
-        android:textStyle="normal"
-        android:textAlignment="textStart"
-        android:fontFamily="@font/truenolight"
-        android:text="Delete All Pills"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/mGuideline1"
-        app:layout_constraintStart_toStartOf="@+id/mGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        android:gravity="center_vertical"
-        tools:ignore="RtlCompat" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteAllBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
