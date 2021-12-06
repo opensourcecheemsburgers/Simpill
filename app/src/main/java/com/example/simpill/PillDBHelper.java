@@ -458,15 +458,6 @@ public class PillDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void createTestingPills() {
-        String currentTime = "23:06";
-        String stockup = "2021-10-31";
-        String takenTime = "null";
-        addNewPill(1, "Melatonin", currentTime , stockup, 0, 0, takenTime, 0, 2);
-        addNewPill(2, "Equasym XL", currentTime, stockup, 0, 0, takenTime, 0, 2);
-        addNewPill(3, "Fluoxetine", currentTime, stockup, 0, 0, takenTime, 0, 2);
-    }
-
     public Boolean checkIfPillNameExists(String pillName){
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};

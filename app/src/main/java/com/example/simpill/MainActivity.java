@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         if (myDatabase.readSqlDatabase().getCount() == 0) {
             DialogWelcome dialogWelcome = new DialogWelcome();
             dialogWelcome.show(getSupportFragmentManager(), "Welcome Message Dialog");
-            myDatabase.createTestingPills();
         }
     }
 
