@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Process;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -40,8 +41,7 @@ public class Settings extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Intent intent = new Intent(myContext, MainActivity.class);
-                startActivity(intent);
+                android.os.Process.killProcess(Process.myPid());
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
