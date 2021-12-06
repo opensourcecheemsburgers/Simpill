@@ -84,7 +84,8 @@ public class PillSupplyReceiver extends BroadcastReceiver {
                             .build();
                 }
                 stockupNotificationManagerCompat.notify(pillName, notificationCode, pillStockupNotification);
-                dateTimeManager.addMonthToPillSupplyInDatabase(context, myDatabase, myDatabase.getPillDate(pillName));
+
+                dateTimeManager.addMonthToPillSupplyInDatabase(context, myDatabase, pillName);
             }
         }
     }

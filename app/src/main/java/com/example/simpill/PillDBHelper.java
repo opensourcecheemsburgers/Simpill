@@ -16,7 +16,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "PillList";
 
-    private static final String COLUMN_ID = "PillId";
+    private static final String COLUMN_PK = "PrimaryKey";
     private static final String COLUMN_TITLE = "PillName";
     private static final String COLUMN_TIME = "PillTime";
     private static final String COLUMN_STOCKUP = "PillStockup";
@@ -36,7 +36,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
 
-                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " (" + COLUMN_PK + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_TIME + " TEXT, " +
                 COLUMN_STOCKUP + " TEXT, " +
@@ -98,8 +98,8 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        removeAllContentValuesExceptId(cv);
-        insertAllContentValuesExceptId(cv, newPillName, time, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
+        removeAllContentValuesExceptPk(cv);
+        insertAllContentValuesExceptPk(cv, newPillName, time, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
 
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
 
@@ -107,7 +107,8 @@ public class PillDBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    private void insertAllContentValues(ContentValues cv, int id, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+        cv.put(COLUMN_PK, primaryKey);
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, time);
         cv.put(COLUMN_STOCKUP, stockup);
@@ -118,7 +119,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_BOTTLECOLOR, bottleColor);
     }
 
-    private void insertAllContentValuesExceptId(ContentValues cv, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, time);
         cv.put(COLUMN_STOCKUP, stockup);
@@ -128,7 +129,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ALARMSSET, alarmsSet);
         cv.put(COLUMN_BOTTLECOLOR, bottleColor);
     }
-    private void removeAllContentValuesExceptId(ContentValues cv) {
+    private void removeAllContentValuesExceptPk(ContentValues cv) {
         cv.remove(COLUMN_TITLE);
         cv.remove(COLUMN_TIME);
         cv.remove(COLUMN_STOCKUP);
@@ -247,6 +248,9 @@ public class PillDBHelper extends SQLiteOpenHelper {
     }
 
     public String getPillDate(String pillName) {
+        System.out.println("Pill Name passed is: " + pillName);
+
+
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -429,7 +433,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, selectionArgs);
         if (cursor != null && cursor.moveToFirst()) {
-            int primaryKeyId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+            int primaryKeyId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PK));
             cursor.close();
             return primaryKeyId;
         }
@@ -440,10 +444,14 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
     public void createTestingPills() {
         String currentTime = "23:06";
-        addNewPill(1, "Melatonin",currentTime , "2021-10-31", 10, 0, "null", 0, 2);
-        addNewPill(2, "Equasym XL", currentTime, "2021-10-31", 10, 0, "null", 0, 2);
-        addNewPill(3, "Fluoxetine", currentTime, "2021-10-31", 10, 0, "null", 0, 2);
-        addNewPill(4, "Prozac", currentTime, "2021-10-31", 10, 0, "null", 0, 2);
+        addNewPill(1, "Melatonin", currentTime , "2021-10-31", 0, 0, "null", 0, 2);
+        addNewPill(2, "Equasym XL", currentTime, "2021-10-31", 0, 0, "null", 0, 2);
+        addNewPill(3, "Fluoxetine", currentTime, "2021-10-31", -1, 0, "null", 0, 2);
+        addNewPill(4, "Prozac", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
+        addNewPill(5, "Prozac1", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
+        addNewPill(6, "Prozac2", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
+        addNewPill(7, "Prozac3", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
+        addNewPill(8, "Prozac4", currentTime, "2021-10-31", -10, 0, "null", 0, 2);
     }
 
     public Boolean checkIfPillNameExists(String pillName){
