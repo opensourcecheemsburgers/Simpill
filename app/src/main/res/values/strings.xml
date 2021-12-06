@@ -24,9 +24,9 @@ s
     <string name="calendar">calendar</string>
     <string name="createNewPill">Create New Pill</string>
     <string name="cancel">Cancel</string>
-    <string name="simpillAboutParagraph">Simpill is a medication reminder app.\n\nIn order to respect your privacy, Simpill doesn\'t contain any trackers, ads or unnecessary permissions.\n\nSimpill is an open-source application which means its code is available for everyone to see and audit.\n\nSource code: https://github.com/StephenPowerPND/Simpill\n\nNoticed any bugs or have some suggestions? Feel free to contact me.\n\nMy email: simpilldev@gmail.com\n\nIf you enjoy using Simpill and would like to make a donation, you can do so via cryptocurrency.\n\nBelow, I have listed my crypto addresses. All donations are greatly appreciated! :)\n\nBitcoin (BTC):\nbc1qy8avhvsmptrqkqyxw3w9kdc69p3dg4nky5u3gd\n\nEthereum (ETH):\n0x5E0C0CEdf716cE6732B900e981eeb1528d7f6063\n\nCardano (ADA):\naddr1q98k39a0hft8zpxnyugzl9t83kuqqh3d7x4rr02ltumx5f4wjnysxzth6py5g7l2xyw9y3t000mqzv4pyzrlm5spgt2stp8wkh\n\nMonero (XMR):\n86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni\n\nPandacoin (PND):\npn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme\n\nCredit for Simpill\'s icons goes to:\n https://www.svgrepo.com/</string>
+    <string name="simpillAboutParagraph">Simpill is a medication reminder app.\n\nIn order to respect your privacy, Simpill doesn\'t contain any trackers, ads or unnecessary permissions.\n\nSimpill is an open-source application which means its code is available for everyone to see and audit.\n\nSource code: https://gitlab.com/Winston69/simpill\n\nNoticed any bugs or have some suggestions? Feel free to contact me.\n\nMy email: simpilldev@gmail.com\n\nIf you enjoy using Simpill and would like to make a donation, you can do so via cryptocurrency.\n\nBelow, I have listed my crypto addresses. All donations are greatly appreciated! :)\n\nBitcoin (BTC):\nbc1qy8avhvsmptrqkqyxw3w9kdc69p3dg4nky5u3gd\n\nEthereum (ETH):\n0x5E0C0CEdf716cE6732B900e981eeb1528d7f6063\n\nCardano (ADA):\naddr1q98k39a0hft8zpxnyugzl9t83kuqqh3d7x4rr02ltumx5f4wjnysxzth6py5g7l2xyw9y3t000mqzv4pyzrlm5spgt2stp8wkh\n\nMonero (XMR):\n86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni\n\nPandacoin (PND):\npn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme\n\nCredit for Simpill\'s icons goes to:\n https://www.svgrepo.com/</string>
     <string name="simpill_title">Free &amp; Open Source</string>
-    <string name="monero_address" tools:ignore="Typos"> 86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
+    <string name="monero_address"> 86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
     <string name="bitcoinAddress">bc1qy8avhvsmptrqkqyxw3w9kdc69p3dg4nky5u3gd</string>
     <string name="pandacoinAddress">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
     <string name="pillAmount">Supply?</string>
@@ -84,7 +84,7 @@ s
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="notification_id">Notification ID</string>
-    <string name="dark_theme">Use Dark Theme</string>
+    <string name="dark_theme">Dark Theme</string>
     <string name="already_in_settings">You are already in the Settings section!</string>
     <string name="theme_preference">Theme Preference</string>
     <string name="theme_preference_boolean">Theme Preference Boolean</string>
@@ -110,6 +110,7 @@ s
     <string name="done">Done</string>
     <string name="default_pill_amount_string">30</string>
     <string name="amount">Amount</string>
+    <string name="delete_all_pills">Delete All Pills</string>
 
 
 </resources>
