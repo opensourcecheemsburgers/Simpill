@@ -20,7 +20,6 @@ public class Settings extends AppCompatActivity {
     SwitchCompat darkThemeSwitch, clockIs24Hr;
     Context myContext;
     Button deleteAllBtn;
-    PillDBHelper myDatabase;
 
     private Simpill simpill;
 
@@ -104,7 +103,7 @@ public class Settings extends AppCompatActivity {
         clockIs24Hr = findViewById(R.id.clock_24hr_switch);
         deleteAllBtn = findViewById(R.id.deleteAllBtn);
 
-        myDatabase = new PillDBHelper(getApplicationContext());
+        darkThemeSwitch.setChecked(simpill.getCustomTheme());
         clockIs24Hr.setChecked(simpill.getUserIs24Hr());
     }
 
