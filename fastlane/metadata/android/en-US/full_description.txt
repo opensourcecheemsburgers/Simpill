@@ -1,0 +1,14 @@
+Simpill is a free and open-source application for medication reminders. It does not contain any ads or trackers nor does it collect any data on its users. You can block internet access to Simpill and it will still work perfectly.
+
+Features:
+
+Set daily pill reminders for your medications.
+
+Keep track of your medication supply and set a refill date.
+
+Select a bottle color for your medication.
+
+Dark and Light themes available.
+
+Choose between 12/24 hr time formatting.
+
