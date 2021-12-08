@@ -87,9 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/imageView"
-        app:srcCompat="@drawable/addicon"
-
-
+        app:srcCompat="@drawable/fab"
         app:useCompatPadding="true">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
