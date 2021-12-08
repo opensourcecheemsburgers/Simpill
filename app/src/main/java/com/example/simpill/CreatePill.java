@@ -215,16 +215,20 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
 
 
     private void createPill() {
-        if(areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid() && isNameUnique()) {
-            if(myDatabase.addNewPill(getNewPillId(), pillName.getText().toString().trim(),
-                    pillTime.getText().toString().trim(),
-                    pillStockup.getText().toString().trim(),
-                    Integer.parseInt(pillSupply.getText().toString()),
-                    defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
-                Toast.makeText(this, getString(R.string.pill_added), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this, ChooseColor.class);
-                intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
-                startActivity(intent);
+        if (!isNameUnique()) {
+            Toast.makeText(this, "This pill name is already in use.", Toast.LENGTH_LONG).show();
+        } else {
+            if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
+                if (myDatabase.addNewPill(getNewPillId(), pillName.getText().toString().trim(),
+                        pillTime.getText().toString().trim(),
+                        pillStockup.getText().toString().trim(),
+                        Integer.parseInt(pillSupply.getText().toString()),
+                        defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
+                    Toast.makeText(this, getString(R.string.pill_added), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this, ChooseColor.class);
+                    intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
+                    startActivity(intent);
+                }
             }
         }
     }

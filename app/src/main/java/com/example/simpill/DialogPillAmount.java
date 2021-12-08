@@ -106,30 +106,27 @@ public class DialogPillAmount extends AppCompatDialogFragment {
             pillAmountDialogListener.applyPillSupply(enterAmountEditText.getText().toString());
             enterAmountDialog.dismiss();
         });
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
-                enterAmountEditText.setText(String.valueOf(pillAmount + 1));
+        addBtn.setOnClickListener(view -> {
+            int pillAmount;
+            if (enterAmountEditText.getText().toString().equals("")) {
+                pillAmount = 30;
             }
+            else {
+                pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+            }
+            enterAmountEditText.setText(String.valueOf(pillAmount + 1));
         });
-        minusBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
-                enterAmountEditText.setText(String.valueOf(pillAmount - 1));
+        minusBtn.setOnClickListener(view -> {
+            int pillAmount;
+            if (enterAmountEditText.getText().toString().equals("")) {
+                pillAmount = 30;
             }
+            else {
+                pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+            }
+            enterAmountEditText.setText(String.valueOf(pillAmount - 1));
         });
     }
-
-
-
-
-
-
-
-
-
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
