@@ -209,8 +209,8 @@ public class MainActivity extends AppCompatActivity {
     private void setDialogTexts() {
         truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
 
-        titleTextView.setText(getString(R.string.reset_warning_title));
-        titleMessageView.setText(getString(R.string.reset_warning_message));
+        titleTextView.setText(getString(R.string.delete_pill_confirmation));
+        titleMessageView.setText(getString(R.string.delete_pill_warning));
 
         titleTextView.setTypeface(truenoReg);
         titleMessageView.setTypeface(truenoReg);
