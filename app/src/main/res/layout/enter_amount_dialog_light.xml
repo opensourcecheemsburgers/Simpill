@@ -66,25 +66,25 @@
             tools:ignore="LabelFor,TextFields"
             android:importantForAutofill="no" />
 
-        <Button
+        <ImageView
             android:id="@+id/addBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/ic_add_svgrepo_com"
+            app:srcCompat="@drawable/addicon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/amountTextView"
             app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView" />
 
-        <Button
+        <ImageView
             android:id="@+id/minusBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/ic_minus"
+            app:srcCompat="@drawable/ic_minus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/amountTextView"
             app:layout_constraintStart_toStartOf="parent"

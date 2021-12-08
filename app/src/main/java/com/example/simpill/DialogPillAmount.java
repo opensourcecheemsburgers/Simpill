@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,8 @@ public class DialogPillAmount extends AppCompatDialogFragment {
     View dialogView;
     TextView titleTextView;
     EditText enterAmountEditText;
-    Button doneBtn, addBtn, minusBtn;
+    ImageView pillIcon, addBtn, minusBtn;
+    Button doneBtn;
     Dialog enterAmountDialog;
 
     @NonNull
@@ -81,6 +83,7 @@ public class DialogPillAmount extends AppCompatDialogFragment {
     }
     private void initTextViewsAndButtons() {
         titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
+        pillIcon = dialogView.findViewById(R.id.imageView13);
         doneBtn = dialogView.findViewById(R.id.btnWelcome);
         addBtn = dialogView.findViewById(R.id.addBtn);
         minusBtn = dialogView.findViewById(R.id.minusBtn);
