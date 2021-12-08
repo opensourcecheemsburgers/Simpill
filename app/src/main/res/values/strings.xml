@@ -58,7 +58,7 @@ s
     <string name="time_taken">time taken</string>
     <string name="bottle_color">bottle color</string>
     <string name="delete_pill_confirmation">Delete Pill</string>
-    <string name="delete_pill_warning">Are you sure you want to do delete this pill?\n\nThis cannot be undone!</string>
+    <string name="delete_pill_warning">Are you sure you want to delete this pill?\n\nThis cannot be undone!</string>
     <string name="delete">Delete</string>
     <string name="back">Back</string>
     <string name="ok">Ok</string>
