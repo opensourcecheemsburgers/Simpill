@@ -94,12 +94,13 @@ public class AlarmSetter {
     private void setAutoReset() {
         Intent startAutoResetReceiver = new Intent(myContext, PillAutoResetReceiver.class);
         startAutoResetReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
+        startAutoResetReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
 
         @SuppressLint("InlinedApi")
         PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
 
         long pillReminderTime = pillTimeCal.getTimeInMillis();
-        long pillResetTime = pillReminderTime + HALF_DAY_IN_MS;
+        long pillResetTime = pillReminderTime + 10000L;
 
         if (pillResetTime <= System.currentTimeMillis()) {
             pillResetTime = pillResetTime + DAY_IN_MS;

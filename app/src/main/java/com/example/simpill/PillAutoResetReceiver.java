@@ -8,29 +8,29 @@ public class PillAutoResetReceiver extends BroadcastReceiver {
 
     public static final int taken = 1;
     public static final int notTaken = 0;
+    AlarmSetter alarmSetter;
+    PillDBHelper myDatabase;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         System.out.println("autoreset begin");
 
-        if (!intent.hasExtra(context.getString(R.string.pill_name))) {
-            System.out.println("Intent is null");
-        } else {
-            String pillName = intent.getStringExtra(context.getString(R.string.pill_name));
+        String pillName = intent.getStringExtra(context.getString(R.string.pill_name));
+        int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), -1);
+        myDatabase = new PillDBHelper(context);
 
-            PillDBHelper myDatabase = new PillDBHelper(context);
-
-            if (!myDatabase.getPillName(pillName).equals("null")) {
-                if (myDatabase.getIsTaken(pillName) == taken) {
+        if (myDatabase.getPillName(pillName) != null && myDatabase.getPillName(pillName).equals(pillName))
+        {
+            myDatabase.setAlarmsSet(pillName, 0);
+            alarmSetter = new AlarmSetter(context, pillName, notificationCode);
+            alarmSetter.setAlarms();
+            if (myDatabase.getIsTaken(pillName) == taken) {
                     myDatabase.setIsTaken(pillName, notTaken);
                     myDatabase.setTimeTaken(pillName, context.getString(R.string.nullString));
-                    MainActivity mainActivity = new MainActivity();
-                    mainActivity.notifyRecyclerView();
                     System.out.println("autoreset complete");
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(1);
-                }
             }
         }
     }

@@ -95,9 +95,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myAdapter);
     }
-    public void notifyRecyclerView(){
-        recyclerView.notifyAll();
-    }
+
     public void notifyAdapter(int position){
         myAdapter.notifyItemChanged(position);
     }

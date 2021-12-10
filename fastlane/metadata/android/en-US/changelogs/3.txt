@@ -1,0 +1,1 @@
+Fix alarms not resetting after first alarm.

@@ -67,9 +67,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-
-
             pill_name_textview = itemView.findViewById(R.id.pillName);
             pill_time_textview = itemView.findViewById(R.id.pillTime);
             taken_btn = itemView.findViewById(R.id.tickButton);
