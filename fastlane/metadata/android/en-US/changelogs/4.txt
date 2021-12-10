@@ -1,0 +1,1 @@
+Change "autoreset" value back to 12 hours

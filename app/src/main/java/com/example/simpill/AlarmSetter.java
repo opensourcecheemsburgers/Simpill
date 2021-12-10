@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -89,7 +90,13 @@ public class AlarmSetter {
 
         System.out.println("Pill reminder time = " + dateTimeManager.formatLongAsString(myContext, pillReminderTime));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, pillReminderTime, AlarmManager.INTERVAL_DAY, pillAlarmPendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+        }
     }
     private void setAutoReset() {
         Intent startAutoResetReceiver = new Intent(myContext, PillAutoResetReceiver.class);
@@ -108,8 +115,13 @@ public class AlarmSetter {
 
         System.out.println("Pill reset time = " + dateTimeManager.formatLongAsString(myContext, pillResetTime));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, pillResetTime, AlarmManager.INTERVAL_DAY, autoResetPendingIntent);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
+        }
     }
     private void setSupplyReminder() {
         Intent startPillSupplyReceiver = new Intent (myContext, PillSupplyReceiver.class);
@@ -122,6 +134,12 @@ public class AlarmSetter {
 
         System.out.println("Supply reminder time = " + dateTimeManager.formatLongAsString(myContext, supplyReminderTime));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, supplyReminderTime, MONTH_IN_MS, pillSupplyPendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);
+        }
     }
 }

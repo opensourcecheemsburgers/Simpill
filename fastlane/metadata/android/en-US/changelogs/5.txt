@@ -1,0 +1,2 @@
+Fixed alarms not going off at the exact set time.
+Fixed the "Reset Pill" sound effect not playing.

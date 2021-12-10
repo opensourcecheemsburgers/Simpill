@@ -365,12 +365,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             Toast.makeText(myContext,  pillName + " has been reset." , Toast.LENGTH_LONG).show();
             warningDialog.dismiss();
-        });
-
-        cancelBtn.setOnClickListener(view -> {
-            warningDialog.dismiss();
             resetMediaPlayer.start();
         });
+        cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
     }
 
 }
