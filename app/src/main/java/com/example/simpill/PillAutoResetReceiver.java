@@ -8,6 +8,7 @@ public class PillAutoResetReceiver extends BroadcastReceiver {
 
     public static final int taken = 1;
     public static final int notTaken = 0;
+    private static final int alarmCodeForAutoReset = 2;
     AlarmSetter alarmSetter;
     PillDBHelper myDatabase;
 
@@ -24,7 +25,7 @@ public class PillAutoResetReceiver extends BroadcastReceiver {
         {
             myDatabase.setAlarmsSet(pillName, 0);
             alarmSetter = new AlarmSetter(context, pillName, notificationCode);
-            alarmSetter.setAlarms();
+            alarmSetter.setAlarms(alarmCodeForAutoReset);
             if (myDatabase.getIsTaken(pillName) == taken) {
                     myDatabase.setIsTaken(pillName, notTaken);
                     myDatabase.setTimeTaken(pillName, context.getString(R.string.nullString));

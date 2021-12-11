@@ -12,16 +12,19 @@ import androidx.core.app.NotificationManagerCompat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class PillSupplyReceiver extends BroadcastReceiver {
 
     private static final long MONTH_IN_MS = 2629800000L;
+    private static final int alarmCodeForSupply = 3;
 
     NotificationManagerCompat stockupNotificationManagerCompat;
     PillDBHelper myDatabase;
     DateTimeManager dateTimeManager;
+    AlarmSetter alarmSetter;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,28 +41,14 @@ public class PillSupplyReceiver extends BroadcastReceiver {
             int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), 0);
 
             PillDBHelper myDatabase = new PillDBHelper(context);
+            alarmSetter = new AlarmSetter(context, pillName, notificationCode);
 
             if (!myDatabase.getPillName(pillName).equals("null")) {
 
                 String pillDate = myDatabase.getPillDate(pillName);
-                Date pillDateInDb = null;
-
-
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
-
-                try {
-                    pillDateInDb = simpleDateFormat.parse(pillDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                pillDateInDb.setTime(pillDateInDb.getTime() + MONTH_IN_MS);
-
-                GregorianCalendar gregorianCalendar = new GregorianCalendar();
-
-                String newPillDate = simpleDateFormat.format(pillDateInDb);
-
-                myDatabase.setPillDate(pillName, newPillDate);
+                Calendar calendar = dateTimeManager.formatDateStringAsCalendar(context, dateTimeManager.getUserTimezone(), pillDate);
+                calendar.add(Calendar.MONTH, 1);
+                myDatabase.setPillDate(pillName, dateTimeManager.formatDateAsString(context, calendar.getTime()));
 
                 Notification pillStockupNotification;
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
@@ -85,7 +74,7 @@ public class PillSupplyReceiver extends BroadcastReceiver {
                 }
                 stockupNotificationManagerCompat.notify(pillName, notificationCode, pillStockupNotification);
 
-                myDatabase.addMonthToPillSupplyInDatabase(context, pillName);
+                alarmSetter.setAlarms(alarmCodeForSupply);
             }
         }
     }

@@ -176,7 +176,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
             return "null";
         }
     }
-    public void setPillName(String pillName, String newPillTime) {
+    public void setPillName(String pillName, String newPillName) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -186,7 +186,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         cv.remove(COLUMN_TITLE);
-        cv.put(COLUMN_TITLE, newPillTime);
+        cv.put(COLUMN_TITLE, newPillName);
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
         cursor.close();
     }
@@ -206,7 +206,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
             throw new SQLiteException();
         }
     }
-    public void setPillTime(String pillName, String newPillName) {
+    public void setPillTime(String pillName, String newPillTime) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -216,7 +216,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         cv.remove(COLUMN_TIME);
-        cv.put(COLUMN_TIME, newPillName);
+        cv.put(COLUMN_TIME, newPillTime);
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
         cursor.close();
     }

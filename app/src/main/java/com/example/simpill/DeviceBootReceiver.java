@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class DeviceBootReceiver extends BroadcastReceiver {
 
-
+    int alarmCodeForAllAlarms = 0;
 
     AlarmSetter alarmSetter;
     AlarmManager alarmManager;
@@ -46,7 +46,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
                 String pillName = cursor.getString(cursor.getColumnIndexOrThrow("Pill Name"));
                 myDatabase.setAlarmsSet(pillName, 0);
                 alarmSetter = new AlarmSetter(context, pillName, currentRow + 1);
-                alarmSetter.setAlarms();
+                alarmSetter.setAlarms(alarmCodeForAllAlarms);
             }
         }
         else {

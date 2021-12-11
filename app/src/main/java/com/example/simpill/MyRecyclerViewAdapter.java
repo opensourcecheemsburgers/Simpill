@@ -38,6 +38,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     TimeZone userTimezone;
 
     String pillName;
+    int alarmCodeForAllAlarms = 0;
     private final Context myContext;
     MainActivity mainActivity;
     Activity myActivity;
@@ -116,7 +117,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         initAll(holder, position);
 
-        alarmSetter.setAlarms();
+        alarmSetter.setAlarms(alarmCodeForAllAlarms);
     }
 
 

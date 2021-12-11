@@ -11,9 +11,15 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class PillAlarmReceiver extends BroadcastReceiver {
 
     NotificationManagerCompat pillNotificationManagerCompat;
+    AlarmSetter alarmSetter;
+    DateTimeManager dateTimeManager;
+    private static final int alarmCodeForReminder = 1;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,9 +34,10 @@ public class PillAlarmReceiver extends BroadcastReceiver {
             int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), 0);
 
             PillDBHelper myDatabase = new PillDBHelper(context);
+            alarmSetter = new AlarmSetter(context, pillName, notificationCode);
+            dateTimeManager = new DateTimeManager();
 
             if (!myDatabase.getPillName(pillName).equals("null") || myDatabase.getPillName(pillName).equals(pillName)) {
-
                 Intent openMainIntent = new Intent(context, MainActivity.class);
                 openMainIntent.putExtra(context.getString(R.string.notification_pill_name), pillName);
 
@@ -63,6 +70,7 @@ public class PillAlarmReceiver extends BroadcastReceiver {
                 }
 
                 pillNotificationManagerCompat.notify(pillName, notificationCode, pillReminderNotification);
+                alarmSetter.setAlarms(alarmCodeForReminder);
             }
         }
     }

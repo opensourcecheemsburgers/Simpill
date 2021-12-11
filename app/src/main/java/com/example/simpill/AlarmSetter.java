@@ -32,18 +32,25 @@ public class AlarmSetter {
         this.myContext = myContext;
     }
 
-    public void setAlarms() {
+    public void setAlarms(int alarmCode) {
         System.out.println(pillName);
         initAll();
-        if (!myDatabase.getAlarmsSet(pillName)) {
-            setPillReminder();
-            setAutoReset();
-            setSupplyReminder();
-            myDatabase.setAlarmsSet(pillName, 1);
-            System.out.println("Alarms set");
-        }
-        else {
-            System.out.println("Alarms already set");
+
+        switch (alarmCode) {
+            case 0:
+                setPillReminder();
+                setAutoReset();
+                setSupplyReminder();
+                break;
+            case 1:
+                setPillReminder();
+                break;
+            case 2:
+                setAutoReset();
+                break;
+            case 3:
+                setSupplyReminder();
+                break;
         }
     }
 
@@ -84,7 +91,7 @@ public class AlarmSetter {
         }
 
         long pillReminderTime = pillTimeCal.getTimeInMillis();
-        if (pillReminderTime <= System.currentTimeMillis()) {
+        while (pillReminderTime <= System.currentTimeMillis()) {
             pillReminderTime = pillReminderTime + DAY_IN_MS;
         }
 
@@ -107,9 +114,9 @@ public class AlarmSetter {
         PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
 
         long pillReminderTime = pillTimeCal.getTimeInMillis();
-        long pillResetTime = pillReminderTime + HALF_DAY_IN_MS;
+        long pillResetTime = pillReminderTime + 100000L;
 
-        if (pillResetTime <= System.currentTimeMillis()) {
+        while (pillResetTime <= System.currentTimeMillis()) {
             pillResetTime = pillResetTime + DAY_IN_MS;
         }
 
