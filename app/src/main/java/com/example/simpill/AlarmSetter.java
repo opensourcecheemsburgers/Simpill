@@ -114,7 +114,7 @@ public class AlarmSetter {
         PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
 
         long pillReminderTime = pillTimeCal.getTimeInMillis();
-        long pillResetTime = pillReminderTime + 100000L;
+        long pillResetTime = pillReminderTime + HALF_DAY_IN_MS;
 
         while (pillResetTime <= System.currentTimeMillis()) {
             pillResetTime = pillResetTime + DAY_IN_MS;
