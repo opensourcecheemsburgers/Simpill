@@ -1,0 +1,2 @@
+Fix for parse exception crashes on some locales when using 12 hr time format.
+Settings screen layout optimisation on older APIs

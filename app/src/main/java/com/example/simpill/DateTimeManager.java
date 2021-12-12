@@ -49,7 +49,7 @@ public class DateTimeManager {
     }
 
     public String convert12HrTimeTo24HrTime(Context ct, String timeIn12HrFormat) {
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.time_format_12hr));
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.time_format_12hr), Locale.US);
         Date date = null;
 
         try {
@@ -78,7 +78,7 @@ public class DateTimeManager {
             e.printStackTrace();
         }
 
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat1 = new SimpleDateFormat(ct.getString(R.string.time_format_12hr));
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat1 = new SimpleDateFormat(ct.getString(R.string.time_format_12hr), Locale.US);
 
         if (date != null) {
             return dateFormat1.format(date);
