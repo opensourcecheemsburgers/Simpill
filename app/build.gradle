@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31"
+    compileSdkVersion 32
+    buildToolsVersion "32"
 
     defaultConfig {
         applicationId "com.winston69.simpill"
         minSdkVersion 15
-        targetSdkVersion 31
-        versionCode 7
-        versionName "1.0.3.4"
+        targetSdkVersion 32
+        versionCode 8
+        versionName "1.0.3.5"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
