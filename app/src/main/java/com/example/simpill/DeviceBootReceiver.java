@@ -31,7 +31,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
                 Objects.equals(intent.getAction(), "android.intent.action.BOOT_COMPLETED") &&
                 myDatabase.getRowCount() > 0) {
 
-            Toast.makeText(context, "Device Boot Receiver started!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Resetting alarms for Simpill :)", Toast.LENGTH_LONG).show();
 
             alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Cursor cursor = myDatabase.readSqlDatabase();
@@ -40,7 +40,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             int currentRow;
 
             for (currentRow = 0; currentRow <= lastRow; currentRow++) {
-                Toast.makeText(context, "For loop entered", Toast.LENGTH_SHORT).show();
                 cursor.moveToPosition(currentRow);
 
                 String pillName = cursor.getString(cursor.getColumnIndexOrThrow("Pill Name"));
@@ -48,9 +47,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
                 alarmSetter = new AlarmSetter(context, pillName, currentRow + 1);
                 alarmSetter.setAlarms(alarmCodeForAllAlarms);
             }
-        }
-        else {
-            Toast.makeText(context, "Device Boot Receiver not started", Toast.LENGTH_LONG).show();
         }
     }
 }
