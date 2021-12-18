@@ -10,8 +10,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class PillDBHelper extends SQLiteOpenHelper {
-
-
     private static final String DATABASE_NAME = "PillList.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "PillList";
@@ -444,7 +442,6 @@ public class PillDBHelper extends SQLiteOpenHelper {
             System.out.println("Name unique");
             return false;
         }
-
     }
 }
 

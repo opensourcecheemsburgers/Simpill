@@ -1,0 +1,7 @@
+Simpill 1.1
+
+Added custom toasts
+Added permanent notifications option in settings
+Added new 'About' section layout.
+=======
+Fix crashes on pill deletion
