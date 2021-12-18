@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void notifyAdapter(int position){
-        myAdapter.notifyItemChanged(position);
+        myAdapter.notifyItemRemoved(position);
     }
     public boolean onContextItemSelected(MenuItem item) {
 
