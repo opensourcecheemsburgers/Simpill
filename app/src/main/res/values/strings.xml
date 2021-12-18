@@ -1,9 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 s
     <string name="app_name">Simpill</string>
-    <string name="welcome">Welcome to Simpill :)</string>
+    <string name="welcome">Welcome</string>
     <string name="introduction_message">Thank you for choosing Simpill!\n\nTo create your first pill, select the plus button at the bottom of your screen.</string>
-
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="Settings">Settings</string>
@@ -22,10 +21,12 @@ s
     <string name="enterPillDateReminder">Refill Date?</string>
     <string name="clock">clock</string>
     <string name="calendar">calendar</string>
-    <string name="createNewPill">Create New Pill</string>
+    <string name="createPillButtonText">Create Pill</string>
     <string name="cancel">Cancel</string>
-    <string name="simpillAboutParagraph">Simpill is a medication reminder app.\n\nIn order to respect your privacy, Simpill doesn\'t contain any trackers, ads or unnecessary permissions.\n\nSimpill is an open-source application which means its code is available for everyone to see and audit.\n\nSource code: https://gitlab.com/Winston69/simpill\n\nNoticed any bugs or have some suggestions? Feel free to contact me.\n\nMy email: simpilldev@gmail.com\n\nIf you enjoy using Simpill and would like to make a donation, you can do so via cryptocurrency.\n\nBelow, I have listed my crypto addresses. All donations are greatly appreciated! :)\n\nBitcoin (BTC):\nbc1qy8avhvsmptrqkqyxw3w9kdc69p3dg4nky5u3gd\n\nEthereum (ETH):\n0x5E0C0CEdf716cE6732B900e981eeb1528d7f6063\n\nCardano (ADA):\naddr1q98k39a0hft8zpxnyugzl9t83kuqqh3d7x4rr02ltumx5f4wjnysxzth6py5g7l2xyw9y3t000mqzv4pyzrlm5spgt2stp8wkh\n\nMonero (XMR):\n86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni\n\nPandacoin (PND):\npn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme\n\nCredit for Simpill\'s icons goes to:\n https://www.svgrepo.com/</string>
+    <string name="simpillAboutParagraph">Simpill is a medication reminder app.\n\nIt doesn\'t contain any trackers, ads or unnecessary permissions.\n\nIt is open-source which means anyone can audit the Simpill code.\n\nSource code: https://gitlab.com/Winston69/simpill\n\nHave you found any bugs or would you like to suggest some ideas for Simpill? Feel free to contact me :)\n\nMy email: simpilldev@gmail.com\n\nIf Simpill has helped you and you want to support its development, you can donate cryptocurrency.\n\nAll donations are greatly appreciated! :)</string>
     <string name="simpill_title">Free &amp; Open Source</string>
+    <string name="cardano_address">addr1q98k39a0hft8zpxnyugzl9t83kuqqh3d7x4rr02ltumx5f4wjnysxzth6py5g7l2xyw9y3t000mqzv4pyzrlm5spgt2stp8wkh</string>
+    <string name="ethereum_address">0x47be4fe89a2d658ce03434cb70021d3448dd2a20</string>
     <string name="monero_address"> 86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
     <string name="bitcoinAddress">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
     <string name="pandacoinAddress">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
@@ -81,8 +82,6 @@ s
     <string name="fill_fields_warning">Error! Please fill out all of the fields first :)</string>
     <string name="choose_color_prompt">Would you like to update the bottle color of this pill?</string>
     <string name="choose_color_prompt_title">Update Pill Bottle Color?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="notification_id">Notification ID</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="already_in_settings">You are already in the Settings section!</string>
@@ -111,6 +110,23 @@ s
     <string name="default_pill_amount_string">30</string>
     <string name="amount">Amount</string>
     <string name="delete_all_pills">Delete All Pills</string>
+    <string name="pill_name_dialog_title">Pill Name</string>
+    <string name="pill_name_dialog_msg">Please enter a name for your medication by clicking the line below:\n</string>
+    <string name="warning_icon">Warning Icon</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="name">Name</string>
+    <string name="time">Time</string>
+    <string name="_24_hour_format">24 Hour Format</string>
+    <string name="database">Database</string>
+    <string name="reset_pill">Reset Pill</string>
+    <string name="dialog_pill_reset_msg">Would you like to reset the taken status of this pill?</string>
+    <string name="bitcoin">Bitcoin</string>
+    <string name="monero">Monero</string>
+    <string name="pandacoin">Pandacoin</string>
+    <string name="pill_name_in_use">Pill name already in use :(</string>
+    <string name="amount_must_be_greater_than_zero">Amount must be greater than 0.</string>
+    <string name="extra_reminder_notification">Don\'t forget to take your</string>
 
 
 </resources>

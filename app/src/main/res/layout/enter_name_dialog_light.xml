@@ -23,8 +23,10 @@
             android:background="@drawable/title_background_light"
             android:padding="10dp"
             android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:paddingLeft="20dp"
-            android:text="Pill Name"
+            android:paddingRight="20dp"
+            android:text="@string/pill_name_dialog_title"
             android:textSize="35sp"
             android:fontFamily="@font/truenoreg"
             android:textColor="@color/white"
@@ -54,9 +56,11 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
             android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:fontFamily="@font/truenolight"
-            android:text="Please enter a name for your medication by clicking the line below:\n"
+            android:text="@string/pill_name_dialog_msg"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:lineSpacingMultiplier="1.15"
@@ -74,14 +78,15 @@
             android:layout_marginRight="16dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="Name"
+            android:hint="@string/name"
             android:textColor="@color/black"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/gray"
             android:backgroundTint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/dialogMessageTextView"
             app:layout_constraintStart_toStartOf="@id/dialogMessageTextView"
-            app:layout_constraintTop_toBottomOf="@id/dialogMessageTextView" />
+            app:layout_constraintTop_toBottomOf="@id/dialogMessageTextView"
+            android:autofillHints="name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

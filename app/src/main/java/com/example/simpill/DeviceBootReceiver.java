@@ -22,10 +22,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
     @SuppressLint("ShortAlarm")
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "onReceive started!", Toast.LENGTH_LONG).show();
-
         PillDBHelper myDatabase = new PillDBHelper(context);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
                 Objects.equals(intent.getAction(), "android.intent.action.BOOT_COMPLETED") &&
@@ -43,7 +40,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
                 cursor.moveToPosition(currentRow);
 
                 String pillName = cursor.getString(cursor.getColumnIndexOrThrow("Pill Name"));
-                myDatabase.setAlarmsSet(pillName, 0);
+                myDatabase.setIsReminderSet(pillName, 0);
                 alarmSetter = new AlarmSetter(context, pillName, currentRow + 1);
                 alarmSetter.setAlarms(alarmCodeForAllAlarms);
             }

@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/chinese_black">
 
     <include
@@ -14,32 +20,132 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/simpill_paragraph"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:autoLink="all"
+        android:fontFamily="@font/truenolight"
+        android:text="@string/simpillAboutParagraph"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/simpill_paragraph"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="all"
-                android:paddingTop="24dp"
-                android:paddingBottom="24dp"
-                android:paddingStart="36dp"
-                android:paddingEnd="36dp"
-                android:text="@string/simpillAboutParagraph"
-                android:textColor="@color/white" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/btcTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/bitcoin"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:fontFamily="@font/truenolight"
+        app:layout_constraintStart_toStartOf="@id/simpill_paragraph"
+        app:layout_constraintTop_toBottomOf="@+id/simpill_paragraph" />
 
-    </ScrollView>
+    <TextView
+        android:id="@+id/btcAddressTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/bitcoinAddress"
+        android:textSize="14sp"
+        android:textIsSelectable="false"
+        android:fontFamily="@font/truenolight"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btcTextView"
+        app:layout_constraintTop_toBottomOf="@+id/btcTextView" />
+
+    <ImageView
+        android:id="@+id/btcLogo"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/bitcoin"
+        app:layout_constraintStart_toEndOf="@id/btcTextView"
+        app:layout_constraintTop_toTopOf="@id/btcTextView"
+        app:layout_constraintBottom_toBottomOf="@id/btcTextView"
+        android:contentDescription="@string/bitcoin" />
+
+    <TextView
+        android:id="@+id/xmrTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/monero"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/btcAddressTextView"
+        app:layout_constraintTop_toBottomOf="@+id/btcAddressTextView" />
+
+    <ImageView
+        android:id="@+id/xmrLogo"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/monero"
+        app:layout_constraintStart_toEndOf="@id/xmrTextView"
+        app:layout_constraintTop_toTopOf="@id/xmrTextView"
+        app:layout_constraintBottom_toBottomOf="@id/xmrTextView"
+        android:contentDescription="@string/monero" />
+
+    <TextView
+        android:id="@+id/xmrAddressTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/monero_address"
+        android:textIsSelectable="false"
+        android:textSize="14sp"
+        android:fontFamily="@font/truenolight"
+        app:layout_constraintStart_toStartOf="@+id/xmrTextView"
+        app:layout_constraintTop_toBottomOf="@+id/xmrTextView"
+        app:layout_constraintEnd_toEndOf="@id/btcAddressTextView"/>
+
+    <TextView
+        android:id="@+id/pndTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/pandacoin"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/xmrAddressTextView"
+        app:layout_constraintTop_toBottomOf="@+id/xmrAddressTextView" />
+
+    <ImageView
+        android:id="@+id/pndLogo"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/pandacoin"
+        app:layout_constraintStart_toEndOf="@id/pndTextView"
+        app:layout_constraintTop_toTopOf="@id/pndTextView"
+        app:layout_constraintBottom_toBottomOf="@id/pndTextView"
+        android:contentDescription="@string/pandacoin" />
+
+    <TextView
+        android:id="@+id/pndAddressTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/truenolight"
+        android:text="@string/pandacoinAddress"
+        android:textIsSelectable="false"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/xmrAddressTextView"
+        app:layout_constraintStart_toStartOf="@+id/pndTextView"
+        app:layout_constraintTop_toBottomOf="@+id/pndTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

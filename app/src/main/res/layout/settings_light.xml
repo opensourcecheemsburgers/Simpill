@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_background">
@@ -11,55 +10,58 @@
         layout="@layout/toolbar_light" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/themeTextView"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:text="Theme"
-        android:textColor="@android:color/secondary_text_light"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/theme"
         android:fontFamily="@font/truenolight"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/dark_theme_switch"
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/dark_theme_switch"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="2dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="24dp"
-        android:checked="true"
-        android:textColor="@color/black"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:fontFamily="@font/truenolight"
         android:text="@string/dark_theme"
+        android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
+        app:layout_constraintTop_toBottomOf="@id/themeTextView" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/timeTextView"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:text="Time"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/time"
+        android:textColor="@color/black"
         android:fontFamily="@font/truenolight"
-        android:textColor="@android:color/secondary_text_light"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/clock_24hr_switch"
-        app:layout_constraintTop_toBottomOf="@+id/dark_theme_switch"
+        app:layout_constraintTop_toBottomOf="@+id/permanentNotificationsSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/clock_24hr_switch"
         android:layout_width="0dp"
@@ -67,24 +69,66 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:fontFamily="@font/truenolight"
-        android:text="24 Hour Format"
+        android:text="@string/_24_hour_format"
         android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
+        app:layout_constraintTop_toBottomOf="@+id/timeTextView" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/NotificationsTextView"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:text="Database"
-        android:textColor="@android:color/secondary_text_light"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="Notifications"
+        android:textColor="@color/black"
+        android:fontFamily="@font/truenolight"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/permanentNotificationsSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/dark_theme_switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/permanentNotificationsSwitch"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:fontFamily="@font/truenolight"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:text="Permanent "
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NotificationsTextView" />
+
+    <TextView
+        android:id="@+id/DatabaseTextView"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/database"
+        android:textColor="@color/black"
         android:fontFamily="@font/truenolight"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/deleteAllBtn"
@@ -92,7 +136,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-
     <Button
         android:id="@+id/deleteAllBtn"
         android:layout_width="0dp"
@@ -100,9 +143,10 @@
         android:layout_marginTop="2dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:fontFamily="@font/truenolight"
         android:background="@android:color/transparent"
-        android:clickable="true"
         android:gravity="center_vertical"
         android:text="@string/delete_all_pills"
         android:textAllCaps="false"
@@ -111,7 +155,7 @@
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/DatabaseTextView" />
 
     <View
         android:id="@+id/divider"
@@ -169,6 +213,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/deleteAllBtn" />
+
+    <View
+        android:id="@+id/divider6"
+        android:backgroundTint="@color/black"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/permanentNotificationsSwitch" />
+
+    <View
+        android:id="@+id/divider7"
+        android:backgroundTint="@color/black"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/permanentNotificationsSwitch" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

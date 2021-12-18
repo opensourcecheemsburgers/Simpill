@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -216,7 +219,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
 
     private void createPill() {
         if (!isNameUnique()) {
-            Toast.makeText(this, "This pill name is already in use.", Toast.LENGTH_LONG).show();
+            showCustomToast(2);
         } else {
             if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
                 if (myDatabase.addNewPill(getNewPillId(), pillName.getText().toString().trim(),
@@ -224,13 +227,53 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                         pillStockup.getText().toString().trim(),
                         Integer.parseInt(pillSupply.getText().toString()),
                         defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
-                    Toast.makeText(this, getString(R.string.pill_added), Toast.LENGTH_LONG).show();
+                    showCustomToast(1);
                     Intent intent = new Intent(this, ChooseColor.class);
                     intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
                     startActivity(intent);
                 }
             }
         }
+    }
+
+    private void showCustomToast(int toastNumber) {
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+        View toastLayout;
+        if (simpill.getCustomTheme()) {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
+        }
+        else {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light,findViewById(R.id.custom_toast_layout_light));
+        }
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setView(toastLayout);
+
+        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
+
+        switch (toastNumber) {
+            case 1:
+                toastTextView.setText(pillName.getText().toString().trim() + " created :)");
+                toast.setDuration(Toast.LENGTH_SHORT);
+                break;
+            case 2:
+                toastTextView.setText("Pill name already in use :(");
+                break;
+            case 3:
+                toastTextView.setText("Amount must be greater than 0.");
+                break;
+            case 4:
+                toastTextView.setText(getString(R.string.fill_fields_warning));
+                break;
+            case 5:
+                toastTextView.setText(getString(R.string.pill_name_warning));
+                break;
+        }
+
+        toast.show();
     }
 
     private Boolean isNameUnique() {
@@ -246,7 +289,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             numberFormatException.printStackTrace();
         }
         if(supplyAmount <= 0) {
-            Toast.makeText(this, "Your pill supply amount must be greater than 0.", Toast.LENGTH_LONG).show();
+            showCustomToast(3);
             return false;
         }
         else {
@@ -258,7 +301,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                 pillTime.getText().toString().trim().length() == 0 ||
                 pillStockup.getText().toString().trim().length() == 0 ||
                 pillSupply.getText().toString().trim().length() == 0) {
-            Toast.makeText(this, getString(R.string.fill_fields_warning), Toast.LENGTH_LONG).show();
+            showCustomToast(4);
             return false;
         }
         else {
@@ -266,11 +309,11 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         }
     }
     private Boolean isFirstCharLetter() {
-        if (pillName.getText().toString().trim().length() != 0) {
-            return Character.isLetter(pillName.getText().toString().trim().charAt(0));
+        if (pillName.getText().toString().trim().length() != 0 && Character.isLetter(pillName.getText().toString().trim().charAt(0))) {
+            return true;
         }
         else {
-            Toast.makeText(this, getString(R.string.pill_name_warning), Toast.LENGTH_LONG).show();
+            showCustomToast(5);
             return false;
         }
     }

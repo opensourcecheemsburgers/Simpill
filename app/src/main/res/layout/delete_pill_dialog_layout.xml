@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/customDialogContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,6 +22,7 @@
             android:background="@drawable/title_background_red"
             android:padding="10dp"
             android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:text="@string/delete_pill_confirmation"
             android:textSize="35sp"
             android:fontFamily="@font/truenoreg"
@@ -30,7 +30,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:paddingLeft="20dp" />
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"/>
 
 
         <TextView
@@ -63,7 +64,7 @@
             app:layout_constraintTop_toTopOf="@id/dialogTitleTextView"
             app:srcCompat="@drawable/ic_warning_svgrepo_com"
             android:layout_marginRight="20dp"
-            android:contentDescription="Warning Icon" />
+            android:contentDescription="@string/warning_icon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -75,7 +76,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:text="No"
+        android:text="@string/no"
         android:background="@drawable/btn_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
@@ -89,7 +90,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:text="Yes"
+        android:text="@string/yes"
         android:background="@drawable/btn_background_red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"

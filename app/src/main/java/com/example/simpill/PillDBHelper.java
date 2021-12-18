@@ -9,10 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 public class PillDBHelper extends SQLiteOpenHelper {
 
 
@@ -286,16 +282,6 @@ public class PillDBHelper extends SQLiteOpenHelper {
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
         cursor.close();
     }
-    public void addMonthToPillSupplyInDatabase(Context ct, String pillName)
-    {
-        DateTimeManager dateTimeManager = new DateTimeManager();
-        String oldPillDate =  getPillDate(pillName);
-        Calendar calendar =  dateTimeManager.formatDateStringAsCalendar(ct, dateTimeManager.getUserTimezone(), oldPillDate);
-        calendar.setTimeInMillis(calendar.getTimeInMillis() + MONTH_IN_MS);
-        Date newPillDate = calendar.getTime();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.date_format));
-        setPillDate(pillName, simpleDateFormat.format(newPillDate));
-    }
 
     public String getTimeTaken(String pillName) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
@@ -324,20 +310,6 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         cv.remove(COLUMN_TIMETAKEN);
         cv.put(COLUMN_TIMETAKEN, currentTime);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
-    }
-    public void resetTimeTaken(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_TIMETAKEN);
-        cv.put(COLUMN_TIMETAKEN, "null");
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
         cursor.close();
     }
@@ -374,7 +346,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean getAlarmsSet(String pillName) {
+    public boolean getIsReminderSet(String pillName) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -390,7 +362,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
             //return -1;
         }
     }
-    public void setAlarmsSet(String pillName, int alarmsSetValue) {
+    public void setIsReminderSet(String pillName, int alarmsSetValue) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 

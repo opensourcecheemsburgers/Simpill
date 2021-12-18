@@ -10,8 +10,8 @@ android {
         applicationId "com.winston69.simpill"
         minSdkVersion 15
         targetSdkVersion 32
-        versionCode 8
-        versionName "1.0.3.5"
+        versionCode 9
+        versionName "1.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

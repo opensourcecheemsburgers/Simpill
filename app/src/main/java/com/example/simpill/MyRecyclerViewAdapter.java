@@ -2,6 +2,7 @@ package com.example.simpill;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -231,12 +234,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_12));
                 break;
         }
-        holder.pill_bottle_image.setOnClickListener(v -> {
-            int thisPillAmount = myDatabase.getPillAmount(pillName);
-            String thisPillName = myDatabase.getPillName(pillName);
 
-            Toast.makeText(v.getContext(), "You have " + thisPillAmount +
-                    " " + thisPillName + " pills left.", Toast.LENGTH_LONG).show();
+
+        holder.pill_bottle_image.setOnClickListener(v -> {
+            showCustomToast(1, holder, pillName);
             shakeMediaPlayer.start();
         });
     }
@@ -274,7 +275,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.reset_btn.setClickable(true);
             takenMediaPlayer.start();
 
-            Toast.makeText(myContext, pillName + " " + myContext.getString(R.string.taken) + ".", Toast.LENGTH_SHORT).show();
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(myContext);
+            notificationManagerCompat.cancel(pillName, myDatabase.getPrimaryKeyId(pillName));
+
+            showCustomToast(2, holder, pillName);
         });
 
         holder.reset_btn.setOnClickListener(v -> showPillResetWarningDialog(holder, position, pillName));
@@ -364,11 +368,43 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             notifyItemChanged(position);
 
-            Toast.makeText(myContext,  pillName + " has been reset." , Toast.LENGTH_LONG).show();
+            showCustomToast(3, holder, pillName);
             warningDialog.dismiss();
             resetMediaPlayer.start();
         });
         cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
+    }
+
+    private void showCustomToast(int toastNumber, MyViewHolder holder, String pillName) {
+        LayoutInflater layoutInflater = LayoutInflater.from(myContext);
+
+        View toastLayout;
+        if (simpill.getCustomTheme()) {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast, holder.itemView.findViewById(R.id.custom_toast_layout));
+        } else {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light, holder.itemView.findViewById(R.id.custom_toast_layout_light));
+        }
+
+        Toast toast = new Toast(myContext);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setView(toastLayout);
+
+        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
+
+        switch (toastNumber) {
+            case 1:
+                toastTextView.setText("You have " + myDatabase.getPillAmount(pillName) + " " + pillName + " pills left.");
+                break;
+            case 2:
+                toastTextView.setText(pillName + " taken.");
+                break;
+            case 3:
+                toastTextView.setText(pillName + " reset.");
+                break;
+        }
+
+        toast.show();
     }
 
 }

@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -97,10 +98,28 @@ public class DialogDatabaseReset extends AppCompatDialogFragment {
 
     private void createOnClickListeners() {
         resetDbBtn.setOnClickListener(view -> {
-            if(myDatabase.deleteDatabase()) {
-                Toast.makeText(getContext(), "Pill database has been reset.", Toast.LENGTH_LONG).show();
-                dbResetDialog.dismiss();
+            myDatabase.deleteDatabase();
+            dbResetDialog.dismiss();
+
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+
+            View toastLayout;
+            if (simpill.getCustomTheme()) {
+                toastLayout = layoutInflater.inflate(R.layout.custom_toast, view.findViewById(R.id.custom_toast_layout));
             }
+            else {
+                toastLayout = layoutInflater.inflate(R.layout.custom_toast_light, view.findViewById(R.id.custom_toast_layout_light));
+            }
+
+            Toast toast = new Toast(getContext());
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 100);
+            toast.setView(toastLayout);
+
+            TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
+            toastTextView.setText("All pills deleted!");
+
+            toast.show();
         });
 
         cancelBtn.setOnClickListener(view -> dbResetDialog.dismiss());

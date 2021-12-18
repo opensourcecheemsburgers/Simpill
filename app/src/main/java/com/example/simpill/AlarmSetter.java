@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 
 import java.util.Calendar;
@@ -17,6 +18,7 @@ public class AlarmSetter {
     private static final long HALF_DAY_IN_MS = 43200000L;
 
     Context myContext;
+    Simpill simpill;
     AlarmManager alarmManager;
     PillDBHelper myDatabase;
     DateTimeManager dateTimeManager;
@@ -25,6 +27,8 @@ public class AlarmSetter {
     String pillName;
     int requestCode;
     Calendar pillTimeCal, supplyDateCal;
+
+    Boolean extraReminders;
 
     AlarmSetter(Context myContext, String pillName, int requestCode) {
         this.pillName = pillName;
@@ -54,7 +58,9 @@ public class AlarmSetter {
         }
     }
 
+
     private void initAll(){
+        simpill = new Simpill();
         alarmManager = (AlarmManager) myContext.getSystemService(Context.ALARM_SERVICE);
         myDatabase = new PillDBHelper(myContext);
         dateTimeManager = new DateTimeManager();
@@ -64,8 +70,8 @@ public class AlarmSetter {
         supplyDateCal = getReminderDateCalendar();
     }
 
-    public boolean checkIfAlarmsSet() {
-        return myDatabase.getAlarmsSet(pillName);
+    public boolean checkIfReminderSet() {
+        return myDatabase.getIsReminderSet(pillName);
     }
 
     private Calendar getReminderDateCalendar() {
@@ -83,7 +89,7 @@ public class AlarmSetter {
         @SuppressLint("InlinedApi")
         PendingIntent pillAlarmPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startPillAlarmReceiver, PendingIntent.FLAG_IMMUTABLE);
 
-        if (checkIfAlarmsSet()) {
+        if (checkIfReminderSet()) {
             System.out.println("Alarm set");
         }
         else {
@@ -99,9 +105,11 @@ public class AlarmSetter {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
-        } else {
+        }
+        else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
         }
     }

@@ -4,10 +4,12 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,12 +27,14 @@ import java.util.Locale;
 public class UpdatePill extends AppCompatActivity implements DialogPillName.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
 
     private Simpill simpill;
+    private AlarmSetter alarmSetter;
 
     int isTaken, bottleColor;
     String timeTaken = "null";
+    String pillName;
 
     Button updatePillButton, pillNameButton, pillDateButton, pillClockButton, pillAmountButton;
-    TextView pillName, pillTime, pillStockup, pillSupply;
+    TextView pillNameTextView, pillTime, pillStockup, pillSupply;
     ImageButton settingsButton, aboutButton;
     int primaryKeyId, year, month, day, hour, min;
     Typeface truenoReg;
@@ -52,6 +56,11 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
         initiateTexts();
         initiateCalendar();
         initiateButtons();
+        createAlarmSetter();
+    }
+
+    private void createAlarmSetter() {
+        alarmSetter = new AlarmSetter(getApplicationContext(), pillName, primaryKeyId);
     }
 
     private void loadSharedPrefs() {
@@ -74,7 +83,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void findViewsByIds(){
-        pillName = findViewById(R.id.enterPillName);
+        pillNameTextView = findViewById(R.id.enterPillName);
         pillTime = findViewById(R.id.enterPillTime);
         pillStockup = findViewById(R.id.enterPillDateReminder);
         pillSupply = findViewById(R.id.enterPillSupplyNumber);
@@ -89,14 +98,14 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     private void initiateTexts(){
         truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
 
-        pillName.setTypeface(truenoReg);
+        pillNameTextView.setTypeface(truenoReg);
         pillTime.setTypeface(truenoReg);
         pillStockup.setTypeface(truenoReg);
         pillSupply.setTypeface(truenoReg);
         updatePillButton.setTypeface(truenoReg);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pillName.setLetterSpacing(0.05f);
+            pillNameTextView.setLetterSpacing(0.05f);
             pillTime.setLetterSpacing(0.05f);
             pillStockup.setLetterSpacing(0.05f);
             pillSupply.setLetterSpacing(0.05f);
@@ -123,7 +132,8 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
 
     private void getAndSetIntentData(){
         primaryKeyId = getIntent().getIntExtra(getString(R.string.primary_key_id), -1);
-        pillName.setText(getIntent().getStringExtra(getString(R.string.pill_name)));
+        pillName = getIntent().getStringExtra(getString(R.string.pill_name));
+        pillNameTextView.setText(pillName);
         pillTime.setText(getIntent().getStringExtra(getString(R.string.pill_time)));
         pillStockup.setText(getIntent().getStringExtra(getString(R.string.pill_date)));
         System.out.println(getIntent().getStringExtra(getString(R.string.pill_date)));
@@ -230,14 +240,15 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
 
 
     private void updatePill() {
-        if(areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
-            if(myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillName.getText().toString().trim(),
+        if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
+            if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillNameTextView.getText().toString().trim(),
                     pillTime.getText().toString().trim(),
                     pillStockup.getText().toString().trim(),
                     Integer.parseInt(pillSupply.getText().toString()),
                     isTaken, timeTaken, 0, bottleColor)) {
-                Toast.makeText(this, getString(R.string.pill_updated), Toast.LENGTH_LONG).show();
+                showCustomToast(1);
                 openMainActivity();
+                alarmSetter.setAlarms(0);
             }
         }
     }
@@ -251,7 +262,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
             numberFormatException.printStackTrace();
         }
         if(supplyAmount <= 0) {
-            Toast.makeText(this, "Your pill supply amount must be greater than 0.", Toast.LENGTH_LONG).show();
+            showCustomToast(3);
             return false;
         }
         else {
@@ -259,11 +270,11 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
         }
     }
     private Boolean areTextViewsNonEmpty() {
-        if(pillName.getText().toString().trim().length() == 0 ||
+        if(pillNameTextView.getText().toString().trim().length() == 0 ||
                 pillTime.getText().toString().trim().length() == 0 ||
                 pillStockup.getText().toString().trim().length() == 0 ||
                 pillSupply.getText().toString().trim().length() == 0) {
-            Toast.makeText(this, getString(R.string.fill_fields_warning), Toast.LENGTH_LONG).show();
+            showCustomToast(4);
             return false;
         }
         else {
@@ -271,16 +282,15 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
         }
     }
     private Boolean isFirstCharLetter() {
-        if (pillName.getText().toString().trim().length() != 0) {
-            return Character.isLetter(pillName.getText().toString().trim().charAt(0));
+        if (pillNameTextView.getText().toString().trim().length() != 0 && Character.isLetter(pillNameTextView.getText().toString().trim().charAt(0))) {
+            return true;
         }
         else {
-            Toast.makeText(this, getString(R.string.pill_name_warning), Toast.LENGTH_LONG).show();
+            showCustomToast(5);
             return false;
         }
     }
-
-    private Boolean isDateValid(){
+    private Boolean isDateValid() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
         DateTimeManager dateTimeManager = new DateTimeManager();
         Date currentDate = null;
@@ -288,7 +298,6 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
             currentDate = simpleDateFormat.parse(dateTimeManager.getCurrentDate(getApplicationContext(), dateTimeManager.getUserTimezone()));
         } catch (ParseException e) {
             e.printStackTrace();
-            throw new UnknownError();
         }
         Date stockupDate;
         try {
@@ -322,12 +331,51 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
         startActivity(intent);
     }
 
+    private void showCustomToast(int toastNumber) {
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+        View toastLayout;
+        if (simpill.getCustomTheme()) {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
+        }
+        else {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light,findViewById(R.id.custom_toast_layout_light));
+        }
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setView(toastLayout);
+
+        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
+
+        switch (toastNumber) {
+            case 1:
+                toastTextView.setText(pillNameTextView.getText().toString().trim() + " updated :)");
+                toast.setDuration(Toast.LENGTH_SHORT);
+                break;
+            case 2:
+                toastTextView.setText(R.string.pill_name_in_use);
+                break;
+            case 3:
+                toastTextView.setText(R.string.amount_must_be_greater_than_zero);
+                break;
+            case 4:
+                toastTextView.setText(getString(R.string.fill_fields_warning));
+                break;
+            case 5:
+                toastTextView.setText(getString(R.string.pill_name_warning));
+                break;
+        }
+
+        toast.show();
+    }
 
 
     @Override
     public void applyPillName(String userPillName) {
-        pillName.setText(userPillName);
-        pillName.setTypeface(truenoReg);
+        pillNameTextView.setText(userPillName);
+        pillNameTextView.setTypeface(truenoReg);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void notifyAdapter(int position){
-        myAdapter.notifyItemChanged(position);
+        myAdapter.notifyItemRemoved(position);
     }
     public boolean onContextItemSelected(MenuItem item) {
 
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     private void setOnClickListeners(int position, String pillName) {
         yesBtn.setOnClickListener(view -> {
             if(myDatabase.deletePill(pillName)) {
-                Toast.makeText(this, getString(R.string.pill_deleted), Toast.LENGTH_LONG).show();
+                showCustomToast(pillName);
                 notifyAdapter(position);
                 warningDialog.dismiss();
             }
@@ -231,4 +233,34 @@ public class MainActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
     }
 
+    private void showCustomToast(String pillName) {
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+        View toastLayout;
+        if (simpill.getCustomTheme()) {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
+        }
+        else {
+            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light,findViewById(R.id.custom_toast_layout_light));
+        }
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setView(toastLayout);
+        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
+        toastTextView.setText(pillName + " deleted.");
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void closeApp() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        }
+        else {
+            ActivityCompat.finishAffinity(this);
+        }
+        System.exit(0);
+    }
 }

@@ -247,7 +247,7 @@
         android:layout_height="0dp"
         android:background="@drawable/btn_background_blue_magenta"
         android:letterSpacing="0.01"
-        android:text="@string/createNewPill"
+        android:text="@string/createPillButtonText"
         android:textSize="28sp"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@id/horizontalGuideline7"
