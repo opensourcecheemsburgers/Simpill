@@ -1,0 +1,2 @@
+Fix error on device reboot that caused pill alarms not to reset.
+Added back button handler for the main menu.
