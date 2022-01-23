@@ -34,7 +34,8 @@ public class Simpill extends Application {
 
     void handleUncaughtException() {
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) ->
-                Toast.makeText(getApplicationContext(), "Unknown error :(", Toast.LENGTH_LONG).show());
+
+                Toast.makeText(getApplicationContext(), "An unknown error has occurred in Simpill :( Tell the dev to write better code.", Toast.LENGTH_LONG).show());
     }
 
     void createNotificationChannels() {

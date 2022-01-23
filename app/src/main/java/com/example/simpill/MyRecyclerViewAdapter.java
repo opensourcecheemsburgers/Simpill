@@ -294,6 +294,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             intent.putExtra(myContext.getString(R.string.time_taken), myDatabase.getTimeTaken(pillName));
             intent.putExtra(myContext.getString(R.string.bottle_color), myDatabase.getBottleColor(pillName));
             myContext.startActivity(intent);
+            MainActivity.backPresses = 0;
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             holder.big_button.setContextClickable(true);
@@ -387,7 +388,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         Toast toast = new Toast(myContext);
         toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setGravity(Gravity.BOTTOM, 0, 250);
         toast.setView(toastLayout);
 
         TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);

@@ -39,7 +39,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             for (currentRow = 0; currentRow <= lastRow; currentRow++) {
                 cursor.moveToPosition(currentRow);
 
-                String pillName = cursor.getString(cursor.getColumnIndexOrThrow("Pill Name"));
+                String pillName = cursor.getString(cursor.getColumnIndexOrThrow("PillName"));
                 myDatabase.setIsReminderSet(pillName, 0);
                 alarmSetter = new AlarmSetter(context, pillName, currentRow + 1);
                 alarmSetter.setAlarms(alarmCodeForAllAlarms);

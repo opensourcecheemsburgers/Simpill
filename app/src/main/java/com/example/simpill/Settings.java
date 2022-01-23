@@ -162,7 +162,7 @@ public class Settings extends AppCompatActivity {
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setGravity(Gravity.BOTTOM, 0, 250);
         toast.setView(toastLayout);
 
         TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);

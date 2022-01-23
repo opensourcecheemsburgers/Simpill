@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-s
+
     <string name="app_name">Simpill</string>
     <string name="welcome">Welcome</string>
     <string name="introduction_message">Thank you for choosing Simpill!\n\nTo create your first pill, select the plus button at the bottom of your screen.</string>

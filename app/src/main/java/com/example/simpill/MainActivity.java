@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Simpill simpill;
 
+    public static int backPresses = 0;
+
     RecyclerView recyclerView;
     FloatingActionButton fab;
     MyRecyclerViewAdapter myAdapter;
@@ -59,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         createRecyclerView();
         initiateButtons();
         isSqlDatabaseEmpty();
-        backButtonPressed();
     }
 
     private void loadSharedPrefs() {
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(getString(R.string.time_taken), myDatabase.getTimeTaken(pillName));
                 intent.putExtra(getString(R.string.bottle_color), myDatabase.getBottleColor(pillName));
                 startActivity(intent);
+                backPresses = 0;
                 break;
             case 2:
                 showPillResetWarningDialog(item.getGroupId() - 1, pillName);
@@ -139,15 +141,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void backButtonPressed() {
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
+    @Override
+    public void onBackPressed() {
+        backPresses++;
+
+        switch (backPresses) {
+            case 1:
+                showCustomToast("Press the back button again to exit.");
+                break;
+            case 2:
+                closeApp();
+                backPresses = 0;
+                break;
+        }
     }
 
     private void openCreatePillActivity() {
@@ -157,10 +163,12 @@ public class MainActivity extends AppCompatActivity {
     private void openSettingsActivity() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
+        backPresses = 0;
     }
     private void openAboutActivity() {
         Intent intent = new Intent(this, About.class);
         startActivity(intent);
+        backPresses = 0;
     }
 
 
@@ -224,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
     private void setOnClickListeners(int position, String pillName) {
         yesBtn.setOnClickListener(view -> {
             if(myDatabase.deletePill(pillName)) {
-                showCustomToast(pillName);
+                showCustomToast(pillName + " deleted.");
                 notifyAdapter(position);
                 warningDialog.dismiss();
             }
@@ -233,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
     }
 
-    private void showCustomToast(String pillName) {
+    private void showCustomToast(String text) {
         LayoutInflater layoutInflater = getLayoutInflater();
 
         View toastLayout;
@@ -246,10 +254,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setGravity(Gravity.BOTTOM, 0, 250);
         toast.setView(toastLayout);
         TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-        toastTextView.setText(pillName + " deleted.");
+        toastTextView.setText(text);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();
     }
