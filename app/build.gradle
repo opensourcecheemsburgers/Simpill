@@ -10,8 +10,8 @@ android {
         applicationId "com.winston69.simpill"
         minSdkVersion 15
         targetSdkVersion 32
-        versionCode 10
-        versionName "1.1"
+        versionCode 11
+        versionName "1.11"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,11 +33,11 @@ android {
 
 dependencies {
     implementation 'androidx.core:core:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.test:monitor:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.test:monitor:1.5.0'
     implementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation "androidx.fragment:fragment-testing:<version>"
 }
