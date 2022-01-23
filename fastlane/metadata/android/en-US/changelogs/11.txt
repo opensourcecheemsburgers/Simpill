@@ -1,2 +1,0 @@
-Fix error on device restart
-Add back button handler
