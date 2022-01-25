@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
 
     Button createNewPillButton, pillNameButton, pillDateButton, pillClockButton, pillAmountButton;
     TextView pillName, pillTime, pillStockup, pillSupply;
-    ImageButton settingsButton, aboutButton;
+    Button settingsButton, aboutButton;
     int year, month, day, hour, min;
     Typeface truenoReg;
 
@@ -65,13 +64,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        if (simpill.getCustomTheme())
-        {
-            setContentView(R.layout.create_pill);
-        }
-        else {
-            setContentView(R.layout.create_pill_light);
-        }
+        setContentView(R.layout.app_create_pill);
     }
 
     private void findViewsByIds(){
@@ -126,16 +119,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog));
     }
     private void openDatePickerDialog() {
-        int theme;
-
-        if(simpill.getCustomTheme()) {
-            theme = DatePickerDialog.THEME_DEVICE_DEFAULT_DARK;
-        }
-        else {
-            theme = DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
-        }
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, theme, (view, year, month, day) -> {
+        new DatePickerDialog(this, R.style.DateTimePickerTheme, (view, year, month, day) -> {
             month = month + 1;
             String selectedDate = year + "-" + month + "-" + day;
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
@@ -150,22 +134,10 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             simpleDateFormat.format(date);
 
             pillStockup.setText(selectedDate);
-        }, year, month, day);
-        datePickerDialog.show();
+        }, year, month, day).show();
     }
     private void openTimePickerDialog() {
-        DateTimeManager dateTimeManager = new DateTimeManager();
-
-        int theme;
-        if(simpill.getCustomTheme()) {
-            theme = TimePickerDialog.THEME_DEVICE_DEFAULT_DARK;
-        }
-        else {
-            theme = TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
-        }
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, theme, (timePicker, selectedHour, selectedMinute) -> {
-
+        new TimePickerDialog(this, R.style.DateTimePickerTheme, (timePicker, selectedHour, selectedMinute) -> {
             String amOrPm;
             String time;
 
@@ -190,7 +162,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                 else {
                     time = selectedHour + ":" + selectedMinute + " " + amOrPm;
                 }
-                time = dateTimeManager.convert12HrTimeTo24HrTime(getApplicationContext(), time);
+                time =  new DateTimeManager().convert12HrTimeTo24HrTime(getApplicationContext(), time);
             }
             else {
                 if  (selectedMinute < 10) {
@@ -208,8 +180,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             }
             pillTime.setText(time);
         }
-                ,12, 0, simpill.getUserIs24Hr());
-        timePickerDialog.show();
+                ,12, 0, simpill.getUserIs24Hr()).show();
     }
     private void openEnterPillAmountDialog() {
         DialogPillAmount dialogPillAmount = new DialogPillAmount();
@@ -239,13 +210,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     private void showCustomToast(int toastNumber) {
         LayoutInflater layoutInflater = getLayoutInflater();
 
-        View toastLayout;
-        if (simpill.getCustomTheme()) {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
-        }
-        else {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light,findViewById(R.id.custom_toast_layout_light));
-        }
+        View toastLayout = layoutInflater.inflate(R.layout.toast,findViewById(R.id.custom_toast_layout_light));
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
@@ -362,17 +327,6 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void applyPillName(String userPillName) {

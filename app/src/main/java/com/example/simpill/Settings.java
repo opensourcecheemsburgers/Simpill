@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 public class Settings extends AppCompatActivity {
 
     Toolbar simpillToolbar;
-    ImageButton settingsButton, aboutButton;
+    Button settingsButton, aboutButton;
     SwitchCompat darkThemeSwitch, clockIs24HrSwitch, permanentNotificationsSwitch;
     Context myContext;
     Button deleteAllBtn;
@@ -109,13 +108,7 @@ public class Settings extends AppCompatActivity {
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        if (simpill.getCustomTheme())
-        {
-            setContentView(R.layout.settings);
-        }
-        else {
-            setContentView(R.layout.settings_light);
-        }
+        setContentView(R.layout.app_settings);
     }
 
     private void loadSharedPrefs() {
@@ -131,7 +124,6 @@ public class Settings extends AppCompatActivity {
     }
 
     private void initWidgets() {
-        simpillToolbar = findViewById(R.id.mytoolbar);
         settingsButton = findViewById(R.id.settingsButton);
         aboutButton = findViewById(R.id.aboutButton);
         darkThemeSwitch = findViewById(R.id.dark_theme_switch);
@@ -152,13 +144,8 @@ public class Settings extends AppCompatActivity {
     private void showCustomToast(int toastNumber) {
         LayoutInflater layoutInflater = getLayoutInflater();
 
-        View toastLayout;
-        if (simpill.getCustomTheme()) {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
-        }
-        else {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light, findViewById(R.id.custom_toast_layout_light));
-        }
+        View toastLayout = layoutInflater.inflate(R.layout.toast, findViewById(R.id.custom_toast_layout_light));
+
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_SHORT);

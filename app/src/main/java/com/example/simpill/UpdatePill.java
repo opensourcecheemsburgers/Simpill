@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +34,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
 
     Button updatePillButton, pillNameButton, pillDateButton, pillClockButton, pillAmountButton;
     TextView pillNameTextView, pillTime, pillStockup, pillSupply;
-    ImageButton settingsButton, aboutButton;
+    Button settingsButton, aboutButton;
     int primaryKeyId, year, month, day, hour, min;
     Typeface truenoReg;
 
@@ -73,13 +72,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        if (simpill.getCustomTheme())
-        {
-            setContentView(R.layout.update_pill);
-        }
-        else {
-            setContentView(R.layout.update_pill_light);
-        }
+        setContentView(R.layout.app_update_pill);
     }
 
     private void findViewsByIds(){
@@ -334,13 +327,8 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     private void showCustomToast(int toastNumber) {
         LayoutInflater layoutInflater = getLayoutInflater();
 
-        View toastLayout;
-        if (simpill.getCustomTheme()) {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
-        }
-        else {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light,findViewById(R.id.custom_toast_layout_light));
-        }
+        View toastLayout = layoutInflater.inflate(R.layout.toast,findViewById(R.id.custom_toast_layout_light));
+
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);

@@ -1,78 +1,88 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <string name="app_name">Simpill</string>
-    <string name="welcome">Welcome</string>
-    <string name="introduction_message">Thank you for choosing Simpill!\n\nTo create your first pill, select the plus button at the bottom of your screen.</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="Settings">Settings</string>
-    <string name="About">About</string>
-    <string name="addPillButton">addPillButton</string>
-    <string name="pillTime"> Pill Time</string>
-    <string name="pill_bottle_icon">Pill Bottle Icon</string>
-    <string name="tick">tick</string>
-    <string name="undo">undo</string>
-    <string name="pillName">Pill Name </string>
-    <string name="defaultPillName">Melatonin</string>
-    <string name="defaultPillTime">Take daily at 10:00pm</string>
-    <string name="reminder_date">Reminder Date</string>
-    <string name="enterPillNameHere">Pill Name?</string>
-    <string name="enterPillTimeHere">Time?</string>
-    <string name="enterPillDateReminder">Refill Date?</string>
-    <string name="clock">clock</string>
-    <string name="calendar">calendar</string>
-    <string name="createPillButtonText">Create Pill</string>
-    <string name="cancel">Cancel</string>
-    <string name="simpillAboutParagraph">Simpill is a medication reminder app.\n\nIt doesn\'t contain any trackers, ads or unnecessary permissions.\n\nIt is open-source which means anyone can audit the Simpill code.\n\nSource code: https://gitlab.com/Winston69/simpill\n\nHave you found any bugs or would you like to suggest some ideas for Simpill? Feel free to contact me :)\n\nMy email: simpilldev@gmail.com\n\nIf Simpill has helped you and you want to support its development, you can donate cryptocurrency.\n\nAll donations are greatly appreciated! :)</string>
-    <string name="simpill_title">Free &amp; Open Source</string>
-    <string name="cardano_address">addr1q98k39a0hft8zpxnyugzl9t83kuqqh3d7x4rr02ltumx5f4wjnysxzth6py5g7l2xyw9y3t000mqzv4pyzrlm5spgt2stp8wkh</string>
-    <string name="ethereum_address">0x47be4fe89a2d658ce03434cb70021d3448dd2a20</string>
-    <string name="monero_address"> 86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
-    <string name="bitcoinAddress">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
-    <string name="pandacoinAddress">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
-    <string name="pillAmount">Supply?</string>
-    <string name="pillSupplyNumber">30</string>
-    <string name="Take_at">Take at</string>
-    <string name="Taken_at">Taken at</string>
-    <string name="MoneroWebsite">https://www.getmonero.org</string>
-    <string name="BitcoinWebsite">https://bitcoin.org</string>
-    <string name="PandacoinWebsite">https://pandacoin.tech</string>
-    <string name="pill_bottle">Pill Bottle</string>
-    <string name="pill">Pill</string>
-    <string name="about_simpill_button">About Simpill Button</string>
-    <string name="not_applicable">Not applicable</string>
-    <string name="update_pill">Update Pill</string>
-    <string name="pill_bottle_color">Pill Bottle Color?</string>
-    <string name="already_about">You are already in the About section!</string>
+
+    <!--Intent Strings-->
     <string name="pill_name">pill name</string>
-    <string name="time_for_medication">It\'s time to take your medication:</string>
-    <string name="tardis_confirmation">I Have a TARDIS</string>
-    <string name="tardis_paragraph">The reminder date you have set is in the past. Unless you have a TARDIS, I would not recommend this.</string>
-    <string name="incorrect_date">Incorrect date set?</string>
-    <string name="pill_name_dialog">Pill Name Dialog</string>
-    <string name="nullString">null</string>
-    <string name="pill_added">Pill added :)</string>
     <string name="pill_time">pill time</string>
     <string name="pill_date">pill date</string>
     <string name="pill_amount">pill amount</string>
     <string name="is_pill_taken">is pill taken</string>
     <string name="time_taken">time taken</string>
     <string name="bottle_color">bottle color</string>
+
+    <!--Content Description Strings-->
+    <string name="clock_content_description">Clock Icon </string>
+    <string name="calendar_content_description">Calendar Icon</string>
+    <string name="pill_bottle_content_description">Pill Bottle Icon</string>
+    <string name="pill_content_description">Pill Icon</string>
+    <string name="reset_pill_content_description">Reset Pill Taken Button</string>
+
+    <!--Create/Update Pill Strings-->
+    <string name="enter_pill_name">Pill Name?</string>
+    <string name="enter_pill_time_reminders">Reminders?</string>
+    <string name="enter_pill_refill_date_reminder">Refill Date?</string>
+    <string name="enter_pill_amount">Supply?</string>
+
+    <!--Welcome Dialog Strings-->
+    <string name="welcome">Welcome</string>
+    <string name="introduction_message">To create your first pill, select the plus button at the bottom of your screen.\n\n.</string>
+    <string name="ok">Ok</string>
+
+    <!--Pill Name Dialog Strings-->
+    <string name="pill_name_dialog_title">Pill Name</string>
+    <string name="pill_name_dialog_msg">Please enter a name for your medication by clicking the line below:\n</string>
+
+    <!--Delete Pill Dialog Strings-->
     <string name="delete_pill_confirmation">Delete Pill</string>
     <string name="delete_pill_warning">Are you sure you want to delete this pill?\n\nThis cannot be undone!</string>
     <string name="delete">Delete</string>
-    <string name="back">Back</string>
-    <string name="ok">Ok</string>
-    <string name="create_pill">Create Pill</string>
-    <string name="enter_pill_amount">Enter Pill Amount</string>
-    <string name="enter">Enter</string>
-    <string name="pill_amount_hint">Pill Amount</string>
-    <string name="enter_pill_name">Enter Pill Name</string>
-    <string name="stockup_reminder">Stockup Reminder</string>
-    <string name="dont_forget_stockup">Don\'t forget to stockup on your</string>
-    <string name="soon">soon :)</string>
-    <string name="tardis_warning">Unless you have access to a TARDIS, the date cannot be set in the past.</string>
+
+    <!--Settings Strings-->
+    <string name="Settings">Settings</string>
+    <string name="dark_theme">Dark Theme</string>
+
+    <!--About Strings-->
+    <string name="simpillAboutParagraph">Simpill is a free and open-source medication reminder app without any trackers, annoying ads or unnecessary permissions.\n\nHave you found any bugs or would you like to suggest some ideas for Simpill? Feel free to contact me at simpilldev@gmail.com :)\n\nIf would you to thank the Simpill developer and support its future development, you can purchase the paid version of Simpill on the Play Store.\n\nYou can also donate cryptocurrency to support Simpill. Tap on an address to copy it to your clipboard.\n\nAll donations are greatly appreciated! :)</string>
+    <string name="monero">Monero</string>
+    <string name="bitcoin">Bitcoin</string>
+    <string name="pandacoin">Pandacoin</string>
+    <string name="MoneroWebsite">https://www.getmonero.org</string>
+    <string name="BitcoinWebsite">https://bitcoin.org</string>
+    <string name="PandacoinWebsite">https://pandacoin.tech</string>
+    <string name="monero_address">86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
+    <string name="bitcoinAddress">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
+    <string name="pandacoinAddress">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
+
+
+    <string name="pillSupplyNumber">30</string>
+    <string name="Take_at">Take at</string>
+    <string name="Taken_at">Taken at</string>
+
+
+    <!--Toast Strings-->
     <string name="set_date">Please set a date for your refill reminder.</string>
+    <string name="already_about">You are already in the About section!</string>
+    <string name="already_in_settings">You are already in the Settings section!</string>
+    <string name="pill_added">Pill added :)</string>
+
+    <!--Notification Strings-->
+    <string name="dont_forget_stockup">Don\'t forget to stockup on your</string>
+    <string name="stockup_reminder">Stockup Reminder</string>
+    <string name="time_for_medication">It\'s time to take your medication:</string>
+
+    <!--Past Date Dialog Strings-->
+    <string name="tardis_warning">Unless you have access to a TARDIS, the date cannot be set in the past.</string>
+    <string name="incorrect_date">Incorrect date set?</string>
+
+    <!--Dialog Tag Strings-->
+    <string name="pill_name_dialog">Pill Name Dialog</string>
+
+
+
+    <string name="nullString">null</string>
+    <string name="soon">soon :)</string>
     <string name="error">error</string>
     <string name="reset">Reset Pill</string>
     <string name="taken">taken</string>
@@ -83,8 +93,6 @@
     <string name="choose_color_prompt">Would you like to update the bottle color of this pill?</string>
     <string name="choose_color_prompt_title">Update Pill Bottle Color?</string>
     <string name="notification_id">Notification ID</string>
-    <string name="dark_theme">Dark Theme</string>
-    <string name="already_in_settings">You are already in the Settings section!</string>
     <string name="theme_preference">Theme Preference</string>
     <string name="theme_preference_boolean">Theme Preference Boolean</string>
     <string name="pill_deleted">Pill Deleted.</string>
@@ -103,15 +111,13 @@
     <string name="notification_pill_name">pillNameNotification</string>
 
     <string name="pill_db_reset">Delete Pills</string>
-    <string name="pill_db_reset_warning">Would you like to delete the entire pill database?\n\nWARNING: This action cannot be undone!</string>
+    <string name="pill_db_reset_warning">Would you like to delete the entire pill database?\n\nWARNING: This will remove all pills and it cannot be undone!</string>
     <string name="reset_warning_title">Reset Pill</string>
     <string name="reset_warning_message">Would you like to reset the taken status of this pill?</string>
     <string name="done">Done</string>
     <string name="default_pill_amount_string">30</string>
     <string name="amount">Amount</string>
     <string name="delete_all_pills">Delete All Pills</string>
-    <string name="pill_name_dialog_title">Pill Name</string>
-    <string name="pill_name_dialog_msg">Please enter a name for your medication by clicking the line below:\n</string>
     <string name="warning_icon">Warning Icon</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -121,12 +127,10 @@
     <string name="database">Database</string>
     <string name="reset_pill">Reset Pill</string>
     <string name="dialog_pill_reset_msg">Would you like to reset the taken status of this pill?</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="monero">Monero</string>
-    <string name="pandacoin">Pandacoin</string>
     <string name="pill_name_in_use">Pill name already in use :(</string>
     <string name="amount_must_be_greater_than_zero">Amount must be greater than 0.</string>
     <string name="extra_reminder_notification">Don\'t forget to take your</string>
 
+    <string name="extra_reminder_txt_view">Would you like to set another reminder time for this medication?</string>
 
 </resources>

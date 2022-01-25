@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,13 +83,7 @@ public class DialogWelcome extends AppCompatDialogFragment {
     }
 
     private void setViewBasedOnTheme() {
-        if (simpill.getCustomTheme())
-        {
-            dialogView = inflater.inflate(R.layout.welcome_dialog_layout, null);
-        }
-        else {
-            dialogView = inflater.inflate(R.layout.welcome_dialog_layout_light, null);
-        }
+        dialogView = inflater.inflate(R.layout.dialog_welcome, null);
         dialogBuilder.setView(dialogView);
     }
 

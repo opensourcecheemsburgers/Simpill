@@ -1,27 +1,21 @@
 <resources>
 
 
-
-    <style name="SimpillAppManifestTheme" parent="Theme.AppCompat.NoActionBar">
-        </style>
-
-    <style name="SimpillAppTheme" parent="Theme.AppCompat.NoActionBar">
-            <item name="android:background">@color/chinese_black</item>
-            <item name="android:textColor">@color/white</item>
-            <item name="android:textColorHint">@color/lighter_gray</item>
-            <item name= "android:textColorPrimary">@color/white</item>
-            <item name= "android:textColorSecondary">@color/light_gray</item>
-            <item name= "android:textColorTertiary">@color/light_gray</item>
-        </style>
-
-    <style name="SwitchCompatTheme" >
-        <item name="colorControlActivated">@color/blue_magenta</item>
+    <style name="SimpillAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:textColor">@color/alice_blue</item>
+        <item name="android:fillViewport">true</item>
     </style>
 
+    <style name="SwitchCompatTheme">
+        <item name="colorControlActivated">@color/blue_magenta</item>
+        <item name="android:colorForeground">#54f0f8ff</item>
+        <item name="colorSwitchThumbNormal">@color/alice_blue</item>
+    </style>
 
-        <style name="DateTimePickerTheme" parent="Theme.Design.NoActionBar">
-            <item name="android:background"> @color/purple</item>
-        </style>
+    <style name="DateTimePickerTheme" parent="Theme.Design.NoActionBar">
+    </style>
 
     <style name="SimpillToolbarTheme" parent="Theme.Design.NoActionBar">
         <item name="android:background">@color/dark_gray</item>

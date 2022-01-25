@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,10 +22,10 @@ public class About extends AppCompatActivity {
 
     private Simpill simpill;
 
-    ImageButton settingsButton, aboutButton;
+    Button settingsButton, aboutButton;
     TextView simpillParagraph, btc, xmr, pnd, btcAddress, xmrAddress, pndAddress;
     ImageView btcLogo, xmrLogo, pndLogo;
-    Typeface truenoLight;
+    Typeface truenoLight, truenoReg;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,22 +51,16 @@ public class About extends AppCompatActivity {
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        if (simpill.getCustomTheme())
-        {
-            setContentView(R.layout.about);
-        }
-        else {
-            setContentView(R.layout.about_light);
-        }
+            setContentView(R.layout.app_about);
     }
 
     private void findViewsByIds() {
         simpillParagraph = findViewById(R.id.simpill_paragraph);
-        btc = findViewById(R.id.btcTextView);
-        xmr = findViewById(R.id.xmrTextView);
+        btc = findViewById(R.id.xmrTextView);
+        xmr = findViewById(R.id.btcTextView);
         pnd = findViewById(R.id.pndTextView);
-        btcAddress = findViewById(R.id.btcAddressTextView);
-        xmrAddress = findViewById(R.id.xmrAddressTextView);
+        btcAddress = findViewById(R.id.xmrAddressTextView);
+        xmrAddress = findViewById(R.id.btcAddressTextView);
         pndAddress = findViewById(R.id.pndAddressTextView);
         btcLogo = findViewById(R.id.btcLogo);
         xmrLogo = findViewById(R.id.xmrLogo);
@@ -77,19 +71,20 @@ public class About extends AppCompatActivity {
 
     private void initiateTextViews() {
         truenoLight = ResourcesCompat.getFont(this, R.font.truenolight);
+        truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
 
-        simpillParagraph.setTypeface(truenoLight);
-        simpillParagraph.setTextSize(14);
+        simpillParagraph.setTypeface(truenoReg);
+        simpillParagraph.setTextSize(18);
         simpillParagraph.setLineSpacing(1f, 1.35f);
         simpillParagraph.setTextIsSelectable(true);
         simpillParagraph.setLinksClickable(true);
 
-        btc.setTypeface(truenoLight);
-        btc.setTextSize(14);
-        xmr.setTypeface(truenoLight);
-        xmr.setTextSize(14);
-        pnd.setTypeface(truenoLight);
-        pnd.setTextSize(14);
+        btc.setTypeface(truenoReg);
+        btc.setTextSize(18);
+        xmr.setTypeface(truenoReg);
+        xmr.setTextSize(18);
+        pnd.setTypeface(truenoReg);
+        pnd.setTextSize(18);
 
         btcAddress.setTypeface(truenoLight);
         btcAddress.setTextSize(14);
@@ -133,13 +128,7 @@ public class About extends AppCompatActivity {
     private void showCustomToast(int toastNumber) {
         LayoutInflater layoutInflater = getLayoutInflater();
 
-        View toastLayout;
-        if (simpill.getCustomTheme()) {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
-        }
-        else {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light, findViewById(R.id.custom_toast_layout_light));
-        }
+        View toastLayout = layoutInflater.inflate(R.layout.toast, findViewById(R.id.custom_toast_layout_light));
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);

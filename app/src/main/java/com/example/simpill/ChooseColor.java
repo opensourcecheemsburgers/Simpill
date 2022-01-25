@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -19,9 +18,8 @@ public class ChooseColor extends AppCompatActivity {
     int selectedColor = -1;
     ImageView color1, color2, color3, color4, color5, color6,
             color7, color8, color9, color10, color11, color12;
-    ImageButton settingsButton, aboutButton;
+    Button settingsButton, aboutButton;
     Typeface truenoReg;
-    TextView chooseColorTextview;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +38,7 @@ public class ChooseColor extends AppCompatActivity {
         settingsButton = findViewById(R.id.settingsButton);
         aboutButton = findViewById(R.id.aboutButton);
 
-        chooseColorTextview = findViewById(R.id.choose_color_textview);
         truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
-        chooseColorTextview.setTypeface(truenoReg);
 
         color1 = findViewById(R.id.imageView1);
         color2 = findViewById(R.id.imageView2);
@@ -134,13 +130,7 @@ public class ChooseColor extends AppCompatActivity {
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        if (simpill.getCustomTheme())
-        {
-            setContentView(R.layout.choose_color);
-        }
-        else {
-            setContentView(R.layout.choose_color_light);
-        }
+            setContentView(R.layout.app_choose_color);
     }
 
     private void openMainActivity() {

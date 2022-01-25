@@ -26,7 +26,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
     private static final String SELECTION = "PillName = ?";
 
-    private static final long MONTH_IN_MS = 2592000000L;
+    public static String strSeparator = "__,__";
 
     public PillDBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -79,7 +79,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    boolean addNewPill(int id, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public boolean addNewPill(int id, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         SQLiteDatabase pillDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -87,8 +87,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         long result = pillDatabase.insert(TABLE_NAME, null, cv);
         return result != -1;
     }
-
-    boolean updatePill(String pillName, String newPillName, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public boolean updatePill(String pillName, String newPillName, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -106,6 +105,13 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return true;
     }
+    public Boolean deletePill(String pillName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] selectionArgs = new String[]{(pillName)};
+
+        long result = db.delete(TABLE_NAME, SELECTION, selectionArgs);
+        return result != -1;
+    }
 
     private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_PK, primaryKey);
@@ -118,7 +124,6 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ALARMSSET, alarmsSet);
         cv.put(COLUMN_BOTTLECOLOR, bottleColor);
     }
-
     private void insertAllContentValuesExceptPk(ContentValues cv, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, time);
@@ -140,14 +145,6 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cv.remove(COLUMN_BOTTLECOLOR);
     }
 
-
-    public Boolean deletePill(String pillName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String[] selectionArgs = new String[]{(pillName)};
-
-        long result = db.delete(TABLE_NAME, SELECTION, selectionArgs);
-        return result != -1;
-    }
 
     public Boolean deleteDatabase(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -442,6 +439,12 @@ public class PillDBHelper extends SQLiteOpenHelper {
             System.out.println("Name unique");
             return false;
         }
+    }
+
+    public void createTestingPills() {
+        addNewPill(1, "Melatonin", "09:00", "2022-09-03", 30, 0, "null", 0, 2);
+        addNewPill(2, "Fluoxetine", "09:00", "2022-09-03", 30, 0, "null", 0, 5);
+        addNewPill(3, "Equasym", "09:00", "2022-09-03", 30, 0, "null", 0, 9);
     }
 }
 

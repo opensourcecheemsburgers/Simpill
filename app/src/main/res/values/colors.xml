@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="alice_blue">#f0f8ff</color>
+
+
+
     <color name="black">#FF000000</color>
     <color name="chinese_black">#141414</color>
 
@@ -36,4 +40,5 @@
 
     <color name="light_purple">#9182C4</color>
     <color name="light_background">#fbf5ff</color>
+    <color name="pink_lace">#FBC7D4</color>
 </resources>

@@ -86,15 +86,12 @@ public class DialogDatabaseReset extends AppCompatDialogFragment {
     }
 
     private void setViewBasedOnTheme() {
-        if (simpill.getCustomTheme())
-        {
-            dialogView = inflater.inflate(R.layout.db_reset_dialog_layout, null);
-        }
-        else {
-            dialogView = inflater.inflate(R.layout.db_reset_dialog_layout_light, null);
-        }
+        dialogView = inflater.inflate(R.layout.dialog_db_reset, null);
+
         dialogBuilder.setView(dialogView);
     }
+
+
 
     private void createOnClickListeners() {
         resetDbBtn.setOnClickListener(view -> {
@@ -103,13 +100,8 @@ public class DialogDatabaseReset extends AppCompatDialogFragment {
 
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 
-            View toastLayout;
-            if (simpill.getCustomTheme()) {
-                toastLayout = layoutInflater.inflate(R.layout.custom_toast, view.findViewById(R.id.custom_toast_layout));
-            }
-            else {
-                toastLayout = layoutInflater.inflate(R.layout.custom_toast_light, view.findViewById(R.id.custom_toast_layout_light));
-            }
+
+            View toastLayout = layoutInflater.inflate(R.layout.toast, view.findViewById(R.id.custom_toast_layout_light));
 
             Toast toast = new Toast(getContext());
             toast.setDuration(Toast.LENGTH_SHORT);

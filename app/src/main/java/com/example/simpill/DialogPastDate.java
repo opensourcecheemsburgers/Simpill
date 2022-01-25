@@ -83,13 +83,8 @@ public class DialogPastDate extends AppCompatDialogFragment {
     }
 
     private void setViewBasedOnTheme() {
-        if (simpill.getCustomTheme())
-        {
-            dialogView = inflater.inflate(R.layout.past_date_dialog_layout, null);
-        }
-        else {
-            dialogView = inflater.inflate(R.layout.past_date_dialog_layout_light, null);
-        }
+        dialogView = inflater.inflate(R.layout.dialog_past_date, null);
+
         dialogBuilder.setView(dialogView);
     }
 

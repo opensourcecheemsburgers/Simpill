@@ -69,13 +69,8 @@ public class DialogPillName extends AppCompatDialogFragment {
         setViewBasedOnTheme();
     }
     private void setViewBasedOnTheme() {
-        if (simpill.getCustomTheme())
-        {
-            dialogView = inflater.inflate(R.layout.enter_name_dialog, null);
-        }
-        else {
-            dialogView = inflater.inflate(R.layout.enter_name_dialog_light, null);
-        }
+        dialogView = inflater.inflate(R.layout.dialog_pill_name, null);
+
         dialogBuilder.setView(dialogView);
     }
     private void initTextViewsAndButtons() {

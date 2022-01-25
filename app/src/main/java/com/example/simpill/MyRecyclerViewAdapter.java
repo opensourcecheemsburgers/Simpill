@@ -2,7 +2,6 @@ package com.example.simpill;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -107,10 +106,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         loadSharedPrefs();
 
         if (simpill.getCustomTheme()){
-            view = layoutInflater.inflate(R.layout.example_pill, parent, false);
+            view = layoutInflater.inflate(R.layout.example_pill_new, parent, false);
         }
         else {
-            view = layoutInflater.inflate(R.layout.example_pill_light, parent, false);
+            view = layoutInflater.inflate(R.layout.example_pill_new, parent, false);
         }
 
         return new MyViewHolder(view);
@@ -151,9 +150,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         truenoLight = ResourcesCompat.getFont(myContext, R.font.truenolight);
         truenoReg = ResourcesCompat.getFont(myContext, R.font.truenoreg);
 
-        holder.pill_name_textview.setTypeface(truenoLight);
-        holder.pill_time_textview.setTypeface(truenoLight);
-        holder.pill_name_textview.setTextSize(35.0f);
+        holder.pill_name_textview.setTypeface(truenoReg);
+        holder.pill_time_textview.setTypeface(truenoReg);
+        holder.pill_name_textview.setTextSize(30.0f);
         holder.pill_time_textview.setTextSize(15.0f);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -322,13 +321,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         setViewBasedOnTheme();
     }
     private void setViewBasedOnTheme() {
-        if (simpill.getCustomTheme())
-        {
-            dialogView = inflater.inflate(R.layout.warning_dialog_layout, null);
-        }
-        else {
-            dialogView = inflater.inflate(R.layout.warning_dialog_layout_light, null);
-        }
+        dialogView = inflater.inflate(R.layout.dialog_reset_warning, null);
+
         dialogBuilder.setView(dialogView);
     }
     private void initTextViewsAndButtons() {
@@ -379,12 +373,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private void showCustomToast(int toastNumber, MyViewHolder holder, String pillName) {
         LayoutInflater layoutInflater = LayoutInflater.from(myContext);
 
-        View toastLayout;
-        if (simpill.getCustomTheme()) {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast, holder.itemView.findViewById(R.id.custom_toast_layout));
-        } else {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light, holder.itemView.findViewById(R.id.custom_toast_layout_light));
-        }
+        View toastLayout = layoutInflater.inflate(R.layout.toast, holder.itemView.findViewById(R.id.custom_toast_layout_light));
+
 
         Toast toast = new Toast(myContext);
         toast.setDuration(Toast.LENGTH_SHORT);

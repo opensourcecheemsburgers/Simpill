@@ -3,6 +3,7 @@ package com.example.simpill;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -11,20 +12,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     public static int backPresses = 0;
 
     RecyclerView recyclerView;
-    FloatingActionButton fab;
+
     MyRecyclerViewAdapter myAdapter;
-    ImageButton settingsButton, aboutButton;
+    Button settingsButton, aboutButton, fab;
     PillDBHelper myDatabase;
 
     AlertDialog.Builder dialogBuilder;
@@ -46,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     TextView titleTextView, titleMessageView;
     Button yesBtn, cancelBtn;
 
+    Window window;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadSharedPrefs();
 
-        setContentViewBasedOnThemeSetting();
+        setContentViewAndDesign();
 
         findViewsByIds();
         createRecyclerView();
@@ -71,15 +70,23 @@ public class MainActivity extends AppCompatActivity {
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
         simpill.setUserIs24Hr(is24Hr);
     }
-    private void setContentViewBasedOnThemeSetting() {
-        if (simpill.getCustomTheme())
-        {
-            setContentView(R.layout.main);
-        }
-        else {
-            setContentView(R.layout.main_light);
+    private void setContentViewAndDesign() {
+        setContentView(R.layout.app_main);
+        changeNavAndStatusBar();
+    }
+
+    private void changeNavAndStatusBar() {
+        window = this.getWindow();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.purple, null));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                window.setNavigationBarDividerColor(ResourcesCompat.getColor(getResources(), R.color.pink_lace, null));
+            }
         }
     }
+
     private void findViewsByIds() {
         settingsButton = findViewById(R.id.settingsButton);
         aboutButton = findViewById(R.id.aboutButton);
@@ -136,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     void isSqlDatabaseEmpty() {
         if (myDatabase.readSqlDatabase().getCount() == 0) {
+            myDatabase.createTestingPills();
             DialogWelcome dialogWelcome = new DialogWelcome();
             dialogWelcome.show(getSupportFragmentManager(), "Welcome Message Dialog");
         }
@@ -193,13 +201,8 @@ public class MainActivity extends AppCompatActivity {
         setViewBasedOnTheme();
     }
     private void setViewBasedOnTheme() {
-        if (simpill.getCustomTheme())
-        {
-            dialogView = inflater.inflate(R.layout.delete_pill_dialog_layout, null);
-        }
-        else {
-            dialogView = inflater.inflate(R.layout.delete_pill_dialog_layout_light, null);
-        }
+        dialogView = inflater.inflate(R.layout.dialog_delete_pill, null);
+
         dialogBuilder.setView(dialogView);
     }
     private void initTextViewsAndButtons() {
@@ -237,20 +240,14 @@ public class MainActivity extends AppCompatActivity {
                 warningDialog.dismiss();
             }
         });
-
         cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
     }
 
     private void showCustomToast(String text) {
         LayoutInflater layoutInflater = getLayoutInflater();
 
-        View toastLayout;
-        if (simpill.getCustomTheme()) {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
-        }
-        else {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light,findViewById(R.id.custom_toast_layout_light));
-        }
+        View toastLayout = layoutInflater.inflate(R.layout.toast,findViewById(R.id.custom_toast_layout_light));
+
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
@@ -263,12 +260,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void closeApp() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            finishAffinity();
-        }
-        else {
-            ActivityCompat.finishAffinity(this);
-        }
+        finishAffinity();
         System.exit(0);
     }
 }
