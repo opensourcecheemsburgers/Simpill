@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.4336801040312094" />
+        <entry key="app/src/main/res/drawable-hdpi/background_1.xml" value="0.5" />
+        <entry key="app/src/main/res/drawable-hdpi/background_2.xml" value="0.5447916666666667" />
+        <entry key="app/src/main/res/drawable-hdpi/background_grey.xml" value="0.25" />
         <entry key="app/src/main/res/drawable-mdpi/fab.xml" value="0.5" />
         <entry key="app/src/main/res/drawable-v21/dialog_bottom_btn_light.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable-v21/dialog_title_background_red.xml" value="0.3296875" />
@@ -98,6 +101,8 @@
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/app_choose_color.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/app_create_pill.xml" value="0.31354166666666666" />
+        <entry key="app/src/main/res/layout/app_main.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/app_update_pill.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/choose_color.xml" value="0.33026315789473687" />
         <entry key="app/src/main/res/layout/choose_color_light.xml" value="0.33026315789473687" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.5286458333333334" />
@@ -112,6 +117,8 @@
         <entry key="app/src/main/res/layout/db_reset_dialog_layout_light.xml" value="0.3299342105263158" />
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout.xml" value="0.33480176211453744" />
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout_light.xml" value="0.3310344827586207" />
+        <entry key="app/src/main/res/layout/dialog_db_reset.xml" value="0.31354166666666666" />
+        <entry key="app/src/main/res/layout/dialog_delete_pill.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/dialog_pill_name.xml" value="0.5286458333333334" />
         <entry key="app/src/main/res/layout/enter_amount_dialog.xml" value="0.8597122302158273" />
         <entry key="app/src/main/res/layout/enter_amount_dialog_light.xml" value="0.33" />

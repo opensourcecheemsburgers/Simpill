@@ -5,7 +5,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 
 import java.util.Calendar;
@@ -25,15 +24,18 @@ public class AlarmSetter {
 
     TimeZone userTimezone;
     String pillName;
-    int requestCode;
-    Calendar pillTimeCal, supplyDateCal;
+    int primaryKey;
+    Calendar[] pillTimesCalArray;
+    Calendar supplyDateCal;
 
-    Boolean extraReminders;
-
-    AlarmSetter(Context myContext, String pillName, int requestCode) {
+    AlarmSetter(Context myContext, String pillName, int primaryKey) {
         this.pillName = pillName;
-        this.requestCode = requestCode;
+        this.primaryKey = primaryKey;
         this.myContext = myContext;
+    }
+
+    private int formatPrimaryKeyAsRequestCode(int requestNumber) {
+        return (int) (primaryKey * (Math.pow(10, 4))) + requestNumber;
     }
 
     public void setAlarms(int alarmCode) {
@@ -66,7 +68,7 @@ public class AlarmSetter {
         dateTimeManager = new DateTimeManager();
 
         userTimezone = dateTimeManager.getUserTimezone();
-        pillTimeCal = getPillTimeCalendar();
+        pillTimesCalArray = getPillTimeCalendar();
         supplyDateCal = getReminderDateCalendar();
     }
 
@@ -77,65 +79,136 @@ public class AlarmSetter {
     private Calendar getReminderDateCalendar() {
         return dateTimeManager.formatDateStringAsCalendar(myContext, userTimezone, myDatabase.getPillDate(pillName));
     }
-    private Calendar getPillTimeCalendar() {
-        return dateTimeManager.formatTimeStringAsCalendar(myContext, userTimezone, myDatabase.getPillTime(pillName));
+    private Calendar[] getPillTimeCalendar() {
+
+        String[] times =  myDatabase.getPillTime(pillName);
+        Calendar[] calendars = new Calendar[times.length];
+
+        for (int currentNumber = 0; currentNumber < times.length; currentNumber++) {
+            calendars[currentNumber] = dateTimeManager.formatTimeStringAsCalendar(myContext, userTimezone, times[currentNumber]);
+        }
+
+        return calendars;
     }
 
     private void setPillReminder() {
-        Intent startPillAlarmReceiver = new Intent(myContext, PillAlarmReceiver.class);
-        startPillAlarmReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
-        startPillAlarmReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
+        for (int currentNumber = 0; currentNumber < pillTimesCalArray.length; currentNumber++) {
+            int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
 
-        @SuppressLint("InlinedApi")
-        PendingIntent pillAlarmPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startPillAlarmReceiver, PendingIntent.FLAG_IMMUTABLE);
+            Intent startPillAlarmReceiver = new Intent(myContext, PillAlarmReceiver.class);
+            startPillAlarmReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
+            startPillAlarmReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
+            PendingIntent pillAlarmPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startPillAlarmReceiver, PendingIntent.FLAG_IMMUTABLE);
 
-        if (checkIfReminderSet()) {
-            System.out.println("Alarm set");
-        }
-        else {
-            System.out.println("Alarm not set");
-        }
+            /*
+            if (checkIfReminderSet()) {
+                System.out.println("Alarm set");
+            }
+            else {
+                System.out.println("Alarm not set");
+            }
+            */
 
-        long pillReminderTime = pillTimeCal.getTimeInMillis();
-        while (pillReminderTime <= System.currentTimeMillis()) {
-            pillReminderTime = pillReminderTime + DAY_IN_MS;
-        }
+            long pillReminderTime =  pillTimesCalArray[currentNumber].getTimeInMillis();
+            while (pillReminderTime <= System.currentTimeMillis()) {
+                pillReminderTime = pillReminderTime + DAY_IN_MS;
+            }
 
-        System.out.println("Pill reminder time = " + dateTimeManager.formatLongAsString(myContext, pillReminderTime));
+            //System.out.println("Pill reminder time = " + dateTimeManager.formatLongAsDateString(myContext, pillReminderTime));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
-        }
-        else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+            }
+            else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+            }
         }
     }
     private void setAutoReset() {
-        Intent startAutoResetReceiver = new Intent(myContext, PillAutoResetReceiver.class);
-        startAutoResetReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
-        startAutoResetReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
+        if (pillTimesCalArray.length == 1) {
+            int requestCode = formatPrimaryKeyAsRequestCode(0);
 
-        @SuppressLint("InlinedApi")
-        PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
+            Intent startAutoResetReceiver = new Intent(myContext, PillAutoResetReceiver.class);
+            startAutoResetReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
+            startAutoResetReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
 
-        long pillReminderTime = pillTimeCal.getTimeInMillis();
-        long pillResetTime = pillReminderTime - HALF_DAY_IN_MS;
+            @SuppressLint("InlinedApi")
+            PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
 
-        while (pillResetTime <= System.currentTimeMillis()) {
-            pillResetTime = pillResetTime + DAY_IN_MS;
+            long pillReminderTime = pillTimesCalArray[0].getTimeInMillis();
+            long pillResetTime = pillReminderTime - HALF_DAY_IN_MS;
+
+            while (pillResetTime <= System.currentTimeMillis()) {
+                pillResetTime = pillResetTime + DAY_IN_MS;
+            }
+
+            System.out.println("Pill reset time = " + dateTimeManager.formatLongAsDateString(myContext, pillResetTime));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
+            }
         }
 
-        System.out.println("Pill reset time = " + dateTimeManager.formatLongAsString(myContext, pillResetTime));
+        else {
+            for (int currentNumber = 0; currentNumber < pillTimesCalArray.length; currentNumber++) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, pillResetTime, autoResetPendingIntent);
+                int nextNumber;
+
+                if (currentNumber < pillTimesCalArray.length - 1) {
+                    nextNumber = currentNumber + 1;
+                }
+                else {
+                    nextNumber = 0;
+                }
+
+                int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
+
+                Intent startAutoResetReceiver = new Intent(myContext, PillAutoResetReceiver.class);
+                startAutoResetReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
+                startAutoResetReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
+
+                @SuppressLint("InlinedApi")
+                PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
+
+
+
+                Calendar currentNumberTime = pillTimesCalArray[currentNumber];
+                System.out.println("Array [" + currentNumber + "] = " + dateTimeManager.formatLongAsTimeString(myContext, currentNumberTime.getTimeInMillis()));
+
+                Calendar nextNumberTime = pillTimesCalArray[nextNumber];
+                System.out.println("Array [" + nextNumber + "] = " + dateTimeManager.formatLongAsTimeString(myContext, nextNumberTime.getTimeInMillis()));
+
+                System.out.println(nextNumberTime.getTimeInMillis());
+
+                System.out.println(nextNumber);
+
+                long resetTime = nextNumberTime.getTimeInMillis() - 600000L;
+
+                while (resetTime <= System.currentTimeMillis()) {
+                    resetTime = resetTime + DAY_IN_MS;
+                }
+
+                Calendar pillResetCal = Calendar.getInstance();
+                pillResetCal.setTimeInMillis(resetTime);
+                System.out.println(pillResetCal.getTime().toString());
+
+                //System.out.println("Pill reset time = " + dateTimeManager.formatLongAsDateString(myContext, pillResetTime));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, resetTime, autoResetPendingIntent);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, resetTime, autoResetPendingIntent);
+                } else {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, resetTime, autoResetPendingIntent);
+                }
+            }
         }
     }
     private void setSupplyReminder() {
@@ -143,11 +216,11 @@ public class AlarmSetter {
         startPillSupplyReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
 
         @SuppressLint("InlinedApi")
-        PendingIntent pillSupplyPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startPillSupplyReceiver, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pillSupplyPendingIntent = PendingIntent.getBroadcast(myContext, primaryKey, startPillSupplyReceiver, PendingIntent.FLAG_IMMUTABLE);
 
         long supplyReminderTime = supplyDateCal.getTimeInMillis();
 
-        System.out.println("Supply reminder time = " + dateTimeManager.formatLongAsString(myContext, supplyReminderTime));
+        //System.out.println("Supply reminder time = " + dateTimeManager.formatLongAsDateString(myContext, supplyReminderTime));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);

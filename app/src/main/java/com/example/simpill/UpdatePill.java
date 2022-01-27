@@ -235,7 +235,8 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     private void updatePill() {
         if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
             if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillNameTextView.getText().toString().trim(),
-                    pillTime.getText().toString().trim(),
+                    myDatabase.sortTimeArray(getApplicationContext(),
+                            new String[]{pillTime.getText().toString().trim()}),
                     pillStockup.getText().toString().trim(),
                     Integer.parseInt(pillSupply.getText().toString()),
                     isTaken, timeTaken, 0, bottleColor)) {
@@ -283,6 +284,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
             return false;
         }
     }
+
     private Boolean isDateValid() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
         DateTimeManager dateTimeManager = new DateTimeManager();

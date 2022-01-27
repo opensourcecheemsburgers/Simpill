@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class PillDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "PillList.db";
@@ -26,7 +30,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
     private static final String SELECTION = "PillName = ?";
 
-    public static String strSeparator = "__,__";
+    public static String strSeparator = ", ";
 
     public PillDBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -79,7 +83,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public boolean addNewPill(int id, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public boolean addNewPill(int id, String title, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         SQLiteDatabase pillDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -87,7 +91,8 @@ public class PillDBHelper extends SQLiteOpenHelper {
         long result = pillDatabase.insert(TABLE_NAME, null, cv);
         return result != -1;
     }
-    public boolean updatePill(String pillName, String newPillName, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+
+    public boolean updatePill(String pillName, String newPillName, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -113,10 +118,10 @@ public class PillDBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_PK, primaryKey);
         cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_TIME, time);
+        cv.put(COLUMN_TIME, convertArrayToString(time));
         cv.put(COLUMN_STOCKUP, stockup);
         cv.put(COLUMN_SUPPLY, supply);
         cv.put(COLUMN_ISTAKEN, isTaken);
@@ -124,9 +129,9 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ALARMSSET, alarmsSet);
         cv.put(COLUMN_BOTTLECOLOR, bottleColor);
     }
-    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_TIME, time);
+        cv.put(COLUMN_TIME, convertArrayToString(time));
         cv.put(COLUMN_STOCKUP, stockup);
         cv.put(COLUMN_SUPPLY, supply);
         cv.put(COLUMN_ISTAKEN, isTaken);
@@ -182,7 +187,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cursor.close();
     }
 
-    public String getPillTime(String pillName) {
+    public String[] getPillTime(String pillName) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -190,14 +195,14 @@ public class PillDBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
         if (cursor != null && cursor.moveToFirst()) {
-            String pillTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
+            String[] pillTime = convertStringToArray(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)));
             cursor.close();
             return pillTime;
         } else {
             throw new SQLiteException();
         }
     }
-    public void setPillTime(String pillName, String newPillTime) {
+    public void setPillTime(String pillName, String[] newPillTime) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -207,7 +212,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         cv.remove(COLUMN_TIME);
-        cv.put(COLUMN_TIME, newPillTime);
+        cv.put(COLUMN_TIME, convertArrayToString(newPillTime));
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
         cursor.close();
     }
@@ -442,9 +447,56 @@ public class PillDBHelper extends SQLiteOpenHelper {
     }
 
     public void createTestingPills() {
-        addNewPill(1, "Melatonin", "09:00", "2022-09-03", 30, 0, "null", 0, 2);
-        addNewPill(2, "Fluoxetine", "09:00", "2022-09-03", 30, 0, "null", 0, 5);
-        addNewPill(3, "Equasym", "09:00", "2022-09-03", 30, 0, "null", 0, 9);
+        addNewPill(1, "Melatonin",  new String[]{"09:00", "12:00" , "13:00"}, "2022-09-03", 30, 0, "null", 0, 2);
+        addNewPill(2, "Fluoxetine", new String[]{"09:00"}, "2022-09-03", 30, 0, "null", 0, 5);
+        addNewPill(3, "Equasym", new String[]{"09:00", "12:00"}, "2022-09-03", 30, 0, "null", 0, 9);
+    }
+
+    public String[] sortTimeArray(Context context, String[] timeArray) {
+        DateTimeManager dateTimeManager = new DateTimeManager();
+        TimeZone timeZone = TimeZone.getDefault();
+
+        for (int arraySortAttempt = 0; arraySortAttempt < timeArray.length; arraySortAttempt++) {
+            for (int currentNumber = 0; currentNumber < timeArray.length - 1; currentNumber++) {
+                System.out.println("Time array received: " + convertArrayToString(timeArray));
+                int nextNumber = currentNumber + 1;
+
+                Calendar currentArrIndexCal = dateTimeManager.formatTimeStringAsCalendar(context, timeZone, timeArray[currentNumber]);
+                Calendar nextArrIndexCal = dateTimeManager.formatTimeStringAsCalendar(context, timeZone, timeArray[currentNumber + 1]);
+
+                String currentTime = dateTimeManager.formatLongAsTimeString(context, currentArrIndexCal.getTimeInMillis());
+                String nextTime = dateTimeManager.formatLongAsTimeString(context, nextArrIndexCal.getTimeInMillis());
+
+                if (currentArrIndexCal.compareTo(nextArrIndexCal) > 0) {
+                    timeArray[currentNumber] = nextTime;
+                    timeArray[nextNumber] = currentTime;
+                }
+                else if (currentArrIndexCal.compareTo(nextArrIndexCal) == 0) {
+                    Toast.makeText(context, "Error!! Cannot have the same reminder twice.", Toast.LENGTH_SHORT).show();
+                }
+
+                System.out.println("Time array outputted: " + convertArrayToString(timeArray));
+            }
+
+        }
+
+        return timeArray;
+    }
+
+    public String convertArrayToString(String[] array){
+        String str = "";
+        for (int i = 0;i<array.length; i++) {
+            str = str+array[i];
+            // Do not append comma at the end of last element
+            if(i<array.length-1){
+                str = str+strSeparator;
+            }
+        }
+        return str;
+    }
+    public String[] convertStringToArray(String str){
+        String[] arr = str.split(strSeparator);
+        return arr;
     }
 }
 

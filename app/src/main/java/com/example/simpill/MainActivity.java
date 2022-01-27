@@ -72,19 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setContentViewAndDesign() {
         setContentView(R.layout.app_main);
-        changeNavAndStatusBar();
-    }
-
-    private void changeNavAndStatusBar() {
-        window = this.getWindow();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.purple, null));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                window.setNavigationBarDividerColor(ResourcesCompat.getColor(getResources(), R.color.pink_lace, null));
-            }
-        }
     }
 
     private void findViewsByIds() {

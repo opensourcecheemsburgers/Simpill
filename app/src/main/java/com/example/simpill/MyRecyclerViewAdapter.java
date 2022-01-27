@@ -171,9 +171,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.reset_btn.setClickable(true);
         }
         else {
-            String takeTime = myContext.getString(R.string.Take_at) + " " + myDatabase.getPillTime(pillName);
-            if (!simpill.getUserIs24Hr()){
-                takeTime = myContext.getString(R.string.Take_at) + " " + dateTimeManager.convert24HrTimeTo12HrTime(myContext, myDatabase.getPillTime(pillName));
+            String takeTime = myContext.getString(R.string.Take_at) + " " + myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
+            if (!simpill.getUserIs24Hr()) {
+                takeTime = myContext.getString(R.string.Take_at) + " " + dateTimeManager.convert24HrTimeTo12HrTime(myContext, dateTimeManager.convert24HrArrayTo12HrStrings(myContext, myDatabase.getPillTime(pillName)));
             }
             holder.pill_time_textview.setText(takeTime);
             holder.reset_btn.setVisibility(View.INVISIBLE);

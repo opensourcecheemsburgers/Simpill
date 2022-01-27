@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_background_2">
+    android:background="@drawable/background_purple">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/mGuideline"
@@ -82,7 +82,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
-        android:contentDescription="@string/pill_bottle_icon"
+        android:contentDescription="@string/pill_bottle_content_description"
         android:scaleX="1"
         android:scaleY="0.9"
         app:layout_constraintBottom_toTopOf="@+id/clock"
@@ -239,7 +239,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/reminder_date"
+        android:contentDescription="@string/pill_refill_content_description"
         app:layout_constraintBottom_toBottomOf="@+id/calendar"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/mGuideline"

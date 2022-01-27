@@ -30,11 +30,19 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     private static final int defaultIsTaken = 0;
     private static final int defaultBottleColor = 2;
 
+    private static final int pillCreatedToast = 1;
+    private static final int nonUniqueNameToast = 2;
+    private static final int invalidAmountToast = 3;
+    private static final int incompleteFieldsToast = 4;
+    private static final int invalidFirstLetterToast = 5;
+    private static final int invalidDateToast = 6;
+
     Button createNewPillButton, pillNameButton, pillDateButton, pillClockButton, pillAmountButton;
     TextView pillName, pillTime, pillStockup, pillSupply;
     Button settingsButton, aboutButton;
     int year, month, day, hour, min;
     Typeface truenoReg;
+
 
     PillDBHelper myDatabase = new PillDBHelper(this);
 
@@ -194,7 +202,8 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         } else {
             if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
                 if (myDatabase.addNewPill(getNewPillId(), pillName.getText().toString().trim(),
-                        pillTime.getText().toString().trim(),
+                        myDatabase.sortTimeArray(getApplicationContext(),
+                                new String[]{pillTime.getText().toString().trim()}),
                         pillStockup.getText().toString().trim(),
                         Integer.parseInt(pillSupply.getText().toString()),
                         defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
@@ -220,21 +229,24 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
 
         switch (toastNumber) {
-            case 1:
+            case pillCreatedToast:
                 toastTextView.setText(pillName.getText().toString().trim() + " created :)");
                 toast.setDuration(Toast.LENGTH_SHORT);
                 break;
-            case 2:
-                toastTextView.setText("Pill name already in use :(");
+            case nonUniqueNameToast:
+                toastTextView.setText(R.string.non_unique_name_toast);
                 break;
-            case 3:
-                toastTextView.setText("Amount must be greater than 0.");
+            case invalidAmountToast:
+                toastTextView.setText(R.string.invalid_amount_toast);
                 break;
-            case 4:
+            case incompleteFieldsToast:
                 toastTextView.setText(getString(R.string.fill_fields_warning));
                 break;
-            case 5:
+            case invalidFirstLetterToast:
                 toastTextView.setText(getString(R.string.pill_name_warning));
+                break;
+            case invalidDateToast:
+                toastTextView.setText(getString(R.string.set_date));
                 break;
         }
 
@@ -254,7 +266,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             numberFormatException.printStackTrace();
         }
         if(supplyAmount <= 0) {
-            showCustomToast(3);
+            showCustomToast(invalidAmountToast);
             return false;
         }
         else {
@@ -266,7 +278,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                 pillTime.getText().toString().trim().length() == 0 ||
                 pillStockup.getText().toString().trim().length() == 0 ||
                 pillSupply.getText().toString().trim().length() == 0) {
-            showCustomToast(4);
+            showCustomToast(incompleteFieldsToast);
             return false;
         }
         else {
@@ -278,7 +290,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             return true;
         }
         else {
-            showCustomToast(5);
+            showCustomToast(invalidFirstLetterToast);
             return false;
         }
     }
@@ -296,7 +308,6 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         try {
             stockupDate = simpleDateFormat.parse(pillStockup.getText().toString().trim());
         } catch (ParseException e) {
-            Toast.makeText(this, getString(R.string.set_date), Toast.LENGTH_LONG).show();
             e.printStackTrace();
             return false;
         }

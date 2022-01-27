@@ -15,6 +15,7 @@
     <!--Content Description Strings-->
     <string name="clock_content_description">Clock Icon </string>
     <string name="calendar_content_description">Calendar Icon</string>
+    <string name="pill_refill_content_description">Pill Refill Date Button</string>
     <string name="pill_bottle_content_description">Pill Bottle Icon</string>
     <string name="pill_content_description">Pill Icon</string>
     <string name="reset_pill_content_description">Reset Pill Taken Button</string>
@@ -132,5 +133,7 @@
     <string name="extra_reminder_notification">Don\'t forget to take your</string>
 
     <string name="extra_reminder_txt_view">Would you like to set another reminder time for this medication?</string>
+    <string name="non_unique_name_toast">Pill name already in use :(</string>
+    <string name="invalid_amount_toast">Amount must be greater than 0.</string>
 
 </resources>

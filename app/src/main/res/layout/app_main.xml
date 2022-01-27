@@ -13,7 +13,7 @@
         android:id="@+id/mainActivityRootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/new_background_2"
+        android:background="@drawable/background_purple"
         android:orientation="vertical"
         tools:context="com.example.simpill.MainActivity">
 
@@ -27,7 +27,8 @@
             android:scaleY="1.6"
             android:background="@drawable/ic_question_svgrepo_com"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="24dp" />
 
         <Button
             android:id="@+id/settingsButton"
@@ -37,7 +38,8 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/ic_hamburger"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="24dp" />
 
         <Button
             android:id="@id/floating_action_button"

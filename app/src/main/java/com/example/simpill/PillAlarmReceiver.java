@@ -1,7 +1,6 @@
 package com.example.simpill;
 
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -12,9 +11,6 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class PillAlarmReceiver extends BroadcastReceiver {
 
@@ -47,7 +43,7 @@ public class PillAlarmReceiver extends BroadcastReceiver {
                 pillNotificationManagerCompat = NotificationManagerCompat.from(context);
                 Notification pillReminderNotification;
 
-                SharedPreferences permanentNotificationsPref= context.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, context.MODE_PRIVATE);
+                SharedPreferences permanentNotificationsPref= context.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, Context.MODE_PRIVATE);
                 Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS, false);
                 simpill.setUserPermanentNotifications(permanentNotifications);
 

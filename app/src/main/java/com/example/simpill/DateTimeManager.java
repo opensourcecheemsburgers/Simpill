@@ -24,12 +24,14 @@ public class DateTimeManager {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.date_format_with_timezone));
         return dateFormat.format(date);
     }
+
     public String getCurrentDateAndTime(Context ct, TimeZone userTimeZone) {
         Calendar calendar = GregorianCalendar.getInstance(userTimeZone);
         Date date = calendar.getTime();
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.full_date_time_format));
         return dateFormat.format(date);
     }
+
     public String getCurrentTime(Context ct, TimeZone userTimeZone) {
         Calendar calendar = GregorianCalendar.getInstance(userTimeZone);
         Date date = calendar.getTime();
@@ -41,10 +43,18 @@ public class DateTimeManager {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.full_date_time_format), Locale.getDefault());
         return simpleDateFormat.format(date);
     }
-    public String formatLongAsString(Context ct, long dateInMillis) {
+
+    public String formatLongAsDateString(Context ct, long dateInMillis) {
         Date date = new Date();
         date.setTime(dateInMillis);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.full_date_time_format));
+        return simpleDateFormat.format(date);
+    }
+
+    public String formatLongAsTimeString(Context ct, long dateInMillis) {
+        Date date = new Date();
+        date.setTime(dateInMillis);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.time_format_24hr));
         return simpleDateFormat.format(date);
     }
 
@@ -63,11 +73,11 @@ public class DateTimeManager {
 
         if (date != null) {
             return dateFormat1.format(date);
-        }
-        else {
+        } else {
             throw new NullPointerException();
         }
     }
+
     public String convert24HrTimeTo12HrTime(Context ct, String timeIn24HrFormat) {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.time_format_24hr));
         Date date = null;
@@ -82,10 +92,22 @@ public class DateTimeManager {
 
         if (date != null) {
             return dateFormat1.format(date);
-        }
-        else {
+        } else {
             throw new NullPointerException();
         }
+    }
+
+    public String convert24HrArrayTo12HrStrings(Context context, String[] timeArray) {
+        PillDBHelper myDatabase = new PillDBHelper(context);
+        for (int currentArrayIndex = 0; currentArrayIndex < timeArray.length; currentArrayIndex++) {
+            timeArray[currentArrayIndex] = convert24HrTimeTo12HrTime(context, timeArray[currentArrayIndex]);
+        }
+
+        String s = myDatabase.convertArrayToString(timeArray);
+
+        System.out.println(s);
+
+        return s;
     }
 
     public Calendar formatDateStringAsCalendar(Context ct, TimeZone userTimezone, String dateString) {
