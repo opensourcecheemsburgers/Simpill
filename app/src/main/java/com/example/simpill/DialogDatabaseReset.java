@@ -109,7 +109,7 @@ public class DialogDatabaseReset extends AppCompatDialogFragment {
             toast.setView(toastLayout);
 
             TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-            toastTextView.setText("All pills deleted!");
+            toastTextView.setText(getString(R.string.database_reset_toast));
 
             toast.show();
         });

@@ -27,7 +27,7 @@
             android:paddingStart="20dp"
             android:paddingLeft="20dp"
             android:paddingEnd="20dp"
-            android:text="Delete Pills"
+            android:text="@string/pill_db_reset"
             android:textColor="@color/white"
             android:textSize="35sp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -28,7 +28,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
                 Objects.equals(intent.getAction(), "android.intent.action.BOOT_COMPLETED") &&
                 myDatabase.getRowCount() > 0) {
 
-            Toast.makeText(context, "Resetting alarms for Simpill :)", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.device_restart_toast), Toast.LENGTH_LONG).show();
 
             alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Cursor cursor = myDatabase.readSqlDatabase();
@@ -39,7 +39,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             for (currentRow = 0; currentRow <= lastRow; currentRow++) {
                 cursor.moveToPosition(currentRow);
 
-                String pillName = cursor.getString(cursor.getColumnIndexOrThrow("PillName"));
+                String pillName = cursor.getString(cursor.getColumnIndexOrThrow(PillDBHelper.COLUMN_TITLE));
                 myDatabase.setIsReminderSet(pillName, 0);
                 alarmSetter = new AlarmSetter(context, pillName, currentRow + 1);
                 alarmSetter.setAlarms(alarmCodeForAllAlarms);

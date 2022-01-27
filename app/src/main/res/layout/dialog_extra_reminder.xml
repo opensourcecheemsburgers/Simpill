@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/customDialogContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -27,7 +26,7 @@
             android:paddingStart="20dp"
             android:paddingLeft="20dp"
             android:paddingEnd="20dp"
-            android:text="Extra Reminder"
+            android:text="@string/extra_reminder_dialog_title"
             android:textColor="@color/white"
             android:textSize="35sp"
             app:layout_constraintEnd_toEndOf="parent"

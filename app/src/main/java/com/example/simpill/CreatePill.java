@@ -124,7 +124,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
 
     private void openEnterPillNameDialog() {
         DialogPillName dialogPillName = new DialogPillName();
-        dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog));
+        dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog_tag));
     }
     private void openDatePickerDialog() {
         new DatePickerDialog(this, R.style.DateTimePickerTheme, (view, year, month, day) -> {
@@ -230,7 +230,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
 
         switch (toastNumber) {
             case pillCreatedToast:
-                toastTextView.setText(pillName.getText().toString().trim() + " created :)");
+                toastTextView.setText(pillName.getText().toString().trim() + getString(R.string.pill_created_toast));
                 toast.setDuration(Toast.LENGTH_SHORT);
                 break;
             case nonUniqueNameToast:
@@ -297,7 +297,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     private Boolean isDateValid(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
         DateTimeManager dateTimeManager = new DateTimeManager();
-        Date currentDate = null;
+        Date currentDate;
         try {
             currentDate = simpleDateFormat.parse(dateTimeManager.getCurrentDate(getApplicationContext(), dateTimeManager.getUserTimezone()));
         } catch (ParseException e) {

@@ -9,12 +9,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class PillSupplyReceiver extends BroadcastReceiver {
 
@@ -54,7 +49,7 @@ public class PillSupplyReceiver extends BroadcastReceiver {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
                     pillStockupNotification = new NotificationCompat.Builder(context, Simpill.PILL_STOCKUP_CHANNEL)
                             .setSmallIcon(R.drawable.ic_stat_name)
-                            .setContentTitle(pillName + " " + context.getString(R.string.stockup_reminder))
+                            .setContentTitle(pillName + " " + context.getString(R.string.stockup_notification_title))
                             .setContentText(context.getString(R.string.dont_forget_stockup) + " " + pillName + " " + context.getString(R.string.soon))
                             .setColor(500086)
                             .setCategory(NotificationCompat.CATEGORY_REMINDER)
@@ -64,7 +59,7 @@ public class PillSupplyReceiver extends BroadcastReceiver {
                 } else {
                     pillStockupNotification = new NotificationCompat.Builder(context, Simpill.PILL_STOCKUP_CHANNEL)
                             .setSmallIcon(R.drawable.pill_bottle_color_2)
-                            .setContentTitle(pillName + " " + context.getString(R.string.stockup_reminder))
+                            .setContentTitle(pillName + " " + context.getString(R.string.stockup_notification_title))
                             .setContentText(context.getString(R.string.dont_forget_stockup) + " " + pillName + " " + context.getString(R.string.soon))
                             .setColor(500086)
                             .setCategory(NotificationCompat.CATEGORY_REMINDER)

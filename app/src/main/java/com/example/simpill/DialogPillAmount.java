@@ -122,7 +122,9 @@ public class DialogPillAmount extends AppCompatDialogFragment {
             else {
                 pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
             }
-            enterAmountEditText.setText(String.valueOf(pillAmount - 1));
+            if(!(pillAmount - 1 <= 0)) {
+                enterAmountEditText.setText(String.valueOf(pillAmount - 1));
+            }
         });
     }
 

@@ -3,7 +3,6 @@ package com.example.simpill;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -205,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
     private void setDialogTexts() {
         truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
 
-        titleTextView.setText(getString(R.string.delete_pill_confirmation));
-        titleMessageView.setText(getString(R.string.delete_pill_warning));
+        titleTextView.setText(getString(R.string.pill_deletion_dialog_title));
+        titleMessageView.setText(getString(R.string.pill_deletion_dialog_message));
 
         titleTextView.setTypeface(truenoReg);
         titleMessageView.setTypeface(truenoReg);

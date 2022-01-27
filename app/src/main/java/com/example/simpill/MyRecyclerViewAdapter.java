@@ -336,8 +336,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         warningDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
     }
     private void setDialogTexts() {
-        titleTextView.setText(myContext.getString(R.string.reset_warning_title));
-        titleMessageView.setText(myContext.getString(R.string.reset_warning_message));
+        titleTextView.setText(myContext.getString(R.string.reset_pill_dialog_title));
+        titleMessageView.setText(myContext.getString(R.string.reset_pill_dialog_message));
 
         titleTextView.setTypeface(truenoReg);
         titleMessageView.setTypeface(truenoReg);

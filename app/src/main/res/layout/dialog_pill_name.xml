@@ -78,7 +78,7 @@
             android:layout_marginRight="16dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="@string/name"
+            android:hint="@string/pill_name_dialog_text_hint"
             android:textColor="@color/black"
             android:textColorHint="@color/gray"
             android:backgroundTint="@color/black"

@@ -138,7 +138,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
 
     private void openEnterPillNameDialog() {
         DialogPillName dialogPillName = new DialogPillName();
-        dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog));
+        dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog_tag));
     }
     private void openDatePickerDialog() {
         int theme;

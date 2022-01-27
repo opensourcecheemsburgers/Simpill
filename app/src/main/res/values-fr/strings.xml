@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simpill</string>
-    <string name="welcome">Bienvenue</string>
-    <string name="introduction_message">Merci pour choisir Simpill :)</string>
+    <string name="welcome_dialog_title">Bienvenue</string>
+    <string name="welcome_dialog_message">Merci pour choisir Simpill :)</string>
     <string name="delete_all_pills">Delete All Pills</string>
     <string name="pill_name_dialog_title">Pill Name</string>
     <string name="warning_icon">Warning Icon</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="theme">Theme</string>
-    <string name="_24_hour_format">24 Hour Format</string>
-    <string name="database">Database</string>
-    <string name="time">Time</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="monero">Monero</string>
-    <string name="pandacoin">Pandacoin</string>
-    <string name="amount_must_be_greater_than_zero">Amount must be greater than 0.</string>
-    <string name="extra_reminder_notification">Don\'t forget to take your</string>
 </resources>

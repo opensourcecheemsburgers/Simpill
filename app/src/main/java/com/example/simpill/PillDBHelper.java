@@ -19,7 +19,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "PillList";
 
     private static final String COLUMN_PK = "PrimaryKey";
-    private static final String COLUMN_TITLE = "PillName";
+    public static final String COLUMN_TITLE = "PillName";
     private static final String COLUMN_TIME = "PillTime";
     private static final String COLUMN_STOCKUP = "PillStockup";
     private static final String COLUMN_SUPPLY = "PillSupply";
@@ -149,7 +149,6 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cv.remove(COLUMN_ALARMSSET);
         cv.remove(COLUMN_BOTTLECOLOR);
     }
-
 
     public Boolean deleteDatabase(){
         SQLiteDatabase db = this.getWritableDatabase();

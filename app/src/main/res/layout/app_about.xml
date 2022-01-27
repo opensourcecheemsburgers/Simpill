@@ -26,7 +26,8 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/aboutButton" />
+            app:layout_constraintTop_toBottomOf="@id/aboutButton"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/xmrTextView"
@@ -156,7 +157,8 @@
             android:scaleY="1.6"
             android:background="@drawable/ic_question_svgrepo_com"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="24dp" />
 
         <Button
             android:id="@+id/settingsButton"
@@ -166,7 +168,8 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/ic_hamburger"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

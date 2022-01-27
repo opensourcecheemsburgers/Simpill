@@ -55,7 +55,7 @@
             android:paddingStart="4dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:text="@string/default_pill_amount_string"
+            android:text="30"
             android:textSize="50sp"
             android:gravity="center"
             android:textColor="@color/black"
@@ -63,7 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="LabelFor,TextFields"
+            tools:ignore="HardcodedText,LabelFor,TextFields"
             android:importantForAutofill="no" />
 
         <ImageView
