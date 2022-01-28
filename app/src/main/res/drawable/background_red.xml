@@ -3,9 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <gradient
-        android:startColor="@color/background_grey_bottom"
-        android:endColor="@color/background_grey_top"
+        android:endColor="#243949"
         android:angle="90"/>
 
 </shape>
 
+
+
+    #F53844#42378F

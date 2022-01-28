@@ -62,14 +62,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME, MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, 1);
         simpill.setCustomTheme(theme);
         SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
         simpill.setUserIs24Hr(is24Hr);
     }
     private void setContentViewAndDesign() {
+
+        int theme = simpill.getCustomTheme();
+
+        if (theme == simpill.BLUE_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlueBackground);
+        } else if(theme == simpill.GREY_THEME) {
+            setTheme(R.style.SimpillAppTheme_GreyBackground);
+        }
+        else {
+            setTheme(R.style.SimpillAppTheme_PurpleBackground);
+        }
+
         setContentView(R.layout.app_main);
     }
 
@@ -188,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setViewBasedOnTheme() {
         dialogView = inflater.inflate(R.layout.dialog_delete_pill, null);
-
         dialogBuilder.setView(dialogView);
     }
     private void initTextViewsAndButtons() {

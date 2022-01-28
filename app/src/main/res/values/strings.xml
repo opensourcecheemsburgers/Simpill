@@ -2,6 +2,7 @@
     >
 
     <string name="app_name">Simpill</string>
+    <string name="nullString" translatable="false">null</string>
 
     <!--General Strings-->
     <string name="yes">Yes</string>
@@ -9,6 +10,7 @@
 
     <!--Intent Strings (Very fragile, do not touch)-->
     <string name="notification_id" translatable="false">Notification ID</string>
+    <string name="notification_pill_name" translatable="false">Pill Taken From Notification Click</string>
     <string name="primary_key_id" translatable="false">Primary Key Id</string>
     <string name="pill_name" translatable="false">pill name</string>
     <string name="pill_time" translatable="false">pill time</string>
@@ -25,14 +27,32 @@
     <string name="pill_bottle_content_description">Pill Bottle Icon</string>
     <string name="pill_content_description">Pill Icon</string>
     <string name="reset_pill_content_description">Reset Pill Taken Button</string>
+    <string name="purple_pill_bottle_content_description">Purple Pill Bottle</string>
+    <string name="light_purple_pill_bottle_content_description">Light Purple Pill Bottle</string>
+    <string name="light_blue_pill_bottle_content_description">Light Blue Pill Bottle</string>
+    <string name="red_pill_bottle_content_description">Red Pill Bottle</string>
+    <string name="light_red_pill_bottle_content_description">Light Red Pill Bottle</string>
+    <string name="pink_pill_bottle_content_description">Pink Pill Bottle</string>
+    <string name="dark_green_pill_bottle_content_description">Dark Green Pill Bottle</string>
+    <string name="green_pill_bottle_content_description">Green Pill Bottle</string>
+    <string name="light_green_pill_bottle_content_description">Light Green Pill Bottle</string>
+    <string name="dark_orange_pill_bottle_content_description">Dark Orange Pill Bottle</string>
+    <string name="orange_pill_bottle_content_description">Orange Pill Bottle</string>
+    <string name="light_orange_pill_bottle_content_description">Light Orange Pill Bottle</string>
+    <string name="warning_icon_content_description">Warning Icon</string>
+    <string name="plus_button">Plus button</string>
+    <string name="minus_button">Minus Button</string>
 
     <!--Create/Update Pill Strings-->
     <string name="enter_pill_name">Pill Name?</string>
     <string name="enter_pill_time_reminders">Reminders?</string>
     <string name="enter_pill_refill_date_reminder">Refill Date?</string>
     <string name="enter_pill_amount">Supply?</string>
+    <string name="create_pill_btn">Create</string>
+    <string name="update_pill_btn">Update</string>
 
     <!--Create/Update Pill Warning Strings-->
+    <string name="non_unique_pill_name_warning">Pill name is already in use :)</string>
     <string name="pill_name_warning">Your pill\'s name must begin with a letter.</string>
     <string name="set_date">Please set a date for your refill reminder.</string>
     <string name="pill_supply_warning">Your pill supply amount must be greater than 0.</string>
@@ -40,10 +60,16 @@
 
     <!--Settings Strings-->
     <string name="theme">Theme</string>
-    <string name="dark_theme">Dark Theme</string>
     <string name="time">Time</string>
+    <string name="notifications">Notifications</string>
+    <string name="sticky">Sticky Notifications</string>
     <string name="_24_hour_format">24 Hour Format</string>
     <string name="database">Database</string>
+    <string name="delete_all_pills">Delete All Pills</string>
+    <string name="theme_applied">Theme applied :)</string>
+    <string name="select_theme_dialog_title">Select Theme</string>
+    <string name="change_theme">Change Theme</string>
+
 
     <!--About Strings-->
     <string name="simpillAboutParagraph">Simpill is a free and open-source medication reminder app without any trackers, annoying ads or unnecessary permissions.\n\nHave you found any bugs or would you like to suggest some ideas for Simpill? Feel free to contact me at simpilldev@gmail.com :)\n\nIf would you to thank the Simpill developer and support its future development, you can purchase the paid version of Simpill on the Play Store.\n\nYou can also donate cryptocurrency to support Simpill. Tap on an address to copy it to your clipboard.\n\nAll donations are greatly appreciated! :)</string>
@@ -108,10 +134,17 @@
     <string name="past_date_dialog_message">Unless you have access to a TARDIS, the date cannot be set in the past.</string>
 
     <!--Extra Reminder Dialog Strings-->
+    <string name="extra_reminder_dialog_title">Extra Reminder</string>
     <string name="extra_reminder_txt_view">Would you like to set another reminder time for this medication?</string>
 
-    <string name="nullString" translatable="false">null</string>
-
+    <!--Frequency Dialog Strings-->
+    <string name="choose_frequency_dialog_text">How often do you take this medication?</string>
+    <string name="choose_frequency_dialog_title">Frequency</string>
+    <string name="choose_frequency_dialog_custom_interval">Set a custom interval instead</string>
+    <string name="choose_frequency_dialog_weekly">Weekly</string>
+    <string name="choose_frequency_dialog_every_other_day">Every other day</string>
+    <string name="choose_frequency_dialog_daily">Daily</string>
+    <string name="choose_frequency_dialog_multiple_daily">Multiple times a day</string>
 
     <!--Date Time Formatting Strings (Very fragile, do not touch)-->
     <string name="time_format_12hr" translatable="false">hh:mm a</string>
@@ -119,8 +152,5 @@
     <string name="date_format" translatable="false">yyyy-MM-dd</string>
     <string name="date_format_with_timezone" translatable="false">yyyy-MM-dd Z</string>
     <string name="full_date_time_format" translatable="false">yyyy-MM-dd, HH:mm Z</string>
-    <string name="create_pill_btn">Create</string>
-    <string name="update_pill_btn">Update</string>
-    <string name="extra_reminder_dialog_title">Extra Reminder</string>
 
 </resources>

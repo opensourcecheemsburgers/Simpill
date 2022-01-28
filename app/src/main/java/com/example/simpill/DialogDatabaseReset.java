@@ -63,8 +63,8 @@ public class DialogDatabaseReset extends AppCompatDialogFragment {
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getContext().getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, Context.MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = getContext().getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
         SharedPreferences is24HrPref= getContext().getSharedPreferences(Simpill.IS_24HR_BOOLEAN, Context.MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
@@ -99,7 +99,6 @@ public class DialogDatabaseReset extends AppCompatDialogFragment {
             dbResetDialog.dismiss();
 
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-
 
             View toastLayout = layoutInflater.inflate(R.layout.toast, view.findViewById(R.id.custom_toast_layout_light));
 

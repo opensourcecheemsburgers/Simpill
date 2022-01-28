@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 public class ChooseColor extends AppCompatActivity {
@@ -54,7 +55,7 @@ public class ChooseColor extends AppCompatActivity {
         color12 = findViewById(R.id.imageView12);
     }
 
-    private void createOnClickListeners(String pillName){
+    private void createOnClickListeners(String pillName) {
         settingsButton.setOnClickListener(view -> openSettingsActivity());
         aboutButton.setOnClickListener(view -> openAboutActivity());
 
@@ -121,31 +122,39 @@ public class ChooseColor extends AppCompatActivity {
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME, MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
+        SharedPreferences is24HrPref = getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
         simpill.setUserIs24Hr(is24Hr);
-    }
-
-    private void setContentViewBasedOnThemeSetting() {
-            setContentView(R.layout.app_choose_color);
-    }
-
-    private void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    private void openAboutActivity() {
-        Intent intent = new Intent(this, About.class);
-        startActivity(intent);
     }
 
     private void openSettingsActivity() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
+    private void openAboutActivity() {
+        Intent intent = new Intent(this, About.class);
+        startActivity(intent);
+    }
+    private void openMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
+    private void setContentViewBasedOnThemeSetting() {
+        int theme = simpill.getCustomTheme();
+
+        if (theme == simpill.BLUE_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlueBackground);
+        } else if(theme == simpill.GREY_THEME) {
+            setTheme(R.style.SimpillAppTheme_GreyBackground);
+        }
+        else {
+            setTheme(R.style.SimpillAppTheme_PurpleBackground);
+        }
+
+        setContentView(R.layout.app_choose_color);
+    }
 }

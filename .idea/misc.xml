@@ -6,17 +6,21 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.4336801040312094" />
         <entry key="app/src/main/res/drawable-hdpi/background_1.xml" value="0.5" />
         <entry key="app/src/main/res/drawable-hdpi/background_2.xml" value="0.5447916666666667" />
+        <entry key="app/src/main/res/drawable-hdpi/background_blue.xml" value="0.3265625" />
         <entry key="app/src/main/res/drawable-hdpi/background_grey.xml" value="0.25" />
         <entry key="app/src/main/res/drawable-mdpi/fab.xml" value="0.5" />
         <entry key="app/src/main/res/drawable-v21/dialog_bottom_btn_light.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable-v21/dialog_title_background_red.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/addicon.xml" value="0.5354166666666667" />
+        <entry key="app/src/main/res/drawable/background_purple.xml" value="0.3296875" />
+        <entry key="app/src/main/res/drawable/background_red.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/bitcoin.xml" value="0.23585526315789473" />
         <entry key="app/src/main/res/drawable/btn_background.xml" value="0.3401315789473684" />
         <entry key="app/src/main/res/drawable/btn_background_blue_magenta.xml" value="0.3401315789473684" />
         <entry key="app/src/main/res/drawable/btn_background_red.xml" value="0.3401315789473684" />
         <entry key="app/src/main/res/drawable/calendar.xml" value="0.23585526315789473" />
         <entry key="app/src/main/res/drawable/clock.xml" value="0.23585526315789473" />
+        <entry key="app/src/main/res/drawable/create_update_btn_background.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/dialog_background.xml" value="0.3401315789473684" />
         <entry key="app/src/main/res/drawable/dialog_background_light.xml" value="0.3401315789473684" />
         <entry key="app/src/main/res/drawable/dialog_background_red.xml" value="0.3401315789473684" />
@@ -97,7 +101,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main_light.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_update_pill.xml" value="1.0" />
-        <entry key="app/src/main/res/layout/app_about.xml" value="0.4053872053872054" />
+        <entry key="app/src/main/res/layout/app_about.xml" value="0.33" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/app_choose_color.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/app_create_pill.xml" value="0.31354166666666666" />
@@ -118,6 +122,8 @@
         <entry key="app/src/main/res/layout/db_reset_dialog_layout_light.xml" value="0.3299342105263158" />
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout.xml" value="0.33480176211453744" />
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout_light.xml" value="0.3310344827586207" />
+        <entry key="app/src/main/res/layout/dialog_choose_frequency.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/dialog_choose_theme.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_db_reset.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/dialog_delete_pill.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/dialog_extra_reminder.xml" value="0.528125" />

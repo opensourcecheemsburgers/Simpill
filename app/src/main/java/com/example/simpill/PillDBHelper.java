@@ -15,12 +15,13 @@ import java.util.TimeZone;
 
 public class PillDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "PillList.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String TABLE_NAME = "PillList";
 
     private static final String COLUMN_PK = "PrimaryKey";
     public static final String COLUMN_TITLE = "PillName";
     private static final String COLUMN_TIME = "PillTime";
+    private static final String COLUMN_FREQUENCY = "PillFrequency";
     private static final String COLUMN_STOCKUP = "PillStockup";
     private static final String COLUMN_SUPPLY = "PillSupply";
     private static final String COLUMN_ISTAKEN = "IsPillTaken";
@@ -43,6 +44,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_PK + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_TIME + " TEXT, " +
+                COLUMN_FREQUENCY + " INTEGER, " +
                 COLUMN_STOCKUP + " TEXT, " +
                 COLUMN_SUPPLY + " INTEGER, " +
                 COLUMN_ISTAKEN + " INTEGER, " +
@@ -53,9 +55,10 @@ public class PillDBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int j) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase db, int oldDbNumber, int newDbNumber) {
+        if (newDbNumber > oldDbNumber) {
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + COLUMN_FREQUENCY + " INTEGER DEFAULT 1");
+        }
     }
 
     public int getRowCount() {

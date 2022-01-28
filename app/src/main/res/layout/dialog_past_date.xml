@@ -38,7 +38,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/dialogTitleTextView"
             app:srcCompat="@drawable/ic_warning_svgrepo_com"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp"
+            android:contentDescription="@string/warning_icon_content_description" />
 
         <TextView
             android:id="@+id/dialogMessageTextView"

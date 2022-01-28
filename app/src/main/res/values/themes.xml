@@ -4,15 +4,36 @@
     <style name="SimpillAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="statusBarBackground">@color/pink</item>
-        <item name="statusBarForeground">@color/pink</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/pink</item>
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/pink</item>
-        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">#009FFD</item>
-        <item name="android:textColor">@color/alice_blue</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowOverscan" tools:targetApi="jelly_bean_mr2">true</item>
         <item name="android:fillViewport">true</item>
-        <item name="android:textColorPrimary">@color/alice_blue</item>
     </style>
+
+    <style name="SimpillAppTheme.BlueBackground">
+        <item name="android:windowBackground">@drawable/background_blue</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/blue_background_top</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/blue_background_nav_bar_color</item>
+        <item name="statusBarBackground">@color/blue_background_top</item>
+        <item name="statusBarForeground">@color/blue_background_top</item>
+    </style>
+
+    <style name="SimpillAppTheme.GreyBackground">
+        <item name="android:windowBackground">@drawable/background_grey</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/blue_background_top</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/grey_background_nav_bar_color</item>
+        <item name="statusBarBackground">@color/background_grey_top</item>
+        <item name="statusBarForeground">@color/background_grey_top</item>
+    </style>
+
+    <style name="SimpillAppTheme.PurpleBackground">
+        <item name="android:windowBackground">@drawable/background_purple</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/pink_lace</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/purple_background_nav_bar_color</item>
+        <item name="statusBarBackground">@color/pink_lace</item>
+        <item name="statusBarForeground">@color/pink_lace</item>
+    </style>
+
+
     <style name="SwitchCompatTheme">
         <item name="colorControlActivated">@color/blue_magenta</item>
         <item name="android:colorForeground">#54f0f8ff</item>

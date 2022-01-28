@@ -21,9 +21,9 @@ public class Settings extends AppCompatActivity {
 
     Toolbar simpillToolbar;
     Button settingsButton, aboutButton;
-    SwitchCompat darkThemeSwitch, clockIs24HrSwitch, permanentNotificationsSwitch;
+    SwitchCompat clockIs24HrSwitch, permanentNotificationsSwitch;
     Context myContext;
-    Button deleteAllBtn;
+    Button themesBtn, deleteAllBtn;
 
     private Simpill simpill;
 
@@ -61,20 +61,7 @@ public class Settings extends AppCompatActivity {
 
         settingsButton.setOnClickListener(v -> showCustomToast(0));
 
-        darkThemeSwitch.setOnClickListener(view -> {
-            simpill.setCustomTheme(darkThemeSwitch.isChecked());
-            SharedPreferences.Editor editor = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE).edit();
-            editor.putBoolean(Simpill.USER_THEME, simpill.getCustomTheme());
-            editor.apply();
-            recreate();
-
-            if (simpill.getCustomTheme()) {
-                showCustomToast(1);
-            }
-            else {
-                showCustomToast(2);
-            }
-        });
+        themesBtn.setOnClickListener(view -> new DialogChooseTheme().show(getSupportFragmentManager(), null));
 
         clockIs24HrSwitch.setOnClickListener(view -> {
             simpill.setUserIs24Hr(clockIs24HrSwitch.isChecked());
@@ -108,12 +95,24 @@ public class Settings extends AppCompatActivity {
     }
 
     private void setContentViewBasedOnThemeSetting() {
+        int theme = simpill.getCustomTheme();
+
+        if (theme == simpill.BLUE_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlueBackground);
+        }
+        else if (theme == simpill.GREY_THEME) {
+            setTheme(R.style.SimpillAppTheme_GreyBackground);
+        }
+        else {
+            setTheme(R.style.SimpillAppTheme_PurpleBackground);
+        }
+
         setContentView(R.layout.app_settings);
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME, MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
         SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, false);
@@ -126,12 +125,11 @@ public class Settings extends AppCompatActivity {
     private void initWidgets() {
         settingsButton = findViewById(R.id.settingsButton);
         aboutButton = findViewById(R.id.aboutButton);
-        darkThemeSwitch = findViewById(R.id.dark_theme_switch);
+        themesBtn = findViewById(R.id.theme_select_btn);
         clockIs24HrSwitch = findViewById(R.id.clock_24hr_switch);
         deleteAllBtn = findViewById(R.id.deleteAllBtn);
         permanentNotificationsSwitch = findViewById(R.id.permanentNotificationsSwitch);
 
-        darkThemeSwitch.setChecked(simpill.getCustomTheme());
         clockIs24HrSwitch.setChecked(simpill.getUserIs24Hr());
         permanentNotificationsSwitch.setChecked(simpill.getUserPermanentNotifications());
     }
@@ -182,5 +180,4 @@ public class Settings extends AppCompatActivity {
         }
         toast.show();
     }
-
 }

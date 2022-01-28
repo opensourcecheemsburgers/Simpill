@@ -105,7 +105,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         loadSharedPrefs();
 
-        if (simpill.getCustomTheme()){
+        if (simpill.getCustomTheme() == 1){
             view = layoutInflater.inflate(R.layout.example_pill_new, parent, false);
         }
         else {
@@ -139,8 +139,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         alarmSetter = new AlarmSetter(myContext, pillName, myDatabase.getPrimaryKeyId(pillName));
     }
     private void loadSharedPrefs() {
-        SharedPreferences themePref = myContext.getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, Context.MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = myContext.getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
         SharedPreferences is24HrPref= myContext.getSharedPreferences(Simpill.IS_24HR_BOOLEAN, Context.MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);

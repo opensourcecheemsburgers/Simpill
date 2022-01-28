@@ -1,8 +1,6 @@
 package com.example.simpill;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -10,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,17 +17,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.content.res.ResourcesCompat;
 
-public class DialogPastDate extends AppCompatDialogFragment {
-
+public class DialogChooseFrequency extends AppCompatDialogFragment {
     Simpill simpill;
     PillDBHelper myDatabase;
     Typeface truenoReg, truenoLight;
     AlertDialog.Builder dialogBuilder;
     LayoutInflater inflater;
     View dialogView;
-    TextView titleTextView, titleMessageView;
+    TextView titleTextView, titleMessageView, multipleDailyTextView, dailyTextView, everyOtherDayTextView, weeklyTextView, customIntervalTextView;
+    ImageButton blueThemeBtn, greyThemeBtn, purpleThemeBtn;
     Button okBtn;
-    Dialog pastDateDialog;
+    Dialog dbChooseFrequencyDialog;
 
     @NonNull
     @Override
@@ -36,7 +35,7 @@ public class DialogPastDate extends AppCompatDialogFragment {
         initAll();
         createDialogWithFormatting();
         createOnClickListeners();
-        return pastDateDialog;
+        return dbChooseFrequencyDialog;
     }
 
     private void initAll() {
@@ -50,22 +49,19 @@ public class DialogPastDate extends AppCompatDialogFragment {
     private void initTextViewsAndButtons() {
         titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
         titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
+
+        multipleDailyTextView = dialogView.findViewById(R.id.multiple_daily);
+        dailyTextView = dialogView.findViewById(R.id.daily);
+        everyOtherDayTextView = dialogView.findViewById(R.id.every_other_day);
+        weeklyTextView = dialogView.findViewById(R.id.weekly);
+        customIntervalTextView = dialogView.findViewById(R.id.custom_interval);
+
         okBtn = dialogView.findViewById(R.id.btnOk);
     }
 
     private void initView() {
-        loadSharedPrefs();
         inflater = getActivity().getLayoutInflater();
-        setViewBasedOnTheme();
-    }
-
-    private void loadSharedPrefs() {
-        SharedPreferences themePref = getContext().getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getContext().getSharedPreferences(Simpill.IS_24HR_BOOLEAN, Context.MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
-        simpill.setUserIs24Hr(is24Hr);
+        setDialogView();
     }
 
     private void initClasses() {
@@ -79,34 +75,31 @@ public class DialogPastDate extends AppCompatDialogFragment {
 
     private void initFonts() {
         truenoReg = ResourcesCompat.getFont(getContext(), R.font.truenoreg);
-        truenoLight = ResourcesCompat.getFont(getContext(), R.font.truenolight);
     }
 
-    private void setViewBasedOnTheme() {
-        dialogView = inflater.inflate(R.layout.dialog_past_date, null);
-
+    private void setDialogView() {
+        dialogView = inflater.inflate(R.layout.dialog_choose_frequency, null);
         dialogBuilder.setView(dialogView);
     }
 
+
+
     private void createOnClickListeners() {
-        okBtn.setOnClickListener(view -> pastDateDialog.dismiss());
+
     }
 
 
     private void createDialogWithFormatting() {
-        pastDateDialog = dialogBuilder.create();
-        pastDateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        dbChooseFrequencyDialog = dialogBuilder.create();
+        dbChooseFrequencyDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
         titleTextView.setTypeface(truenoReg);
-        titleMessageView.setTypeface(truenoReg);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             titleTextView.setLetterSpacing(0.025f);
-            titleMessageView.setLetterSpacing(0.025f);
         }
 
         titleTextView.setTextSize(35.0f);
-        titleMessageView.setTextSize(15.0f);
     }
 }
 

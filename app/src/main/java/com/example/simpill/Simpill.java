@@ -14,7 +14,7 @@ public class Simpill extends Application {
     public static final String PILL_EXTRA_REMINDERS_CHANNEL = "pillExtraRemindershannel";
     public static final String PILL_STOCKUP_CHANNEL = "pillStockupChannel";
 
-    public static final String THEME_PREF_BOOLEAN = "Theme Preference Boolean";
+    public static final String SELECTED_THEME = "User Theme";
     public static final String IS_24HR_BOOLEAN = "Is 24Hr Boolean";
     public static final String PERMANENT_NOTIFICATIONS_BOOLEAN = "Permanent Notification Boolean";
 
@@ -22,7 +22,11 @@ public class Simpill extends Application {
     public static final String USER_IS_24HR = "User Is24Hr";
     public static final String USER_PERMANENT_NOTIFICATIONS = "User PermanentNotifications";
 
-    private boolean userThemeBoolean;
+    public  final int BLUE_THEME = 1;
+    public final int GREY_THEME = 2;
+    public  final int PURPLE_THEME = 3;
+
+    private int theme;
     private boolean is24Hr;
     private boolean permanentNotifications;
 
@@ -65,8 +69,8 @@ public class Simpill extends Application {
         }
     }
 
-    public boolean getCustomTheme() {
-        return userThemeBoolean;
+    public int getCustomTheme() {
+        return theme;
     }
     public boolean getUserIs24Hr() {
         return is24Hr;
@@ -78,8 +82,8 @@ public class Simpill extends Application {
     public void setUserIs24Hr(Boolean is24Hr) {
         this.is24Hr = is24Hr;
     }
-    public void setCustomTheme(Boolean customTheme) {
-        this.userThemeBoolean = customTheme;
+    public void setCustomTheme(int theme) {
+        this.theme = theme;
     }
     public void setUserPermanentNotifications(Boolean permanentNotifications) {
         this.permanentNotifications = permanentNotifications;

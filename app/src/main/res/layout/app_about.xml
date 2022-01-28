@@ -8,9 +8,9 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_purple">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/simpill_paragraph"
@@ -19,6 +19,7 @@
             android:layout_margin="32dp"
             android:autoLink="all"
             android:letterSpacing="0.02"
+            android:lineSpacingMultiplier="1.15"
             android:fontFamily="@font/truenoreg"
             android:text="@string/simpillAboutParagraph"
             android:textColor="@color/alice_blue"
@@ -45,7 +46,7 @@
             android:id="@+id/xmrAddressTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/monero_address"
             android:textColor="@color/alice_blue"
             android:textSize="14sp"
@@ -97,7 +98,7 @@
             android:id="@+id/btcAddressTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/bitcoinAddress"
             android:textColor="@color/alice_blue"
             android:textIsSelectable="false"
@@ -135,7 +136,7 @@
             android:id="@+id/pndAddressTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/truenolight"
             android:text="@string/pandacoinAddress"

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 public class About extends AppCompatActivity {
@@ -42,8 +43,8 @@ public class About extends AppCompatActivity {
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME, MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
         SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
@@ -51,7 +52,18 @@ public class About extends AppCompatActivity {
     }
 
     private void setContentViewBasedOnThemeSetting() {
-            setContentView(R.layout.app_about);
+        int theme = simpill.getCustomTheme();
+
+        if (theme == simpill.BLUE_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlueBackground);
+        } else if(theme == simpill.GREY_THEME) {
+            setTheme(R.style.SimpillAppTheme_GreyBackground);
+        }
+        else {
+            setTheme(R.style.SimpillAppTheme_PurpleBackground);
+        }
+
+        setContentView(R.layout.app_about);
     }
 
     private void findViewsByIds() {

@@ -2,6 +2,7 @@ package com.example.simpill;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -63,8 +64,8 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
         SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
@@ -72,6 +73,17 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void setContentViewBasedOnThemeSetting() {
+        int theme = simpill.getCustomTheme();
+
+        if (theme == simpill.BLUE_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlueBackground);
+        } else if(theme == simpill.GREY_THEME) {
+            setTheme(R.style.SimpillAppTheme_GreyBackground);
+        }
+        else {
+            setTheme(R.style.SimpillAppTheme_PurpleBackground);
+        }
+
         setContentView(R.layout.app_create_pill);
     }
 
@@ -107,7 +119,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     private void initiateButtons() {
         pillNameButton.setOnClickListener(view -> openEnterPillNameDialog());
         pillAmountButton.setOnClickListener(view -> openEnterPillAmountDialog());
-        pillClockButton.setOnClickListener(v -> openTimePickerDialog());
+        pillClockButton.setOnClickListener(v -> new DialogChooseFrequency().show(getSupportFragmentManager(), null));
         pillDateButton.setOnClickListener(v -> openDatePickerDialog());
         createNewPillButton.setOnClickListener(v -> createPill());
         settingsButton.setOnClickListener(v -> openSettingsActivity());
@@ -234,10 +246,10 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                 toast.setDuration(Toast.LENGTH_SHORT);
                 break;
             case nonUniqueNameToast:
-                toastTextView.setText(R.string.non_unique_name_toast);
+                toastTextView.setText(R.string.non_unique_pill_name_warning);
                 break;
             case invalidAmountToast:
-                toastTextView.setText(R.string.invalid_amount_toast);
+                toastTextView.setText(R.string.pill_supply_warning);
                 break;
             case incompleteFieldsToast:
                 toastTextView.setText(getString(R.string.fill_fields_warning));

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_purple">
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/aboutButton"
@@ -15,7 +16,8 @@
         android:scaleY="1.6"
         android:background="@drawable/ic_question_svgrepo_com"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="24dp" />
 
     <Button
         android:id="@+id/settingsButton"
@@ -25,7 +27,8 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/ic_hamburger"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="24dp" />
 
     <TextView
         android:id="@+id/themeTextView"
@@ -41,12 +44,12 @@
         android:textSize="16sp"
         android:textColor="@color/alice_blue"
         app:layout_constraintTop_toBottomOf="@id/aboutButton"
-        app:layout_constraintBottom_toTopOf="@+id/dark_theme_switch"
+        app:layout_constraintBottom_toTopOf="@+id/theme_select_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/dark_theme_switch"
+    <Button
+        android:id="@+id/theme_select_btn"
         android:theme="@style/SwitchCompatTheme"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -56,9 +59,12 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:fontFamily="@font/truenolight"
-        android:text="@string/dark_theme"
+        android:text="@string/change_theme"
         android:textColor="@color/alice_blue"
         android:textSize="28sp"
+        android:background="@android:color/transparent"
+        android:textAllCaps="false"
+        android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/themeTextView" />
@@ -108,12 +114,12 @@
         android:layout_marginEnd="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:text="Notifications"
+        android:text="@string/notifications"
         android:textColor="@color/alice_blue"
         android:fontFamily="@font/truenolight"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/permanentNotificationsSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/dark_theme_switch"
+        app:layout_constraintTop_toBottomOf="@+id/theme_select_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -130,7 +136,7 @@
         android:fontFamily="@font/truenolight"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
-        android:text="Permanent "
+        android:text="@string/sticky"
         android:textAllCaps="false"
         android:textColor="@color/alice_blue"
         android:textSize="28sp"
@@ -187,7 +193,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/dark_theme_switch" />
+        app:layout_constraintTop_toTopOf="@id/theme_select_btn"
+        tools:ignore="UnusedAttribute" />
     <View
         android:id="@+id/divider1"
         android:backgroundTint="@color/black"
@@ -197,7 +204,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dark_theme_switch" />
+        app:layout_constraintTop_toBottomOf="@id/theme_select_btn"
+        tools:ignore="UnusedAttribute" />
     <View
         android:id="@+id/divider2"
         android:backgroundTint="@color/black"
@@ -207,7 +215,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/clock_24hr_switch" />
+        app:layout_constraintTop_toTopOf="@id/clock_24hr_switch"
+        tools:ignore="UnusedAttribute" />
     <View
         android:id="@+id/divider3"
         android:backgroundTint="@color/black"
@@ -217,7 +226,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clock_24hr_switch" />
+        app:layout_constraintTop_toBottomOf="@id/clock_24hr_switch"
+        tools:ignore="UnusedAttribute" />
 
     <View
         android:id="@+id/divider4"
@@ -228,7 +238,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/deleteAllBtn" />
+        app:layout_constraintTop_toTopOf="@id/deleteAllBtn"
+        tools:ignore="UnusedAttribute" />
 
     <View
         android:id="@+id/divider5"
@@ -239,7 +250,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deleteAllBtn" />
+        app:layout_constraintTop_toBottomOf="@id/deleteAllBtn"
+        tools:ignore="UnusedAttribute" />
 
     <View
         android:id="@+id/divider6"
@@ -250,7 +262,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/permanentNotificationsSwitch" />
+        app:layout_constraintTop_toTopOf="@id/permanentNotificationsSwitch"
+        tools:ignore="UnusedAttribute" />
 
     <View
         android:id="@+id/divider7"
@@ -261,7 +274,8 @@
         android:alpha="0.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/permanentNotificationsSwitch" />
+        app:layout_constraintTop_toBottomOf="@id/permanentNotificationsSwitch"
+        tools:ignore="UnusedAttribute" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

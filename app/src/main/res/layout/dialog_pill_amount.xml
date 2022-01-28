@@ -76,7 +76,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/amountTextView"
-            app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView"
+            android:contentDescription="@string/plus_button" />
 
         <ImageView
             android:id="@+id/minusBtn"
@@ -88,7 +89,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/amountTextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView"
+            android:contentDescription="@string/minus_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

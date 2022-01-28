@@ -2,6 +2,7 @@ package com.example.simpill;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -63,8 +64,8 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
+        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
         SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
@@ -72,6 +73,17 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void setContentViewBasedOnThemeSetting() {
+        int theme = simpill.getCustomTheme();
+
+        if (theme == simpill.BLUE_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlueBackground);
+        } else if(theme == simpill.GREY_THEME) {
+            setTheme(R.style.SimpillAppTheme_GreyBackground);
+        }
+        else {
+            setTheme(R.style.SimpillAppTheme_PurpleBackground);
+        }
+
         setContentView(R.layout.app_update_pill);
     }
 
@@ -141,14 +153,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
         dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog_tag));
     }
     private void openDatePickerDialog() {
-        int theme;
-
-        if(simpill.getCustomTheme()) {
-            theme = DatePickerDialog.THEME_DEVICE_DEFAULT_DARK;
-        }
-        else {
-            theme = DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
-        }
+        int theme = DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(UpdatePill.this, theme, (view, year, month, day) -> {
             month = month + 1;
@@ -171,13 +176,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     private void openTimePickerDialog() {
         DateTimeManager dateTimeManager = new DateTimeManager();
 
-        int theme;
-        if(simpill.getCustomTheme()) {
-            theme = TimePickerDialog.THEME_DEVICE_DEFAULT_DARK;
-        }
-        else {
-            theme = TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
-        }
+        int theme = TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, theme, (timePicker, selectedHour, selectedMinute) -> {
 
@@ -345,10 +344,10 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
                 toast.setDuration(Toast.LENGTH_SHORT);
                 break;
             case 2:
-                toastTextView.setText(R.string.pill_name_in_use);
+                toastTextView.setText(R.string.non_unique_pill_name_warning);
                 break;
             case 3:
-                toastTextView.setText(R.string.amount_must_be_greater_than_zero);
+                toastTextView.setText(R.string.pill_supply_warning);
                 break;
             case 4:
                 toastTextView.setText(getString(R.string.fill_fields_warning));
