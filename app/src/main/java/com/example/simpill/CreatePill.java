@@ -127,7 +127,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
     }
 
     private void openEnterPillNameDialog() {
-        new Dialogs().getChooseNameDialog(this);
+        new Dialogs().getChooseNameDialog(this).show();
     }
     private void openDatePickerDialog() {
         new DatePickerDialog(this, R.style.DateTimePickerTheme, (view, year, month, day) -> {

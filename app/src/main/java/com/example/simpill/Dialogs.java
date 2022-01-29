@@ -4,10 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -130,9 +133,72 @@ public class Dialogs extends AppCompatDialogFragment {
         return dialog;
     }
 
-    public Dialog getPillNameDialog(Context context) {
+    public Dialog getChooseNameDialog(Context context) {
         init(context);
         setViewAndCreateDialog(R.layout.dialog_pill_name);
+
+        super.onAttach(context);
+        ExampleDialogListener exampleDialogListener = (ExampleDialogListener) context;
+
+        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
+        TextView titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
+        Button doneBtn = dialogView.findViewById(R.id.btnWelcome);
+        EditText enterNameEditText = dialogView.findViewById(R.id.editTextTextPersonName2);
+
+        doneBtn.setOnClickListener(view -> {
+            exampleDialogListener.applyPillName(enterNameEditText.getText().toString());
+            dialog.dismiss();
+        });
+
+        return dialog;
+    }
+
+    public Dialog getChooseAmountDialog(Context context) {
+        init(context);
+        setViewAndCreateDialog(R.layout.dialog_pill_name);
+
+        super.onAttach(context);
+        ExampleDialogListener exampleDialogListener = (ExampleDialogListener) context;
+
+        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
+        ImageView pillIcon = dialogView.findViewById(R.id.imageView13);
+        Button doneBtn = dialogView.findViewById(R.id.btnWelcome);
+        Button addBtn = dialogView.findViewById(R.id.addBtn);
+        Button minusBtn = dialogView.findViewById(R.id.minusBtn);
+        EditText enterAmountEditText = dialogView.findViewById(R.id.amountTextView);
+
+        enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        doneBtn.setOnClickListener(view -> {
+            exampleDialogListener.applyPillSupply(enterAmountEditText.getText().toString());
+            dialog.dismiss();
+        });
+        addBtn.setOnClickListener(view -> {
+            int pillAmount;
+            if (enterAmountEditText.getText().toString().equals("")) {
+                pillAmount = 30;
+            }
+            else {
+                pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+            }
+            enterAmountEditText.setText(String.valueOf(pillAmount + 1));
+        });
+        minusBtn.setOnClickListener(view -> {
+            int pillAmount;
+            if (enterAmountEditText.getText().toString().equals("")) {
+                pillAmount = 30;
+            }
+            else {
+                pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+            }
+            if(!(pillAmount - 1 <= 0)) {
+                enterAmountEditText.setText(String.valueOf(pillAmount - 1));
+            }
+        });
+
+        exampleDialogListener.applyPillSupply(enterAmountEditText.getText().toString());
+
+        return dialog;
     }
 
     private void init(Context context) {
@@ -149,6 +215,7 @@ public class Dialogs extends AppCompatDialogFragment {
     }
 
     public interface ExampleDialogListener {
-        void applyPillName();
+        void applyPillName(String userPillName);
+        void applyPillSupply(String pillSupply);
     }
 }

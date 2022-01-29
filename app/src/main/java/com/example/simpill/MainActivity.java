@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
-    MyRecyclerViewAdapter myAdapter;
+    MainRecyclerViewAdapter myAdapter;
     Button settingsButton, aboutButton, fab;
 
     AlertDialog.Builder dialogBuilder;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createRecyclerView() {
-        myAdapter = new MyRecyclerViewAdapter(MainActivity.this, getParent(), this);
+        myAdapter = new MainRecyclerViewAdapter(MainActivity.this, getParent(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myAdapter);
     }
