@@ -86,16 +86,16 @@ public class PillDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public boolean addNewPill(int id, String title, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public boolean addNewPill(int id, String title, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         SQLiteDatabase pillDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        insertAllContentValues(cv, id, title, time, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
+        insertAllContentValues(cv, id, title, time, frequency stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
         long result = pillDatabase.insert(TABLE_NAME, null, cv);
         return result != -1;
     }
 
-    public boolean updatePill(String pillName, String newPillName, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public boolean updatePill(String pillName, String newPillName, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -106,7 +106,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         removeAllContentValuesExceptPk(cv);
-        insertAllContentValuesExceptPk(cv, newPillName, time, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
+        insertAllContentValuesExceptPk(cv, newPillName, time, frequency, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
 
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
 
@@ -121,10 +121,11 @@ public class PillDBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_PK, primaryKey);
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, convertArrayToString(time));
+        cv.put(COLUMN_FREQUENCY, frequency);
         cv.put(COLUMN_STOCKUP, stockup);
         cv.put(COLUMN_SUPPLY, supply);
         cv.put(COLUMN_ISTAKEN, isTaken);
@@ -132,9 +133,10 @@ public class PillDBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ALARMSSET, alarmsSet);
         cv.put(COLUMN_BOTTLECOLOR, bottleColor);
     }
-    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String[] time, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, convertArrayToString(time));
+        cv.put(COLUMN_FREQUENCY, frequency);
         cv.put(COLUMN_STOCKUP, stockup);
         cv.put(COLUMN_SUPPLY, supply);
         cv.put(COLUMN_ISTAKEN, isTaken);
@@ -145,6 +147,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
     private void removeAllContentValuesExceptPk(ContentValues cv) {
         cv.remove(COLUMN_TITLE);
         cv.remove(COLUMN_TIME);
+        cv.remove(COLUMN_FREQUENCY);
         cv.remove(COLUMN_STOCKUP);
         cv.remove(COLUMN_SUPPLY);
         cv.remove(COLUMN_ISTAKEN);

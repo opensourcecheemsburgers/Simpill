@@ -29,6 +29,8 @@ public class DialogChooseFrequency extends AppCompatDialogFragment {
     Button okBtn;
     Dialog dbChooseFrequencyDialog;
 
+    int frequency = 1;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -55,8 +57,6 @@ public class DialogChooseFrequency extends AppCompatDialogFragment {
         everyOtherDayTextView = dialogView.findViewById(R.id.every_other_day);
         weeklyTextView = dialogView.findViewById(R.id.weekly);
         customIntervalTextView = dialogView.findViewById(R.id.custom_interval);
-
-        okBtn = dialogView.findViewById(R.id.btnOk);
     }
 
     private void initView() {
@@ -85,6 +85,15 @@ public class DialogChooseFrequency extends AppCompatDialogFragment {
 
 
     private void createOnClickListeners() {
+        multipleDailyTextView.setOnClickListener(view -> frequency = 0);
+        dailyTextView.setOnClickListener(view -> frequency = 1);
+        everyOtherDayTextView.setOnClickListener(view -> frequency = 2);
+        weeklyTextView.setOnClickListener(view -> frequency = 7);
+    }
+
+
+
+    public int getFrequency() {
 
     }
 

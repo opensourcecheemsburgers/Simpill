@@ -196,7 +196,7 @@
             android:text="@string/choose_frequency_dialog_custom_interval"
             android:textColor="@color/blue"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -204,24 +204,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/btnOk"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:fontFamily="@font/truenoreg"
-        android:text="@string/ok"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:textColor="@color/alice_blue"
-        android:background="@drawable/dialog_bottom_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
-        app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
