@@ -11,7 +11,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-public class Settings extends AppCompatActivity {
+public class Settings extends AppCompatActivity implements Dialogs.SettingsDialogListener {
 
     Toasts toasts = new Toasts();
 
@@ -47,13 +47,15 @@ public class Settings extends AppCompatActivity {
     private void createOnClickListeners() {
         Dialogs getDialogs = new Dialogs();
 
-        deleteAllBtn.setOnClickListener(view -> getDialogs.getDatabaseDeletionDialog(this));
+        deleteAllBtn.setOnClickListener(view -> getDialogs.getDatabaseDeletionDialog(this).show());
 
         aboutButton.setOnClickListener(v -> openAboutActivity());
 
-        settingsButton.setOnClickListener(v -> toasts.showCustomToast(this, getString(R.string.already_in_about_toast)));
+        settingsButton.setOnClickListener(v -> toasts.showCustomToast(getApplicationContext(), getString(R.string.already_in_about_toast)));
 
-        themesBtn.setOnClickListener(view -> getDialogs.getChooseThemeDialog(this));
+        themesBtn.setOnClickListener(view -> {
+            getDialogs.getChooseThemeDialog(this).show();
+        });
 
         clockIs24HrSwitch.setOnClickListener(view -> {
             simpill.setUserIs24Hr(clockIs24HrSwitch.isChecked());
@@ -129,5 +131,10 @@ public class Settings extends AppCompatActivity {
     private void openAboutActivity() {
         Intent intent = new Intent(this, About.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void recreateScreen() {
+        recreate();
     }
 }

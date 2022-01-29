@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
+public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener {
 
     private Simpill simpill;
     private final Toasts toasts = new Toasts();

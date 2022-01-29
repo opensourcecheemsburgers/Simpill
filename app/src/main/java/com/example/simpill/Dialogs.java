@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,33 +102,38 @@ public class Dialogs extends AppCompatDialogFragment {
         init(context);
         setViewAndCreateDialog(R.layout.dialog_choose_theme);
 
+        super.onDestroy();
+        SettingsDialogListener settingsDialogListener = (SettingsDialogListener) context;
+
         TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
         Button okBtn = dialogView.findViewById(R.id.btnOk);
 
-        Button blueThemeBtn = dialogView.findViewById(R.id.blue_theme_btn);
-        Button greyThemeBtn = dialogView.findViewById(R.id.grey_theme_btn);
-        Button purpleThemeBtn = dialogView.findViewById(R.id.purple_theme_btn);
+        ImageButton blueThemeBtn = dialogView.findViewById(R.id.blue_theme_btn);
+        ImageButton greyThemeBtn = dialogView.findViewById(R.id.grey_theme_btn);
+        ImageButton purpleThemeBtn = dialogView.findViewById(R.id.purple_theme_btn);
 
         blueThemeBtn.setOnClickListener(view -> {
             simpill.setCustomTheme(simpill.BLUE_THEME);
-            SharedPreferences.Editor editor = getContext().getSharedPreferences(Simpill.SELECTED_THEME, getContext().MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences(Simpill.SELECTED_THEME, getContext().MODE_PRIVATE).edit();
             editor.putInt(Simpill.USER_THEME, simpill.getCustomTheme());
             editor.apply();
         });
         greyThemeBtn.setOnClickListener(view -> {
             simpill.setCustomTheme(simpill.GREY_THEME);
-            SharedPreferences.Editor editor = getContext().getSharedPreferences(Simpill.SELECTED_THEME, getContext().MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences(Simpill.SELECTED_THEME, getContext().MODE_PRIVATE).edit();
             editor.putInt(Simpill.USER_THEME, simpill.getCustomTheme());
             editor.apply();
         });
         purpleThemeBtn.setOnClickListener(view -> {
             simpill.setCustomTheme(simpill.PURPLE_THEME);
-            SharedPreferences.Editor editor = getContext().getSharedPreferences(Simpill.SELECTED_THEME, getContext().MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences(Simpill.SELECTED_THEME, getContext().MODE_PRIVATE).edit();
             editor.putInt(Simpill.USER_THEME, simpill.getCustomTheme());
             editor.apply();
         });
         okBtn.setOnClickListener(view -> {
-            toasts.showCustomToast(context, getString(R.string.theme_applied));
+            toasts.showCustomToast(context, context.getString(R.string.theme_applied));
+            settingsDialogListener.recreateScreen();
+            dialog.dismiss();
         });
 
         return dialog;
@@ -217,5 +223,9 @@ public class Dialogs extends AppCompatDialogFragment {
     public interface ExampleDialogListener {
         void applyPillName(String userPillName);
         void applyPillSupply(String pillSupply);
+    }
+
+    public interface SettingsDialogListener {
+        void recreateScreen();
     }
 }

@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
     private void setOnClickListeners(int position, String pillName) {
         yesBtn.setOnClickListener(view -> {
             if(myDatabase.deletePill(pillName)) {
-                toasts.showCustomToast(this, pillName + " deleted.");
+                toasts.showCustomToast(this,pillName + getString(R.string.append_pill_deleted_toast));
                 notifyAdapter(position);
                 warningDialog.dismiss();
             }

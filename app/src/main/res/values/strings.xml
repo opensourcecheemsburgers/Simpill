@@ -156,8 +156,8 @@
 
     <string name="take_pill_content_description">Take Pill Button</string>
     <string name="choose_frequency_dialog_reminder_amount_text">How many times a day do you take this medication?</string>
-    <string name="pill_taken_toast">\" taken.\"</string>
-    <string name="pill_reset_toast">\" reset.\"</string>
+    <string name="pill_taken_toast"> taken.</string>
+    <string name="pill_reset_toast"> reset.</string>
     <string name="btc_address_copied">BTC address copied :)</string>
     <string name="xmr_address_copied">XMR address copied :)</string>
     <string name="pnd_address_copied">PND address copied :)</string>
@@ -167,7 +167,8 @@
     <string name="sticky_notifications_enabled_toast">Permanent notifications enabled.</string>
     <string name="sticky_notifications_disabled_toast">Permanent notifications disabled.</string>
     <string name="unknown_error_toast">Unknown error in Simpill :(</string>
-    <string name="append_updated_toast">\" updated :)\"</string>
+    <string name="append_updated_toast"> updated :)</string>
     <string name="pill_db_deleted_toast">All pills deleted.</string>
+    <string name="append_pill_deleted_toast"> deleted.</string>
 
 </resources>
