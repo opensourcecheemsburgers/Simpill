@@ -7,14 +7,12 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Simpill simpill;
+
+    private Simpill simpill = new Simpill();
+    private PillDBHelper myDatabase = new PillDBHelper(MainActivity.this);
+    private Toasts toasts = new Toasts();
 
     public static int backPresses = 0;
 
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     MyRecyclerViewAdapter myAdapter;
     Button settingsButton, aboutButton, fab;
-    PillDBHelper myDatabase;
 
     AlertDialog.Builder dialogBuilder;
     Dialog warningDialog;
@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        myDatabase = new PillDBHelper(MainActivity.this);
-        simpill = (Simpill) getApplication();
 
         loadSharedPrefs();
 
@@ -142,8 +139,7 @@ public class MainActivity extends AppCompatActivity {
     void isSqlDatabaseEmpty() {
         if (myDatabase.readSqlDatabase().getCount() == 0) {
             myDatabase.createTestingPills();
-            DialogWelcome dialogWelcome = new DialogWelcome();
-            dialogWelcome.show(getSupportFragmentManager(), "Welcome Message Dialog");
+            new Dialogs().getWelcomeDialog(this).show();
         }
     }
 
@@ -153,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (backPresses) {
             case 1:
-                showCustomToast("Press the back button again to exit.");
+                toasts.showCustomToast(this, "Press the back button again to exit.");
                 break;
             case 2:
                 closeApp();
@@ -178,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void showPillResetWarningDialog(int position, String pillName){
+    private void showPillResetWarningDialog(int position, String pillName) {
         initDialog();
         createDialog();
         setDialogTexts();
@@ -232,28 +228,12 @@ public class MainActivity extends AppCompatActivity {
     private void setOnClickListeners(int position, String pillName) {
         yesBtn.setOnClickListener(view -> {
             if(myDatabase.deletePill(pillName)) {
-                showCustomToast(pillName + " deleted.");
+                toasts.showCustomToast(this, pillName + " deleted.");
                 notifyAdapter(position);
                 warningDialog.dismiss();
             }
         });
         cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
-    }
-
-    private void showCustomToast(String text) {
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        View toastLayout = layoutInflater.inflate(R.layout.toast,findViewById(R.id.custom_toast_layout_light));
-
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 250);
-        toast.setView(toastLayout);
-        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-        toastTextView.setText(text);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.show();
     }
 
     public void closeApp() {

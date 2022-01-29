@@ -5,21 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Process;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
 
 public class Settings extends AppCompatActivity {
 
-    Toolbar simpillToolbar;
+    Toasts toasts = new Toasts();
+
     Button settingsButton, aboutButton;
     SwitchCompat clockIs24HrSwitch, permanentNotificationsSwitch;
     Context myContext;
@@ -39,8 +34,6 @@ public class Settings extends AppCompatActivity {
         initWidgets();
         createOnClickListeners();
 
-        setSupportActionBar(simpillToolbar);
-
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -52,16 +45,15 @@ public class Settings extends AppCompatActivity {
     }
 
     private void createOnClickListeners() {
-        deleteAllBtn.setOnClickListener(view -> {
-            DialogDatabaseReset dialogDatabaseReset = new DialogDatabaseReset();
-            dialogDatabaseReset.show(getSupportFragmentManager(), "Database Reset Dialog");
-        });
+        Dialogs getDialogs = new Dialogs();
+
+        deleteAllBtn.setOnClickListener(view -> getDialogs.getDatabaseDeletionDialog(this));
 
         aboutButton.setOnClickListener(v -> openAboutActivity());
 
-        settingsButton.setOnClickListener(v -> showCustomToast(0));
+        settingsButton.setOnClickListener(v -> toasts.showCustomToast(this, getString(R.string.already_in_about_toast)));
 
-        themesBtn.setOnClickListener(view -> new DialogChooseTheme().show(getSupportFragmentManager(), null));
+        themesBtn.setOnClickListener(view -> getDialogs.getChooseThemeDialog(this));
 
         clockIs24HrSwitch.setOnClickListener(view -> {
             simpill.setUserIs24Hr(clockIs24HrSwitch.isChecked());
@@ -71,10 +63,10 @@ public class Settings extends AppCompatActivity {
             recreate();
 
             if (simpill.getUserIs24Hr()) {
-                showCustomToast(3);
+                toasts.showCustomToast(this, getString(R.string.time_format_24hr_toast));
             }
             else {
-                showCustomToast(4);
+                toasts.showCustomToast(this, getString(R.string.time_format_12hr_toast));
             }
         });
 
@@ -86,10 +78,10 @@ public class Settings extends AppCompatActivity {
             recreate();
 
             if (simpill.getUserPermanentNotifications()) {
-                showCustomToast(6);
+                toasts.showCustomToast(this, getString(R.string.sticky_notifications_enabled_toast));
             }
             else {
-                showCustomToast(7);
+                toasts.showCustomToast(this, getString(R.string.sticky_notifications_disabled_toast));
             }
         });
     }
@@ -117,7 +109,7 @@ public class Settings extends AppCompatActivity {
         SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
         Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, false);
         simpill.setUserIs24Hr(is24Hr);
-        SharedPreferences permanentNotificationsPref= myContext.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, myContext.MODE_PRIVATE);
+        SharedPreferences permanentNotificationsPref = myContext.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, MODE_PRIVATE);
         Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS, false);
         simpill.setUserPermanentNotifications(permanentNotifications);
     }
@@ -134,50 +126,8 @@ public class Settings extends AppCompatActivity {
         permanentNotificationsSwitch.setChecked(simpill.getUserPermanentNotifications());
     }
 
-    public void openAboutActivity() {
+    private void openAboutActivity() {
         Intent intent = new Intent(this, About.class);
         startActivity(intent);
-    }
-
-    private void showCustomToast(int toastNumber) {
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        View toastLayout = layoutInflater.inflate(R.layout.toast, findViewById(R.id.custom_toast_layout_light));
-
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 250);
-        toast.setView(toastLayout);
-
-        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-        switch(toastNumber) {
-            case 0:
-                toastTextView.setText("Already here :)");
-                break;
-            case 1:
-                toastTextView.setText("Dark theme applied.");
-                break;
-            case 2:
-                toastTextView.setText("Light theme applied.");
-                break;
-            case 3:
-                toastTextView.setText("Time format set to 24hr.");
-                break;
-            case 4:
-                toastTextView.setText("Time format set to 12hr.");
-                break;
-            case 5:
-                toastTextView.setText("All pills deleted!");
-                break;
-            case 6:
-                toastTextView.setText("Permanent notifications enabled.");
-                break;
-            case 7:
-                toastTextView.setText("Permanent notifications disabled.");
-                break;
-
-        }
-        toast.show();
     }
 }

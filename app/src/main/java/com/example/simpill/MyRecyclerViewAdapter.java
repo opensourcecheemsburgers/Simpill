@@ -11,7 +11,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.view.ContextMenu;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -33,8 +31,9 @@ import java.util.TimeZone;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
 
-    Simpill simpill;
+    Simpill simpill = new Simpill();
     PillDBHelper myDatabase;
+    Toasts toasts;
     DateTimeManager dateTimeManager;
     AlarmSetter alarmSetter;
     TimeZone userTimezone;
@@ -97,22 +96,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @NonNull
     @Override
     public MyRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view;
-
-
-        simpill = (Simpill) myContext.getApplicationContext();
-
         loadSharedPrefs();
 
-        if (simpill.getCustomTheme() == 1){
-            view = layoutInflater.inflate(R.layout.example_pill_new, parent, false);
-        }
-        else {
-            view = layoutInflater.inflate(R.layout.example_pill_new, parent, false);
-        }
-
-        return new MyViewHolder(view);
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_pill_new, parent, false));
     }
 
     @Override
@@ -121,8 +107,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         alarmSetter.setAlarms(alarmCodeForAllAlarms);
     }
-
-
 
     private void initAll(MyViewHolder holder, int position) {
         initClasses(position);
@@ -133,6 +117,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private void initClasses(int position) {
         myActivity = new Activity();
         myDatabase = new PillDBHelper(myContext);
+        toasts = new Toasts();
         dateTimeManager = new DateTimeManager();
         pillName = myDatabase.getPillNameFromCursor(position);
         userTimezone = dateTimeManager.getUserTimezone();
@@ -236,7 +221,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
         holder.pill_bottle_image.setOnClickListener(v -> {
-            showCustomToast(1, holder, pillName);
+            toasts.showCustomToast(myContext, "You have " + myDatabase.getPillAmount(pillName) + " " + pillName + " pills left.");
             shakeMediaPlayer.start();
         });
     }
@@ -263,7 +248,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             if (myDatabase.getPillAmount(pillName) != newPillAmount ||
                     myDatabase.getIsTaken(pillName) != 1 ||
-                    myDatabase.getPillTime(pillName).equals(myContext.getString(R.string.nullString))) {
+                    myDatabase.convertArrayToString(myDatabase.getPillTime(pillName)).equals(myContext.getString(R.string.nullString))) {
                 throw new SQLiteException();
             }
 
@@ -277,7 +262,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(myContext);
             notificationManagerCompat.cancel(pillName, myDatabase.getPrimaryKeyId(pillName));
 
-            showCustomToast(2, holder, pillName);
+            toasts.showCustomToast(myContext, pillName + myContext.getString(R.string.pill_taken_toast));
         });
 
         holder.reset_btn.setOnClickListener(v -> showPillResetWarningDialog(holder, position, pillName));
@@ -363,39 +348,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             notifyItemChanged(position);
 
-            showCustomToast(3, holder, pillName);
+            toasts.showCustomToast(myContext, pillName + myContext.getString(R.string.pill_reset_toast));
             warningDialog.dismiss();
             resetMediaPlayer.start();
         });
         cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
-    }
-
-    private void showCustomToast(int toastNumber, MyViewHolder holder, String pillName) {
-        LayoutInflater layoutInflater = LayoutInflater.from(myContext);
-
-        View toastLayout = layoutInflater.inflate(R.layout.toast, holder.itemView.findViewById(R.id.custom_toast_layout_light));
-
-
-        Toast toast = new Toast(myContext);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 250);
-        toast.setView(toastLayout);
-
-        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-
-        switch (toastNumber) {
-            case 1:
-                toastTextView.setText("You have " + myDatabase.getPillAmount(pillName) + " " + pillName + " pills left.");
-                break;
-            case 2:
-                toastTextView.setText(pillName + " taken.");
-                break;
-            case 3:
-                toastTextView.setText(pillName + " reset.");
-                break;
-        }
-
-        toast.show();
     }
 
 }

@@ -8,12 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -24,9 +20,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class UpdatePill extends AppCompatActivity implements DialogPillName.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
+public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
 
     private Simpill simpill;
+    private final Toasts toasts = new Toasts();
     private AlarmSetter alarmSetter;
 
     int isTaken, bottleColor;
@@ -40,6 +37,8 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     Typeface truenoReg;
 
     PillDBHelper myDatabase = new PillDBHelper(this);
+
+    int intervalInDays = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,8 +148,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void openEnterPillNameDialog() {
-        DialogPillName dialogPillName = new DialogPillName();
-        dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog_tag));
+        new Dialogs().getChooseNameDialog(this);
     }
     private void openDatePickerDialog() {
         int theme = DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
@@ -232,14 +230,13 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
 
 
     private void updatePill() {
+
         if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
-            if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillNameTextView.getText().toString().trim(),
-                    myDatabase.sortTimeArray(getApplicationContext(),
-                            new String[]{pillTime.getText().toString().trim()}),
+            if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillNameTextView.getText().toString().trim(), myDatabase.convertStringToArray(pillTime.getText().toString()), getIntervalInDays(),
                     pillStockup.getText().toString().trim(),
                     Integer.parseInt(pillSupply.getText().toString()),
                     isTaken, timeTaken, 0, bottleColor)) {
-                showCustomToast(1);
+                toasts.showCustomToast(this, pillNameTextView.getText().toString().trim() + getString(R.string.append_updated_toast));
                 openMainActivity();
                 alarmSetter.setAlarms(0);
             }
@@ -255,7 +252,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
             numberFormatException.printStackTrace();
         }
         if(supplyAmount <= 0) {
-            showCustomToast(3);
+            toasts.showCustomToast(this, getString(R.string.pill_supply_warning));
             return false;
         }
         else {
@@ -267,7 +264,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
                 pillTime.getText().toString().trim().length() == 0 ||
                 pillStockup.getText().toString().trim().length() == 0 ||
                 pillSupply.getText().toString().trim().length() == 0) {
-            showCustomToast(4);
+            toasts.showCustomToast(this, getString(R.string.fill_fields_warning));
             return false;
         }
         else {
@@ -279,7 +276,7 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
             return true;
         }
         else {
-            showCustomToast(5);
+            toasts.showCustomToast(this, getString(R.string.pill_name_warning));
             return false;
         }
     }
@@ -290,26 +287,26 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
         Date currentDate = null;
         try {
             currentDate = simpleDateFormat.parse(dateTimeManager.getCurrentDate(getApplicationContext(), dateTimeManager.getUserTimezone()));
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
         Date stockupDate;
         try {
             stockupDate = simpleDateFormat.parse(pillStockup.getText().toString().trim());
-        } catch (ParseException e) {
-            Toast.makeText(this, getString(R.string.set_date), Toast.LENGTH_LONG).show();
+        }
+        catch (ParseException e) {
+            toasts.showCustomToast(this, getString(R.string.set_date));
             e.printStackTrace();
             return false;
         }
         if (currentDate.after(stockupDate)) {
-            DialogPastDate dialogPastDate = new DialogPastDate();
-            dialogPastDate.show(getSupportFragmentManager(), "Tardis Warning");
+            new Dialogs().getPastDateDialog(this).show();
             return false;
         }
         else {
             return true;
         }
-
     }
 
     private void openMainActivity() {
@@ -325,41 +322,6 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
         startActivity(intent);
     }
 
-    private void showCustomToast(int toastNumber) {
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        View toastLayout = layoutInflater.inflate(R.layout.toast,findViewById(R.id.custom_toast_layout_light));
-
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 250);
-        toast.setView(toastLayout);
-
-        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-
-        switch (toastNumber) {
-            case 1:
-                toastTextView.setText(pillNameTextView.getText().toString().trim() + " updated :)");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                break;
-            case 2:
-                toastTextView.setText(R.string.non_unique_pill_name_warning);
-                break;
-            case 3:
-                toastTextView.setText(R.string.pill_supply_warning);
-                break;
-            case 4:
-                toastTextView.setText(getString(R.string.fill_fields_warning));
-                break;
-            case 5:
-                toastTextView.setText(getString(R.string.pill_name_warning));
-                break;
-        }
-
-        toast.show();
-    }
-
 
     @Override
     public void applyPillName(String userPillName) {
@@ -371,6 +333,14 @@ public class UpdatePill extends AppCompatActivity implements DialogPillName.Exam
     public void applyPillSupply(String userPillSupply) {
         pillSupply.setText(userPillSupply);
         pillSupply.setTypeface(truenoReg);
+    }
+
+    public void setIntervalInDays(int intervalInDays) {
+        this.intervalInDays = intervalInDays;
+    }
+
+    private int getIntervalInDays() {
+        return intervalInDays;
     }
 }
 

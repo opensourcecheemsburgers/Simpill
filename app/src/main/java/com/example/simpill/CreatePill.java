@@ -8,12 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -24,25 +20,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class CreatePill extends AppCompatActivity implements DialogPillName.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
+public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
 
     private Simpill simpill;
+    private final Toasts toasts = new Toasts();
 
     private static final int defaultIsTaken = 0;
     private static final int defaultBottleColor = 2;
-
-    private static final int pillCreatedToast = 1;
-    private static final int nonUniqueNameToast = 2;
-    private static final int invalidAmountToast = 3;
-    private static final int incompleteFieldsToast = 4;
-    private static final int invalidFirstLetterToast = 5;
-    private static final int invalidDateToast = 6;
 
     Button createNewPillButton, pillNameButton, pillDateButton, pillClockButton, pillAmountButton;
     TextView pillName, pillTime, pillStockup, pillSupply;
     Button settingsButton, aboutButton;
     int year, month, day, hour, min;
     Typeface truenoReg;
+
+    int intervalInDays = 1;
 
 
     PillDBHelper myDatabase = new PillDBHelper(this);
@@ -119,7 +111,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     private void initiateButtons() {
         pillNameButton.setOnClickListener(view -> openEnterPillNameDialog());
         pillAmountButton.setOnClickListener(view -> openEnterPillAmountDialog());
-        pillClockButton.setOnClickListener(v -> new DialogChooseFrequency().show(getSupportFragmentManager(), null));
+        pillClockButton.setOnClickListener(v -> openFrequencyDialog());
         pillDateButton.setOnClickListener(v -> openDatePickerDialog());
         createNewPillButton.setOnClickListener(v -> createPill());
         settingsButton.setOnClickListener(v -> openSettingsActivity());
@@ -135,8 +127,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void openEnterPillNameDialog() {
-        DialogPillName dialogPillName = new DialogPillName();
-        dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog_tag));
+        new Dialogs().getChooseNameDialog(this);
     }
     private void openDatePickerDialog() {
         new DatePickerDialog(this, R.style.DateTimePickerTheme, (view, year, month, day) -> {
@@ -206,63 +197,31 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         DialogPillAmount dialogPillAmount = new DialogPillAmount();
         dialogPillAmount.show(getSupportFragmentManager(), "Pill Amount Dialog");
     }
+    private void openFrequencyDialog() {
+        new Dialogs().getFrequencyDialog(this, 0).show();
+    }
 
 
     private void createPill() {
         if (!isNameUnique()) {
-            showCustomToast(2);
+            toasts.showCustomToast(this, getString(R.string.non_unique_pill_name_warning));
         } else {
             if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
-                if (myDatabase.addNewPill(getNewPillId(), pillName.getText().toString().trim(),
-                        myDatabase.sortTimeArray(getApplicationContext(),
-                                new String[]{pillTime.getText().toString().trim()}),
+                if (myDatabase.addNewPill(
+                        getNewPillId(),
+                        pillName.getText().toString().trim(),
+                        myDatabase.convertStringToArray(pillTime.getText().toString()),
+                        getIntervalInDays(),
                         pillStockup.getText().toString().trim(),
                         Integer.parseInt(pillSupply.getText().toString()),
                         defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
-                    showCustomToast(1);
+                    toasts.showCustomToast(this, pillName.getText().toString().trim() + getString(R.string.pill_created_toast));
                     Intent intent = new Intent(this, ChooseColor.class);
                     intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
                     startActivity(intent);
                 }
             }
         }
-    }
-
-    private void showCustomToast(int toastNumber) {
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        View toastLayout = layoutInflater.inflate(R.layout.toast,findViewById(R.id.custom_toast_layout_light));
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 250);
-        toast.setView(toastLayout);
-
-        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-
-        switch (toastNumber) {
-            case pillCreatedToast:
-                toastTextView.setText(pillName.getText().toString().trim() + getString(R.string.pill_created_toast));
-                toast.setDuration(Toast.LENGTH_SHORT);
-                break;
-            case nonUniqueNameToast:
-                toastTextView.setText(R.string.non_unique_pill_name_warning);
-                break;
-            case invalidAmountToast:
-                toastTextView.setText(R.string.pill_supply_warning);
-                break;
-            case incompleteFieldsToast:
-                toastTextView.setText(getString(R.string.fill_fields_warning));
-                break;
-            case invalidFirstLetterToast:
-                toastTextView.setText(getString(R.string.pill_name_warning));
-                break;
-            case invalidDateToast:
-                toastTextView.setText(getString(R.string.set_date));
-                break;
-        }
-
-        toast.show();
     }
 
     private Boolean isNameUnique() {
@@ -278,7 +237,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             numberFormatException.printStackTrace();
         }
         if(supplyAmount <= 0) {
-            showCustomToast(invalidAmountToast);
+            toasts.showCustomToast(this, getString(R.string.pill_supply_warning));
             return false;
         }
         else {
@@ -290,7 +249,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                 pillTime.getText().toString().trim().length() == 0 ||
                 pillStockup.getText().toString().trim().length() == 0 ||
                 pillSupply.getText().toString().trim().length() == 0) {
-            showCustomToast(incompleteFieldsToast);
+            toasts.showCustomToast(this, getString(R.string.fill_fields_warning));
             return false;
         }
         else {
@@ -302,36 +261,37 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             return true;
         }
         else {
-            showCustomToast(invalidFirstLetterToast);
+            toasts.showCustomToast(this, getString(R.string.pill_name_warning));
             return false;
         }
     }
-    private Boolean isDateValid(){
+
+    private Boolean isDateValid() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
         DateTimeManager dateTimeManager = new DateTimeManager();
-        Date currentDate;
+        Date currentDate = null;
         try {
             currentDate = simpleDateFormat.parse(dateTimeManager.getCurrentDate(getApplicationContext(), dateTimeManager.getUserTimezone()));
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
-            throw new UnknownError();
         }
         Date stockupDate;
         try {
             stockupDate = simpleDateFormat.parse(pillStockup.getText().toString().trim());
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
+            toasts.showCustomToast(this, getString(R.string.set_date));
             e.printStackTrace();
             return false;
         }
         if (currentDate.after(stockupDate)) {
-            DialogPastDate dialogPastDate = new DialogPastDate();
-            dialogPastDate.show(getSupportFragmentManager(), "Tardis Warning");
+            new Dialogs().getPastDateDialog(this).show();
             return false;
         }
         else {
             return true;
         }
-
     }
 
     private int getNewPillId() {
@@ -349,6 +309,14 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     private void openSettingsActivity() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
+    }
+
+    public void setIntervalInDays(int intervalInDays) {
+        this.intervalInDays = intervalInDays;
+    }
+
+    public int getIntervalInDays() {
+        return intervalInDays;
     }
 
     @Override

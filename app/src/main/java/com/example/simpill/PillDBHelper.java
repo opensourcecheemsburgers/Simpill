@@ -90,7 +90,7 @@ public class PillDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase pillDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        insertAllContentValues(cv, id, title, time, frequency stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
+        insertAllContentValues(cv, id, title, time, frequency, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
         long result = pillDatabase.insert(TABLE_NAME, null, cv);
         return result != -1;
     }
@@ -452,9 +452,9 @@ public class PillDBHelper extends SQLiteOpenHelper {
     }
 
     public void createTestingPills() {
-        addNewPill(1, "Melatonin",  new String[]{"09:00", "12:00" , "13:00"}, "2022-09-03", 30, 0, "null", 0, 2);
-        addNewPill(2, "Fluoxetine", new String[]{"09:00"}, "2022-09-03", 30, 0, "null", 0, 5);
-        addNewPill(3, "Equasym", new String[]{"09:00", "12:00"}, "2022-09-03", 30, 0, "null", 0, 9);
+        addNewPill(1, "Melatonin",  new String[]{"09:00", "12:00" , "13:00"},0, "2022-09-03", 30, 0, "null", 0, 2);
+        addNewPill(2, "Fluoxetine", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
+        addNewPill(3, "Equasym", new String[]{"09:00", "12:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
     }
 
     public String[] sortTimeArray(Context context, String[] timeArray) {

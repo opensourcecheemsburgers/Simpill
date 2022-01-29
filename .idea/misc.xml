@@ -123,12 +123,14 @@
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout.xml" value="0.33480176211453744" />
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout_light.xml" value="0.3310344827586207" />
         <entry key="app/src/main/res/layout/dialog_choose_frequency.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/dialog_choose_interval.xml" value="0.5286458333333334" />
+        <entry key="app/src/main/res/layout/dialog_choose_reminder_amount.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_choose_theme.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_db_reset.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/dialog_delete_pill.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/dialog_extra_reminder.xml" value="0.528125" />
         <entry key="app/src/main/res/layout/dialog_past_date.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/dialog_pill_amount.xml" value="0.31354166666666666" />
+        <entry key="app/src/main/res/layout/dialog_pill_amount.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_pill_name.xml" value="0.5286458333333334" />
         <entry key="app/src/main/res/layout/dialog_reset_warning.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/dialog_welcome.xml" value="0.3098958333333333" />

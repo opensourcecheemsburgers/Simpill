@@ -7,21 +7,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 public class About extends AppCompatActivity {
 
     private Simpill simpill;
+
+    Toasts toasts = new Toasts();
 
     Button settingsButton, aboutButton;
     TextView simpillParagraph, btc, xmr, pnd, btcAddress, xmrAddress, pndAddress;
@@ -120,55 +117,29 @@ public class About extends AppCompatActivity {
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService((Context.CLIPBOARD_SERVICE));
         ClipData clipData = null;
 
-        showCustomToast(cryptoNumber);
+        String toastMessage = "";
 
         switch (cryptoNumber) {
             case 1:
                 clipData = ClipData.newPlainText("btcAddress", btcAddress.getText().toString());
+                toastMessage = getString(R.string.btc_address_copied);
                 break;
             case 2:
                 clipData = ClipData.newPlainText("xmrAddress", xmrAddress.getText().toString());
+                toastMessage = getString(R.string.xmr_address_copied);
                 break;
             case 3:
                 clipData = ClipData.newPlainText("pndAddress", pndAddress.getText().toString());
+                toastMessage = getString(R.string.pnd_address_copied);
                 break;
         }
-
         clipboardManager.setPrimaryClip(clipData);
-    }
-
-    private void showCustomToast(int toastNumber) {
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        View toastLayout = layoutInflater.inflate(R.layout.toast, findViewById(R.id.custom_toast_layout_light));
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 250);
-        toast.setView(toastLayout);
-
-        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-        switch(toastNumber) {
-            case 0:
-                toastTextView.setText("Already here :)");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                break;
-            case 1:
-                toastTextView.setText("BTC address copied :)");
-                break;
-            case 2:
-                toastTextView.setText("XMR address copied :)");
-                break;
-            case 3:
-                toastTextView.setText("PND address copied :)");
-                break;
-        }
-        toast.show();
+        toasts.showCustomToast(this, toastMessage);
     }
 
     private void setButtonOnClickListeners() {
         settingsButton.setOnClickListener(v -> openSettingsActivity());
-        aboutButton.setOnClickListener(v -> showCustomToast(0));
+        aboutButton.setOnClickListener(v -> toasts.showCustomToast(this, getString(R.string.already_in_about_toast)));
     }
 
     private void openSettingsActivity() {
