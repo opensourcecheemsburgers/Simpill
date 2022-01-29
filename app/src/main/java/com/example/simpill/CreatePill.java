@@ -23,6 +23,7 @@ import java.util.Locale;
 public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener {
 
     private Simpill simpill;
+    Dialogs dialogs = new Dialogs();
     private final Toasts toasts = new Toasts();
 
     private static final int defaultIsTaken = 0;
@@ -127,7 +128,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
     }
 
     private void openEnterPillNameDialog() {
-        new Dialogs().getChooseNameDialog(this).show();
+        dialogs.getChooseNameDialog(this).show();
     }
     private void openDatePickerDialog() {
         new DatePickerDialog(this, R.style.DateTimePickerTheme, (view, year, month, day) -> {
@@ -194,11 +195,10 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
                 ,12, 0, simpill.getUserIs24Hr()).show();
     }
     private void openEnterPillAmountDialog() {
-        DialogPillAmount dialogPillAmount = new DialogPillAmount();
-        dialogPillAmount.show(getSupportFragmentManager(), "Pill Amount Dialog");
+        dialogs.getChooseAmountDialog(this).show();
     }
     private void openFrequencyDialog() {
-        new Dialogs().getFrequencyDialog(this, 0).show();
+        dialogs.getFrequencyDialog(this, 0).show();
     }
 
 

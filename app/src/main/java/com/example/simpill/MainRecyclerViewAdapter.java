@@ -221,7 +221,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
 
         holder.pill_bottle_image.setOnClickListener(v -> {
-            toasts.showCustomToast(myContext, "You have " + myDatabase.getPillAmount(pillName) + " " + pillName + " pills left.");
+            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast_start) + myDatabase.getPillAmount(pillName) + " " + pillName + myContext.getString(R.string.pill_bottle_amount_toast_end));
             shakeMediaPlayer.start();
         });
     }

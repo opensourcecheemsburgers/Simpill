@@ -20,9 +20,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
+public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener {
 
     private Simpill simpill;
+    Dialogs dialogs;
     private final Toasts toasts = new Toasts();
     private AlarmSetter alarmSetter;
 
@@ -118,7 +119,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDial
     }
     private void initiateButtons() {
         pillNameButton.setOnClickListener(view -> openEnterPillNameDialog());
-        pillAmountButton.setOnClickListener(view -> openEnterPillAmountDialog());
+        pillAmountButton.setOnClickListener(view -> openEnterPillNameDialog());
         pillClockButton.setOnClickListener(v -> openTimePickerDialog());
         pillDateButton.setOnClickListener(v -> openDatePickerDialog());
         updatePillButton.setOnClickListener(v -> updatePill());
@@ -223,10 +224,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDial
                 ,12, 0, simpill.getUserIs24Hr());
         timePickerDialog.show();
     }
-    private void openEnterPillAmountDialog() {
-        DialogPillAmount dialogPillAmount = new DialogPillAmount();
-        dialogPillAmount.show(getSupportFragmentManager(), "Pill Amount Dialog");
-    }
+
 
 
     private void updatePill() {
