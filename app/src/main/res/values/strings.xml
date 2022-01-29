@@ -152,5 +152,6 @@
     <string name="date_format" translatable="false">yyyy-MM-dd</string>
     <string name="date_format_with_timezone" translatable="false">yyyy-MM-dd Z</string>
     <string name="full_date_time_format" translatable="false">yyyy-MM-dd, HH:mm Z</string>
+    <string name="take_pill_content_description">Take Pill Button</string>
 
 </resources>

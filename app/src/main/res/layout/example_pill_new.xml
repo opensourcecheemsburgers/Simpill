@@ -104,7 +104,7 @@
         android:layout_height="50dp"
         android:background="@android:color/transparent"
         android:clickable="false"
-        android:contentDescription="@string/reset_pill_content_description"
+        android:contentDescription="@string/take_pill_content_description"
         android:scaleX="1.1"
         android:scaleY="1.2"
         android:visibility="visible"
