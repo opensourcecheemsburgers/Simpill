@@ -11,13 +11,13 @@ import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Calendar;
 
-public class PillSupplyReceiver extends BroadcastReceiver {
+public class ReceiverPillSupply extends BroadcastReceiver {
 
     private static final long MONTH_IN_MS = 2629800000L;
     private static final int alarmCodeForSupply = 3;
 
     NotificationManagerCompat stockupNotificationManagerCompat;
-    PillDBHelper myDatabase;
+    DatabaseHelper myDatabase;
     DateTimeManager dateTimeManager;
     AlarmSetter alarmSetter;
 
@@ -25,7 +25,7 @@ public class PillSupplyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         stockupNotificationManagerCompat = NotificationManagerCompat.from(context);
-        myDatabase = new PillDBHelper(context);
+        myDatabase = new DatabaseHelper(context);
         dateTimeManager = new DateTimeManager();
 
         if (!intent.hasExtra(context.getString(R.string.pill_name)) && !intent.hasExtra(context.getString(R.string.notification_id))) {
@@ -35,7 +35,7 @@ public class PillSupplyReceiver extends BroadcastReceiver {
             String pillName = intent.getStringExtra(context.getString(R.string.pill_name));
             int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), 0);
 
-            PillDBHelper myDatabase = new PillDBHelper(context);
+            DatabaseHelper myDatabase = new DatabaseHelper(context);
             alarmSetter = new AlarmSetter(context, pillName, notificationCode);
 
             if (!myDatabase.getPillName(pillName).equals("null")) {

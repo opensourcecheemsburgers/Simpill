@@ -32,7 +32,7 @@ import java.util.TimeZone;
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
 
     Simpill simpill = new Simpill();
-    PillDBHelper myDatabase;
+    DatabaseHelper myDatabase;
     Toasts toasts;
     DateTimeManager dateTimeManager;
     AlarmSetter alarmSetter;
@@ -89,7 +89,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     @Override
     public int getItemCount() {
-        PillDBHelper myDatabase = new PillDBHelper(myContext);
+        DatabaseHelper myDatabase = new DatabaseHelper(myContext);
         return myDatabase.getRowCount();
     }
 
@@ -116,7 +116,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
     private void initClasses(int position) {
         myActivity = new Activity();
-        myDatabase = new PillDBHelper(myContext);
+        myDatabase = new DatabaseHelper(myContext);
         toasts = new Toasts();
         dateTimeManager = new DateTimeManager();
         pillName = myDatabase.getPillNameFromCursor(position);
@@ -221,7 +221,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
 
         holder.pill_bottle_image.setOnClickListener(v -> {
-            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast_start) + myDatabase.getPillAmount(pillName) + " " + pillName + myContext.getString(R.string.pill_bottle_amount_toast_end));
+            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast_start) + " " + myDatabase.getPillAmount(pillName) + " " + pillName + " " + myContext.getString(R.string.pill_bottle_amount_toast_end));
             shakeMediaPlayer.start();
         });
     }
@@ -262,7 +262,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(myContext);
             notificationManagerCompat.cancel(pillName, myDatabase.getPrimaryKeyId(pillName));
 
-            toasts.showCustomToast(myContext, pillName + myContext.getString(R.string.pill_taken_toast));
+            toasts.showCustomToast(myContext, pillName + " " + myContext.getString(R.string.pill_taken_toast));
         });
 
         holder.reset_btn.setOnClickListener(v -> showPillResetWarningDialog(holder, position, pillName));
@@ -348,7 +348,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
             notifyItemChanged(position);
 
-            toasts.showCustomToast(myContext, pillName + myContext.getString(R.string.pill_reset_toast));
+            toasts.showCustomToast(myContext, pillName + " " + myContext.getString(R.string.pill_reset_toast));
             warningDialog.dismiss();
             resetMediaPlayer.start();
         });

@@ -12,7 +12,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-public class PillAlarmReceiver extends BroadcastReceiver {
+public class ReceiverPillAlarm extends BroadcastReceiver {
 
     Simpill simpill;
     AlarmSetter alarmSetter;
@@ -33,7 +33,7 @@ public class PillAlarmReceiver extends BroadcastReceiver {
             String pillName = intent.getStringExtra(context.getString(R.string.pill_name));
             int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), 0);
 
-            PillDBHelper myDatabase = new PillDBHelper(context);
+            DatabaseHelper myDatabase = new DatabaseHelper(context);
             alarmSetter = new AlarmSetter(context, pillName, notificationCode);
             dateTimeManager = new DateTimeManager();
             simpill = new Simpill();

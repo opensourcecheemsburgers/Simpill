@@ -1,48 +1,31 @@
 package com.example.simpill;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Dialogs.PillResetDialogListener {
 
-
-    private Simpill simpill = new Simpill();
-    private PillDBHelper myDatabase = new PillDBHelper(MainActivity.this);
-    private Toasts toasts = new Toasts();
+    private final Simpill simpill = new Simpill();
+    private final DatabaseHelper myDatabase = new DatabaseHelper(MainActivity.this);
+    private final Toasts toasts = new Toasts();
 
     public static int backPresses = 0;
+
+    Dialogs dialogs = new Dialogs();
 
     RecyclerView recyclerView;
 
     MainRecyclerViewAdapter myAdapter;
     Button settingsButton, aboutButton, fab;
 
-    AlertDialog.Builder dialogBuilder;
-    Dialog warningDialog;
-    LayoutInflater inflater;
-    View dialogView;
-    Typeface truenoReg;
-    TextView titleTextView, titleMessageView;
-    Button yesBtn, cancelBtn;
-
-    Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         simpill.setUserIs24Hr(is24Hr);
     }
     private void setContentViewAndDesign() {
-
         int theme = simpill.getCustomTheme();
 
         if (theme == simpill.BLUE_THEME) {
@@ -100,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
     }
 
-    public void notifyAdapter(int position){
-        myAdapter.notifyItemRemoved(position);
-    }
     public boolean onContextItemSelected(MenuItem item) {
 
         //This needs the pill name instead.
@@ -123,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 backPresses = 0;
                 break;
             case 2:
-                showPillResetWarningDialog(item.getGroupId() - 1, pillName);
+                dialogs.getPillDeletionDialog(this, pillName, item.getGroupId() - 1);
                 break;
             case 3:
                 Intent intent1 = new Intent(this, ChooseColor.class);
@@ -173,71 +152,15 @@ public class MainActivity extends AppCompatActivity {
         backPresses = 0;
     }
 
-
-    private void showPillResetWarningDialog(int position, String pillName) {
-        initDialog();
-        createDialog();
-        setDialogTexts();
-        setOnClickListeners(position, pillName);
-        warningDialog.show();
-    }
-    private void initDialog() {
-        initDialogBuilder();
-        initView();
-        initTextViewsAndButtons();
-    }
-    private void initDialogBuilder() {
-        dialogBuilder = new AlertDialog.Builder(this);
-    }
-    private void initView() {
-        loadSharedPrefs();
-        inflater = LayoutInflater.from(this);
-        setViewBasedOnTheme();
-    }
-    private void setViewBasedOnTheme() {
-        dialogView = inflater.inflate(R.layout.dialog_delete_pill, null);
-        dialogBuilder.setView(dialogView);
-    }
-    private void initTextViewsAndButtons() {
-        titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
-        titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
-        yesBtn = dialogView.findViewById(R.id.btnYes);
-        cancelBtn = dialogView.findViewById(R.id.btnNo);
-    }
-    private void createDialog() {
-        warningDialog = dialogBuilder.create();
-        warningDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-    }
-    private void setDialogTexts() {
-        truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
-
-        titleTextView.setText(getString(R.string.pill_deletion_dialog_title));
-        titleMessageView.setText(getString(R.string.pill_deletion_dialog_message));
-
-        titleTextView.setTypeface(truenoReg);
-        titleMessageView.setTypeface(truenoReg);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            titleTextView.setLetterSpacing(0.025f);
-            titleMessageView.setLetterSpacing(0.025f);
-        }
-
-        titleTextView.setTextSize(35.0f);
-        titleMessageView.setTextSize(15.0f);
-    }
-    private void setOnClickListeners(int position, String pillName) {
-        yesBtn.setOnClickListener(view -> {
-            if(myDatabase.deletePill(pillName)) {
-                toasts.showCustomToast(this,pillName + getString(R.string.append_pill_deleted_toast));
-                notifyAdapter(position);
-                warningDialog.dismiss();
-            }
-        });
-        cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
-    }
-
     public void closeApp() {
-        finishAffinity();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        }
         System.exit(0);
+    }
+
+    @Override
+    public void notifyAdapterOfDeletedPill(int position) {
+        notifyAdapterOfDeletedPill(position);
     }
 }

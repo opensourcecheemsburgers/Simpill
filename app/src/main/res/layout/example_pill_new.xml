@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
         android:ellipsize="end"
         android:singleLine="false"
@@ -81,7 +82,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/pillBottleImage"
         app:layout_constraintEnd_toStartOf="@+id/mid_vertical_guideline"
         app:layout_constraintStart_toEndOf="@+id/pillBottleImage"
-        app:layout_constraintTop_toBottomOf="@id/pillName" />
+        app:layout_constraintTop_toBottomOf="@id/pillName"
+        android:layout_marginRight="16dp" />
 
     <ImageButton
         android:id="@+id/resetButton"

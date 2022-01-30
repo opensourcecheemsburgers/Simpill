@@ -38,7 +38,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
     int intervalInDays = 1;
 
 
-    PillDBHelper myDatabase = new PillDBHelper(this);
+    DatabaseHelper myDatabase = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

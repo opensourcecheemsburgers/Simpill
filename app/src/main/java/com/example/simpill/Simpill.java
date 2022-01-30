@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.Build;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -32,6 +33,7 @@ public class Simpill extends Application {
 
     public void onCreate() {
         super.onCreate();
+
         createNotificationChannels();
         handleUncaughtException();
     }

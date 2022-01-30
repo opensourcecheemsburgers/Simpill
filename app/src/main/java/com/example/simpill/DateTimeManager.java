@@ -98,7 +98,7 @@ public class DateTimeManager {
     }
 
     public String convert24HrArrayTo12HrStrings(Context context, String[] timeArray) {
-        PillDBHelper myDatabase = new PillDBHelper(context);
+        DatabaseHelper myDatabase = new DatabaseHelper(context);
         for (int currentArrayIndex = 0; currentArrayIndex < timeArray.length; currentArrayIndex++) {
             timeArray[currentArrayIndex] = convert24HrTimeTo12HrTime(context, timeArray[currentArrayIndex]);
         }

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.simpill">
+
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -56,9 +61,9 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".PillAlarmReceiver" />
-        <receiver android:name=".PillAutoResetReceiver" />
-        <receiver android:name=".PillSupplyReceiver" />
+        <receiver android:name=".ReceiverPillAlarm" />
+        <receiver android:name=".ReceiverPillAutoReset" />
+        <receiver android:name=".ReceiverPillSupply" />
     </application>
 
 </manifest>

@@ -170,7 +170,7 @@
     <string name="append_updated_toast"> updated :)</string>
     <string name="pill_db_deleted_toast">All pills deleted.</string>
     <string name="append_pill_deleted_toast"> deleted.</string>
-    <string name="pill_bottle_amount_toast_start">\"You have \"</string>
-    <string name="pill_bottle_amount_toast_end">" pills left."</string>
+    <string name="pill_bottle_amount_toast_start">You have </string>
+    <string name="pill_bottle_amount_toast_end"> pills left.</string>
 
 </resources>

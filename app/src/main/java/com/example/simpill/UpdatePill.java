@@ -37,7 +37,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDial
     int primaryKeyId, year, month, day, hour, min;
     Typeface truenoReg;
 
-    PillDBHelper myDatabase = new PillDBHelper(this);
+    DatabaseHelper myDatabase = new DatabaseHelper(this);
 
     int intervalInDays = 1;
 
@@ -77,10 +77,10 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDial
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if(theme == simpill.GREY_THEME) {
+        } else if (theme == simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
         }
-        else {
+        else if (theme == simpill.PURPLE_THEME) {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
         }
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.text.InputType;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -22,11 +20,34 @@ public class Dialogs extends AppCompatDialogFragment {
 
     Simpill simpill = new Simpill();
     Toasts toasts = new Toasts();
-    PillDBHelper myDatabase;
+    DatabaseHelper myDatabase;
     AlertDialog.Builder dialogBuilder;
     LayoutInflater inflater;
     View dialogView;
     Dialog dialog;
+
+    public Dialog getPillDeletionDialog(Context context, String pillName, int position) {
+        init(context);
+        setViewAndCreateDialog(R.layout.dialog_reset_warning);
+
+        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
+        TextView titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
+        Button yesBtn = dialogView.findViewById(R.id.btnYes);
+        Button cancelBtn = dialogView.findViewById(R.id.btnNo);
+
+        yesBtn.setOnClickListener(view -> {
+            if (myDatabase.deletePill(pillName)) {
+                toasts.showCustomToast(context, pillName + " " + getString(R.string.append_pill_deleted_toast));
+                super.onDestroy();
+                PillResetDialogListener pillResetDialogListener = (PillResetDialogListener) context;
+                pillResetDialogListener.notifyAdapterOfDeletedPill(position);
+                dialog.dismiss();
+            }
+        });
+        cancelBtn.setOnClickListener(view -> dialog.dismiss());
+
+        return dialog;
+    }
 
     public Dialog getFrequencyDialog(Context context, int classNumber) {
         init(context);
@@ -208,7 +229,7 @@ public class Dialogs extends AppCompatDialogFragment {
     }
 
     private void init(Context context) {
-        myDatabase = new PillDBHelper(context);
+        myDatabase = new DatabaseHelper(context);
         dialogBuilder = new AlertDialog.Builder(context);
         inflater = LayoutInflater.from(context);
     }
@@ -227,5 +248,9 @@ public class Dialogs extends AppCompatDialogFragment {
 
     public interface SettingsDialogListener {
         void recreateScreen();
+    }
+
+    public interface PillResetDialogListener {
+        void notifyAdapterOfDeletedPill(int position);
     }
 }

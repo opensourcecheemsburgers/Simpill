@@ -19,7 +19,7 @@ public class AlarmSetter {
     Context myContext;
     Simpill simpill;
     AlarmManager alarmManager;
-    PillDBHelper myDatabase;
+    DatabaseHelper myDatabase;
     DateTimeManager dateTimeManager;
 
     TimeZone userTimezone;
@@ -64,7 +64,7 @@ public class AlarmSetter {
     private void initAll(){
         simpill = new Simpill();
         alarmManager = (AlarmManager) myContext.getSystemService(Context.ALARM_SERVICE);
-        myDatabase = new PillDBHelper(myContext);
+        myDatabase = new DatabaseHelper(myContext);
         dateTimeManager = new DateTimeManager();
 
         userTimezone = dateTimeManager.getUserTimezone();
@@ -95,7 +95,7 @@ public class AlarmSetter {
         for (int currentNumber = 0; currentNumber < pillTimesCalArray.length; currentNumber++) {
             int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
 
-            Intent startPillAlarmReceiver = new Intent(myContext, PillAlarmReceiver.class);
+            Intent startPillAlarmReceiver = new Intent(myContext, ReceiverPillAlarm.class);
             startPillAlarmReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
             startPillAlarmReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
             PendingIntent pillAlarmPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startPillAlarmReceiver, PendingIntent.FLAG_IMMUTABLE);
@@ -131,7 +131,7 @@ public class AlarmSetter {
         if (pillTimesCalArray.length == 1) {
             int requestCode = formatPrimaryKeyAsRequestCode(0);
 
-            Intent startAutoResetReceiver = new Intent(myContext, PillAutoResetReceiver.class);
+            Intent startAutoResetReceiver = new Intent(myContext, ReceiverPillAutoReset.class);
             startAutoResetReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
             startAutoResetReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
 
@@ -170,7 +170,7 @@ public class AlarmSetter {
 
                 int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
 
-                Intent startAutoResetReceiver = new Intent(myContext, PillAutoResetReceiver.class);
+                Intent startAutoResetReceiver = new Intent(myContext, ReceiverPillAutoReset.class);
                 startAutoResetReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
                 startAutoResetReceiver.putExtra(myContext.getString(R.string.notification_id), requestCode);
 
@@ -212,7 +212,7 @@ public class AlarmSetter {
         }
     }
     private void setSupplyReminder() {
-        Intent startPillSupplyReceiver = new Intent (myContext, PillSupplyReceiver.class);
+        Intent startPillSupplyReceiver = new Intent (myContext, ReceiverPillSupply.class);
         startPillSupplyReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
 
         @SuppressLint("InlinedApi")
