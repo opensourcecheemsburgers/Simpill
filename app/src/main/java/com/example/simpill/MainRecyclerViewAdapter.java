@@ -1,13 +1,11 @@
 package com.example.simpill;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.view.ContextMenu;
@@ -20,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -32,6 +29,7 @@ import java.util.TimeZone;
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
 
     Simpill simpill = new Simpill();
+    Dialogs dialogs = new Dialogs();
     DatabaseHelper myDatabase;
     Toasts toasts;
     DateTimeManager dateTimeManager;
@@ -44,13 +42,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     MainActivity mainActivity;
     Activity myActivity;
     Typeface truenoLight, truenoReg;
-
-    AlertDialog.Builder dialogBuilder;
-    LayoutInflater inflater;
-    View dialogView;
-    TextView titleTextView, titleMessageView;
-    Button yesBtn, cancelBtn;
-    Dialog warningDialog;
 
     MediaPlayer takenMediaPlayer, resetMediaPlayer;
 
@@ -265,7 +256,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             toasts.showCustomToast(myContext, pillName + " " + myContext.getString(R.string.pill_taken_toast));
         });
 
-        holder.reset_btn.setOnClickListener(v -> showPillResetWarningDialog(holder, position, pillName));
+        holder.reset_btn.setOnClickListener(v -> dialogs.getPillResetDialog(mainActivity.getMainActivityContext(), pillName, holder, position, resetMediaPlayer).show());
 
         holder.big_button.setOnClickListener(view -> {
             Intent intent = new Intent(myContext, UpdatePill.class);
@@ -283,76 +274,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             holder.big_button.setContextClickable(true);
         }
-    }
-
-    private void showPillResetWarningDialog(MyViewHolder holder, int position, String pillName){
-        initDialog();
-        createDialog();
-        setDialogTexts();
-        setOnClickListeners(holder, position, pillName);
-        warningDialog.show();
-    }
-    private void initDialog() {
-        initDialogBuilder();
-        initView();
-        initTextViewsAndButtons();
-    }
-    private void initDialogBuilder() {
-        dialogBuilder = new AlertDialog.Builder(myContext);
-    }
-    private void initView() {
-        loadSharedPrefs();
-        inflater = LayoutInflater.from(myContext);
-        setViewBasedOnTheme();
-    }
-    private void setViewBasedOnTheme() {
-        dialogView = inflater.inflate(R.layout.dialog_reset_warning, null);
-
-        dialogBuilder.setView(dialogView);
-    }
-    private void initTextViewsAndButtons() {
-        titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
-        titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
-        yesBtn = dialogView.findViewById(R.id.btnYes);
-        cancelBtn = dialogView.findViewById(R.id.btnNo);
-    }
-    private void createDialog() {
-        warningDialog = dialogBuilder.create();
-        warningDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-    }
-    private void setDialogTexts() {
-        titleTextView.setText(myContext.getString(R.string.reset_pill_dialog_title));
-        titleMessageView.setText(myContext.getString(R.string.reset_pill_dialog_message));
-
-        titleTextView.setTypeface(truenoReg);
-        titleMessageView.setTypeface(truenoReg);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            titleTextView.setLetterSpacing(0.025f);
-            titleMessageView.setLetterSpacing(0.025f);
-        }
-
-        titleTextView.setTextSize(35.0f);
-        titleMessageView.setTextSize(15.0f);
-    }
-    private void setOnClickListeners(MyViewHolder holder, int position, String pillName) {
-        yesBtn.setOnClickListener(view -> {
-            holder.reset_btn.setClickable(false);
-            holder.reset_btn.setVisibility(View.INVISIBLE);
-            holder.taken_btn.setClickable(true);
-            holder.taken_btn.setVisibility(View.VISIBLE);
-
-            myDatabase.setPillAmount(pillName, myDatabase.getPillAmount(pillName) + 1);
-            myDatabase.setTimeTaken(pillName, myContext.getString(R.string.nullString));
-            myDatabase.setIsTaken(pillName, 0);
-
-            notifyItemChanged(position);
-
-            toasts.showCustomToast(myContext, pillName + " " + myContext.getString(R.string.pill_reset_toast));
-            warningDialog.dismiss();
-            resetMediaPlayer.start();
-        });
-        cancelBtn.setOnClickListener(view -> warningDialog.dismiss());
     }
 
 }

@@ -94,6 +94,8 @@ public class AlarmSetter {
     private void setPillReminder() {
         for (int currentNumber = 0; currentNumber < pillTimesCalArray.length; currentNumber++) {
             int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
+            int frequency = myDatabase.getFrequency(pillName);
+
 
             Intent startPillAlarmReceiver = new Intent(myContext, ReceiverPillAlarm.class);
             startPillAlarmReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
@@ -116,14 +118,17 @@ public class AlarmSetter {
 
             //System.out.println("Pill reminder time = " + dateTimeManager.formatLongAsDateString(myContext, pillReminderTime));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+            if (frequency == 1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+                } else {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+                }
             }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
-            }
-            else {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+            else if (frequency > 1) {
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, pillReminderTime, DAY_IN_MS * frequency, pillAlarmPendingIntent);
             }
         }
     }
@@ -195,9 +200,13 @@ public class AlarmSetter {
                     resetTime = resetTime + DAY_IN_MS;
                 }
 
+                if (currentNumber == pillTimesCalArray.length - 1) {
+                    resetTime = resetTime + DAY_IN_MS;
+                }
+
                 Calendar pillResetCal = Calendar.getInstance();
                 pillResetCal.setTimeInMillis(resetTime);
-                System.out.println(pillResetCal.getTime().toString());
+                System.out.println(pillResetCal.getTime());
 
                 //System.out.println("Pill reset time = " + dateTimeManager.formatLongAsDateString(myContext, pillResetTime));
 

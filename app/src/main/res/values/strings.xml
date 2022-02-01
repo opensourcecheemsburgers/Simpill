@@ -172,5 +172,12 @@
     <string name="append_pill_deleted_toast"> deleted.</string>
     <string name="pill_bottle_amount_toast_start">You have </string>
     <string name="pill_bottle_amount_toast_end"> pills left.</string>
+    <string name="custom_interval_dialog_text">Set a custom interval (in days) for your medication reminder using the buttons below:</string>
+    <string name="custom_interval_dialog_title">Interval</string>
+    <string name="back">back</string>
+    <string name="snap_time_picker_title">Select a time:</string>
+    <string name="clocks_dialog_time_text">Time #</string>
+    <string name="chooses_times_dialog_text">Set the reminder times for your medication using the clocks below:</string>
+    <string name="max_reminders_toast">Max reminders = 5</string>
 
 </resources>

@@ -62,7 +62,6 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
             SharedPreferences.Editor editor = getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE).edit();
             editor.putBoolean(Simpill.USER_IS_24HR, simpill.getUserIs24Hr());
             editor.apply();
-            recreate();
 
             if (simpill.getUserIs24Hr()) {
                 toasts.showCustomToast(this, getString(R.string.time_format_24hr_toast));
@@ -77,7 +76,6 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
             SharedPreferences.Editor editor = getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, MODE_PRIVATE).edit();
             editor.putBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS, simpill.getUserPermanentNotifications());
             editor.apply();
-            recreate();
 
             if (simpill.getUserPermanentNotifications()) {
                 toasts.showCustomToast(this, getString(R.string.sticky_notifications_enabled_toast));

@@ -40,7 +40,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="48dp"
+            android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/grey_theme_btn"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,6 @@
             android:id="@+id/grey_theme_btn"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -64,7 +63,6 @@
             android:id="@+id/purple_theme_btn"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/grey_theme_btn"
@@ -81,24 +79,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/btnOk"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:fontFamily="@font/truenoreg"
-        android:text="@string/ok"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:textColor="@color/alice_blue"
-        android:background="@drawable/dialog_bottom_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
-        app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

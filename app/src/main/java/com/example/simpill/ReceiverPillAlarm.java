@@ -138,7 +138,10 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                 }
 
                 pillNotificationManagerCompat.notify(pillName, notificationCode, pillReminderNotification);
-                alarmSetter.setAlarms(alarmCodeForReminder);
+
+                if (myDatabase.getFrequency(pillName) <= 1) {
+                    alarmSetter.setAlarms(alarmCodeForReminder);
+                }
             }
         }
     }

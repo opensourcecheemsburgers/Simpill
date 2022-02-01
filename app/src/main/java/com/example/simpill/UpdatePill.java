@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener {
+public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener {
 
     private Simpill simpill;
     Dialogs dialogs;
@@ -39,6 +39,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDial
 
     DatabaseHelper myDatabase = new DatabaseHelper(this);
 
+    int timesPerDay = 1;
     int intervalInDays = 1;
 
     @Override
@@ -149,7 +150,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDial
     }
 
     private void openEnterPillNameDialog() {
-        new Dialogs().getChooseNameDialog(this);
+        new Dialogs().getChooseNameDialog(this).show();
     }
     private void openDatePickerDialog() {
         int theme = DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
@@ -336,9 +337,15 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.ExampleDial
     public void setIntervalInDays(int intervalInDays) {
         this.intervalInDays = intervalInDays;
     }
-
-    private int getIntervalInDays() {
+    public int getIntervalInDays() {
         return intervalInDays;
+    }
+
+    public void setTimesPerDay(int timesPerDay) {
+        this.timesPerDay = timesPerDay;
+    }
+    public int getTimesPerDay() {
+        return timesPerDay;
     }
 }
 

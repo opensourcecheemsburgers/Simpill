@@ -222,6 +222,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    public int getFrequency(String pillName) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
+        String[] selectionArgs = new String[]{(pillName)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int frequency = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FREQUENCY));
+            cursor.close();
+            return frequency;
+        } else {
+            throw new SQLiteException();
+        }
+    }
+    public void setFrequency(String pillName, int frequency) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
+        String[] selectionArgs = new String[]{(pillName)};
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        cursor.moveToFirst();
+        cv.remove(COLUMN_TIME);
+        cv.put(COLUMN_TIME, frequency);
+        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
+        cursor.close();
+    }
+
     public int getPillAmount(String pillName) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
@@ -452,7 +482,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createTestingPills() {
-        addNewPill(1, "Melatonin",  new String[]{"09:00", "12:00" , "13:00"},0, "2022-09-03", 30, 0, "null", 0, 2);
+        addNewPill(1, "Melatonin",  new String[]{"09:00", "12:00", "13:00"},0, "2022-09-03", 30, 0, "null", 0, 2);
         addNewPill(2, "Fluoxetine", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
         addNewPill(3, "Equasym", new String[]{"09:00", "12:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
     }
@@ -490,10 +520,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public String convertArrayToString(String[] array){
         String str = "";
-        for (int i = 0;i<array.length; i++) {
-            str = str+array[i];
-            // Do not append comma at the end of last element
-            if(i<array.length-1){
+        for (int i = 0; i<array.length; i++) {
+            str = str + array[i];
+
+            if (i<array.length-1) {
                 str = str+strSeparator;
             }
         }

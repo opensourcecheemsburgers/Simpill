@@ -27,7 +27,7 @@
             android:paddingStart="20dp"
             android:paddingLeft="20dp"
             android:paddingEnd="20dp"
-            android:text="Interval"
+            android:text="@string/custom_interval_dialog_title"
             android:textColor="@color/white"
             android:textSize="35sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
             android:paddingStart="4dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:text="2 days"
+            android:text="2"
             android:textColor="@color/black"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,39 +66,39 @@
             app:layout_constraintTop_toBottomOf="@id/textView2"
             tools:ignore="HardcodedText,LabelFor,TextFields" />
 
-        <ImageView
+        <Button
             android:id="@+id/addBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="40dp"
-            android:contentDescription="@string/plus_button"
+            android:background="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/amountTextView"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:srcCompat="@drawable/ic_add" />
+            app:layout_constraintTop_toBottomOf="@id/textView2"
+            android:contentDescription="@string/plus_button" />
 
-        <ImageView
+        <Button
             android:id="@+id/minusBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="40dp"
-            android:contentDescription="@string/minus_button"
+            android:background="@drawable/ic_minus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/amountTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:srcCompat="@drawable/ic_minus" />
+            android:contentDescription="@string/minus_button" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="24dp"
             android:fontFamily="@font/truenoreg"
-            android:text="I take this medication every:"
+            android:text="@string/custom_interval_dialog_text"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"

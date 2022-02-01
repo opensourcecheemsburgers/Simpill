@@ -14,13 +14,16 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDialogListener {
+public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
+        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener,  Dialogs.TimePickerDialogListener, Dialogs.ChooseTimesDialogListener {
 
     private Simpill simpill;
     Dialogs dialogs = new Dialogs();
@@ -33,10 +36,14 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
     TextView pillName, pillTime, pillStockup, pillSupply;
     Button settingsButton, aboutButton;
     int year, month, day, hour, min;
+
     Typeface truenoReg;
 
     int intervalInDays = 1;
+    int timesPerDay;
+    int currentArrayNumber = 0;
 
+    String[] times;
 
     DatabaseHelper myDatabase = new DatabaseHelper(this);
 
@@ -131,7 +138,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
         dialogs.getChooseNameDialog(this).show();
     }
     private void openDatePickerDialog() {
-        new DatePickerDialog(this, R.style.DateTimePickerTheme, (view, year, month, day) -> {
+        new DatePickerDialog(this, DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT, (view, year, month, day) -> {
             month = month + 1;
             String selectedDate = year + "-" + month + "-" + day;
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
@@ -148,39 +155,36 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
             pillStockup.setText(selectedDate);
         }, year, month, day).show();
     }
-    private void openTimePickerDialog() {
-        new TimePickerDialog(this, R.style.DateTimePickerTheme, (timePicker, selectedHour, selectedMinute) -> {
+    private void openTimePickerDialog(int timePickerAmount) {
+        times = new String[timePickerAmount];
+
+        TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+            DateTimeManager dateTimeManager = new DateTimeManager();
             String amOrPm;
             String time;
 
-            if (!simpill.getUserIs24Hr()){
+            if (!simpill.getUserIs24Hr()) {
                 if (selectedHour > 12) {
                     amOrPm = "pm";
                     selectedHour = selectedHour - 12;
-                }
-                else if (selectedHour == 12){
+                } else if (selectedHour == 12) {
                     amOrPm = "pm";
-                }
-                else if (selectedHour == 0){
+                } else if (selectedHour == 0) {
                     selectedHour = selectedHour + 12;
                     amOrPm = "am";
-                }
-                else {
+                } else {
                     amOrPm = "am";
                 }
-                if  (selectedMinute < 10) {
+                if (selectedMinute < 10) {
                     time = selectedHour + ":0" + selectedMinute + " " + amOrPm;
-                }
-                else {
+                } else {
                     time = selectedHour + ":" + selectedMinute + " " + amOrPm;
                 }
-                time =  new DateTimeManager().convert12HrTimeTo24HrTime(getApplicationContext(), time);
-            }
-            else {
-                if  (selectedMinute < 10) {
+                time = dateTimeManager.convert12HrTimeTo24HrTime(CreatePill.this, time);
+            } else {
+                if (selectedMinute < 10) {
                     time = selectedHour + ":0" + selectedMinute;
-                }
-                else {
+                } else {
                     time = selectedHour + ":" + selectedMinute;
                 }
                 if (selectedHour < 10) {
@@ -191,11 +195,13 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
                 }
             }
             pillTime.setText(time);
-        }
-                ,12, 0, simpill.getUserIs24Hr()).show();
+        };
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(CreatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, simpill.getUserIs24Hr());
+        timePickerDialog.show();
     }
     private void openEnterPillAmountDialog() {
-        dialogs.getChooseAmountDialog(this).show();
+        dialogs.getChooseSupplyAmountDialog(this).show();
     }
     private void openFrequencyDialog() {
         dialogs.getFrequencyDialog(this, 0).show();
@@ -314,7 +320,6 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
     public void setIntervalInDays(int intervalInDays) {
         this.intervalInDays = intervalInDays;
     }
-
     public int getIntervalInDays() {
         return intervalInDays;
     }
@@ -329,5 +334,31 @@ public class CreatePill extends AppCompatActivity implements Dialogs.ExampleDial
     public void applyPillSupply(String userPillSupply) {
         pillSupply.setText(userPillSupply);
         pillSupply.setTypeface(truenoReg);
+    }
+
+    @Override
+    public void openTimePicker(int frequency) {
+        openTimePickerDialog(1);
+    }
+
+    @Override
+    public void applySelectedTimeToArray(String time, int position) {
+        times[position] = time;
+    }
+
+    @Override
+    public void applySelectedTimeToTextView(TimesRecyclerViewAdapter.MyViewHolder holder, String time, int position) {
+        pillTime.setText(time);
+    }
+
+    @Override
+    public void applyNumberOfReminders(int reminders) {
+        times = new String[reminders];
+    }
+
+
+    @Override
+    public void returnTimesStringArray(String[] times) {
+        pillTime.setText(myDatabase.convertArrayToString(times));
     }
 }

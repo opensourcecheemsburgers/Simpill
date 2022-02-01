@@ -1,17 +1,27 @@
 package com.example.simpill;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity implements Dialogs.PillResetDialogListener {
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+
+public class MainActivity extends AppCompatActivity implements Dialogs.PillDeleteDialogListener, Dialogs.PillResetDialogListener {
 
     private final Simpill simpill = new Simpill();
     private final DatabaseHelper myDatabase = new DatabaseHelper(MainActivity.this);
@@ -31,12 +41,55 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillReset
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getLayoutPosition();
+
+                String pillName = myDatabase.getPillNameFromCursor(viewHolder.getLayoutPosition());
+
+                switch (direction) {
+                    case ItemTouchHelper.RIGHT:
+                        myAdapter.notifyItemChanged(position);
+                        dialogs.getPillDeletionDialog(getMainActivityContext(), pillName, position).show();
+                        break;
+                    case ItemTouchHelper.LEFT:
+                        myAdapter.notifyItemChanged(position);
+                        openUpdatePill(pillName);
+                        break;
+                }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeRightActionIcon(R.drawable.ic_delete_svgrepo_com)
+                        .addSwipeLeftActionIcon(R.drawable.ic_write_svgrepo_com)
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+
+
+
         loadSharedPrefs();
 
         setContentViewAndDesign();
 
         findViewsByIds();
         createRecyclerView();
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
         initiateButtons();
         isSqlDatabaseEmpty();
     }
@@ -90,19 +143,10 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillReset
 
         switch (item.getItemId()) {
             case 1:
-                Intent intent = new Intent(this, UpdatePill.class);
-                intent.putExtra(getString(R.string.pill_name), pillName);
-                intent.putExtra(getString(R.string.pill_time), myDatabase.getPillTime(pillName));
-                intent.putExtra(getString(R.string.pill_date), myDatabase.getPillDate(pillName));
-                intent.putExtra(getString(R.string.pill_amount), myDatabase.getPillAmount(pillName));
-                intent.putExtra(getString(R.string.is_pill_taken), myDatabase.getIsTaken(pillName));
-                intent.putExtra(getString(R.string.time_taken), myDatabase.getTimeTaken(pillName));
-                intent.putExtra(getString(R.string.bottle_color), myDatabase.getBottleColor(pillName));
-                startActivity(intent);
-                backPresses = 0;
+                openUpdatePill(pillName);
                 break;
             case 2:
-                dialogs.getPillDeletionDialog(this, pillName, item.getGroupId() - 1);
+                dialogs.getPillDeletionDialog(this, pillName, item.getGroupId() - 1).show();
                 break;
             case 3:
                 Intent intent1 = new Intent(this, ChooseColor.class);
@@ -137,6 +181,18 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillReset
         }
     }
 
+    private void openUpdatePill(String pillName) {
+        Intent intent = new Intent(this, UpdatePill.class);
+        intent.putExtra(getString(R.string.pill_name), pillName);
+        intent.putExtra(getString(R.string.pill_time), myDatabase.convertArrayToString(myDatabase.getPillTime(pillName)));
+        intent.putExtra(getString(R.string.pill_date), myDatabase.getPillDate(pillName));
+        intent.putExtra(getString(R.string.pill_amount), myDatabase.getPillAmount(pillName));
+        intent.putExtra(getString(R.string.is_pill_taken), myDatabase.getIsTaken(pillName));
+        intent.putExtra(getString(R.string.time_taken), myDatabase.getTimeTaken(pillName));
+        intent.putExtra(getString(R.string.bottle_color), myDatabase.getBottleColor(pillName));
+        startActivity(intent);
+        backPresses = 0;
+    }
     private void openCreatePillActivity() {
         Intent intent = new Intent(this, CreatePill.class);
         startActivity(intent);
@@ -159,8 +215,30 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillReset
         System.exit(0);
     }
 
+    public Context getMainActivityContext() {
+        return this;
+    }
+
+
     @Override
     public void notifyAdapterOfDeletedPill(int position) {
-        notifyAdapterOfDeletedPill(position);
+        myAdapter.notifyItemRemoved(position);
+    }
+
+
+    @Override
+    public void notifyAdapterOfResetPill(String pillName, MainRecyclerViewAdapter.MyViewHolder holder, int position, MediaPlayer resetSoundPlayer) {
+        holder.reset_btn.setClickable(false);
+        holder.reset_btn.setVisibility(View.INVISIBLE);
+        holder.taken_btn.setClickable(true);
+        holder.taken_btn.setVisibility(View.VISIBLE);
+
+        myDatabase.setPillAmount(pillName, myDatabase.getPillAmount(pillName) + 1);
+        myDatabase.setTimeTaken(pillName, getString(R.string.nullString));
+        myDatabase.setIsTaken(pillName, 0);
+
+        myAdapter.notifyItemChanged(position);
+
+        toasts.showCustomToast(this, pillName + " " + getString(R.string.pill_reset_toast));
     }
 }
