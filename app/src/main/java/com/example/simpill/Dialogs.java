@@ -421,9 +421,10 @@ public class Dialogs extends AppCompatDialogFragment {
 
         TimesRecyclerViewAdapter timesRecyclerViewAdapter = new TimesRecyclerViewAdapter(context, clocks);
         RecyclerView recyclerView = dialogView.findViewById(R.id.times_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(clocks+1);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(timesRecyclerViewAdapter);
-
 
         ChooseTimesDialogListener chooseTimesDialogListener = (ChooseTimesDialogListener) context;
 

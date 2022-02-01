@@ -31,6 +31,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
     TimesRecyclerViewAdapter(Context myContext, int clocks) {
         this.context = myContext;
         this.itemCount = clocks;
+        this.times = new String[clocks];
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -56,8 +57,6 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         MyViewHolder holder = new MyViewHolder(clocksView);
         holder.setIsRecyclable(false);
 
-        times = new String[getItemCount()];
-
         return new TimesRecyclerViewAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.clock_recycler_view_item, parent, false));
     }
 
@@ -67,8 +66,6 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         setOnClickListeners(holder, position);
 
         holder.timeTextView.setText(context.getString(R.string.clocks_dialog_time_text) + (position+1));
-
-        times[position] = holder.timeTextView.getText().toString();
     }
 
     public String[] returnTimeStringsArrayFromRecyclerViewClass() {
@@ -78,6 +75,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
 
     private void setOnClickListeners(MyViewHolder holder, int position) {
         holder.clockBtn.setOnClickListener(view -> showTimePicker(holder, position));
+        holder.timeTextView.setOnClickListener(view -> showTimePicker(holder, position));
     }
 
 
@@ -120,6 +118,8 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
             }
             times[position] = time;
             holder.timeTextView.setText(time);
+
+            toasts.showCustomToast(context, "Array = " + myDatabase.convertArrayToString(times));
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, simpill.getUserIs24Hr());
         timePickerDialog.show();
