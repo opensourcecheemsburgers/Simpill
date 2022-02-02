@@ -44,6 +44,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     int currentArrayNumber = 0;
 
     String[] times;
+    String date;
 
     DatabaseHelper myDatabase = new DatabaseHelper(this);
 
@@ -152,7 +153,9 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
             }
             simpleDateFormat.format(date);
 
-            pillStockup.setText(selectedDate);
+            this.date = selectedDate;
+
+            pillStockup.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
         }, year, month, day).show();
     }
     private void openTimePickerDialog(int timePickerAmount) {
@@ -359,6 +362,11 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
     @Override
     public void returnTimesStringArray(String[] times) {
-        pillTime.setText(myDatabase.convertArrayToString(times));
+        if (simpill.getUserIs24Hr()) {
+            pillTime.setText(myDatabase.convertArrayToString(times));
+        }
+        else {
+            pillTime.setText(myDatabase.convertArrayToString(myDatabase.convert24HrArrayTo12HrArray(CreatePill.this, times)));
+        }
     }
 }

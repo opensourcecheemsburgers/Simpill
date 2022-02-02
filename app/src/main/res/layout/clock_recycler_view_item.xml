@@ -30,7 +30,7 @@
         android:layout_marginEnd="32dp"
         android:ellipsize="end"
         android:gravity="top"
-        android:text="Time #1"
+        android:text="@string/clocks_dialog_time_text"
         android:textColor="@color/black"
         android:textSize="28sp"
         android:verticalScrollbarPosition="right"

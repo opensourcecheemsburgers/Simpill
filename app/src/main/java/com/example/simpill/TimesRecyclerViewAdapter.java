@@ -65,7 +65,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         initClasses();
         setOnClickListeners(holder, position);
 
-        holder.timeTextView.setText(context.getString(R.string.clocks_dialog_time_text) + (position+1));
+        holder.timeTextView.setText(context.getString(R.string.clocks_dialog_time_text, (position + 1)));
     }
 
     public String[] returnTimeStringsArrayFromRecyclerViewClass() {

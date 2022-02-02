@@ -126,10 +126,4 @@
         app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
 
 
-
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

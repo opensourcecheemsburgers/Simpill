@@ -4,6 +4,7 @@
     <string name="app_name">Simpill</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
+
     <string name="clock_content_description">Icono del reloj</string>
     <string name="calendar_content_description">Icono del calendario</string>
     <string name="pill_refill_content_description">Botón de la fecha de recarga de la pastilla</string>
@@ -23,6 +24,7 @@
     <string name="orange_pill_bottle_content_description">Bote de pastillas naranja</string>
     <string name="light_orange_pill_bottle_content_description">Bote de pastillas naranja claro</string>
     <string name="warning_icon_content_description">Icono de advertencia</string>
+
     <string name="plus_button">Botón de añadir</string>
     <string name="minus_button">Botón de suprimir</string>
     <string name="enter_pill_name">¿Nombre de la pastilla?</string>
@@ -51,14 +53,14 @@
     <string name="bitcoin">Bitcoin</string>
     <string name="pandacoin">Pandacoin</string>
     <string name="database_reset_toast">Todas las pastillas han sido suprimidas!</string>
-    <string name="pill_created_toast">creado :)</string>
-    <string name="already_about">Está en la sección Acerca de!</string>
-    <string name="already_in_settings">Está en la sección de Preferencias!</string>
+    <string name="pill_created_toast">%1$s creado :)</string>
+    <string name="already_in_about_toast">Está en la sección Acerca de!</string>
+    <string name="already_in_settings_toast">Está en la sección de Preferencias!</string>
     <string name="device_restart_toast">Restableciendo alarmas para Simpill :)</string>
     <string name="stockup_notification_title">Recordatorio del Inventario</string>
-    <string name="dont_forget_stockup">No se olvide recargar el</string>
+    <string name="dont_forget_stockup">No se olvide recargar el %1$s :)</string>
     <string name="soon">pronto :)</string>
-    <string name="reminder_notification_description">Es hora de tomar su medicamento:</string>
+    <string name="reminder_notification_description">Es hora de tomar su medicamento: %1$s :)</string>
     <string name="welcome_dialog_title">Bienvenido/a</string>
     <string name="ok">Vale</string>
     <string name="pill_name_dialog_tag">Diálogo del nombre de la pastilla</string>
@@ -68,14 +70,13 @@
     <string name="done">Hecho</string>
     <string name="amount">Cantidad</string>
     <string name="pill_deletion_dialog_title">Suprimir pastilla</string>
-    <string name="pill_deletion_dialog_message">¿Está seguro de que quiere suprimir esta pastilla?\n\nEsta acción es irreversible!</string>
+    <string name="pill_deletion_dialog_message">¿Está seguro de que quiere suprimir %1$s?\n\nEsta acción es irreversible!</string>
     <string name="pill_db_reset">Suprimir pastillas</string>
     <string name="pill_db_reset_warning">¿Desea suprimir la base de datos de las pastillas?\n\nADVERTENCIA: Esto suprimirá todas las pastillas de manera irreversible!</string>
-    <string name="reset_pill_dialog_title">Restablecer Pastilla</string>
-    <string name="reset_pill_dialog_message">¿Le gustaría restablecer el estado de la toma de esta pastilla?</string>
+    <string name="reset_pill_dialog_title">¿Restablecer?</string>
+    <string name="reset_pill_dialog_message">¿Le gustaría restablecer el estado de la toma de %1$s?</string>
     <string name="past_date_dialog_title">¿Fecha equivocada?</string>
     <string name="past_date_dialog_message">La fecha no se puede establecer en el pasado.</string>
-    <string name="extra_reminder_txt_view">¿Le gustaría establecer otra hora de recordatorio para este medicamento?</string>
     <string name="choose_frequency_dialog_text">¿Con qué frecuencia toma este medicamento?</string>
     <string name="choose_frequency_dialog_title">Frecuencia</string>
     <string name="choose_frequency_dialog_custom_interval">Establecer un intervalo personalizado</string>
@@ -86,7 +87,7 @@
     <string name="take_pill_content_description">Botón Tomar Pastilla</string>
     <string name="welcome_dialog_message">Para crear su primera pastilla, seleccione el botón con el símbolo "+" situado en la parte inferior de la pantalla.</string>
     <string name="extra_reminder_dialog_title">Recordatorio Extra</string>
-    <string name="Take_at">Tomar a las</string>
-    <string name="Taken_at">Tomado a las</string>
+    <string name="take_at">Tomar a las %1$s</string>
+    <string name="taken_at">Tomado a las %1$s</string>
 
 </resources>

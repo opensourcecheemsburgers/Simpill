@@ -34,9 +34,9 @@ public class About extends AppCompatActivity {
 
         setContentViewBasedOnThemeSetting();
 
-        findViewsByIds();
-        initiateTextViews();
-        setButtonOnClickListeners();
+        //findViewsByIds();
+        //initiateTextViews();
+        //setButtonOnClickListeners();
     }
 
     private void loadSharedPrefs() {
@@ -60,7 +60,7 @@ public class About extends AppCompatActivity {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
         }
 
-        setContentView(R.layout.app_about);
+        setContentView(R.layout.app_about_new);
     }
 
     private void findViewsByIds() {

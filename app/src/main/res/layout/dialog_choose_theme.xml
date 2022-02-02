@@ -14,8 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_background"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="20dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -26,7 +27,6 @@
             android:fontFamily="@font/truenoreg"
             android:padding="10dp"
             android:paddingStart="20dp"
-            android:paddingLeft="20dp"
             android:paddingEnd="20dp"
             android:text="@string/select_theme_dialog_title"
             android:textColor="@color/white"
@@ -41,34 +41,37 @@
             android:layout_height="80dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/background_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/grey_theme_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView"
-            android:background="@android:color/transparent"
-            android:src="@drawable/background_blue"/>
+            android:contentDescription="@string/blue_theme_button_content_description" />
 
         <ImageButton
             android:id="@+id/grey_theme_btn"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/background_grey"
+            app:layout_constraintBottom_toBottomOf="@id/blue_theme_btn"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView"
-            android:background="@android:color/transparent"
-            android:src="@drawable/background_grey" />
+            app:layout_constraintTop_toBottomOf="@string/blue_theme_button_content_description"
+            android:contentDescription="@string/grey_theme_button_content_description" />
 
         <ImageButton
             android:id="@+id/purple_theme_btn"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/background_purple"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/grey_theme_btn"
             app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView"
-            android:background="@android:color/transparent"
-            android:src="@drawable/background_purple"/>
+            android:contentDescription="@string/purple_theme_button_content_description" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline5"

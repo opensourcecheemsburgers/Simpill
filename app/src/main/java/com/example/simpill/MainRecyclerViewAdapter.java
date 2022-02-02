@@ -72,9 +72,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            menu.add(this.getAbsoluteAdapterPosition() + 1, 1, 0, "Update Pill");
-            menu.add(this.getAbsoluteAdapterPosition() + 1, 2, 0, "Delete Pill");
-            menu.add(this.getAbsoluteAdapterPosition() + 1, 3, 0, "Change Bottle Color");
+            menu.add(this.getAbsoluteAdapterPosition() + 1, 1, 0, R.string.context_menu_update);
+            menu.add(this.getAbsoluteAdapterPosition() + 1, 2, 0, R.string.context_menu_delete);
+            menu.add(this.getAbsoluteAdapterPosition() + 1, 3, 0, R.string.context_menu_change_color);
         }
     }
 
@@ -139,7 +139,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         holder.pill_name_textview.setText(myDatabase.getPillName(pillName));
 
         if (!myDatabase.getTimeTaken(pillName).equals(myContext.getString(R.string.nullString))) {
-            String takenTime = myContext.getString(R.string.Taken_at) + " " + myDatabase.getTimeTaken(pillName);
+            String takenTime = myContext.getString(R.string.taken_at, myDatabase.getTimeTaken(pillName));
             holder.pill_time_textview.setText(takenTime);
             holder.taken_btn.setVisibility(View.INVISIBLE);
             holder.taken_btn.setClickable(false);
@@ -147,11 +147,17 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             holder.reset_btn.setClickable(true);
         }
         else {
-            String takeTime = myContext.getString(R.string.Take_at) + " " + myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
-            if (!simpill.getUserIs24Hr()) {
-                takeTime = myContext.getString(R.string.Take_at) + " " + dateTimeManager.convert24HrTimeTo12HrTime(myContext, dateTimeManager.convert24HrArrayTo12HrStrings(myContext, myDatabase.getPillTime(pillName)));
+            String times;
+
+            myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
+            if (simpill.getUserIs24Hr()) {
+                times = myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
+            } else {
+                times = myDatabase.convertArrayToString(myDatabase.convert24HrArrayTo12HrArray(myContext, myDatabase.getPillTime(pillName)));
             }
-            holder.pill_time_textview.setText(takeTime);
+            times = myContext.getString(R.string.take_at, times);
+
+            holder.pill_time_textview.setText(times);
             holder.reset_btn.setVisibility(View.INVISIBLE);
             holder.reset_btn.setClickable(false);
             holder.taken_btn.setVisibility(View.VISIBLE);
@@ -212,7 +218,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
 
         holder.pill_bottle_image.setOnClickListener(v -> {
-            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast_start) + " " + myDatabase.getPillAmount(pillName) + " " + pillName + " " + myContext.getString(R.string.pill_bottle_amount_toast_end));
+            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast, myDatabase.getPillAmount(pillName), pillName));
             shakeMediaPlayer.start();
         });
     }
@@ -231,7 +237,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             if (!simpill.getUserIs24Hr()){
                 currentTime = dateTimeManager.convert24HrTimeTo12HrTime(myContext, currentTime);
             }
-            String takenTime = myContext.getString(R.string.Taken_at) + " " + currentTime;
+            String takenTime = myContext.getString(R.string.taken_at, currentTime);
 
             myDatabase.setPillAmount(pillName, newPillAmount);
             myDatabase.setIsTaken(pillName, 1);
@@ -253,7 +259,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(myContext);
             notificationManagerCompat.cancel(pillName, myDatabase.getPrimaryKeyId(pillName));
 
-            toasts.showCustomToast(myContext, pillName + " " + myContext.getString(R.string.pill_taken_toast));
+            toasts.showCustomToast(myContext, takenTime);
         });
 
         holder.reset_btn.setOnClickListener(v -> dialogs.getPillResetDialog(mainActivity.getMainActivityContext(), pillName, holder, position, resetMediaPlayer).show());

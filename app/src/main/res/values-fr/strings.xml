@@ -3,13 +3,186 @@
     <string name="app_name">Simpill</string>
     <string name="welcome_dialog_title">Bienvenue</string>
     <string name="welcome_dialog_message">Merci pour choisir Simpill :)</string>
-    <string name="delete_all_pills">Supprimer tous les pilules</string>
     <string name="pill_name_dialog_title">Nom</string>
-    <string name="warning_icon">Warning Icon</string>
+    <string name="warning_icon_content_description">Warning Icon</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="theme">Thème</string>
 
     <string name="simpillAboutParagraph">Simpill est une application libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire.\n\nAvez-vous trouvé un bogue ou voudriez-vous suggérer une idée?\n\nN\'hesitez pas à me contacter: simpilldev@gmail.com :)\n\nSi vous voudriez remercier au développeur de Simpill et soutenir sa développement futur, vous pouvez acheter la version payante de Simpill sur le Google Play Store.\n\nVous pouvez également donner les crypto-monnaies pour soutenir Simpill. Appuyez sur un adresse pour copier l\'adresse dans votre presse-papier.</string>
+
+
+    <string name="app_name">Simpill</string>
+    <string name="nullString" translatable="false">null</string>
+
+    <!--General Strings-->
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="back">Retour</string>
+    <string name="ok">Ok</string>
+
+
+    <!--Content Description Strings-->
+    <string name="clock_content_description">L\'icône d\'horloge</string>
+    <string name="calendar_content_description">L\'icône de calendrier</string>
+    <string name="pill_refill_content_description">Le bouton de rappel du renouvellement</string>
+    <string name="pill_bottle_content_description">L\'icône de boite de pilules</string>
+    <string name="pill_content_description">L\'icône de pilule</string>
+    <string name="reset_pill_content_description">Le bouton de réinitialisation de la pilule</string>
+    <string name="purple_pill_bottle_content_description">Une boite de pilule violette </string>
+    <string name="light_purple_pill_bottle_content_description">Une boite de pilule violette clair</string>
+    <string name="light_blue_pill_bottle_content_description">Une boite de pilule bleue ciel</string>
+    <string name="red_pill_bottle_content_description">Une boite de pilule rouge</string>
+    <string name="light_red_pill_bottle_content_description">Une boite de pilule rouge clair</string>
+    <string name="pink_pill_bottle_content_description">>Une boite de pilule rose</string>
+    <string name="dark_green_pill_bottle_content_description">Une boite de pilule vert foncé</string>
+    <string name="green_pill_bottle_content_description">Une boite de pilule vert</string>
+    <string name="light_green_pill_bottle_content_description">Une boite de pilule vert clair</string>
+    <string name="dark_orange_pill_bottle_content_description">Une boite de pilule orange foncé</string>
+    <string name="orange_pill_bottle_content_description">Une boite de pilule orange</string>
+    <string name="light_orange_pill_bottle_content_description">Une boite de pilule orange clair</string>
+    <string name="warning_icon_content_description">l\'icône d\'avertissement</string>
+    <string name="blue_theme_button_content_description">Thème Bleu Button</string>
+    <string name="grey_theme_button_content_description">Thème Gris Button</string>
+    <string name="purple_theme_button_content_description">Thème Violet Button</string>
+    <string name="plus_button">Le bouton Plus</string>
+    <string name="minus_button">Le bouton Moins</string>
+
+    <!--Create/Update Pill Strings-->
+    <string name="enter_pill_name">Nom de pilule?</string>
+    <string name="enter_pill_time_reminders">Rappels?</string>
+    <string name="enter_pill_refill_date_reminder">Renouvellement?</string>
+    <string name="enter_pill_amount">Quantité?</string>
+    <string name="create_pill_btn">Créer</string>
+    <string name="update_pill_btn">Mettre à jour</string>
+
+    <!--Create/Update Pill Warning Strings-->
+    <string name="non_unique_pill_name_warning"> Le nom (%1$s) est déjà utilisé :(</string>
+    <string name="pill_name_warning">Le nom de votre pilule doit commencer par une lettre.</string>
+    <string name="set_date">Veuillez choisir une date pour votre rappel de pilule.</string>
+    <string name="pill_supply_warning">Le quantité doit être supérieur à 0.</string>
+    <string name="fill_fields_warning">Veuillez remplir tous les champs.</string>
+
+    <!--Settings Strings-->
+    <string name="theme">Thème</string>
+    <string name="time">Temps</string>
+    <string name="notifications">Notifications</string>
+    <string name="sticky">Sticky Notifications Rigides</string>
+    <string name="_24_hour_format">Format de 24 heures</string>
+    <string name="database">Base de données</string>
+    <string name="delete_all_pills">Supprimer tous les pilules</string>
+    <string name="theme_applied">Thème %1$s! a été appliqué :)</string>
+    <string name="select_theme_dialog_title">Choisissez</string>
+    <string name="change_theme">Choisissez une Thème</string>
+
+
+    <!--About Strings-->
+    <string name="monero">Monero</string>
+    <string name="bitcoin">Bitcoin</string>
+    <string name="pandacoin">Pandacoin</string>
+    <string name="MoneroWebsite" translatable="false">https://www.getmonero.org</string>
+    <string name="BitcoinWebsite" translatable="false">https://bitcoin.org</string>
+    <string name="PandacoinWebsite" translatable="false">https://pandacoin.tech</string>
+    <string name="monero_address" translatable="false">86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
+    <string name="bitcoinAddress" translatable="false">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
+    <string name="pandacoinAddress" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
+
+    <!--Pill Time TextView Strings-->
+    <string name="take_at">Prenez à %1$s</string>
+    <string name="taken_at">Prîtes à %1$s</string>
+
+    <!--Toast Strings-->
+    <string name="database_reset_toast">Tous les pilules ont été supprimés!</string>
+    <string name="pill_created_toast">"%1$s a été créé :)"</string>
+    <string name="already_in_about_toast">Vous êtes déjà dans la section à propos!</string>
+    <string name="already_in_settings_toast">Vous êtes déjà dans les paramètres!</string>
+    <string name="device_restart_toast">Les alarms ont été réinitialisées.</string>
+    <string name="time_format_24hr_toast">Le format de temps a été fixé au format de 24 heures.</string>
+    <string name="time_format_12hr_toast">Le format de temps a été fixé au format de 12 heures.</string>
+    <string name="pill_taken_toast">%1$s a été pris.</string>
+    <string name="pill_reset_toast">%1$s a été réinitialisé.</string>
+    <string name="sticky_notifications_enabled_toast">Les notifications rigides ont été activées.</string>
+    <string name="sticky_notifications_disabled_toast">Les notifications rigides ont été désactivées.</string>
+    <string name="unknown_error_toast">Erreur Inconnue :(</string>
+    <string name="append_updated_toast">%1$s a été mis à jour :)</string>
+    <string name="pill_db_deleted_toast">Tous les pilules ont été supprimés!.</string>
+    <string name="append_pill_deleted_toast">%1$s a été supprimé!.</string>
+    <string name="pill_bottle_amount_toast">Vous avez %1$d %2$s pilules.</string>
+
+    <!--Stockup Notification Strings-->
+    <string name="stockup_notification_title">Rappel de renouvellement</string>
+    <string name="dont_forget_stockup">N\'oubliez pas de renouveler de votre médicament: %1$s :)</string>
+
+    <!--Reminder Notification Strings-->
+    <string name="reminder_notification_description">Il est temps de prendre votre médicament: %1$s :)</string>
+
+    <!--Welcome Dialog Strings-->
+    <string name="welcome_dialog_message">Pour créer votre première pilule, cliquez sur le button plus en bas de votre écran.</string>
+
+    <!--Pill Name Dialog Strings-->
+    <string name="pill_name_dialog_tag">Pill Name Dialog</string>
+    <string name="pill_name_dialog_title">Nom</string>
+    <string name="pill_name_dialog_msg">Veuillez entrer un nom pour votre médicament par cliquez sur la ligne ci-dessous.\n</string>
+    <string name="pill_name_dialog_text_hint">Nom</string>
+
+    <!--Pill Amount Dialog Strings-->
+    <string name="done">Terminé</string>
+    <string name="amount">Quantité</string>
+
+    <!--Delete Pill Dialog Strings-->
+    <string name="pill_deletion_dialog_title">Supprimer %1$s?</string>
+    <string name="pill_deletion_dialog_message"> Vous êtes sûr de vouloir supprimer %1$s?\n\nThis cannot be undone!</string>
+
+    <!--Delete Database Dialog Strings-->
+    <string name="pill_db_reset">Supprimer les pilules</string>
+    <string name="pill_db_reset_warning">Aimeriez-vous supprimer tous les pilules dans votre base de donnée?\n\nVeuillez noter que cette action est irréversible!</string>
+
+    <!--Pill Reset Dialog Strings-->
+    <string name="reset_pill_dialog_title">Réinitialisation?</string>
+    <string name="reset_pill_dialog_message">Aimeriez-vous réinitialiser l\'état de %1$s?</string>
+
+    <!--Past Date Dialog Strings-->
+    <string name="past_date_dialog_title">Date Incorrecte?</string>
+    <string name="past_date_dialog_message">La date ne peut pas être dans le temps.</string>
+
+    <!--Extra Reminder Dialog Strings-->
+
+    <!--Frequency Dialog Strings-->
+    <string name="choose_frequency_dialog_text">Combien de fois vous prenez ce médicament?</string>
+    <string name="choose_frequency_dialog_title">Fréquence</string>
+    <string name="choose_frequency_dialog_custom_interval">Choisissez plutôt un intervalle personnalisé</string>
+    <string name="choose_frequency_dialog_weekly">Hebdomadaire</string>
+    <string name="choose_frequency_dialog_every_other_day">Tous les autres jours</string>
+    <string name="choose_frequency_dialog_daily">quotidiennement</string>
+    <string name="choose_frequency_dialog_multiple_daily">Plusieurs fois par jour</string>
+
+    <!--Date Time Formatting Strings (Very fragile, do not touch)-->
+    <string name="time_format_12hr" translatable="false">hh:mm a</string>
+    <string name="time_format_24hr" translatable="false">HH:mm</string>
+    <string name="date_format" translatable="false">yyyy-MM-dd</string>
+    <string name="date_format_with_timezone" translatable="false">yyyy-MM-dd Z</string>
+    <string name="full_date_time_format" translatable="false">yyyy-MM-dd, HH:mm Z</string>
+
+
+    <string name="take_pill_content_description">Take Pill Button</string>
+    <string name="choose_frequency_dialog_reminder_amount_text">How many times a day do you take this medication?</string>
+
+
+    <string name="btc_address_copied">BTC address copied :)</string>
+    <string name="xmr_address_copied">XMR address copied :)</string>
+    <string name="pnd_address_copied">PND address copied :)</string>
+
+
+    <string name="custom_interval_dialog_text">Set a custom interval (in days) for your medication reminder using the buttons below:</string>
+    <string name="custom_interval_dialog_title">Interval</string>
+
+
+    <string name="snap_time_picker_title">Select a time:</string>
+    <string name="clocks_dialog_time_text">Time #%1$d</string>
+    <string name="chooses_times_dialog_text">Set the reminder times for your medication using the clocks below:</string>
+
+    <string name="context_menu_update">Update</string>
+    <string name="context_menu_delete">Delete</string>
+    <string name="context_menu_change_color">Change Color</string>
 
 </resources>

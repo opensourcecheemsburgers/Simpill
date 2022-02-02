@@ -12,6 +12,9 @@
         <entry key="app/src/main/res/drawable-v21/dialog_bottom_btn_light.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable-v21/dialog_title_background_red.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/addicon.xml" value="0.5354166666666667" />
+        <entry key="app/src/main/res/drawable/background_black.xml" value="0.5225" />
+        <entry key="app/src/main/res/drawable/background_blue.xml" value="0.54" />
+        <entry key="app/src/main/res/drawable/background_grey.xml" value="0.54" />
         <entry key="app/src/main/res/drawable/background_purple.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/background_red.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/bitcoin.xml" value="0.23585526315789473" />
@@ -107,6 +110,8 @@
         <entry key="app/src/main/res/layout/activity_main_light.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_update_pill.xml" value="1.0" />
         <entry key="app/src/main/res/layout/app_about.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/app_about_new.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/app_about_nex.xml" value="0.528125" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/app_choose_color.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/app_create_pill.xml" value="0.31354166666666666" />

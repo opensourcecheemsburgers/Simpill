@@ -40,11 +40,13 @@ public class Dialogs extends AppCompatDialogFragment {
         Button yesBtn = dialogView.findViewById(R.id.btnYes);
         Button cancelBtn = dialogView.findViewById(R.id.btnNo);
 
+        titleTextView.setText(context.getString(R.string.reset_pill_dialog_title, pillName));
+        titleMessageView.setText(context.getString(R.string.reset_pill_dialog_message, pillName));
+
         yesBtn.setOnClickListener(view -> {
             super.onDestroy();
             PillResetDialogListener pillResetDialogListener = (PillResetDialogListener) context;
             pillResetDialogListener.notifyAdapterOfResetPill(pillName, holder, position, resetSoundPlayer);
-            toasts.showCustomToast(context, pillName + " " + context.getString(R.string.pill_reset_toast));
             dialog.dismiss();
         });
         cancelBtn.setOnClickListener(view -> dialog.dismiss());
@@ -214,23 +216,6 @@ public class Dialogs extends AppCompatDialogFragment {
             }
             chooseFrequencyDialogListener.openTimePicker(Integer.parseInt(enterAmountEditText.getText().toString()));
         });
-        return dialog;
-    }
-    public Dialog getExtraReminderDialog(Context context, int frequency) {
-        init(context);
-        setViewAndCreateDialog(R.layout.dialog_extra_reminder);
-
-        Button yesBtn = dialogView.findViewById(R.id.btnYes);
-        Button noBtn = dialogView.findViewById(R.id.btnNo);
-
-        ChooseFrequencyDialogListener chooseFrequencyDialogListener = (ChooseFrequencyDialogListener) context;
-
-        yesBtn.setOnClickListener(view -> {
-            chooseFrequencyDialogListener.openTimePicker(frequency);
-        });
-
-        noBtn.setOnClickListener(view -> dialog.dismiss());
-
         return dialog;
     }
 

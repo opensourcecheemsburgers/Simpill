@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -528,6 +529,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return str;
+    }
+    public String[] convert24HrArrayTo12HrArray(Context context, String[] array) {
+        DateTimeManager dateTimeManager = new DateTimeManager();
+
+        for (int currentArrayNumber = 0; currentArrayNumber < array.length; currentArrayNumber++) {
+            array[currentArrayNumber] = dateTimeManager.convert24HrTimeTo12HrTime(context, array[currentArrayNumber]);
+        }
+
+        return array;
     }
     public String[] convertStringToArray(String str){
         String[] arr = str.split(strSeparator);

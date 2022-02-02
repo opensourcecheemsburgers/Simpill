@@ -239,6 +239,6 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
 
         myAdapter.notifyItemChanged(position);
 
-        toasts.showCustomToast(this, pillName + " " + getString(R.string.pill_reset_toast));
+        toasts.showCustomToast(this, this.getString(R.string.pill_reset_toast, pillName));
     }
 }

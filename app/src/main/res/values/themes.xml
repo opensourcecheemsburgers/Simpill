@@ -27,6 +27,15 @@
         <item name="statusBarForeground">@color/background_grey_top</item>
     </style>
 
+    <style name="SimpillAppTheme.BlackBackground">
+        <item name="android:windowBackground">@drawable/background_black</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/dark_gray</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/chinese_black</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@color/alice_blue</item>
+        <item name="statusBarBackground">@color/dark_gray</item>
+        <item name="statusBarForeground">@color/dark_gray</item>
+    </style>
+
     <style name="SimpillAppTheme.PurpleBackground">
         <item name="android:windowBackground">@drawable/background_purple</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/pink_lace</item>

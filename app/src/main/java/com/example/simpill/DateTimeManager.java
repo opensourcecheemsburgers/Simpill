@@ -77,7 +77,6 @@ public class DateTimeManager {
             throw new NullPointerException();
         }
     }
-
     public String convert24HrTimeTo12HrTime(Context ct, String timeIn24HrFormat) {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.time_format_24hr));
         Date date = null;
@@ -91,23 +90,38 @@ public class DateTimeManager {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat1 = new SimpleDateFormat(ct.getString(R.string.time_format_12hr), Locale.US);
 
         if (date != null) {
-            return dateFormat1.format(date);
+
+            String dateString = dateFormat1.format(date);
+
+            if (dateString.indexOf("0") == 0) {
+                dateString = dateString.substring(1);
+            }
+
+            dateString =  dateString.replace(" PM", " pm");
+            dateString = dateString.replace(" AM", " am");
+
+            return dateString;
         } else {
             throw new NullPointerException();
         }
     }
 
-    public String convert24HrArrayTo12HrStrings(Context context, String[] timeArray) {
-        DatabaseHelper myDatabase = new DatabaseHelper(context);
-        for (int currentArrayIndex = 0; currentArrayIndex < timeArray.length; currentArrayIndex++) {
-            timeArray[currentArrayIndex] = convert24HrTimeTo12HrTime(context, timeArray[currentArrayIndex]);
+    public String convertISODateStringToLocallyFormattedString(Context ct, String dateString) {
+        return DateFormat
+                .getDateInstance(DateFormat.LONG, Locale.getDefault())
+                .format(formatDateStringAsDate(ct, getUserTimezone(), dateString));
+    }
+
+    public Date formatDateStringAsDate(Context context, TimeZone userTimezone, String dateString){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
+
+        Date date = Calendar.getInstance(userTimezone).getTime();
+        try {
+            date = simpleDateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-
-        String s = myDatabase.convertArrayToString(timeArray);
-
-        System.out.println(s);
-
-        return s;
+        return date;
     }
 
     public Calendar formatDateStringAsCalendar(Context ct, TimeZone userTimezone, String dateString) {
