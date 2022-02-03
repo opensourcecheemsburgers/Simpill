@@ -87,7 +87,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     @NonNull
     @Override
     public MainRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        loadSharedPrefs();
+        new SharedPrefs().loadSharedPrefs(parent.getContext());
 
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_pill_new, parent, false));
     }
@@ -114,14 +114,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         userTimezone = dateTimeManager.getUserTimezone();
         alarmSetter = new AlarmSetter(myContext, pillName, myDatabase.getPrimaryKeyId(pillName));
     }
-    private void loadSharedPrefs() {
-        SharedPreferences themePref = myContext.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= myContext.getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, Context.MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
-        simpill.setUserIs24Hr(is24Hr);
-    }
+
     private void initTextViews(MyViewHolder holder, String pillName) {
         truenoLight = ResourcesCompat.getFont(myContext, R.font.truenolight);
         truenoReg = ResourcesCompat.getFont(myContext, R.font.truenoreg);

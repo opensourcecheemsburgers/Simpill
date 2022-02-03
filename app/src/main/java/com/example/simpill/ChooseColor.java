@@ -29,7 +29,7 @@ public class ChooseColor extends AppCompatActivity {
 
         String pillName = getIntent().getStringExtra(getString(R.string.pill_name));
 
-        loadSharedPrefs();
+        new SharedPrefs().loadSharedPrefs(this);
         findViewsByIds();
         createOnClickListeners(pillName);
     }
@@ -118,15 +118,6 @@ public class ChooseColor extends AppCompatActivity {
             myDatabase.setBottleColor(pillName, selectedColor);
             openMainActivity();
         });
-    }
-
-    private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref = getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
-        simpill.setUserIs24Hr(is24Hr);
     }
 
     private void openSettingsActivity() {

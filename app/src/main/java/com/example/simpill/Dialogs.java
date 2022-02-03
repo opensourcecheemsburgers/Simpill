@@ -144,6 +144,8 @@ public class Dialogs extends AppCompatDialogFragment {
     }
 
     public Dialog getChooseThemeDialog(Context context) {
+        SharedPrefs sharedPrefs = new SharedPrefs();
+
         init(context);
 
         if (isDarkDialogTheme(context)){
@@ -164,38 +166,25 @@ public class Dialogs extends AppCompatDialogFragment {
         ImageButton blackThemeBtn = dialogView.findViewById(R.id.black_theme_btn);
 
         blueThemeBtn.setOnClickListener(view -> {
-
-            simpill.setCustomTheme(simpill.BLUE_THEME);
-            SharedPreferences.Editor editor = context.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE).edit();
-            editor.putInt(Simpill.USER_THEME_TAG, simpill.getCustomTheme());
-            editor.apply();
+            sharedPrefs.setThemesPref(context, simpill.BLUE_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.blue)));
             settingsDialogListener.recreateScreen();
             dialog.dismiss();
         });
         greyThemeBtn.setOnClickListener(view -> {
-            simpill.setCustomTheme(simpill.GREY_THEME);
-            SharedPreferences.Editor editor = context.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE).edit();
-            editor.putInt(Simpill.USER_THEME_TAG, simpill.getCustomTheme());
-            editor.apply();
+            sharedPrefs.setThemesPref(context, simpill.GREY_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.grey)));
             settingsDialogListener.recreateScreen();
             dialog.dismiss();
         });
         purpleThemeBtn.setOnClickListener(view -> {
-            simpill.setCustomTheme(simpill.PURPLE_THEME);
-            SharedPreferences.Editor editor = context.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE).edit();
-            editor.putInt(Simpill.USER_THEME_TAG, simpill.getCustomTheme());
-            editor.apply();
+            sharedPrefs.setThemesPref(context, simpill.PURPLE_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.purple)));
             settingsDialogListener.recreateScreen();
             dialog.dismiss();
         });
         blackThemeBtn.setOnClickListener(view -> {
-            simpill.setCustomTheme(simpill.BLACK_THEME);
-            SharedPreferences.Editor editor = context.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE).edit();
-            editor.putInt(Simpill.USER_THEME_TAG, simpill.getCustomTheme());
-            editor.apply();
+            sharedPrefs.setThemesPref(context, simpill.BLACK_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.dark)));
             settingsDialogListener.recreateScreen();
             dialog.dismiss();
@@ -463,27 +452,21 @@ public class Dialogs extends AppCompatDialogFragment {
             setViewAndCreateDialog(R.layout.dialog_donate);
         }
 
+        ClipboardHelper clipboardHelper = new ClipboardHelper();
+
         ImageButton paypalDonation = dialogView.findViewById(R.id.imageButton);
         TextView paypalDonationTextView = dialogView.findViewById(R.id.textView5);
-
         ImageButton playStoreBtn = dialogView.findViewById(R.id.imageButton3);
         TextView playStoreTextView = dialogView.findViewById(R.id.textView6);
-
         ImageButton moneroBtn = dialogView.findViewById(R.id.imageButton4);
         TextView moneroTextView = dialogView.findViewById(R.id.textView7);
-
         Button dismissBtn = dialogView.findViewById(R.id.dismiss_btn);
 
         paypalDonation.setOnClickListener(view -> openPaypalDonation(context));
         paypalDonationTextView.setOnClickListener(view -> openPaypalDonation(context));
-
         playStoreBtn.setOnClickListener(view -> openPaidSimpillLink(context));
         playStoreTextView.setOnClickListener(view -> openPaidSimpillLink(context));
-
         dismissBtn.setOnClickListener(view -> dialog.dismiss());
-
-        ClipboardHelper clipboardHelper = new ClipboardHelper();
-
         moneroBtn.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(context, 2));
         moneroTextView.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(context, 2));
         return dialog;
@@ -512,7 +495,7 @@ public class Dialogs extends AppCompatDialogFragment {
 
     private boolean isDarkDialogTheme(Context context) {
         return context.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE)
-                .getBoolean(Simpill.DARK_DIALOGS_TAG, (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES);
+                .getBoolean(Simpill.DARK_DIALOGS_TAG, (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES);
     }
 
     public interface PillNameDialogListener {

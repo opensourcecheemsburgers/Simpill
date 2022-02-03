@@ -2,9 +2,7 @@ package com.example.simpill;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,8 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
-
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,7 +51,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
         simpill = (Simpill) getApplicationContext();
 
-        loadSharedPrefs();
+        new SharedPrefs().loadSharedPrefs(this);
 
         setContentViewBasedOnThemeSetting();
 
@@ -63,15 +59,6 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         initiateTexts();
         initiateCalendar();
         initiateButtons();
-    }
-
-    private void loadSharedPrefs() {
-        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
-        simpill.setUserIs24Hr(is24Hr);
     }
 
     private void setContentViewBasedOnThemeSetting() {

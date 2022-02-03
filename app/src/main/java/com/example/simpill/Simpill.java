@@ -19,7 +19,7 @@ public class Simpill extends Application {
     public static final String DARK_DIALOGS_FILENAME = "dark_dialogs";
     public static final String SELECTED_THEME_FILENAME = "User Theme";
     public static final String IS_24HR_BOOLEAN_FILENAME = "Is 24Hr Boolean";
-    public static final String PERMANENT_NOTIFICATIONS_BOOLEAN = "Permanent Notification Boolean";
+    public static final String PERMANENT_NOTIFICATIONS_FILENAME = "Permanent Notification Boolean";
 
     public static final String DARK_DIALOGS_TAG = "Dark Dialogs";
     public static final String OPEN_COUNT_TAG = "Open Count";

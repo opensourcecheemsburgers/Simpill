@@ -94,27 +94,18 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences openCountPref = getSharedPreferences(Simpill.OPEN_COUNT_FILENAME, MODE_PRIVATE);
-        int count = openCountPref.getInt(Simpill.OPEN_COUNT_TAG, -1);
-        if(count == -1) {
-            count = 0;
-        }
-        count++;
+        SharedPrefs sharedPrefs = new SharedPrefs();
+        sharedPrefs.loadSharedPrefs(this);
+
+
+        int count = simpill.getOpenCount();
+        count = count++;
+
         if(count == 100) {
             dialogs.getDonationDialog(this).show();
             count = 0;
         }
-        openCountPref.edit().putInt(Simpill.OPEN_COUNT_TAG, count).apply();
-
-        toasts.showCustomToast(this, "Count = " + openCountPref.getInt(Simpill.OPEN_COUNT_TAG, -1));
-
-
-        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME_TAG, 1);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
-        simpill.setUserIs24Hr(is24Hr);
+        sharedPrefs.setOpenCountPref(this, count);
     }
     private void setContentViewAndDesign() {
         int theme = simpill.getCustomTheme();

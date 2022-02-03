@@ -27,7 +27,7 @@ public class About extends AppCompatActivity {
 
         simpill = (Simpill) getApplicationContext();
 
-        loadSharedPrefs();
+        new SharedPrefs().loadSharedPrefs(this);
 
         setContentViewBasedOnThemeSetting();
 
@@ -36,14 +36,6 @@ public class About extends AppCompatActivity {
         setButtonOnClickListeners();
     }
 
-    private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
-        simpill.setUserIs24Hr(is24Hr);
-    }
 
     private void setContentViewBasedOnThemeSetting() {
         int theme = simpill.getCustomTheme();

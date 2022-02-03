@@ -60,7 +60,6 @@ public class AlarmSetter {
         }
     }
 
-
     private void initAll(){
         simpill = new Simpill();
         alarmManager = (AlarmManager) myContext.getSystemService(Context.ALARM_SERVICE);

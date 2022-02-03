@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -43,7 +42,7 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                 pillNotificationManagerCompat = NotificationManagerCompat.from(context);
                 Notification pillReminderNotification;
 
-                SharedPreferences permanentNotificationsPref= context.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, Context.MODE_PRIVATE);
+                SharedPreferences permanentNotificationsPref= context.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_FILENAME, Context.MODE_PRIVATE);
                 Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS_TAG, false);
                 simpill.setUserPermanentNotifications(permanentNotifications);
 
