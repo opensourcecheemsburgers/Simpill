@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
-        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener,  Dialogs.TimePickerDialogListener, Dialogs.ChooseTimesDialogListener {
+        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener,  Dialogs.ChooseTimesDialogListener {
 
     private Simpill simpill = new Simpill();
     private AlarmSetter alarmSetter;
@@ -68,11 +68,11 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
+        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
+        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
+        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
         simpill.setUserIs24Hr(is24Hr);
     }
 
@@ -81,8 +81,10 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if(theme == simpill.GREY_THEME) {
+        } else if (theme == simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
+        } else if (theme == simpill.BLACK_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
@@ -208,7 +210,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         dialogs.getChooseSupplyAmountDialog(this).show();
     }
     private void openFrequencyDialog() {
-        dialogs.getFrequencyDialog(this, 1).show();
+        dialogs.getFrequencyDialog(this).show();
     }
 
     private void getAndSetIntentData(){
@@ -304,7 +306,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         }
         Date stockupDate;
         try {
-            stockupDate = simpleDateFormat.parse(pillStockupTextView.getText().toString().trim());
+            stockupDate = simpleDateFormat.parse(date);
         }
         catch (ParseException e) {
             toasts.showCustomToast(this, getString(R.string.set_date));
@@ -337,9 +339,6 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         startActivity(intent);
     }
 
-    public void setIntervalInDays(int intervalInDays) {
-        this.intervalInDays = intervalInDays;
-    }
     public int getIntervalInDays() {
         return intervalInDays;
     }
@@ -362,13 +361,8 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
     }
 
     @Override
-    public void applySelectedTimeToArray(String time, int position) {
-        times[position] = time;
-    }
-
-    @Override
-    public void applySelectedTimeToTextView(TimesRecyclerViewAdapter.MyViewHolder holder, String time, int position) {
-        pillTimeTextView.setText(time);
+    public void setInterval(int intervalInDays) {
+        this.intervalInDays = intervalInDays;
     }
 
     @Override

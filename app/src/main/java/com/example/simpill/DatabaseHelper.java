@@ -30,6 +30,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ALARMSSET = "AlarmsSet";
     private static final String COLUMN_BOTTLECOLOR = "BottleColor";
 
+    public static final int MULTIPLE_DAILY = 0;
+    public static final int DAILY = 1;
+    public static final int EVERY_OTHER_DAY = 2;
+    public static final int WEEKLY = 7;
+
     private static final String SELECTION = "PillName = ?";
 
     public static String strSeparator = ", ";
@@ -483,9 +488,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createTestingPills() {
-        addNewPill(1, "Melatonin",  new String[]{"09:00", "12:00", "13:00"},0, "2022-09-03", 30, 0, "null", 0, 2);
-        addNewPill(2, "Fluoxetine", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
-        addNewPill(3, "Equasym", new String[]{"09:00", "12:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
+        addNewPill(1, "Testing",  new String[]{"16:10", "16:30", "16:50"},0, "2022-09-03", 30, 0, "null", 0, 2);
+        //addNewPill(2, "Prozac", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
+        //addNewPill(3, "Equasym", new String[]{"09:00", "15:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
+        //addNewPill(4, "Vitamins", new String[]{"08:45", "12:00", "15:30", "19:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
     }
 
     public String[] sortTimeArray(Context context, String[] timeArray) {
@@ -494,7 +500,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for (int arraySortAttempt = 0; arraySortAttempt < timeArray.length; arraySortAttempt++) {
             for (int currentNumber = 0; currentNumber < timeArray.length - 1; currentNumber++) {
-                System.out.println("Time array received: " + convertArrayToString(timeArray));
                 int nextNumber = currentNumber + 1;
 
                 Calendar currentArrIndexCal = dateTimeManager.formatTimeStringAsCalendar(context, timeZone, timeArray[currentNumber]);
@@ -508,27 +513,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     timeArray[nextNumber] = currentTime;
                 }
                 else if (currentArrIndexCal.compareTo(nextArrIndexCal) == 0) {
-                    Toast.makeText(context, "Error!! Cannot have the same reminder twice.", Toast.LENGTH_SHORT).show();
+                    new Toasts().showCustomToast(context, "Error!! Cannot have the same reminder twice.");
                 }
-
-                System.out.println("Time array outputted: " + convertArrayToString(timeArray));
             }
-
         }
-
         return timeArray;
     }
 
     public String convertArrayToString(String[] array){
-        String str = "";
-        for (int i = 0; i<array.length; i++) {
-            str = str + array[i];
+        String timeArrayAsString = "";
+        for (int currentArrayNumber = 0; currentArrayNumber < array.length; currentArrayNumber++) {
+            timeArrayAsString = timeArrayAsString + array[currentArrayNumber];
 
-            if (i<array.length-1) {
-                str = str+strSeparator;
+            if (currentArrayNumber < array.length - 1) {
+                timeArrayAsString = timeArrayAsString+strSeparator;
             }
         }
-        return str;
+        return timeArrayAsString;
     }
     public String[] convert24HrArrayTo12HrArray(Context context, String[] array) {
         DateTimeManager dateTimeManager = new DateTimeManager();
@@ -540,8 +541,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return array;
     }
     public String[] convertStringToArray(String str){
-        String[] arr = str.split(strSeparator);
-        return arr;
+        String[] timeArray = str.split(strSeparator);
+        return timeArray;
     }
 }
 

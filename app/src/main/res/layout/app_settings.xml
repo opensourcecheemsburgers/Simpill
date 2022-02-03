@@ -10,7 +10,6 @@
         android:id="@+id/aboutButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
         android:scaleX="1.6"
         android:scaleY="1.6"
@@ -23,7 +22,6 @@
         android:id="@+id/settingsButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/ic_hamburger"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,26 +46,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
     <Button
         android:id="@+id/theme_select_btn"
-        android:theme="@style/SwitchCompatTheme"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
+        android:background="@android:color/transparent"
         android:fontFamily="@font/truenolight"
+        android:gravity="center_vertical"
         android:text="@string/change_theme"
+        android:textAllCaps="false"
         android:textColor="@color/alice_blue"
         android:textSize="28sp"
-        android:background="@android:color/transparent"
-        android:textAllCaps="false"
-        android:gravity="center_vertical"
+        android:theme="@style/SwitchCompatTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/themeTextView" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/dark_dialogs_switch"
+        android:theme="@style/SwitchCompatTheme"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elegantTextHeight="true"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/truenolight"
+        android:textColor="@color/alice_blue"
+        android:textSize="28sp"
+        android:text="@string/dark_dialogs_setting"
+        app:layout_constraintEnd_toEndOf="@+id/theme_select_btn"
+        app:layout_constraintStart_toStartOf="@+id/theme_select_btn"
+        app:layout_constraintTop_toBottomOf="@+id/theme_select_btn" />
 
     <TextView
         android:id="@+id/timeTextView"
@@ -91,7 +103,8 @@
         android:id="@+id/clock_24hr_switch"
         android:theme="@style/SwitchCompatTheme"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:elegantTextHeight="true"
         android:layout_marginStart="24dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="24dp"
@@ -119,7 +132,7 @@
         android:fontFamily="@font/truenolight"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/permanentNotificationsSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/theme_select_btn"
+        app:layout_constraintTop_toBottomOf="@+id/dark_dialogs_switch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -127,12 +140,13 @@
         android:id="@+id/permanentNotificationsSwitch"
         android:theme="@style/SwitchCompatTheme"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
+        android:elegantTextHeight="true"
         android:fontFamily="@font/truenolight"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
@@ -195,6 +209,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/theme_select_btn"
         tools:ignore="UnusedAttribute" />
+
+    <View
+        android:id="@+id/divider69"
+        android:backgroundTint="@color/black"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:alpha="0.25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dark_dialogs_switch"
+        tools:ignore="UnusedAttribute" />
+
+    <View
+        android:id="@+id/divider69420"
+        android:backgroundTint="@color/black"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:alpha="0.25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dark_dialogs_switch"
+        tools:ignore="UnusedAttribute" />
+
     <View
         android:id="@+id/divider1"
         android:backgroundTint="@color/black"

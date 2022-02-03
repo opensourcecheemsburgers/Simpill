@@ -13,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/dialog_background">
+        android:background="@drawable/dialog_background_dark">
 
         <TextView
             android:id="@+id/dialogTitleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/dialog_title_background_purple"
+            android:background="@drawable/dialog_title_background_dark"
             android:padding="10dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
@@ -56,7 +56,7 @@
             android:layout_marginBottom="40dp"
             android:fontFamily="@font/truenoreg"
             android:text="@string/welcome_dialog_message"
-            android:textColor="@color/black"
+            android:textColor="@color/alice_blue"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/dialogTitleTextView"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +79,7 @@
         android:textSize="18sp"
         android:textAllCaps="false"
         android:textColor="@color/alice_blue"
-        android:background="@drawable/dialog_bottom_btn"
+        android:background="@drawable/dialog_bottom_btn_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"

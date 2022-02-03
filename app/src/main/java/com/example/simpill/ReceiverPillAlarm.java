@@ -44,7 +44,7 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                 Notification pillReminderNotification;
 
                 SharedPreferences permanentNotificationsPref= context.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, Context.MODE_PRIVATE);
-                Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS, false);
+                Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS_TAG, false);
                 simpill.setUserPermanentNotifications(permanentNotifications);
 
                 //Open Button for Notification
@@ -52,40 +52,11 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                 openMainIntent.putExtra(context.getString(R.string.notification_pill_name), pillName);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationCode, openMainIntent, PendingIntent.FLAG_IMMUTABLE);
 
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH && simpill.getUserPermanentNotifications() && myDatabase.getIsTaken(pillName) == 0) {
-                    pillReminderNotification = new NotificationCompat.Builder(context, Simpill.PILL_REMINDER_CHANNEL)
-                            .setSmallIcon(R.drawable.ic_stat_name)
-                            .setContentText(context.getString(R.string.reminder_notification_description) + " " + pillName)
-                            .setColor(500086)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.reminder_notification_description) + " " + pillName))
-                            .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                            .setVibrate(new long[]{100, 300, 500, 300})
-                            .setPriority(NotificationCompat.PRIORITY_MAX)
-                            .setOngoing(true)
-                            .setContentIntent(pendingIntent)
-                            .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
-                            .build();
-                }
-                else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH && simpill.getUserPermanentNotifications() && myDatabase.getIsTaken(pillName) == 0) {
-                    pillReminderNotification = new NotificationCompat.Builder(context, Simpill.PILL_REMINDER_CHANNEL)
+                pillReminderNotification = new NotificationCompat.Builder(context, Simpill.PILL_REMINDER_CHANNEL)
                             .setSmallIcon(R.drawable.pill_bottle_color_2)
-                            .setContentText(context.getString(R.string.reminder_notification_description) + " " + pillName)
+                            .setContentText(context.getString(R.string.reminder_notification_description, pillName))
                             .setColor(500086)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.reminder_notification_description) + " " + pillName))
-                            .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                            .setVibrate(new long[]{100, 300, 500, 300})
-                            .setPriority(NotificationCompat.PRIORITY_MAX)
-                            .setOngoing(true)
-                            .setContentIntent(pendingIntent)
-                            .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
-                            .build();
-                }
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH && !simpill.getUserPermanentNotifications() && myDatabase.getIsTaken(pillName) == 0) {
-                    pillReminderNotification = new NotificationCompat.Builder(context, Simpill.PILL_REMINDER_CHANNEL)
-                            .setSmallIcon(R.drawable.ic_stat_name)
-                            .setContentText(context.getString(R.string.reminder_notification_description) + " " + pillName)
-                            .setColor(500086)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.reminder_notification_description) + " " + pillName))
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.reminder_notification_description, pillName)))
                             .setCategory(NotificationCompat.CATEGORY_REMINDER)
                             .setVibrate(new long[]{100, 300, 500, 300})
                             .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -93,27 +64,13 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                             .setContentIntent(pendingIntent)
                             .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
                             .build();
-                }
-                else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH && !simpill.getUserPermanentNotifications() && myDatabase.getIsTaken(pillName) == 0) {
+
+                if (myDatabase.getIsTaken(pillName) == 1) {
                     pillReminderNotification = new NotificationCompat.Builder(context, Simpill.PILL_REMINDER_CHANNEL)
                             .setSmallIcon(R.drawable.pill_bottle_color_2)
-                            .setContentText(context.getString(R.string.reminder_notification_description) + " " + pillName)
+                            .setContentText(context.getString(R.string.reminder_notification_description, pillName))
                             .setColor(500086)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.reminder_notification_description) + " " + pillName))
-                            .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                            .setVibrate(new long[]{100, 300, 500, 300})
-                            .setPriority(NotificationCompat.PRIORITY_MAX)
-                            .setOngoing(false)
-                            .setContentIntent(pendingIntent)
-                            .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
-                            .build();
-                }
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH && myDatabase.getIsTaken(pillName) == 1) {
-                    pillReminderNotification = new NotificationCompat.Builder(context, Simpill.PILL_REMINDER_CHANNEL)
-                            .setSmallIcon(R.drawable.ic_stat_name)
-                            .setContentText(pillName + " already taken :)")
-                            .setColor(500086)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(pillName + " already taken :)"))
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.reminder_already_taken_description, pillName)))
                             .setCategory(NotificationCompat.CATEGORY_REMINDER)
                             .setVibrate(new long[]{100, 300, 500, 300})
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -122,20 +79,7 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                             .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
                             .build();
                 }
-                else {
-                    pillReminderNotification = new NotificationCompat.Builder(context, Simpill.PILL_REMINDER_CHANNEL)
-                            .setSmallIcon(R.drawable.pill_bottle_color_2)
-                            .setContentText(pillName + " already taken :)")
-                            .setColor(500086)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(pillName + " already taken :)"))
-                            .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                            .setVibrate(new long[]{100, 300, 500, 300})
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setOngoing(false)
-                            .setContentIntent(pendingIntent)
-                            .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
-                            .build();
-                }
+
 
                 pillNotificationManagerCompat.notify(pillName, notificationCode, pillReminderNotification);
 

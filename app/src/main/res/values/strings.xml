@@ -8,7 +8,6 @@
     <string name="no">No</string>
     <string name="back">back</string>
     <string name="ok">Ok</string>
-    <string name="back">back</string>
 
     <!--Intent Strings (Very fragile, do not touch)-->
     <string name="notification_id" translatable="false">Notification ID</string>
@@ -57,7 +56,7 @@
     <string name="update_pill_btn">Update</string>
 
     <!--Create/Update Pill Warning Strings-->
-    <string name="non_unique_pill_name_warning">Pill name is already in use :)</string>
+    <string name="non_unique_pill_name_warning">This name is already in use :)</string>
     <string name="pill_name_warning">Your pill\'s name must begin with a letter.</string>
     <string name="set_date">Please set a date for your refill reminder.</string>
     <string name="pill_supply_warning">Your pill supply amount must be greater than 0.</string>
@@ -71,13 +70,16 @@
     <string name="_24_hour_format">24 Hour Format</string>
     <string name="database">Database</string>
     <string name="delete_all_pills">Delete All Pills</string>
-    <string name="theme_applied">%1$s! theme applied :)</string>
+    <string name="theme_applied">%1$s theme applied :)</string>
     <string name="select_theme_dialog_title">Select Theme</string>
     <string name="change_theme">Change Theme</string>
 
-
     <!--About Strings-->
-    <string name="simpillAboutParagraph">Simpill is a free and open-source medication reminder app without any trackers, annoying ads or unnecessary permissions.\n\nHave you found any bugs or would you like to suggest some ideas for Simpill? Feel free to contact me at simpilldev@gmail.com :)\n\nIf would you to thank the Simpill developer and support its future development, you can purchase the paid version of Simpill on the Play Store.\n\nYou can also donate cryptocurrency to support Simpill. Tap on an address to copy it to your clipboard.\n\nAll donations are greatly appreciated! :)</string>
+    <string name="simpillAboutParagraph_1">Simpill is a free and open-source medication reminder app without any trackers, annoying ads or unnecessary permissions.</string>
+    <string name="simpillAboutParagraph_2">Have you found any bugs or would you like to suggest some ideas for Simpill? Feel free to contact me at simpilldev@gmail.com :)</string>
+    <string name="simpillAboutParagraph_3">Simpill is provided as a completely free application and it does not generate any revenue from ads or selling data.\n\nIf would you to like to support Simpill and its future development, there are a number of donation options:</string>
+    <string name="simpillAboutParagraph_4">You can also donate cryptocurrency to support Simpill. Tap on an address to copy it to your clipboard.\n\nAll donations are greatly appreciated! :)</string>
+
     <string name="monero">Monero</string>
     <string name="bitcoin">Bitcoin</string>
     <string name="pandacoin">Pandacoin</string>
@@ -85,8 +87,8 @@
     <string name="BitcoinWebsite" translatable="false">https://bitcoin.org</string>
     <string name="PandacoinWebsite" translatable="false">https://pandacoin.tech</string>
     <string name="monero_address" translatable="false">86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
-    <string name="bitcoinAddress" translatable="false">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
-    <string name="pandacoinAddress" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
+    <string name="bitcoin_address" translatable="false">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
+    <string name="pandacoin_address" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
 
     <!--Pill Time TextView Strings-->
     <string name="take_at">Take at %1$s</string>
@@ -94,7 +96,7 @@
 
     <!--Toast Strings-->
     <string name="database_reset_toast">All pills deleted!</string>
-    <string name="pill_created_toast">"%1$s created :)"</string>
+    <string name="pill_created_toast">%1$s created :)</string>
     <string name="already_in_about_toast">You are already in the About section!</string>
     <string name="already_in_settings_toast">You are already in the Settings section!</string>
     <string name="device_restart_toast">Resetting alarms for Simpill :)</string>
@@ -112,8 +114,7 @@
 
     <!--Stockup Notification Strings-->
     <string name="stockup_notification_title">Stockup Reminder</string>
-    <string name="dont_forget_stockup">Don\'t forget to stockup on your %1$s :)</string>
-    <string name="soon">soon :)</string>
+    <string name="dont_forget_stockup">Don\'t forget to stockup on your %1$s soon :)</string>
 
     <!--Reminder Notification Strings-->
     <string name="reminder_notification_description">It\'s time to take your medication: %1$s :)</string>
@@ -126,14 +127,14 @@
     <string name="pill_name_dialog_tag">Pill Name Dialog</string>
     <string name="pill_name_dialog_title">Pill Name</string>
     <string name="pill_name_dialog_msg">Please enter a name for your medication by clicking the line below:\n</string>
-    <string name="pill_name_dialog_text_hint">Name</string>
+    <string name="pill_name_dialog_text_hint">Name - keep it short :)</string>
 
     <!--Pill Amount Dialog Strings-->
     <string name="done">Done</string>
     <string name="amount">Amount</string>
 
     <!--Delete Pill Dialog Strings-->
-    <string name="pill_deletion_dialog_title">Delete %1$s?</string>
+    <string name="pill_deletion_dialog_title">Delete?</string>
     <string name="pill_deletion_dialog_message">Are you sure you want to delete %1$s?\n\nThis cannot be undone!</string>
 
     <!--Delete Database Dialog Strings-->
@@ -176,8 +177,7 @@
     <string name="xmr_address_copied">XMR address copied :)</string>
     <string name="pnd_address_copied">PND address copied :)</string>
 
-    <string name="time_format_24hr_toast">Time format set to 24hr.</string>
-    <string name="time_format_12hr_toast">Time format set to 12hr.</string>
+
 
 
 
@@ -192,5 +192,16 @@
     <string name="context_menu_update">Update</string>
     <string name="context_menu_delete">Delete</string>
     <string name="context_menu_change_color">Change Color</string>
+    <string name="donation_dialog_message">If you enjoy using Simpill, please consider making a donation :)\n\nSimpill is completely free and open-source without any ads or trackers.\n\nYou can donate using one of the buttons below:</string>
+    <string name="reminder_already_taken_description">You have already taken your %1$s :)</string>
+    <string name="paypal_donation_link">https://www.paypal.com/donate/?hosted_button_id=A8UNN2A4D3P3G</string>
+    <string name="simpill_paid_version_link">https://play.google.com/store/apps/details?id=com.winston69.simpill.ty</string>
+    <string name="blue">Blue</string>
+    <string name="grey">Grey</string>
+    <string name="dark">Dark</string>
+    <string name="purple">Purple</string>
+    <string name="dark_dialogs_setting">Dark Dialogs</string>
+    <string name="dark_dialogs_toast">Dark dialogs applied :)</string>
+    <string name="light_dialogs_toast">Light dialogs applied :)</string>
 
 </resources>

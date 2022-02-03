@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 public class Toasts {
 
     public void showCustomToast(Context context, String toastMessage) {
@@ -27,4 +30,5 @@ public class Toasts {
 
         toast.show();
     }
+
 }

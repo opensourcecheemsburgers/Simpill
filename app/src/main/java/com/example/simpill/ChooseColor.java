@@ -121,11 +121,11 @@ public class ChooseColor extends AppCompatActivity {
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME, MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
+        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref = getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
+        SharedPreferences is24HrPref = getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
+        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
         simpill.setUserIs24Hr(is24Hr);
     }
 
@@ -147,8 +147,10 @@ public class ChooseColor extends AppCompatActivity {
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if(theme == simpill.GREY_THEME) {
+        } else if (theme == simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
+        } else if (theme == simpill.BLACK_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);

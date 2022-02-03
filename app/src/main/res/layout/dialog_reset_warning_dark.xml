@@ -13,18 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/dialog_background">
+        android:background="@drawable/dialog_background_dark">
 
         <TextView
             android:id="@+id/dialogTitleTextView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/dialog_title_background_purple"
-            android:padding="10dp"
+            android:background="@drawable/dialog_title_background_dark"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingLeft="20dp"
-            android:text="@string/welcome_dialog_title"
+            android:padding="10dp"
+            android:text="@string/reset_pill_dialog_title"
             android:textSize="35sp"
             android:fontFamily="@font/truenoreg"
             android:textColor="@color/white"
@@ -40,9 +38,9 @@
             app:layout_constraintBottom_toBottomOf="@+id/dialogTitleTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/dialogTitleTextView"
-            app:srcCompat="@drawable/ic_pill"
+            app:srcCompat="@drawable/ic_warning_svgrepo_com"
             android:layout_marginRight="20dp"
-            android:contentDescription="@string/pill_content_description"/>
+            android:contentDescription="@string/warning_icon_content_description"/>
 
         <TextView
             android:id="@+id/dialogMessageTextView"
@@ -55,8 +53,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
             android:fontFamily="@font/truenoreg"
-            android:text="@string/welcome_dialog_message"
-            android:textColor="@color/black"
+            android:text="@string/reset_pill_dialog_message"
+            android:textColor="@color/alice_blue"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/dialogTitleTextView"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -67,24 +65,34 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnWelcome"
+        android:id="@+id/btnNo"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:fontFamily="@font/truenoreg"
-        android:text="@string/ok"
-        android:textSize="18sp"
-        android:textAllCaps="false"
+        android:text="@string/no"
         android:textColor="@color/alice_blue"
-        android:background="@drawable/dialog_bottom_btn"
+        android:background="@drawable/dialog_bottom_btn_dark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
         app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
 
+    <Button
+        android:id="@+id/btnYes"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:text="@string/yes"
+        android:textColor="@color/alice_blue"
+        android:background="@drawable/dialog_bottom_btn_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
+        app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
 
 
 

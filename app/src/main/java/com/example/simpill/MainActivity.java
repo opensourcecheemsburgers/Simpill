@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +12,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -80,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
 
 
 
+
+
         loadSharedPrefs();
 
         setContentViewAndDesign();
@@ -95,11 +94,26 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME, MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME, 1);
+        SharedPreferences openCountPref = getSharedPreferences(Simpill.OPEN_COUNT_FILENAME, MODE_PRIVATE);
+        int count = openCountPref.getInt(Simpill.OPEN_COUNT_TAG, -1);
+        if(count == -1) {
+            count = 0;
+        }
+        count++;
+        if(count == 100) {
+            dialogs.getDonationDialog(this).show();
+            count = 0;
+        }
+        openCountPref.edit().putInt(Simpill.OPEN_COUNT_TAG, count).apply();
+
+        toasts.showCustomToast(this, "Count = " + openCountPref.getInt(Simpill.OPEN_COUNT_TAG, -1));
+
+
+        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME_TAG, 1);
         simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
+        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
+        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
         simpill.setUserIs24Hr(is24Hr);
     }
     private void setContentViewAndDesign() {
@@ -107,8 +121,10 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if(theme == simpill.GREY_THEME) {
+        } else if (theme == simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
+        } else if (theme == simpill.BLACK_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
@@ -209,9 +225,7 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
     }
 
     public void closeApp() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            finishAffinity();
-        }
+        finishAffinity();
         System.exit(0);
     }
 

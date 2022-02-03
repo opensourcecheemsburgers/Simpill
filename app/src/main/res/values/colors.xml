@@ -49,4 +49,5 @@
     <color name="pink_lace">#FBC7D4</color>
     <color name="background_grey_bottom">#517fa4</color>
     <color name="background_grey_top">#243949</color>
+    <color name="toast_green">#78ca97</color>
 </resources>

@@ -115,11 +115,11 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         alarmSetter = new AlarmSetter(myContext, pillName, myDatabase.getPrimaryKeyId(pillName));
     }
     private void loadSharedPrefs() {
-        SharedPreferences themePref = myContext.getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
+        SharedPreferences themePref = myContext.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= myContext.getSharedPreferences(Simpill.IS_24HR_BOOLEAN, Context.MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
+        SharedPreferences is24HrPref= myContext.getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, Context.MODE_PRIVATE);
+        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
         simpill.setUserIs24Hr(is24Hr);
     }
     private void initTextViews(MyViewHolder holder, String pillName) {
@@ -128,13 +128,11 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
         holder.pill_name_textview.setTypeface(truenoReg);
         holder.pill_time_textview.setTypeface(truenoReg);
-        holder.pill_name_textview.setTextSize(30.0f);
+        holder.pill_name_textview.setTextSize(27.0f);
         holder.pill_time_textview.setTextSize(15.0f);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.pill_name_textview.setLetterSpacing(0.025f);
-            holder.pill_time_textview.setLetterSpacing(0.025f);
-        }
+        holder.pill_name_textview.setLetterSpacing(0.025f);
+        holder.pill_time_textview.setLetterSpacing(0.025f);
 
         holder.pill_name_textview.setText(myDatabase.getPillName(pillName));
 
@@ -259,7 +257,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(myContext);
             notificationManagerCompat.cancel(pillName, myDatabase.getPrimaryKeyId(pillName));
 
-            toasts.showCustomToast(myContext, takenTime);
+            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_taken_toast, pillName));
         });
 
         holder.reset_btn.setOnClickListener(v -> dialogs.getPillResetDialog(mainActivity.getMainActivityContext(), pillName, holder, position, resetMediaPlayer).show());

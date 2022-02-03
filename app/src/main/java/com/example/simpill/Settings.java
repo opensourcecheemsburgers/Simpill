@@ -16,7 +16,7 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
     Toasts toasts = new Toasts();
 
     Button settingsButton, aboutButton;
-    SwitchCompat clockIs24HrSwitch, permanentNotificationsSwitch;
+    SwitchCompat clockIs24HrSwitch, permanentNotificationsSwitch, darkDialogsSwitch;
     Context myContext;
     Button themesBtn, deleteAllBtn;
 
@@ -53,14 +53,26 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
 
         settingsButton.setOnClickListener(v -> toasts.showCustomToast(getApplicationContext(), getString(R.string.already_in_about_toast)));
 
-        themesBtn.setOnClickListener(view -> {
-            getDialogs.getChooseThemeDialog(this).show();
+        themesBtn.setOnClickListener(view -> getDialogs.getChooseThemeDialog(this).show());
+
+        darkDialogsSwitch.setOnClickListener(view -> {
+            simpill.setDarkDialogs(darkDialogsSwitch.isChecked());
+            SharedPreferences.Editor editor = getSharedPreferences(Simpill.DARK_DIALOGS_FILENAME, MODE_PRIVATE).edit();
+            editor.putBoolean(Simpill.DARK_DIALOGS_TAG, simpill.getDarkDialogs());
+            editor.apply();
+
+            if (simpill.getDarkDialogs()) {
+                toasts.showCustomToast(this, getString(R.string.dark_dialogs_toast));
+            }
+            else {
+                toasts.showCustomToast(this, getString(R.string.light_dialogs_toast));
+            }
         });
 
         clockIs24HrSwitch.setOnClickListener(view -> {
             simpill.setUserIs24Hr(clockIs24HrSwitch.isChecked());
-            SharedPreferences.Editor editor = getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE).edit();
-            editor.putBoolean(Simpill.USER_IS_24HR, simpill.getUserIs24Hr());
+            SharedPreferences.Editor editor = getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE).edit();
+            editor.putBoolean(Simpill.USER_IS_24HR_TAG, simpill.getUserIs24Hr());
             editor.apply();
 
             if (simpill.getUserIs24Hr()) {
@@ -74,7 +86,7 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
         permanentNotificationsSwitch.setOnClickListener(view -> {
             simpill.setUserPermanentNotifications(permanentNotificationsSwitch.isChecked());
             SharedPreferences.Editor editor = getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, MODE_PRIVATE).edit();
-            editor.putBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS, simpill.getUserPermanentNotifications());
+            editor.putBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS_TAG, simpill.getUserPermanentNotifications());
             editor.apply();
 
             if (simpill.getUserPermanentNotifications()) {
@@ -91,9 +103,10 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        }
-        else if (theme == simpill.GREY_THEME) {
+        } else if (theme == simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
+        } else if (theme == simpill.BLACK_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
@@ -103,14 +116,14 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME, MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
+        SharedPreferences themePref = getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, false);
+        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
+        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, false);
         simpill.setUserIs24Hr(is24Hr);
         SharedPreferences permanentNotificationsPref = myContext.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_BOOLEAN, MODE_PRIVATE);
-        Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS, false);
+        Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS_TAG, false);
         simpill.setUserPermanentNotifications(permanentNotifications);
     }
 

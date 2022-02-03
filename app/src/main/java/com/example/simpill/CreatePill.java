@@ -20,10 +20,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
-        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener,  Dialogs.TimePickerDialogListener, Dialogs.ChooseTimesDialogListener {
+        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener, Dialogs.ChooseTimesDialogListener {
 
     private Simpill simpill;
     Dialogs dialogs = new Dialogs();
@@ -39,12 +38,14 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
     Typeface truenoReg;
 
-    int intervalInDays = 1;
+    int intervalInDays;
     int timesPerDay;
     int currentArrayNumber = 0;
 
     String[] times;
     String date;
+
+    String[] timesIn24HrFormatArray;
 
     DatabaseHelper myDatabase = new DatabaseHelper(this);
 
@@ -65,11 +66,11 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     }
 
     private void loadSharedPrefs() {
-        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME, Context.MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME, simpill.BLUE_THEME);
+        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE);
+        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
         simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
+        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
+        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
         simpill.setUserIs24Hr(is24Hr);
     }
 
@@ -78,8 +79,10 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if(theme == simpill.GREY_THEME) {
+        } else if (theme == simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
+        } else if (theme == simpill.BLACK_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
@@ -110,11 +113,11 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         createNewPillButton.setTypeface(truenoReg);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pillName.setLetterSpacing(0.05f);
-            pillTime.setLetterSpacing(0.05f);
-            pillStockup.setLetterSpacing(0.05f);
-            pillSupply.setLetterSpacing(0.05f);
-            createNewPillButton.setLetterSpacing(0.05f);
+            pillName.setLetterSpacing(0.025f);
+            pillTime.setLetterSpacing(0.025f);
+            pillStockup.setLetterSpacing(0.025f);
+            pillSupply.setLetterSpacing(0.025f);
+            createNewPillButton.setLetterSpacing(0.025f);
         }
     }
     private void initiateButtons() {
@@ -142,7 +145,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         new DatePickerDialog(this, DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT, (view, year, month, day) -> {
             month = month + 1;
             String selectedDate = year + "-" + month + "-" + day;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
 
             Date date = Calendar.getInstance().getTime();
 
@@ -207,21 +210,23 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         dialogs.getChooseSupplyAmountDialog(this).show();
     }
     private void openFrequencyDialog() {
-        dialogs.getFrequencyDialog(this, 0).show();
+        dialogs.getFrequencyDialog(this).show();
     }
 
 
     private void createPill() {
+
         if (!isNameUnique()) {
             toasts.showCustomToast(this, getString(R.string.non_unique_pill_name_warning));
         } else {
-            if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
+            if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid())
+            {
                 if (myDatabase.addNewPill(
                         getNewPillId(),
                         pillName.getText().toString().trim(),
                         myDatabase.convertStringToArray(pillTime.getText().toString()),
-                        getIntervalInDays(),
-                        pillStockup.getText().toString().trim(),
+                        intervalInDays,
+                        date,
                         Integer.parseInt(pillSupply.getText().toString()),
                         defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
                     toasts.showCustomToast(this, pillName.getText().toString().trim() + getString(R.string.pill_created_toast));
@@ -287,7 +292,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         }
         Date stockupDate;
         try {
-            stockupDate = simpleDateFormat.parse(pillStockup.getText().toString().trim());
+            stockupDate = simpleDateFormat.parse(date);
         }
         catch (ParseException e) {
             toasts.showCustomToast(this, getString(R.string.set_date));
@@ -320,12 +325,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         startActivity(intent);
     }
 
-    public void setIntervalInDays(int intervalInDays) {
-        this.intervalInDays = intervalInDays;
-    }
-    public int getIntervalInDays() {
-        return intervalInDays;
-    }
+
 
     @Override
     public void applyPillName(String userPillName) {
@@ -345,13 +345,8 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     }
 
     @Override
-    public void applySelectedTimeToArray(String time, int position) {
-        times[position] = time;
-    }
-
-    @Override
-    public void applySelectedTimeToTextView(TimesRecyclerViewAdapter.MyViewHolder holder, String time, int position) {
-        pillTime.setText(time);
+    public void setInterval(int intervalInDays) {
+        this.intervalInDays = intervalInDays;
     }
 
     @Override
@@ -362,11 +357,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
     @Override
     public void returnTimesStringArray(String[] times) {
-        if (simpill.getUserIs24Hr()) {
-            pillTime.setText(myDatabase.convertArrayToString(times));
-        }
-        else {
-            pillTime.setText(myDatabase.convertArrayToString(myDatabase.convert24HrArrayTo12HrArray(CreatePill.this, times)));
-        }
+        pillTime.setText(myDatabase.convertArrayToString(times));
     }
+
 }

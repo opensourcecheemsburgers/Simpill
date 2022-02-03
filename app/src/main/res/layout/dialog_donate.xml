@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootConstraint"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_height="500dp"
+        android:scrollbars="vertical"
+        android:layout_width="0dp"
+        android:layout_margin="40dp"
+        app:layout_constraintTop_toTopOf="@id/rootConstraint"
+        app:layout_constraintStart_toStartOf="@id/rootConstraint"
+        app:layout_constraintBottom_toBottomOf="@id/rootConstraint"
+        app:layout_constraintEnd_toEndOf="@id/rootConstraint">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/dialog_background">
+
+            <TextView
+                android:id="@+id/dialogTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_title_background_purple"
+                android:padding="10dp"
+                android:paddingStart="20dp"
+                android:text="Donate"
+                android:textSize="35sp"
+                android:fontFamily="@font/truenoreg"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="240dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bernie"
+                app:layout_constraintBottom_toTopOf="@id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialogTitleTextView"
+                />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:text="@string/donation_dialog_message"
+                android:textColor="@color/black"
+                android:fontFamily="@font/truenolight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="50dp"
+                app:layout_constraintStart_toStartOf="@id/textView4"
+                app:layout_constraintTop_toBottomOf="@id/textView4"
+                android:background="@drawable/ic_paypal_svgrepo_com"
+                android:hapticFeedbackEnabled="true"/>
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="20dp"
+                android:text="Donate via Paypal"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/truenoreg"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                app:layout_constraintTop_toTopOf="@+id/imageButton"
+                android:hapticFeedbackEnabled="true"/>
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageButton"
+                app:layout_constraintTop_toBottomOf="@+id/imageButton"
+                android:background="@drawable/ic_google_play_social_media_svgrepo_com"
+                android:hapticFeedbackEnabled="true"/>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="20dp"
+                android:text="Buy on Play Store"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/truenoreg"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton3"
+                app:layout_constraintTop_toTopOf="@+id/imageButton3"
+                android:hapticFeedbackEnabled="true"/>
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="48dp"
+                android:background="@drawable/ic_monero"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imageButton3"
+                app:layout_constraintTop_toBottomOf="@+id/imageButton3"
+                android:hapticFeedbackEnabled="true"/>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="20dp"
+                android:text="Donate Monero"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/truenoreg"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButton4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton4"
+                app:layout_constraintTop_toTopOf="@+id/imageButton4"
+                android:hapticFeedbackEnabled="true"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/dismiss_btn"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:text="Dismiss"
+        android:textColor="@color/alice_blue"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
+        app:layout_constraintBottom_toBottomOf="@id/scrollview"
+        app:layout_constraintStart_toStartOf="@id/scrollview"
+        app:layout_constraintEnd_toEndOf="@id/scrollview"
+        android:background="@drawable/dialog_bottom_btn"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -96,6 +96,8 @@ public class AlarmSetter {
             int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
             int frequency = myDatabase.getFrequency(pillName);
 
+            System.out.println( "Request code = " + requestCode);
+
 
             Intent startPillAlarmReceiver = new Intent(myContext, ReceiverPillAlarm.class);
             startPillAlarmReceiver.putExtra(myContext.getString(R.string.pill_name), pillName);
@@ -116,15 +118,14 @@ public class AlarmSetter {
                 pillReminderTime = pillReminderTime + DAY_IN_MS;
             }
 
-            //System.out.println("Pill reminder time = " + dateTimeManager.formatLongAsDateString(myContext, pillReminderTime));
+            System.out.println(pillName + " reminder time = " + dateTimeManager.formatLongAsDateString(myContext, pillReminderTime));
 
-            if (frequency == 1) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (frequency <= 1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
-                } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+                }
+                else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
                 }
             }
             else if (frequency > 1) {
@@ -182,13 +183,11 @@ public class AlarmSetter {
                 @SuppressLint("InlinedApi")
                 PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(myContext, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
 
-
-
                 Calendar currentNumberTime = pillTimesCalArray[currentNumber];
-                System.out.println("Array [" + currentNumber + "] = " + dateTimeManager.formatLongAsTimeString(myContext, currentNumberTime.getTimeInMillis()));
+                //System.out.println("Array [" + currentNumber + "] = " + dateTimeManager.formatLongAsTimeString(myContext, currentNumberTime.getTimeInMillis()));
 
                 Calendar nextNumberTime = pillTimesCalArray[nextNumber];
-                System.out.println("Array [" + nextNumber + "] = " + dateTimeManager.formatLongAsTimeString(myContext, nextNumberTime.getTimeInMillis()));
+                //System.out.println("Array [" + nextNumber + "] = " + dateTimeManager.formatLongAsTimeString(myContext, nextNumberTime.getTimeInMillis()));
 
                 System.out.println(nextNumberTime.getTimeInMillis());
 
@@ -208,7 +207,7 @@ public class AlarmSetter {
                 pillResetCal.setTimeInMillis(resetTime);
                 System.out.println(pillResetCal.getTime());
 
-                //System.out.println("Pill reset time = " + dateTimeManager.formatLongAsDateString(myContext, pillResetTime));
+                System.out.println("Pill reset time = " + dateTimeManager.formatLongAsDateString(myContext, resetTime));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, resetTime, autoResetPendingIntent);

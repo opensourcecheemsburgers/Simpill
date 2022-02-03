@@ -13,7 +13,7 @@
         android:id="@+id/customDialogLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/dialog_background"
+        android:background="@drawable/dialog_background_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,7 @@
             android:id="@+id/dialogTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/dialog_title_background_purple"
+            android:background="@drawable/dialog_title_background_dark"
             android:fontFamily="@font/truenoreg"
             android:padding="10dp"
             android:paddingStart="20dp"

@@ -34,6 +34,7 @@ public class ReceiverPillAutoReset extends BroadcastReceiver {
             if (myDatabase.getIsTaken(pillName) == taken) {
                     myDatabase.setIsTaken(pillName, notTaken);
                     myDatabase.setTimeTaken(pillName, context.getString(R.string.nullString));
+                    mainActivity.closeApp();
             }
         }
     }

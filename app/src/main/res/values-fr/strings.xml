@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simpill</string>
     <string name="welcome_dialog_title">Bienvenue</string>
-    <string name="welcome_dialog_message">Merci pour choisir Simpill :)</string>
-    <string name="pill_name_dialog_title">Nom</string>
     <string name="warning_icon_content_description">Warning Icon</string>
-    <string name="yes">Oui</string>
-    <string name="no">Non</string>
-    <string name="theme">Thème</string>
 
-    <string name="simpillAboutParagraph">Simpill est une application libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire.\n\nAvez-vous trouvé un bogue ou voudriez-vous suggérer une idée?\n\nN\'hesitez pas à me contacter: simpilldev@gmail.com :)\n\nSi vous voudriez remercier au développeur de Simpill et soutenir sa développement futur, vous pouvez acheter la version payante de Simpill sur le Google Play Store.\n\nVous pouvez également donner les crypto-monnaies pour soutenir Simpill. Appuyez sur un adresse pour copier l\'adresse dans votre presse-papier.</string>
+    <string name="simpillAboutParagraph_1">Simpill est une application libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire.\n\nAvez-vous trouvé un bogue ou voudriez-vous suggérer une idée?\n\nN\'hesitez pas à me contacter: simpilldev@gmail.com :)\n\nSi vous voudriez remercier au développeur de Simpill et soutenir sa développement futur, vous pouvez acheter la version payante de Simpill sur le Google Play Store.\n\nVous pouvez également donner les crypto-monnaies pour soutenir Simpill. Appuyez sur un adresse pour copier l\'adresse dans votre presse-papier.</string>
 
 
     <string name="app_name">Simpill</string>
@@ -41,7 +35,6 @@
     <string name="dark_orange_pill_bottle_content_description">Une boite de pilule orange foncé</string>
     <string name="orange_pill_bottle_content_description">Une boite de pilule orange</string>
     <string name="light_orange_pill_bottle_content_description">Une boite de pilule orange clair</string>
-    <string name="warning_icon_content_description">l\'icône d\'avertissement</string>
     <string name="blue_theme_button_content_description">Thème Bleu Button</string>
     <string name="grey_theme_button_content_description">Thème Gris Button</string>
     <string name="purple_theme_button_content_description">Thème Violet Button</string>
@@ -67,7 +60,7 @@
     <string name="theme">Thème</string>
     <string name="time">Temps</string>
     <string name="notifications">Notifications</string>
-    <string name="sticky">Sticky Notifications Rigides</string>
+    <string name="sticky">Notifications Rigides</string>
     <string name="_24_hour_format">Format de 24 heures</string>
     <string name="database">Base de données</string>
     <string name="delete_all_pills">Supprimer tous les pilules</string>
@@ -84,8 +77,8 @@
     <string name="BitcoinWebsite" translatable="false">https://bitcoin.org</string>
     <string name="PandacoinWebsite" translatable="false">https://pandacoin.tech</string>
     <string name="monero_address" translatable="false">86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
-    <string name="bitcoinAddress" translatable="false">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
-    <string name="pandacoinAddress" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
+    <string name="bitcoin_address" translatable="false">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
+    <string name="pandacoin_address" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
 
     <!--Pill Time TextView Strings-->
     <string name="take_at">Prenez à %1$s</string>
@@ -121,7 +114,7 @@
 
     <!--Pill Name Dialog Strings-->
     <string name="pill_name_dialog_tag">Pill Name Dialog</string>
-    <string name="pill_name_dialog_title">Nom</string>
+    <string name="pill_name_dialog_title">Nom - faites court :)</string>
     <string name="pill_name_dialog_msg">Veuillez entrer un nom pour votre médicament par cliquez sur la ligne ci-dessous.\n</string>
     <string name="pill_name_dialog_text_hint">Nom</string>
 
@@ -131,7 +124,7 @@
 
     <!--Delete Pill Dialog Strings-->
     <string name="pill_deletion_dialog_title">Supprimer %1$s?</string>
-    <string name="pill_deletion_dialog_message"> Vous êtes sûr de vouloir supprimer %1$s?\n\nThis cannot be undone!</string>
+    <string name="pill_deletion_dialog_message"> Vous êtes sûr de vouloir supprimer %1$s?\n\nVeuillez noter que cette action est irréversible!</string>
 
     <!--Delete Database Dialog Strings-->
     <string name="pill_db_reset">Supprimer les pilules</string>

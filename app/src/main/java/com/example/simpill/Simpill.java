@@ -15,21 +15,25 @@ public class Simpill extends Application {
     public static final String PILL_EXTRA_REMINDERS_CHANNEL = "pillExtraRemindershannel";
     public static final String PILL_STOCKUP_CHANNEL = "pillStockupChannel";
 
-    public static final String SELECTED_THEME = "User Theme";
-    public static final String IS_24HR_BOOLEAN = "Is 24Hr Boolean";
+    public static final String OPEN_COUNT_FILENAME = "open_count";
+    public static final String DARK_DIALOGS_FILENAME = "dark_dialogs";
+    public static final String SELECTED_THEME_FILENAME = "User Theme";
+    public static final String IS_24HR_BOOLEAN_FILENAME = "Is 24Hr Boolean";
     public static final String PERMANENT_NOTIFICATIONS_BOOLEAN = "Permanent Notification Boolean";
 
-    public static final String USER_THEME = "User Theme";
-    public static final String USER_IS_24HR = "User Is24Hr";
-    public static final String USER_PERMANENT_NOTIFICATIONS = "User PermanentNotifications";
+    public static final String DARK_DIALOGS_TAG = "Dark Dialogs";
+    public static final String OPEN_COUNT_TAG = "Open Count";
+    public static final String USER_THEME_TAG = "User Theme";
+    public static final String USER_IS_24HR_TAG = "User Is24Hr";
+    public static final String USER_PERMANENT_NOTIFICATIONS_TAG = "User PermanentNotifications";
 
-    public  final int BLUE_THEME = 1;
-    public final int GREY_THEME = 2;
-    public  final int PURPLE_THEME = 3;
+    public final int BLUE_THEME = 1;
+    public final int BLACK_THEME = 2;
+    public final int GREY_THEME = 3;
+    public final int PURPLE_THEME = 4;
 
-    private int theme;
-    private boolean is24Hr;
-    private boolean permanentNotifications;
+    private int openCount, theme;
+    private boolean is24Hr, permanentNotifications, darkDialogs;
 
     public void onCreate() {
         super.onCreate();
@@ -78,6 +82,12 @@ public class Simpill extends Application {
     public boolean getUserPermanentNotifications() {
         return permanentNotifications;
     }
+    public int getOpenCount() {
+        return openCount;
+    }
+    public boolean getDarkDialogs() {
+        return darkDialogs;
+    }
 
     public void setUserIs24Hr(Boolean is24Hr) {
         this.is24Hr = is24Hr;
@@ -87,6 +97,12 @@ public class Simpill extends Application {
     }
     public void setUserPermanentNotifications(Boolean permanentNotifications) {
         this.permanentNotifications = permanentNotifications;
+    }
+    public void setOpenCount(int openCount) {
+        this.openCount = openCount;
+    }
+    public void setDarkDialogs(boolean darkDialogs) {
+        this.darkDialogs = darkDialogs;
     }
 
 

@@ -12,79 +12,90 @@
         android:id="@+id/customDialogLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/dialog_background">
+        android:background="@drawable/dialog_background_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/dialogTitleTextView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/dialog_title_background_purple"
+            android:background="@drawable/dialog_title_background_red"
+            android:fontFamily="@font/truenoreg"
             android:padding="10dp"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp"
             android:paddingLeft="20dp"
-            android:text="@string/welcome_dialog_title"
-            android:textSize="35sp"
-            android:fontFamily="@font/truenoreg"
+            android:paddingEnd="20dp"
+            android:text="@string/pill_deletion_dialog_title"
             android:textColor="@color/white"
+            android:textSize="35sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/dialogMessageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="40dp"
+            android:fontFamily="@font/truenoreg"
+            android:text="@string/pill_deletion_dialog_message"
+            android:textColor="@color/alice_blue"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialogTitleTextView" />
 
         <ImageView
             android:id="@+id/imageView13"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:contentDescription="@string/warning_icon_content_description"
             app:layout_constraintBottom_toBottomOf="@+id/dialogTitleTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/dialogTitleTextView"
-            app:srcCompat="@drawable/ic_pill"
-            android:layout_marginRight="20dp"
-            android:contentDescription="@string/pill_content_description"/>
-
-        <TextView
-            android:id="@+id/dialogMessageTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="18dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            android:fontFamily="@font/truenoreg"
-            android:text="@string/welcome_dialog_message"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/dialogTitleTextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:srcCompat="@drawable/ic_warning_svgrepo_com" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnWelcome"
+        android:id="@+id/btnNo"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:fontFamily="@font/truenoreg"
-        android:text="@string/ok"
-        android:textSize="18sp"
-        android:textAllCaps="false"
+        android:text="@string/no"
         android:textColor="@color/alice_blue"
-        android:background="@drawable/dialog_bottom_btn"
+        android:background="@drawable/dialog_bottom_btn_dark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
         app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
 
+    <Button
+        android:id="@+id/btnYes"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:text="@string/yes"
+        android:textColor="@color/alice_blue"
+        android:background="@drawable/dialog_bottom_btn_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
+        app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
 
 
 

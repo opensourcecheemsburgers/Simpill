@@ -12,46 +12,141 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/simpill_paragraph"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="32dp"
+            android:autoLink="all"
+            android:letterSpacing="0.02"
+            android:lineSpacingMultiplier="1.15"
+            android:fontFamily="@font/truenoreg"
+            android:text="@string/simpillAboutParagraph_1"
+            android:textColor="@color/alice_blue"
+            android:textColorLink="@color/blue_magenta"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/aboutButton">
+            app:layout_constraintTop_toBottomOf="@id/aboutButton"
+            tools:ignore="UnusedAttribute" />
 
-            <com.ms.square.android.expandabletextview.ExpandableTextView
-                xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/expand_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                expandableTextView:animDuration="100"
-                expandableTextView:maxCollapsedLines="5">
+        <TextView
+            android:id="@+id/xmrTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/monero"
+            android:textColor="@color/alice_blue"
+            android:textSize="18sp"
+            android:fontFamily="@font/truenoreg"
+            app:layout_constraintStart_toStartOf="@id/simpill_paragraph"
+            app:layout_constraintTop_toBottomOf="@+id/simpill_paragraph" />
 
-            <TextView
-                android:id="@id/expandable_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hiiiiiiiiiiiiiiiiiii"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textColor="@color/alice_blue"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/xmrAddressTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/monero_address"
+            android:textColor="@color/alice_blue"
+            android:textSize="14sp"
+            android:textIsSelectable="false"
+            android:fontFamily="@font/truenolight"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/xmrTextView"
+            app:layout_constraintTop_toBottomOf="@+id/xmrTextView" />
 
-            <ImageButton
-                android:id="@id/expand_collapse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|bottom"
-                android:background="@android:color/transparent" />
+        <ImageView
+            android:id="@+id/xmrLogo"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            app:srcCompat="@drawable/ic_monero"
+            app:layout_constraintStart_toEndOf="@id/xmrTextView"
+            app:layout_constraintTop_toTopOf="@id/xmrTextView"
+            app:layout_constraintBottom_toBottomOf="@id/xmrTextView"
+            android:contentDescription="@string/bitcoin" />
 
-            </com.ms.square.android.expandabletextview.ExpandableTextView>
+        <TextView
+            android:id="@+id/btcTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/bitcoin"
+            android:fontFamily="@font/truenoreg"
+            android:textSize="18sp"
+            android:textColor="@color/alice_blue"
+            app:layout_constraintStart_toStartOf="@+id/xmrAddressTextView"
+            app:layout_constraintTop_toBottomOf="@+id/xmrAddressTextView" />
 
+        <ImageView
+            android:id="@+id/btcLogo"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            app:srcCompat="@drawable/ic_bitcoin"
+            app:layout_constraintStart_toEndOf="@id/btcTextView"
+            app:layout_constraintTop_toTopOf="@id/btcTextView"
+            app:layout_constraintBottom_toBottomOf="@id/btcTextView"
+            android:contentDescription="@string/monero" />
 
+        <TextView
+            android:id="@+id/btcAddressTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/bitcoin_address"
+            android:textColor="@color/alice_blue"
+            android:textIsSelectable="false"
+            android:textSize="14sp"
+            android:fontFamily="@font/truenolight"
+            app:layout_constraintStart_toStartOf="@+id/btcTextView"
+            app:layout_constraintTop_toBottomOf="@+id/btcTextView"
+            app:layout_constraintEnd_toEndOf="@id/xmrAddressTextView"/>
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/pndTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/pandacoin"
+            android:textSize="18sp"
+            android:textColor="@color/alice_blue"
+            android:fontFamily="@font/truenoreg"
+            app:layout_constraintStart_toStartOf="@+id/btcAddressTextView"
+            app:layout_constraintTop_toBottomOf="@+id/btcAddressTextView" />
+
+        <ImageView
+            android:id="@+id/pndLogo"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            app:srcCompat="@drawable/ic_pandacoin"
+            app:layout_constraintStart_toEndOf="@id/pndTextView"
+            app:layout_constraintTop_toTopOf="@id/pndTextView"
+            app:layout_constraintBottom_toBottomOf="@id/pndTextView"
+            android:contentDescription="@string/pandacoin" />
+
+        <TextView
+            android:id="@+id/pndAddressTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/truenolight"
+            android:text="@string/pandacoin_address"
+            android:textColor="@color/alice_blue"
+            android:textIsSelectable="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btcAddressTextView"
+            app:layout_constraintStart_toStartOf="@+id/pndTextView"
+            app:layout_constraintTop_toBottomOf="@+id/pndTextView" />
 
         <Button
             android:id="@+id/aboutButton"
