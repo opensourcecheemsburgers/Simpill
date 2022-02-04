@@ -78,9 +78,7 @@
 
     <!--About Strings-->
     <string name="simpillAboutParagraph_1">Simpill is a free and open-source medication reminder app without any trackers, annoying ads or unnecessary permissions.</string>
-    <string name="simpillAboutParagraph_2">Have you found any bugs or would you like to suggest some ideas for Simpill? Feel free to contact me at simpilldev@gmail.com :)</string>
-    <string name="simpillAboutParagraph_3">Simpill is provided as a completely free application and it does not generate any revenue from ads or selling data.\n\nIf would you to like to support Simpill and its future development, there are a number of donation options:</string>
-    <string name="simpillAboutParagraph_4">You can also donate cryptocurrency to support Simpill. Tap on an address to copy it to your clipboard.\n\nAll donations are greatly appreciated! :)</string>
+    <string name="simpillAboutParagraph_2">Simpill is provided as a completely free application and it does not generate any revenue from ads or selling data.\n\nIf would you to like to support Simpill and its future development, there are a number of donation options:</string>
 
     <string name="monero">Monero</string>
     <string name="bitcoin">Bitcoin</string>
@@ -196,14 +194,21 @@
     <string name="context_menu_change_color">Change Color</string>
     <string name="donation_dialog_message">If you enjoy using Simpill, please consider making a donation :)\n\nSimpill is completely free and open-source without any ads or trackers.\n\nYou can donate using one of the buttons below:</string>
     <string name="reminder_already_taken_description">You have already taken your %1$s :)</string> <!--1st parameter = name of pill-->
-    <string name="paypal_donation_link">https://www.paypal.com/donate/?hosted_button_id=A8UNN2A4D3P3G</string>
-    <string name="simpill_paid_version_link">https://play.google.com/store/apps/details?id=com.winston69.simpill.ty</string>
+
+    <string name="paypal_donation_link" translatable="false">https://www.paypal.com/donate/?hosted_button_id=A8UNN2A4D3P3G</string>
+    <string name="simpill_paid_version_link" translatable="false">https://play.google.com/store/apps/details?id=com.winston69.simpill.ty</string>
+
+    <!--Use masculine for translations-->
     <string name="blue">Blue</string>
     <string name="grey">Grey</string>
     <string name="dark">Dark</string>
     <string name="purple">Purple</string>
+
     <string name="dark_dialogs_setting">Dark Dialogs</string>
     <string name="dark_dialogs_toast">Dark dialogs applied :)</string>
     <string name="light_dialogs_toast">Light dialogs applied :)</string>
+
+    <string name="dev_email">Developer email</string>
+    <string name="simpill_code">Simpill\'s code</string>
 
 </resources>

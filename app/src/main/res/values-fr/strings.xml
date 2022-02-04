@@ -3,7 +3,9 @@
     <string name="welcome_dialog_title">Bienvenue</string>
     <string name="warning_icon_content_description">Warning Icon</string>
 
-    <string name="simpillAboutParagraph_1">Simpill est une application libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire.\n\nAvez-vous trouvé un bogue ou voudriez-vous suggérer une idée?\n\nN\'hesitez pas à me contacter: simpilldev@gmail.com :)\n\nSi vous voudriez remercier au développeur de Simpill et soutenir sa développement futur, vous pouvez acheter la version payante de Simpill sur le Google Play Store.\n\nVous pouvez également donner les crypto-monnaies pour soutenir Simpill. Appuyez sur un adresse pour copier l\'adresse dans votre presse-papier.</string>
+    <string name="simpillAboutParagraph_1">Simpill est une application libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire.</string>
+
+    <string name="simpillAboutParagraph_2">Simpill est fournie comme une application complètement libre et open source. Elle ne gagne pas d\'argent d\'annonces ou de vendre vos données.\n\nSi vous voudriez remercier au développeur de Simpill et soutenir sa développement futur, vous pouvez faire un don en utilisant les boutons ci-dessous:</string>
 
 
     <string name="app_name">Simpill</string>
@@ -82,7 +84,7 @@
 
     <!--Pill Time TextView Strings-->
     <string name="take_at">Prenez à %1$s</string>
-    <string name="taken_at">Prîtes à %1$s</string>
+    <string name="taken_at">Pris à %1$s</string>
 
     <!--Toast Strings-->
     <string name="database_reset_toast">Tous les pilules ont été supprimés!</string>
@@ -113,7 +115,6 @@
     <string name="welcome_dialog_message">Pour créer votre première pilule, cliquez sur le button plus en bas de votre écran.</string>
 
     <!--Pill Name Dialog Strings-->
-    <string name="pill_name_dialog_tag">Pill Name Dialog</string>
     <string name="pill_name_dialog_title">Nom - faites court :)</string>
     <string name="pill_name_dialog_msg">Veuillez entrer un nom pour votre médicament par cliquez sur la ligne ci-dessous.\n</string>
     <string name="pill_name_dialog_text_hint">Nom</string>
@@ -157,25 +158,38 @@
     <string name="full_date_time_format" translatable="false">yyyy-MM-dd, HH:mm Z</string>
 
 
-    <string name="take_pill_content_description">Take Pill Button</string>
-    <string name="choose_frequency_dialog_reminder_amount_text">How many times a day do you take this medication?</string>
+    <string name="take_pill_content_description">Le bouton de prendre votre médicament</string>
+    <string name="choose_frequency_dialog_reminder_amount_text">Combien de fois vous prenez ce médicament chaque jour?</string>
 
 
-    <string name="btc_address_copied">BTC address copied :)</string>
-    <string name="xmr_address_copied">XMR address copied :)</string>
-    <string name="pnd_address_copied">PND address copied :)</string>
+    <string name="btc_address_copied">BTC address a été copiée :)</string>
+    <string name="xmr_address_copied">XMR address a été copiée :)</string>
+    <string name="pnd_address_copied">PND address a été copiée :)</string>
 
 
-    <string name="custom_interval_dialog_text">Set a custom interval (in days) for your medication reminder using the buttons below:</string>
-    <string name="custom_interval_dialog_title">Interval</string>
+    <string name="custom_interval_dialog_text">Choisissez plutôt un intervalle personnalisé pour votre rappel de médicament en utilisant les boutons ci-dessous.</string>
+    <string name="custom_interval_dialog_title">Intervalle</string>
 
 
-    <string name="snap_time_picker_title">Select a time:</string>
-    <string name="clocks_dialog_time_text">Time #%1$d</string>
-    <string name="chooses_times_dialog_text">Set the reminder times for your medication using the clocks below:</string>
+    <string name="context_menu_update">Mettre á jour</string>
+    <string name="context_menu_delete">Supprimer</string>
+    <string name="context_menu_change_color">Changer la couleur</string>
 
-    <string name="context_menu_update">Update</string>
-    <string name="context_menu_delete">Delete</string>
-    <string name="context_menu_change_color">Change Color</string>
+    <string name="donation_dialog_message">Si vous aimez utiliser Simpill, s\'il vous plaît envisager de faire un don :)n\nSimpill est complètement libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire. Vous pouvez faire un don en utilisant les boutons ci-dessous.</string>
+    <string name="reminder_already_taken_description">Vous avez déjà pris votre médicament: %1$s :)</string> <!--1st parameter = name of pill-->
+
+    <!--Use masculine for translations-->
+    <string name="blue">Bleu</string>
+    <string name="grey">Gris</string>
+    <string name="dark">Sombre</string>
+    <string name="purple">Violet</string>
+
+
+    <string name="dark_dialogs_setting">Les boîtes de dialogue sombre</string>
+    <string name="dark_dialogs_toast">Les boîtes de dialogue sombre ont été appliquée :)</string>
+    <string name="light_dialogs_toast">Les boîtes de dialogue clair ont été appliquée :)</string>
+
+    <string name="dev_email">Mon email</string>
+    <string name="simpill_code">Code source</string>
 
 </resources>
