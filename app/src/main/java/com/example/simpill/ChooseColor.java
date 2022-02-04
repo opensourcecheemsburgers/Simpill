@@ -24,12 +24,11 @@ public class ChooseColor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        simpill = (Simpill) getApplicationContext();
+
         setContentViewBasedOnThemeSetting();
 
         String pillName = getIntent().getStringExtra(getString(R.string.pill_name));
 
-        new SharedPrefs().loadSharedPrefs(this);
         findViewsByIds();
         createOnClickListeners(pillName);
     }
@@ -134,7 +133,7 @@ public class ChooseColor extends AppCompatActivity {
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        int theme = simpill.getCustomTheme();
+        int theme = new SharedPrefs().getThemesPref(this);
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);

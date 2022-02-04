@@ -20,6 +20,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
     Context context;
 
     Simpill simpill;
+    SharedPrefs sharedPrefs;
     DatabaseHelper myDatabase;
     Dialogs dialogs;
     Toasts toasts;
@@ -38,7 +39,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageButton clockBtn, resetBtn;
+        ImageButton clockBtn;
         Button doneBtn;
         TextView timeTextView;
 
@@ -74,8 +75,8 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
     }
 
     public boolean checkForEmptyTimes() {
-        for(int currentArrayNumber = 0; currentArrayNumber < times.length; currentArrayNumber++) {
-            if (times[currentArrayNumber] == null) {
+        for (String time : times) {
+            if (time == null) {
                 return true;
             }
         }
@@ -91,7 +92,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
                 long currentCalTime = calendar.getTimeInMillis();
                 long nextCalTime = nextCalendar.getTimeInMillis();
 
-                if (nextCalTime - currentCalTime < 600000L) {
+                if (nextCalTime - currentCalTime < 900000L) {
                     return true;
                 }
             }
@@ -107,7 +108,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
 
     private void showTimePicker(MyViewHolder holder, int position) {
         TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, selectedHour, selectedMinute) -> {
-            if (!simpill.getUserIs24Hr()) {
+            if (!sharedPrefs.get24HourFormatPref(context)) {
                 holder.timeTextView.setText(formatSelectedTimeAs12Hour(selectedHour, selectedMinute));
             }
             else {
@@ -118,7 +119,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
 
             toasts.showCustomToast(context, "Array = " + myDatabase.convertArrayToString(times));
         };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, simpill.getUserIs24Hr());
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(context));
         timePickerDialog.show();
     }
 
@@ -165,6 +166,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
 
     private void initClasses() {
         simpill = new Simpill();
+        sharedPrefs = new SharedPrefs();
         myDatabase = new DatabaseHelper(context);
         dialogs = new Dialogs();
         toasts = new Toasts();

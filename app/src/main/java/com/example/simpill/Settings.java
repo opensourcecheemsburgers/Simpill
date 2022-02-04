@@ -1,9 +1,6 @@
 package com.example.simpill;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Process;
 import android.widget.Button;
@@ -18,18 +15,13 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
 
     Button settingsButton, aboutButton;
     SwitchCompat clockIs24HrSwitch, permanentNotificationsSwitch, darkDialogsSwitch;
-    Context myContext;
     Button themesBtn, deleteAllBtn;
 
-    private Simpill simpill = new Simpill();
-    private SharedPrefs sharedPrefs = new SharedPrefs();
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.myContext = getApplicationContext();
-
-        sharedPrefs.loadSharedPrefs(this);
 
         setContentViewBasedOnThemeSetting();
 
@@ -57,11 +49,10 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
         themesBtn.setOnClickListener(view -> getDialogs.getChooseThemeDialog(this).show());
 
         darkDialogsSwitch.setOnClickListener(view -> {
-            simpill.setDarkDialogs(darkDialogsSwitch.isChecked());
 
             sharedPrefs.setDarkDialogsPref(this, darkDialogsSwitch.isChecked());
 
-            if (simpill.getDarkDialogs()) {
+            if (sharedPrefs.getDarkDialogsPref(this)) {
                 toasts.showCustomToast(this, getString(R.string.dark_dialogs_toast));
             }
             else {
@@ -72,7 +63,7 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
         clockIs24HrSwitch.setOnClickListener(view -> {
             sharedPrefs.set24HourTimeFormatPref(this, clockIs24HrSwitch.isChecked());
 
-            if (simpill.getUserIs24Hr()) {
+            if (sharedPrefs.get24HourFormatPref(this)) {
                 toasts.showCustomToast(this, getString(R.string.time_format_24hr_toast));
             }
             else {
@@ -83,7 +74,7 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
         permanentNotificationsSwitch.setOnClickListener(view -> {
             sharedPrefs.setStickyNotificationsPref(this, permanentNotificationsSwitch.isChecked());
 
-            if (simpill.getUserPermanentNotifications()) {
+            if (permanentNotificationsSwitch.isChecked()) {
                 toasts.showCustomToast(this, getString(R.string.sticky_notifications_enabled_toast));
             }
             else {
@@ -93,13 +84,13 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        int theme = simpill.getCustomTheme();
+        int theme = sharedPrefs.getThemesPref(this);
 
-        if (theme == simpill.BLUE_THEME) {
+        if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if (theme == simpill.GREY_THEME) {
+        } else if (theme == Simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
-        } else if (theme == simpill.BLACK_THEME) {
+        } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
@@ -118,9 +109,9 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
         deleteAllBtn = findViewById(R.id.deleteAllBtn);
         permanentNotificationsSwitch = findViewById(R.id.permanentNotificationsSwitch);
 
-        clockIs24HrSwitch.setChecked(simpill.getUserIs24Hr());
-        darkDialogsSwitch.setChecked(simpill.getDarkDialogs());
-        permanentNotificationsSwitch.setChecked(simpill.getUserPermanentNotifications());
+        clockIs24HrSwitch.setChecked(sharedPrefs.get24HourFormatPref(this));
+        darkDialogsSwitch.setChecked(sharedPrefs.getDarkDialogsPref(this));
+        permanentNotificationsSwitch.setChecked(sharedPrefs.getStickyNotificationsPref(this));
     }
 
     private void openAboutActivity() {

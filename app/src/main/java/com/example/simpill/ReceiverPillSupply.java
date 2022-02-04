@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -45,19 +44,7 @@ public class ReceiverPillSupply extends BroadcastReceiver {
                 calendar.add(Calendar.MONTH, 1);
                 myDatabase.setPillDate(pillName, dateTimeManager.formatDateAsString(context, calendar.getTime()));
 
-                Notification pillStockupNotification;
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
-                    pillStockupNotification = new NotificationCompat.Builder(context, Simpill.PILL_STOCKUP_CHANNEL)
-                            .setSmallIcon(R.drawable.ic_stat_name)
-                            .setContentTitle(pillName + " " + context.getString(R.string.stockup_notification_title))
-                            .setContentText(context.getString(R.string.dont_forget_stockup, pillName))
-                            .setColor(500086)
-                            .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                            .setVibrate(new long[]{100, 300, 500, 300})
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .build();
-                } else {
-                    pillStockupNotification = new NotificationCompat.Builder(context, Simpill.PILL_STOCKUP_CHANNEL)
+                Notification pillStockupNotification = new NotificationCompat.Builder(context, Simpill.PILL_STOCKUP_CHANNEL)
                             .setSmallIcon(R.drawable.pill_bottle_color_2)
                             .setContentTitle(pillName + " " + context.getString(R.string.stockup_notification_title))
                             .setContentText(context.getString(R.string.dont_forget_stockup, pillName))
@@ -66,7 +53,7 @@ public class ReceiverPillSupply extends BroadcastReceiver {
                             .setVibrate(new long[]{100, 300, 500, 300})
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .build();
-                }
+
                 stockupNotificationManagerCompat.notify(pillName, notificationCode, pillStockupNotification);
 
                 alarmSetter.setAlarms(alarmCodeForSupply);

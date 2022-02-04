@@ -20,7 +20,8 @@ import java.util.Date;
 public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
         Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener, Dialogs.ChooseTimesDialogListener {
 
-    private Simpill simpill;
+    private Simpill simpill = new Simpill();
+    private SharedPrefs sharedPrefs = new SharedPrefs();
     Dialogs dialogs = new Dialogs();
     private final Toasts toasts = new Toasts();
 
@@ -49,12 +50,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        simpill = (Simpill) getApplicationContext();
-
-        new SharedPrefs().loadSharedPrefs(this);
-
         setContentViewBasedOnThemeSetting();
-
         findViewsByIds();
         initiateTexts();
         initiateCalendar();
@@ -62,7 +58,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        int theme = simpill.getCustomTheme();
+        int theme = sharedPrefs.getThemesPref(this);
 
         if (theme == simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
@@ -156,7 +152,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
             String amOrPm;
             String time;
 
-            if (!simpill.getUserIs24Hr()) {
+            if (!sharedPrefs.get24HourFormatPref(this)) {
                 if (selectedHour > 12) {
                     amOrPm = "pm";
                     selectedHour = selectedHour - 12;
@@ -190,7 +186,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
             pillTime.setText(time);
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(CreatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, simpill.getUserIs24Hr());
+        TimePickerDialog timePickerDialog = new TimePickerDialog(CreatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
         timePickerDialog.show();
     }
     private void openEnterPillAmountDialog() {
@@ -216,7 +212,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
                         date,
                         Integer.parseInt(pillSupply.getText().toString()),
                         defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
-                    toasts.showCustomToast(this, pillName.getText().toString().trim() + getString(R.string.pill_created_toast));
+                    toasts.showCustomToast(this, getString(R.string.pill_created_toast, pillName.getText().toString().trim()));
                     Intent intent = new Intent(this, ChooseColor.class);
                     intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
                     startActivity(intent);

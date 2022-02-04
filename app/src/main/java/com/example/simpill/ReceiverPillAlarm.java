@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -42,10 +41,6 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                 pillNotificationManagerCompat = NotificationManagerCompat.from(context);
                 Notification pillReminderNotification;
 
-                SharedPreferences permanentNotificationsPref= context.getSharedPreferences(Simpill.PERMANENT_NOTIFICATIONS_FILENAME, Context.MODE_PRIVATE);
-                Boolean permanentNotifications = permanentNotificationsPref.getBoolean(Simpill.USER_PERMANENT_NOTIFICATIONS_TAG, false);
-                simpill.setUserPermanentNotifications(permanentNotifications);
-
                 //Open Button for Notification
                 Intent openMainIntent = new Intent(context, MainActivity.class);
                 openMainIntent.putExtra(context.getString(R.string.notification_pill_name), pillName);
@@ -59,7 +54,7 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                             .setCategory(NotificationCompat.CATEGORY_REMINDER)
                             .setVibrate(new long[]{100, 300, 500, 300})
                             .setPriority(NotificationCompat.PRIORITY_MAX)
-                            .setOngoing(false)
+                            .setOngoing(new SharedPrefs().getStickyNotificationsPref(context))
                             .setContentIntent(pendingIntent)
                             .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
                             .build();

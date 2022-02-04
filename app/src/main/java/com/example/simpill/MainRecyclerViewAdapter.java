@@ -3,7 +3,6 @@ package com.example.simpill;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -28,7 +27,7 @@ import java.util.TimeZone;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
 
-    Simpill simpill = new Simpill();
+    SharedPrefs sharedPrefs = new SharedPrefs();
     Dialogs dialogs = new Dialogs();
     DatabaseHelper myDatabase;
     Toasts toasts;
@@ -87,8 +86,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     @NonNull
     @Override
     public MainRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        new SharedPrefs().loadSharedPrefs(parent.getContext());
-
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_pill_new, parent, false));
     }
 
@@ -141,7 +138,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             String times;
 
             myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
-            if (simpill.getUserIs24Hr()) {
+            if (sharedPrefs.get24HourFormatPref(myContext)) {
                 times = myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
             } else {
                 times = myDatabase.convertArrayToString(myDatabase.convert24HrArrayTo12HrArray(myContext, myDatabase.getPillTime(pillName)));
@@ -225,7 +222,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             int newPillAmount = thisPillAmount - 1;
 
             String currentTime = dateTimeManager.getCurrentTime(myContext, userTimezone);
-            if (!simpill.getUserIs24Hr()){
+            if (!sharedPrefs.get24HourFormatPref(myContext)){
                 currentTime = dateTimeManager.convert24HrTimeTo12HrTime(myContext, currentTime);
             }
             String takenTime = myContext.getString(R.string.taken_at, currentTime);
@@ -253,7 +250,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             toasts.showCustomToast(myContext, myContext.getString(R.string.pill_taken_toast, pillName));
         });
 
-        holder.reset_btn.setOnClickListener(v -> dialogs.getPillResetDialog(mainActivity.getMainActivityContext(), pillName, holder, position, resetMediaPlayer).show());
+        holder.reset_btn.setOnClickListener(v -> dialogs.getPillResetDialog(myContext, pillName, holder, position, resetMediaPlayer).show());
 
         holder.big_button.setOnClickListener(view -> {
             Intent intent = new Intent(myContext, UpdatePill.class);

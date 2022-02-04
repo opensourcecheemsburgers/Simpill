@@ -2,7 +2,6 @@ package com.example.simpill;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +20,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 public class MainActivity extends AppCompatActivity implements Dialogs.PillDeleteDialogListener, Dialogs.PillResetDialogListener {
 
-    private final Simpill simpill = new Simpill();
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
     private final DatabaseHelper myDatabase = new DatabaseHelper(MainActivity.this);
     private final Toasts toasts = new Toasts();
 
@@ -38,6 +38,19 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        checkOpenCount();
+
+        setContentViewAndDesign();
+
+        findViewsByIds();
+        createRecyclerView();
+        makeRecyclerViewItemsSwipeable();
+
+        initiateButtons();
+        isSqlDatabaseEmpty();
+    }
+
+    private void makeRecyclerViewItemsSwipeable() {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -51,11 +64,11 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
                 String pillName = myDatabase.getPillNameFromCursor(viewHolder.getLayoutPosition());
 
                 switch (direction) {
-                    case ItemTouchHelper.RIGHT:
+                    case ItemTouchHelper.LEFT:
                         myAdapter.notifyItemChanged(position);
                         dialogs.getPillDeletionDialog(getMainActivityContext(), pillName, position).show();
                         break;
-                    case ItemTouchHelper.LEFT:
+                    case ItemTouchHelper.RIGHT:
                         myAdapter.notifyItemChanged(position);
                         openUpdatePill(pillName);
                         break;
@@ -66,40 +79,21 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeRightActionIcon(R.drawable.ic_delete_svgrepo_com)
-                        .addSwipeLeftActionIcon(R.drawable.ic_write_svgrepo_com)
+                        .addSwipeRightActionIcon(R.drawable.ic_write_svgrepo_com)
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete_svgrepo_com)
                         .create()
                         .decorate();
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
-
-
-
-
-
-        loadSharedPrefs();
-
-        setContentViewAndDesign();
-
-        findViewsByIds();
-        createRecyclerView();
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        initiateButtons();
-        isSqlDatabaseEmpty();
     }
 
-    private void loadSharedPrefs() {
-        SharedPrefs sharedPrefs = new SharedPrefs();
-        sharedPrefs.loadSharedPrefs(this);
-
-
-        int count = simpill.getOpenCount();
-        count = count++;
+    private void checkOpenCount() {
+        int count = sharedPrefs.getOpenCountPref(this);
+        count = count + 1;
 
         if(count == 100) {
             dialogs.getDonationDialog(this).show();
@@ -108,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
         sharedPrefs.setOpenCountPref(this, count);
     }
     private void setContentViewAndDesign() {
-        int theme = simpill.getCustomTheme();
+        int theme = sharedPrefs.getThemesPref(this);
 
-        if (theme == simpill.BLUE_THEME) {
+        if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if (theme == simpill.GREY_THEME) {
+        } else if (theme == Simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
-        } else if (theme == simpill.BLACK_THEME) {
+        } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
@@ -143,9 +137,6 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
     }
 
     public boolean onContextItemSelected(MenuItem item) {
-
-        //This needs the pill name instead.
-
         String pillName = myDatabase.getPillNameFromCursor(item.getGroupId() - 1);
 
         switch (item.getItemId()) {
@@ -191,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
     private void openUpdatePill(String pillName) {
         Intent intent = new Intent(this, UpdatePill.class);
         intent.putExtra(getString(R.string.pill_name), pillName);
-        intent.putExtra(getString(R.string.pill_time), myDatabase.convertArrayToString(myDatabase.getPillTime(pillName)));
+        intent.putExtra(getString(R.string.pill_time), myDatabase.getPillTime(pillName));
         intent.putExtra(getString(R.string.pill_date), myDatabase.getPillDate(pillName));
         intent.putExtra(getString(R.string.pill_amount), myDatabase.getPillAmount(pillName));
         intent.putExtra(getString(R.string.is_pill_taken), myDatabase.getIsTaken(pillName));
@@ -205,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
         startActivity(intent);
     }
     private void openSettingsActivity() {
-        Intent intent = new Intent(this, Settings.class);
+        Intent intent = new Intent(MainActivity.this, Settings.class);
         startActivity(intent);
         backPresses = 0;
     }
@@ -216,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
     }
 
     public void closeApp() {
-        finishAffinity();
+        ActivityCompat.finishAffinity(this);
         System.exit(0);
     }
 
@@ -245,5 +236,6 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
         myAdapter.notifyItemChanged(position);
 
         toasts.showCustomToast(this, this.getString(R.string.pill_reset_toast, pillName));
+        resetSoundPlayer.start();
     }
 }

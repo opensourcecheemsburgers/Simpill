@@ -1,7 +1,6 @@
 package com.example.simpill;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,8 +12,6 @@ import androidx.core.content.res.ResourcesCompat;
 
 public class About extends AppCompatActivity {
 
-    private Simpill simpill;
-
     Toasts toasts = new Toasts();
 
     Button settingsButton, aboutButton;
@@ -25,12 +22,7 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        simpill = (Simpill) getApplicationContext();
-
-        new SharedPrefs().loadSharedPrefs(this);
-
         setContentViewBasedOnThemeSetting();
-
         findViewsByIds();
         initiateTextViews();
         setButtonOnClickListeners();
@@ -38,13 +30,13 @@ public class About extends AppCompatActivity {
 
 
     private void setContentViewBasedOnThemeSetting() {
-        int theme = simpill.getCustomTheme();
+        int theme = new SharedPrefs().getThemesPref(this);
 
-        if (theme == simpill.BLUE_THEME) {
+        if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if (theme == simpill.GREY_THEME) {
+        } else if (theme == Simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
-        } else if (theme == simpill.BLACK_THEME) {
+        } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {

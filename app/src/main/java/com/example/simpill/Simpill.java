@@ -2,9 +2,6 @@ package com.example.simpill;
 
 import android.app.Application;
 import android.os.Build;
-import android.widget.Toast;
-
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -27,13 +24,10 @@ public class Simpill extends Application {
     public static final String USER_IS_24HR_TAG = "User Is24Hr";
     public static final String USER_PERMANENT_NOTIFICATIONS_TAG = "User PermanentNotifications";
 
-    public final int BLUE_THEME = 1;
-    public final int BLACK_THEME = 2;
-    public final int GREY_THEME = 3;
-    public final int PURPLE_THEME = 4;
-
-    private int openCount, theme;
-    private boolean is24Hr, permanentNotifications, darkDialogs;
+    public static final int BLUE_THEME = 1;
+    public static final int BLACK_THEME = 2;
+    public static final int GREY_THEME = 3;
+    public static final int PURPLE_THEME = 4;
 
     public void onCreate() {
         super.onCreate();
@@ -43,7 +37,10 @@ public class Simpill extends Application {
     }
 
     void handleUncaughtException() {
-        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> new Toasts().showCustomToast(this, getString(R.string.unknown_error_toast)));
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            new Dialogs().getDonationDialog(this).show();
+            new Toasts().showCustomToast(this, getString(R.string.unknown_error_toast));
+        });
     }
 
     void createNotificationChannels() {
@@ -72,38 +69,5 @@ public class Simpill extends Application {
             notificationManagerCompat.createNotificationChannel(pillExtraRemindersNotificationChannel);
         }
     }
-
-    public int getCustomTheme() {
-        return theme;
-    }
-    public boolean getUserIs24Hr() {
-        return is24Hr;
-    }
-    public boolean getUserPermanentNotifications() {
-        return permanentNotifications;
-    }
-    public int getOpenCount() {
-        return openCount;
-    }
-    public boolean getDarkDialogs() {
-        return darkDialogs;
-    }
-
-    public void setUserIs24Hr(Boolean is24Hr) {
-        this.is24Hr = is24Hr;
-    }
-    public void setCustomTheme(int theme) {
-        this.theme = theme;
-    }
-    public void setUserPermanentNotifications(Boolean permanentNotifications) {
-        this.permanentNotifications = permanentNotifications;
-    }
-    public void setOpenCount(int openCount) {
-        this.openCount = openCount;
-    }
-    public void setDarkDialogs(boolean darkDialogs) {
-        this.darkDialogs = darkDialogs;
-    }
-
 
 }

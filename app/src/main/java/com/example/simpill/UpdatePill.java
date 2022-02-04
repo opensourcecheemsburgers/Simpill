@@ -2,19 +2,14 @@ package com.example.simpill;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
-
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,13 +20,10 @@ import java.util.Locale;
 public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
         Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener,  Dialogs.ChooseTimesDialogListener {
 
-    private Simpill simpill = new Simpill();
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
     private AlarmSetter alarmSetter;
     Dialogs dialogs = new Dialogs();
     private final Toasts toasts = new Toasts();
-
-    private static final int defaultIsTaken = 0;
-    private static final int defaultBottleColor = 2;
 
     Button createNewPillButton, pillNameButton, pillDateButton, pillClockButton, pillAmountButton;
     TextView pillNameTextView, pillTimeTextView, pillStockupTextView, pillSupplyTextView;
@@ -41,8 +33,6 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
     Typeface truenoReg;
 
     int intervalInDays = 1;
-    int timesPerDay;
-    int currentArrayNumber = 0;
 
     String[] times;
 
@@ -55,8 +45,6 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadSharedPrefs();
-
         setContentViewBasedOnThemeSetting();
 
         findViewsByIds();
@@ -67,23 +55,14 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         initiateButtons();
     }
 
-    private void loadSharedPrefs() {
-        SharedPreferences themePref = getApplicationContext().getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE);
-        int theme = themePref.getInt(Simpill.USER_THEME_TAG, simpill.BLUE_THEME);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN_FILENAME, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR_TAG, true);
-        simpill.setUserIs24Hr(is24Hr);
-    }
-
     private void setContentViewBasedOnThemeSetting() {
-        int theme = simpill.getCustomTheme();
+        int theme = sharedPrefs.getThemesPref(this);
 
-        if (theme == simpill.BLUE_THEME) {
+        if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if (theme == simpill.GREY_THEME) {
+        } else if (theme == Simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
-        } else if (theme == simpill.BLACK_THEME) {
+        } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
@@ -114,13 +93,12 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         pillSupplyTextView.setTypeface(truenoReg);
         createNewPillButton.setTypeface(truenoReg);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pillNameTextView.setLetterSpacing(0.05f);
-            pillTimeTextView.setLetterSpacing(0.05f);
-            pillStockupTextView.setLetterSpacing(0.05f);
-            pillSupplyTextView.setLetterSpacing(0.05f);
-            createNewPillButton.setLetterSpacing(0.05f);
-        }
+
+        pillNameTextView.setLetterSpacing(0.05f);
+        pillTimeTextView.setLetterSpacing(0.05f);
+        pillStockupTextView.setLetterSpacing(0.05f);
+        pillSupplyTextView.setLetterSpacing(0.05f);
+        createNewPillButton.setLetterSpacing(0.05f);
     }
     private void initiateButtons() {
         pillNameButton.setOnClickListener(view -> openEnterPillNameDialog());
@@ -161,15 +139,15 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
             pillStockupTextView.setText(selectedDate);
         }, year, month, day).show();
     }
-    private void openTimePickerDialog(int timePickerAmount) {
-        times = new String[timePickerAmount];
+    private void openTimePickerDialogForSingleTime() {
+        times = new String[1];
 
         TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, selectedHour, selectedMinute) -> {
             DateTimeManager dateTimeManager = new DateTimeManager();
             String amOrPm;
             String time;
 
-            if (!simpill.getUserIs24Hr()) {
+            if (!sharedPrefs.get24HourFormatPref(this)) {
                 if (selectedHour > 12) {
                     amOrPm = "pm";
                     selectedHour = selectedHour - 12;
@@ -203,7 +181,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
             pillTimeTextView.setText(time);
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(UpdatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, simpill.getUserIs24Hr());
+        TimePickerDialog timePickerDialog = new TimePickerDialog(UpdatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
         timePickerDialog.show();
     }
     private void openEnterPillAmountDialog() {
@@ -226,7 +204,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
         pillNameTextView.setText(pillName);
 
-        if (simpill.getUserIs24Hr()) {
+        if (sharedPrefs.get24HourFormatPref(this)) {
             pillTimeTextView.setText(myDatabase.convertArrayToString(times));
         }
         else {
@@ -322,10 +300,6 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         }
     }
 
-    private int getNewPillId() {
-        return myDatabase.getRowCount() + 1;
-    }
-
     private void openMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -357,7 +331,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
     @Override
     public void openTimePicker(int frequency) {
-        openTimePickerDialog(1);
+        openTimePickerDialogForSingleTime();
     }
 
     @Override

@@ -1,10 +1,8 @@
 package com.example.simpill;
 
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -25,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class Dialogs extends AppCompatDialogFragment {
 
-    Simpill simpill = new Simpill();
+
     Toasts toasts = new Toasts();
     DatabaseHelper myDatabase;
     AlertDialog.Builder dialogBuilder;
@@ -71,6 +69,8 @@ public class Dialogs extends AppCompatDialogFragment {
 
         TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
         TextView titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
+        titleMessageView.setText(context.getString(R.string.pill_deletion_dialog_message, pillName));
+
         Button yesBtn = dialogView.findViewById(R.id.btnYes);
         Button cancelBtn = dialogView.findViewById(R.id.btnNo);
 
@@ -166,25 +166,25 @@ public class Dialogs extends AppCompatDialogFragment {
         ImageButton blackThemeBtn = dialogView.findViewById(R.id.black_theme_btn);
 
         blueThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, simpill.BLUE_THEME);
+            sharedPrefs.setThemesPref(context, Simpill.BLUE_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.blue)));
-            settingsDialogListener.recreateScreen();
+            ((SettingsDialogListener) context).recreateScreen();
             dialog.dismiss();
         });
         greyThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, simpill.GREY_THEME);
+            sharedPrefs.setThemesPref(context, Simpill.GREY_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.grey)));
             settingsDialogListener.recreateScreen();
             dialog.dismiss();
         });
         purpleThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, simpill.PURPLE_THEME);
+            sharedPrefs.setThemesPref(context, Simpill.PURPLE_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.purple)));
             settingsDialogListener.recreateScreen();
             dialog.dismiss();
         });
         blackThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, simpill.BLACK_THEME);
+            sharedPrefs.setThemesPref(context, Simpill.BLACK_THEME);
             toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.dark)));
             settingsDialogListener.recreateScreen();
             dialog.dismiss();
@@ -344,7 +344,7 @@ public class Dialogs extends AppCompatDialogFragment {
                 toasts.showCustomToast(context, "Please enter a time for each clock.");
             }
             else if(timesRecyclerViewAdapter.checkForAdjacentTimes()){
-                toasts.showCustomToast(context, "Times must be at least 10 mins apart.");
+                toasts.showCustomToast(context, "Times must be at least 15 mins apart.");
             }
             else {
                 dialog.dismiss();
@@ -494,8 +494,7 @@ public class Dialogs extends AppCompatDialogFragment {
     }
 
     private boolean isDarkDialogTheme(Context context) {
-        return context.getSharedPreferences(Simpill.SELECTED_THEME_FILENAME, Context.MODE_PRIVATE)
-                .getBoolean(Simpill.DARK_DIALOGS_TAG, (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES);
+        return new SharedPrefs().getDarkDialogsPref(context);
     }
 
     public interface PillNameDialogListener {
