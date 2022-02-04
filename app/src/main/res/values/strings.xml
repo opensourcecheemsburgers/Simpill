@@ -176,10 +176,6 @@
     <string name="xmr_address_copied">XMR address copied :)</string>
     <string name="pnd_address_copied">PND address copied :)</string>
 
-
-
-
-
     <string name="custom_interval_dialog_text">Set a custom interval (in days) for your medication reminder using the buttons below:</string>
     <string name="custom_interval_dialog_title">Interval</string>
 

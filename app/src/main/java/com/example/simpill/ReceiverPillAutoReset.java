@@ -29,7 +29,7 @@ public class ReceiverPillAutoReset extends BroadcastReceiver {
             notificationManagerCompat.cancel(pillName, myDatabase.getPrimaryKeyId(pillName));
 
             myDatabase.setIsReminderSet(pillName, 0);
-            alarmSetter = new AlarmSetter(context, pillName, notificationCode);
+            alarmSetter = new AlarmSetter(context, pillName);
             alarmSetter.setAlarms(alarmCodeForAutoReset);
             if (myDatabase.getIsTaken(pillName) == taken) {
                     myDatabase.setIsTaken(pillName, notTaken);

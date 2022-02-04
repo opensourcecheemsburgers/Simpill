@@ -49,7 +49,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
         findViewsByIds();
         getAndSetIntentData();
-        alarmSetter = new AlarmSetter(this, pillName, primaryKeyId);
+        alarmSetter = new AlarmSetter(this, pillName);
         initiateTexts();
         initiateCalendar();
         initiateButtons();

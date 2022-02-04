@@ -35,7 +35,7 @@ public class ReceiverPillSupply extends BroadcastReceiver {
             int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), 0);
 
             DatabaseHelper myDatabase = new DatabaseHelper(context);
-            alarmSetter = new AlarmSetter(context, pillName, notificationCode);
+            alarmSetter = new AlarmSetter(context, pillName);
 
             if (!myDatabase.getPillName(pillName).equals("null")) {
 

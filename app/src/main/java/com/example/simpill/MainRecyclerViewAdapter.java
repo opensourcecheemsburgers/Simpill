@@ -109,7 +109,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         dateTimeManager = new DateTimeManager();
         pillName = myDatabase.getPillNameFromCursor(position);
         userTimezone = dateTimeManager.getUserTimezone();
-        alarmSetter = new AlarmSetter(myContext, pillName, myDatabase.getPrimaryKeyId(pillName));
+        alarmSetter = new AlarmSetter(myContext, pillName);
     }
 
     private void initTextViews(MyViewHolder holder, String pillName) {

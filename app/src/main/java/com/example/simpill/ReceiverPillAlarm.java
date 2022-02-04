@@ -32,7 +32,7 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
             int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), 0);
 
             DatabaseHelper myDatabase = new DatabaseHelper(context);
-            alarmSetter = new AlarmSetter(context, pillName, notificationCode);
+            alarmSetter = new AlarmSetter(context, pillName);
             dateTimeManager = new DateTimeManager();
             simpill = new Simpill();
 
@@ -73,6 +73,8 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
                             .addAction(R.mipmap.ic_launcher, "Open", pendingIntent)
                             .build();
                 }
+
+                System.out.println("Using notification code = " + notificationCode);
 
 
                 pillNotificationManagerCompat.notify(pillName, notificationCode, pillReminderNotification);
