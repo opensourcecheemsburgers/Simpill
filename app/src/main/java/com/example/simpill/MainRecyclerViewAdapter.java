@@ -244,9 +244,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             holder.reset_btn.setClickable(true);
             takenMediaPlayer.start();
 
-            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(myContext);
-            notificationManagerCompat.cancel(pillName, myDatabase.getPrimaryKeyId(pillName));
-
+            deleteActiveNotifications();
             toasts.showCustomToast(myContext, myContext.getString(R.string.pill_taken_toast, pillName));
         });
 
@@ -267,6 +265,12 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             holder.big_button.setContextClickable(true);
+        }
+    }
+
+    private void deleteActiveNotifications() {
+        for (int currentNumber = 0; currentNumber < myDatabase.getPillTime(pillName).length; currentNumber++) {
+            NotificationManagerCompat.from(myContext).cancel(pillName, myDatabase.getPrimaryKeyId(pillName) * 10 * 10 * 10 + currentNumber);
         }
     }
 
