@@ -70,7 +70,9 @@
     <string name="_24_hour_format">24 Hour Format</string>
     <string name="database">Database</string>
     <string name="delete_all_pills">Delete All Pills</string>
-    <string name="theme_applied">%1$s theme applied :)</string>
+
+
+    <string name="theme_applied">%1$s theme applied :)</string><!--1st parameter is the theme color e.g. blue-->
     <string name="select_theme_dialog_title">Select Theme</string>
     <string name="change_theme">Change Theme</string>
 
@@ -91,33 +93,33 @@
     <string name="pandacoin_address" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
 
     <!--Pill Time TextView Strings-->
-    <string name="take_at">Take at %1$s</string>
-    <string name="taken_at">Taken at %1$s</string>
+    <string name="take_at">Take at %1$s</string><!--1st parameter are the reminder times-->
+    <string name="taken_at">Taken at %1$s</string><!--1st parameter is the time the pill has been taken at by user-->
 
     <!--Toast Strings-->
     <string name="database_reset_toast">All pills deleted!</string>
-    <string name="pill_created_toast">%1$s created :)</string>
+    <string name="pill_created_toast">%1$s created :)</string> <!--1st parameter = name of created pill-->
     <string name="already_in_about_toast">You are already in the About section!</string>
     <string name="already_in_settings_toast">You are already in the Settings section!</string>
     <string name="device_restart_toast">Resetting alarms for Simpill :)</string>
     <string name="time_format_24hr_toast">Time format set to 24hr.</string>
     <string name="time_format_12hr_toast">Time format set to 12hr.</string>
-    <string name="pill_taken_toast">%1$s taken.</string>
-    <string name="pill_reset_toast">%1$s reset.</string>
+    <string name="pill_taken_toast">%1$s taken.</string> <!--1st parameter = name of pill-->
+    <string name="pill_reset_toast">%1$s reset.</string> <!--1st parameter = name of pill-->
     <string name="sticky_notifications_enabled_toast">Sticky notifications enabled.</string>
     <string name="sticky_notifications_disabled_toast">Sticky notifications disabled.</string>
     <string name="unknown_error_toast">Unknown error in Simpill :(</string>
-    <string name="append_updated_toast">%1$s updated :)</string>
+    <string name="append_updated_toast">%1$s updated :)</string> <!--1st parameter = name of the updated pill-->
     <string name="pill_db_deleted_toast">All pills deleted.</string>
-    <string name="append_pill_deleted_toast">%1$s deleted.</string>
-    <string name="pill_bottle_amount_toast">You have %1$d %2$s pills left.</string>
+    <string name="append_pill_deleted_toast">%1$s deleted.</string> <!--1st parameter = name of the deleted pill-->
+    <string name="pill_bottle_amount_toast">You have %1$d %2$s pills left.</string> <!--1st parameter = current pill amount     2nd parameter = pill name-->
 
     <!--Stockup Notification Strings-->
     <string name="stockup_notification_title">Stockup Reminder</string>
-    <string name="dont_forget_stockup">Don\'t forget to stockup on your %1$s soon :)</string>
+    <string name="dont_forget_stockup">Don\'t forget to stockup on your %1$s soon :)</string> <!--1st parameter = name of pill-->
 
     <!--Reminder Notification Strings-->
-    <string name="reminder_notification_description">It\'s time to take your medication: %1$s :)</string>
+    <string name="reminder_notification_description">It\'s time to take your medication: %1$s :)</string> <!--1st parameter = name of pill-->
 
     <!--Welcome Dialog Strings-->
     <string name="welcome_dialog_title">Welcome</string>
@@ -135,7 +137,7 @@
 
     <!--Delete Pill Dialog Strings-->
     <string name="pill_deletion_dialog_title">Delete?</string>
-    <string name="pill_deletion_dialog_message">Are you sure you want to delete %1$s?\n\nThis cannot be undone!</string>
+    <string name="pill_deletion_dialog_message">Are you sure you want to delete %1$s?\n\nThis cannot be undone!</string> <!--1st parameter = name of pill-->
 
     <!--Delete Database Dialog Strings-->
     <string name="pill_db_reset">Delete Pills</string>
@@ -186,14 +188,14 @@
 
 
     <string name="snap_time_picker_title">Select a time:</string>
-    <string name="clocks_dialog_time_text">Time #%1$d</string>
+    <string name="clocks_dialog_time_text">Time #%1$d</string> <!--1st parameter = time number e.g. 2-->
     <string name="chooses_times_dialog_text">Set the reminder times for your medication using the clocks below:</string>
 
     <string name="context_menu_update">Update</string>
     <string name="context_menu_delete">Delete</string>
     <string name="context_menu_change_color">Change Color</string>
     <string name="donation_dialog_message">If you enjoy using Simpill, please consider making a donation :)\n\nSimpill is completely free and open-source without any ads or trackers.\n\nYou can donate using one of the buttons below:</string>
-    <string name="reminder_already_taken_description">You have already taken your %1$s :)</string>
+    <string name="reminder_already_taken_description">You have already taken your %1$s :)</string> <!--1st parameter = name of pill-->
     <string name="paypal_donation_link">https://www.paypal.com/donate/?hosted_button_id=A8UNN2A4D3P3G</string>
     <string name="simpill_paid_version_link">https://play.google.com/store/apps/details?id=com.winston69.simpill.ty</string>
     <string name="blue">Blue</string>
