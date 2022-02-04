@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="app_name">Simpill</string>
+    <string name="app_name" translatable="false">Simpill</string>
     <string name="nullString" translatable="false">null</string>
 
     <!--General Strings-->
@@ -73,16 +73,16 @@
 
 
     <string name="theme_applied">%1$s theme applied :)</string><!--1st parameter is the theme color e.g. blue-->
-    <string name="select_theme_dialog_title">Select Theme</string>
+    <string name="select_theme_dialog_title">Select</string>
     <string name="change_theme">Change Theme</string>
 
     <!--About Strings-->
     <string name="simpillAboutParagraph_1">Simpill is a free and open-source medication reminder app without any trackers, annoying ads or unnecessary permissions.</string>
     <string name="simpillAboutParagraph_2">Simpill is provided as a completely free application and it does not generate any revenue from ads or selling data.\n\nIf would you to like to support Simpill and its future development, there are a number of donation options:</string>
 
-    <string name="monero">Monero</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="pandacoin">Pandacoin</string>
+    <string name="monero" translatable="false">Monero</string>
+    <string name="bitcoin" translatable="false">Bitcoin</string>
+    <string name="pandacoin" translatable="false">Pandacoin</string>
     <string name="MoneroWebsite" translatable="false">https://www.getmonero.org</string>
     <string name="BitcoinWebsite" translatable="false">https://bitcoin.org</string>
     <string name="PandacoinWebsite" translatable="false">https://pandacoin.tech</string>
@@ -124,7 +124,7 @@
     <string name="welcome_dialog_message">To create your first pill, select the plus button at the bottom of your screen.</string>
 
     <!--Pill Name Dialog Strings-->
-    <string name="pill_name_dialog_tag">Pill Name Dialog</string>
+    <string name="pill_name_dialog_tag" translatable="false">Pill Name Dialog</string>
     <string name="pill_name_dialog_title">Pill Name</string>
     <string name="pill_name_dialog_msg">Please enter a name for your medication by clicking the line below:\n</string>
     <string name="pill_name_dialog_text_hint">Name - keep it short :)</string>
@@ -150,7 +150,6 @@
     <string name="past_date_dialog_message">Unless you have access to a TARDIS, the date cannot be set in the past.</string>
 
     <!--Extra Reminder Dialog Strings-->
-    <string name="extra_reminder_dialog_title">Extra Reminder</string>
 
     <!--Frequency Dialog Strings-->
     <string name="choose_frequency_dialog_text">How often do you take this medication?</string>
@@ -185,7 +184,6 @@
     <string name="custom_interval_dialog_title">Interval</string>
 
 
-    <string name="snap_time_picker_title">Select a time:</string>
     <string name="clocks_dialog_time_text">Time #%1$d</string> <!--1st parameter = time number e.g. 2-->
     <string name="chooses_times_dialog_text">Set the reminder times for your medication using the clocks below:</string>
 

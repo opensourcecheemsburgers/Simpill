@@ -7,9 +7,6 @@
     <string name="simpillAboutParagraph_2">Simpill est fournie comme une application complètement libre et open source. Elle ne gagne pas d\'argent d\'annonces ou de vendre vos données.\n\nSi vous voudriez remercier au développeur de Simpill et soutenir sa développement futur, vous pouvez faire un don en utilisant les boutons ci-dessous:</string>
 
 
-    <string name="app_name">Simpill</string>
-    <string name="nullString" translatable="false">null</string>
-
     <!--General Strings-->
     <string name="yes">Oui</string>
     <string name="no">Non</string>
@@ -65,15 +62,12 @@
     <string name="_24_hour_format">Format de 24 heures</string>
     <string name="database">Base de données</string>
     <string name="delete_all_pills">Supprimer tous les pilules</string>
-    <string name="theme_applied">Thème %1$s! a été appliqué :)</string>
+    <string name="theme_applied">Thème %1$s a été appliqué :)</string>
     <string name="select_theme_dialog_title">Choisissez</string>
     <string name="change_theme">Choisissez une Thème</string>
 
 
     <!--About Strings-->
-    <string name="monero">Monero</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="pandacoin">Pandacoin</string>
     <string name="MoneroWebsite" translatable="false">https://www.getmonero.org</string>
     <string name="BitcoinWebsite" translatable="false">https://bitcoin.org</string>
     <string name="PandacoinWebsite" translatable="false">https://pandacoin.tech</string>
@@ -174,7 +168,7 @@
     <string name="context_menu_delete">Supprimer</string>
     <string name="context_menu_change_color">Changer la couleur</string>
 
-    <string name="donation_dialog_message">Si vous aimez utiliser Simpill, s\'il vous plaît envisager de faire un don :)n\nSimpill est complètement libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire. Vous pouvez faire un don en utilisant les boutons ci-dessous.</string>
+    <string name="donation_dialog_message">Si vous aimez utiliser Simpill, s\'il vous plaît envisager de faire un don :)\n\nSimpill est complètement libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire. \n\nVous pouvez faire un don en utilisant les boutons ci-dessous.</string>
     <string name="reminder_already_taken_description">Vous avez déjà pris votre médicament: %1$s :)</string> <!--1st parameter = name of pill-->
 
     <!--Use masculine for translations-->
@@ -190,5 +184,7 @@
 
     <string name="dev_email">Mon email</string>
     <string name="simpill_code">Code source</string>
+    <string name="clocks_dialog_time_text" translatable="false">Fois #%1$d</string>
+    <string name="chooses_times_dialog_text">Choisissez les rappels de votre médicament en utilisant les horloges ci-dessous:</string>
 
 </resources>

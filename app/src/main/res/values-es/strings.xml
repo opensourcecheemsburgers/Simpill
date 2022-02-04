@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Simpill</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
 
@@ -46,12 +45,9 @@
     <string name="database">Base de datos</string>
     <string name="delete_all_pills">Suprimir todas las pastillas</string>
     <string name="theme_applied">Tema %1$s aplicado :)</string>
-    <string name="select_theme_dialog_title">Seleccionar Tema</string>
+    <string name="select_theme_dialog_title">Seleccionar</string>
     <string name="change_theme">Cambiar Tema</string>
     <string name="simpillAboutParagraph_1">Simpill es una aplicación de recordatorio de medicamentos gratuita y de código abierto sin rastreadorers, molestos anuncios o permisos innecesarios.\n\n¿Encontraste algún error o quiere sugerir alguna idea? No dude en contactarme a través del email simpilldev@gmail.com :)\n\nSi desea agradecer a los desarrolladores de Simpill apoyando su desarrollo futuro, puede comprar una versión de pago en la Play Store.\n\nTambién puede donar cryptomonedas para apoyar a Simpill. Haga clic en una de las siguientes direcciones para copiarla en el portapapeles.\n\n¡Toda donación es muy agradecida! :)</string>
-    <string name="monero">Monero</string>
-    <string name="bitcoin">Bitcoin</string>
-    <string name="pandacoin">Pandacoin</string>
     <string name="database_reset_toast">Todas las pastillas han sido suprimidas!</string>
     <string name="pill_created_toast">%1$s creado :)</string>
     <string name="already_in_about_toast">Está en la sección Acerca de!</string>
@@ -59,17 +55,15 @@
     <string name="device_restart_toast">Restableciendo alarmas para Simpill :)</string>
     <string name="stockup_notification_title">Recordatorio del Inventario</string>
     <string name="dont_forget_stockup">No se olvide recargar el %1$s :)</string>
-    <string name="soon">pronto :)</string>
     <string name="reminder_notification_description">Es hora de tomar su medicamento: %1$s :)</string>
     <string name="welcome_dialog_title">Bienvenido/a</string>
     <string name="ok">Vale</string>
-    <string name="pill_name_dialog_tag">Diálogo del nombre de la pastilla</string>
     <string name="pill_name_dialog_title">Nombre de la pastilla</string>
     <string name="pill_name_dialog_msg">"Por favor, introduzca un nombre para su medicamento pulsando la siguiente línea:\n"</string>
     <string name="pill_name_dialog_text_hint">Nombre</string>
     <string name="done">Hecho</string>
     <string name="amount">Cantidad</string>
-    <string name="pill_deletion_dialog_title">Suprimir pastilla</string>
+    <string name="pill_deletion_dialog_title">Suprimir %1$s?</string>
     <string name="pill_deletion_dialog_message">¿Está seguro de que quiere suprimir %1$s?\n\nEsta acción es irreversible!</string>
     <string name="pill_db_reset">Suprimir pastillas</string>
     <string name="pill_db_reset_warning">¿Desea suprimir la base de datos de las pastillas?\n\nADVERTENCIA: Esto suprimirá todas las pastillas de manera irreversible!</string>
@@ -86,7 +80,6 @@
     <string name="choose_frequency_dialog_multiple_daily">Varias veces al día</string>
     <string name="take_pill_content_description">Botón Tomar Pastilla</string>
     <string name="welcome_dialog_message">Para crear su primera pastilla, seleccione el botón con el símbolo "+" situado en la parte inferior de la pantalla.</string>
-    <string name="extra_reminder_dialog_title">Recordatorio Extra</string>
     <string name="take_at">Tomar a las %1$s</string>
     <string name="taken_at">Tomado a las %1$s</string>
 
