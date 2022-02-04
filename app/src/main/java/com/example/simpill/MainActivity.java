@@ -159,8 +159,7 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
 
     void isSqlDatabaseEmpty() {
         if (myDatabase.readSqlDatabase().getCount() == 0) {
-            myDatabase.createTestingPills();
-            new Dialogs().getWelcomeDialog(this).show();
+            dialogs.getWelcomeDialog(this).show();
         }
     }
 

@@ -4,7 +4,6 @@
     <string name="warning_icon_content_description">Warning Icon</string>
 
     <string name="simpillAboutParagraph_1">Simpill est une application libre et open source. Elle ne contient pas de traqeurs, d\'annonces gênantes, ou d\'app autorisations pas nécessaire.</string>
-
     <string name="simpillAboutParagraph_2">Simpill est fournie comme une application complètement libre et open source. Elle ne gagne pas d\'argent d\'annonces ou de vendre vos données.\n\nSi vous voudriez remercier au développeur de Simpill et soutenir sa développement futur, vous pouvez faire un don en utilisant les boutons ci-dessous:</string>
 
 
@@ -100,8 +99,8 @@
     <string name="sticky_notifications_disabled_toast">Les notifications rigides ont été désactivées.</string>
     <string name="unknown_error_toast">Erreur Inconnue :(</string>
     <string name="append_updated_toast">%1$s a été mis à jour :)</string>
-    <string name="pill_db_deleted_toast">Tous les pilules ont été supprimés!.</string>
-    <string name="append_pill_deleted_toast">%1$s a été supprimé!.</string>
+    <string name="pill_db_deleted_toast">Tous les pilules ont été supprimés!</string>
+    <string name="append_pill_deleted_toast">%1$s a été supprimé!</string>
     <string name="pill_bottle_amount_toast">Vous avez %1$d %2$s pilules.</string>
 
     <!--Stockup Notification Strings-->
@@ -112,7 +111,7 @@
     <string name="reminder_notification_description">Il est temps de prendre votre médicament: %1$s :)</string>
 
     <!--Welcome Dialog Strings-->
-    <string name="welcome_dialog_message">Pour créer votre première pilule, cliquez sur le button plus en bas de votre écran.</string>
+    <string name="welcome_dialog_message">Pour créer votre première médicament, cliquez sur le button plus en bas de votre écran.</string>
 
     <!--Pill Name Dialog Strings-->
     <string name="pill_name_dialog_title">Nom - faites court :)</string>
