@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
                 String pillName = myDatabase.getPillNameFromCursor(viewHolder.getLayoutPosition());
 
                 switch (direction) {
-                    case ItemTouchHelper.LEFT:
+                    case ItemTouchHelper.RIGHT:
                         myAdapter.notifyItemChanged(position);
                         dialogs.getPillDeletionDialog(getMainActivityContext(), pillName, position).show();
                         break;
-                    case ItemTouchHelper.RIGHT:
+                    case ItemTouchHelper.LEFT:
                         myAdapter.notifyItemChanged(position);
                         openUpdatePill(pillName);
                         break;
@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeRightActionIcon(R.drawable.ic_write_svgrepo_com)
-                        .addSwipeLeftActionIcon(R.drawable.ic_delete_svgrepo_com)
+                        .addSwipeRightActionIcon(R.drawable.ic_delete_svgrepo_com)
+                        .addSwipeLeftActionIcon(R.drawable.ic_write_svgrepo_com)
                         .create()
                         .decorate();
 
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
 
         switch (backPresses) {
             case 1:
-                toasts.showCustomToast(this, "Press the back button again to exit.");
+                toasts.showCustomToast(this, this.getString(R.string.press_back_again_toast));
                 break;
             case 2:
                 closeApp();

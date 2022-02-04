@@ -103,7 +103,7 @@ public class Dialogs extends AppCompatDialogFragment {
         resetDbBtn.setOnClickListener(view -> {
             myDatabase.deleteDatabase();
             dialog.dismiss();
-            new Toasts().showCustomToast(context, context.getString(R.string.pill_db_deleted_toast));
+            toasts.showCustomToast(context, context.getString(R.string.pill_db_deleted_toast));
         });
         cancelBtn.setOnClickListener(view -> dialog.dismiss());
 
@@ -341,15 +341,14 @@ public class Dialogs extends AppCompatDialogFragment {
 
         doneBtn.setOnClickListener(view -> {
             if (timesRecyclerViewAdapter.checkForEmptyTimes()) {
-                toasts.showCustomToast(context, "Please enter a time for each clock.");
+                toasts.showCustomToast(context, getString(R.string.time_enter));
             }
             else if(timesRecyclerViewAdapter.checkForAdjacentTimes()){
-                toasts.showCustomToast(context, "Times must be at least 15 mins apart.");
+                toasts.showCustomToast(context, context.getString(R.string.time_warning_toast));
             }
             else {
                 dialog.dismiss();
                 chooseTimesDialogListener.returnTimesStringArray(timesRecyclerViewAdapter.returnTimeStringsArrayFromRecyclerViewClass());
-                toasts.showCustomToast(context, myDatabase.convertArrayToString(timesRecyclerViewAdapter.returnTimeStringsArrayFromRecyclerViewClass()));
             }
         });
 

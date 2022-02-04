@@ -110,14 +110,10 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, selectedHour, selectedMinute) -> {
             if (!sharedPrefs.get24HourFormatPref(context)) {
                 holder.timeTextView.setText(formatSelectedTimeAs12Hour(selectedHour, selectedMinute));
-            }
-            else {
+            } else {
                 holder.timeTextView.setText(formatSelectedTimeAs24Hour(selectedHour, selectedMinute));
             }
-
             times[position] = formatSelectedTimeAs24Hour(selectedHour, selectedMinute);
-
-            toasts.showCustomToast(context, "Array = " + myDatabase.convertArrayToString(times));
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(context));
         timePickerDialog.show();

@@ -204,5 +204,9 @@
 
     <string name="dev_email">Developer email</string>
     <string name="simpill_code">Simpill\'s code</string>
+    <string name="time_warning_toast">Times must be at least 15 mins apart.</string>
+    <string name="time_enter">Please enter a time for each clock.</string>
+    <string name="double_reminder_warning">Error!! Cannot have the same reminder twice.</string>
+    <string name="press_back_again_toast">Press the back button again to exit.</string>
 
 </resources>

@@ -513,7 +513,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     timeArray[nextNumber] = currentTime;
                 }
                 else if (currentArrIndexCal.compareTo(nextArrIndexCal) == 0) {
-                    new Toasts().showCustomToast(context, "Error!! Cannot have the same reminder twice.");
+                    new Toasts().showCustomToast(context, context.getString(R.string.double_reminder_warning));
                 }
             }
         }
