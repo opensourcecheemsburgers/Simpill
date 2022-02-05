@@ -209,7 +209,7 @@
     <string name="double_reminder_warning">Error!! Cannot have the same reminder twice.</string>
     <string name="press_back_again_toast">Press the back button again to exit.</string>
 
-    <string name="custom_interval_start_day_text">Please select the start date for your custom interval.</string>
+    <string name="custom_interval_start_day_text">Please select the start date for your medication reminders.</string>
     <string name="custom_interval_start_day_error">The selected date must be between the current date and the interval length.</string>
     <string name="donate">Donate</string>
     <string name="dismiss">Dismiss</string>
