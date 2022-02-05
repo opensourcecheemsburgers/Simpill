@@ -488,10 +488,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createTestingPills() {
-        addNewPill(1, "Testing",  new String[]{"16:10", "16:30", "16:50"},0, "2022-09-03", 30, 0, "null", 0, 2);
-        //addNewPill(2, "Prozac", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
-        //addNewPill(3, "Equasym", new String[]{"09:00", "15:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
-        //addNewPill(4, "Vitamins", new String[]{"08:45", "12:00", "15:30", "19:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
+        addNewPill(1, "Melatonin",  new String[]{"22:00"},1, "2022-09-03", 30, 0, "null", 0, 2);
+        addNewPill(2, "Prozac", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
+        addNewPill(3, "Equasym", new String[]{"09:00", "15:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
+        addNewPill(4, "Vitamins", new String[]{"08:45", "12:00", "15:30", "19:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
     }
 
     public String[] sortTimeArray(Context context, String[] timeArray) {
