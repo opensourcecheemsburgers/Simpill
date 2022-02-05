@@ -67,10 +67,6 @@ public class AlarmSetter {
         supplyDateCal = getReminderDateCalendar();
     }
 
-    public boolean checkIfReminderSet() {
-        return myDatabase.getIsReminderSet(pillName);
-    }
-
     private Calendar getReminderDateCalendar() {
         return dateTimeManager.formatDateStringAsCalendar(context, userTimezone, myDatabase.getPillDate(pillName));
     }
@@ -90,12 +86,11 @@ public class AlarmSetter {
             int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
             int frequency = myDatabase.getFrequency(pillName);
 
-            System.out.println( "Request code = " + requestCode);
-
-            Intent startPillAlarmReceiver = new Intent(context, ReceiverPillAlarm.class);
-            startPillAlarmReceiver.putExtra(context.getString(R.string.pill_name), pillName);
-            startPillAlarmReceiver.putExtra(context.getString(R.string.notification_id), requestCode);
-            PendingIntent pillAlarmPendingIntent = PendingIntent.getBroadcast(context, requestCode, startPillAlarmReceiver, PendingIntent.FLAG_IMMUTABLE);
+            @SuppressLint("InlinedApi") PendingIntent pillAlarmPendingIntent = PendingIntent.getBroadcast(context, requestCode,
+                    new Intent(context, ReceiverPillAlarm.class)
+                            .putExtra(context.getString(R.string.pill_name), pillName)
+                            .putExtra(context.getString(R.string.notification_id), requestCode),
+                    PendingIntent.FLAG_IMMUTABLE);
 
             long pillReminderTime =  pillTimesCalArray[currentNumber].getTimeInMillis();
             while (pillReminderTime <= System.currentTimeMillis()) {
@@ -119,12 +114,12 @@ public class AlarmSetter {
         if (pillTimesCalArray.length == 1) {
             int requestCode = formatPrimaryKeyAsRequestCode(0);
 
-            Intent startAutoResetReceiver = new Intent(context, ReceiverPillAutoReset.class);
-            startAutoResetReceiver.putExtra(context.getString(R.string.pill_name), pillName);
-            startAutoResetReceiver.putExtra(context.getString(R.string.notification_id), requestCode);
-
             @SuppressLint("InlinedApi")
-            PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(context, requestCode, startAutoResetReceiver, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent autoResetPendingIntent = PendingIntent.getBroadcast(context, requestCode,
+                    new Intent(context, ReceiverPillAutoReset.class)
+                            .putExtra(context.getString(R.string.pill_name), pillName)
+                            .putExtra(context.getString(R.string.notification_id), requestCode),
+                    PendingIntent.FLAG_IMMUTABLE);
 
             long pillReminderTime = pillTimesCalArray[0].getTimeInMillis();
             long pillResetTime = pillReminderTime - AlarmManager.INTERVAL_HALF_DAY;

@@ -6,12 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -162,10 +160,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.remove(COLUMN_BOTTLECOLOR);
     }
 
-    public Boolean deleteDatabase(){
+    public void deleteDatabase(){
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.delete(TABLE_NAME, null, null);
-        return result != -1;
+        db.delete(TABLE_NAME, null, null);
     }
 
     public String getPillName(String pillName) {
@@ -479,6 +476,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
         if (cursor != null && cursor.moveToFirst()) {
+            cursor.close();
             System.out.println("Name not unique");
             return true;
         } else {
@@ -521,28 +519,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String convertArrayToString(String[] array){
-        String timeArrayAsString = "";
+        StringBuilder timeArrayAsString = new StringBuilder();
         for (int currentArrayNumber = 0; currentArrayNumber < array.length; currentArrayNumber++) {
-            timeArrayAsString = timeArrayAsString + array[currentArrayNumber];
+            timeArrayAsString.append(array[currentArrayNumber]);
 
             if (currentArrayNumber < array.length - 1) {
-                timeArrayAsString = timeArrayAsString+strSeparator;
+                timeArrayAsString.append(strSeparator);
             }
         }
-        return timeArrayAsString;
+        return timeArrayAsString.toString();
     }
     public String[] convert24HrArrayTo12HrArray(Context context, String[] array) {
-        DateTimeManager dateTimeManager = new DateTimeManager();
-
         for (int currentArrayNumber = 0; currentArrayNumber < array.length; currentArrayNumber++) {
-            array[currentArrayNumber] = dateTimeManager.convert24HrTimeTo12HrTime(context, array[currentArrayNumber]);
+            array[currentArrayNumber] =  new DateTimeManager().convert24HrTimeTo12HrTime(context, array[currentArrayNumber]);
         }
 
         return array;
     }
     public String[] convertStringToArray(String str){
-        String[] timeArray = str.split(strSeparator);
-        return timeArray;
+        return str.split(strSeparator);
     }
 }
 

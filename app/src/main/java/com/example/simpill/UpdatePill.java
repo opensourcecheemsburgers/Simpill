@@ -217,14 +217,18 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
 
     private void updatePill() {
-        if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
-            if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillNameTextView.getText().toString().trim(), myDatabase.convertStringToArray(pillTimeTextView.getText().toString()), getIntervalInDays(),
-                    pillStockupTextView.getText().toString().trim(),
-                    Integer.parseInt(pillSupplyTextView.getText().toString()),
-                    isTaken, timeTaken, 0, bottleColor)) {
-                toasts.showCustomToast(this, pillNameTextView.getText().toString().trim() + getString(R.string.append_updated_toast));
-                openMainActivity();
-                alarmSetter.setAlarms(0);
+        if (isNameUnique()) {
+            toasts.showCustomToast(this, this.getString(R.string.non_unique_pill_name_warning));
+        } else {
+            if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
+                if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillNameTextView.getText().toString().trim(), myDatabase.convertStringToArray(pillTimeTextView.getText().toString()), getIntervalInDays(),
+                        pillStockupTextView.getText().toString().trim(),
+                        Integer.parseInt(pillSupplyTextView.getText().toString()),
+                        isTaken, timeTaken, 0, bottleColor)) {
+                    toasts.showCustomToast(this, pillNameTextView.getText().toString().trim() + getString(R.string.append_updated_toast));
+                    openMainActivity();
+                    alarmSetter.setAlarms(0);
+                }
             }
         }
     }

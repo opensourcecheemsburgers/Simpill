@@ -21,20 +21,16 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentViewBasedOnThemeSetting();
-
         initWidgets();
         createOnClickListeners();
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 android.os.Process.killProcess(Process.myPid());
             }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
+        });
     }
 
     private void createOnClickListeners() {

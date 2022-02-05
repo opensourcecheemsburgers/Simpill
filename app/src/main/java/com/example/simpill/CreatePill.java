@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,8 +19,7 @@ import java.util.Date;
 public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
         Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener, Dialogs.ChooseTimesDialogListener {
 
-    private Simpill simpill = new Simpill();
-    private SharedPrefs sharedPrefs = new SharedPrefs();
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
     Dialogs dialogs = new Dialogs();
     private final Toasts toasts = new Toasts();
 
@@ -36,13 +34,9 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     Typeface truenoReg;
 
     int intervalInDays;
-    int timesPerDay;
-    int currentArrayNumber = 0;
 
     String[] times;
     String date;
-
-    String[] timesIn24HrFormatArray;
 
     DatabaseHelper myDatabase = new DatabaseHelper(this);
 
@@ -60,11 +54,11 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     private void setContentViewBasedOnThemeSetting() {
         int theme = sharedPrefs.getThemesPref(this);
 
-        if (theme == simpill.BLUE_THEME) {
+        if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if (theme == simpill.GREY_THEME) {
+        } else if (theme == Simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
-        } else if (theme == simpill.BLACK_THEME) {
+        } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
@@ -95,13 +89,11 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         pillSupply.setTypeface(truenoReg);
         createNewPillButton.setTypeface(truenoReg);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pillName.setLetterSpacing(0.025f);
-            pillTime.setLetterSpacing(0.025f);
-            pillStockup.setLetterSpacing(0.025f);
-            pillSupply.setLetterSpacing(0.025f);
-            createNewPillButton.setLetterSpacing(0.025f);
-        }
+        pillName.setLetterSpacing(0.025f);
+        pillTime.setLetterSpacing(0.025f);
+        pillStockup.setLetterSpacing(0.025f);
+        pillSupply.setLetterSpacing(0.025f);
+        createNewPillButton.setLetterSpacing(0.025f);
     }
     private void initiateButtons() {
         pillNameButton.setOnClickListener(view -> openEnterPillNameDialog());
@@ -144,8 +136,8 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
             pillStockup.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
         }, year, month, day).show();
     }
-    private void openTimePickerDialog(int timePickerAmount) {
-        times = new String[timePickerAmount];
+    private void openTimePickerDialog() {
+        times = new String[1];
 
         TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, selectedHour, selectedMinute) -> {
             DateTimeManager dateTimeManager = new DateTimeManager();
@@ -295,10 +287,6 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         return myDatabase.getRowCount() + 1;
     }
 
-    private void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
     private void openAboutActivity() {
         Intent intent = new Intent(this, About.class);
         startActivity(intent);
@@ -324,7 +312,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
     @Override
     public void openTimePicker(int frequency) {
-        openTimePickerDialog(1);
+        openTimePickerDialog();
     }
 
     @Override

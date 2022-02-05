@@ -16,7 +16,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
     AlarmSetter alarmSetter;
     AlarmManager alarmManager;
-    DateTimeManager dateTimeManager;
 
     @SuppressLint("ShortAlarm")
     @Override

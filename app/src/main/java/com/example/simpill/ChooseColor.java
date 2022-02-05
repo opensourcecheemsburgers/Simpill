@@ -1,7 +1,6 @@
 package com.example.simpill;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,10 +11,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 public class ChooseColor extends AppCompatActivity {
 
-    private Simpill simpill;
-
     DatabaseHelper myDatabase = new DatabaseHelper(this);
-    int selectedColor = -1;
+    int selectedColor = 2;
     ImageView color1, color2, color3, color4, color5, color6,
             color7, color8, color9, color10, color11, color12;
     Button settingsButton, aboutButton;
@@ -135,11 +132,11 @@ public class ChooseColor extends AppCompatActivity {
     private void setContentViewBasedOnThemeSetting() {
         int theme = new SharedPrefs().getThemesPref(this);
 
-        if (theme == simpill.BLUE_THEME) {
+        if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
-        } else if (theme == simpill.GREY_THEME) {
+        } else if (theme == Simpill.GREY_THEME) {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
-        } else if (theme == simpill.BLACK_THEME) {
+        } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {

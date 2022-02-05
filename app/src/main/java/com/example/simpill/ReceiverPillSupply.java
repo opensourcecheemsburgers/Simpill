@@ -12,7 +12,6 @@ import java.util.Calendar;
 
 public class ReceiverPillSupply extends BroadcastReceiver {
 
-    private static final long MONTH_IN_MS = 2629800000L;
     private static final int alarmCodeForSupply = 3;
 
     NotificationManagerCompat stockupNotificationManagerCompat;
@@ -38,7 +37,6 @@ public class ReceiverPillSupply extends BroadcastReceiver {
             alarmSetter = new AlarmSetter(context, pillName);
 
             if (!myDatabase.getPillName(pillName).equals("null")) {
-
                 String pillDate = myDatabase.getPillDate(pillName);
                 Calendar calendar = dateTimeManager.formatDateStringAsCalendar(context, dateTimeManager.getUserTimezone(), pillDate);
                 calendar.add(Calendar.MONTH, 1);
