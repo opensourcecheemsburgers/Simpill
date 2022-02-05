@@ -184,12 +184,12 @@
 
     <string name="dev_email">Mon email</string>
     <string name="simpill_code">Code source</string>
-    <string name="clocks_dialog_time_text" translatable="false">Fois #%1$d</string>
+    <string name="clocks_dialog_time_text">Fois #%1$d</string>
     <string name="chooses_times_dialog_text">Choisissez les rappels de votre médicament en utilisant les horloges ci-dessous:</string>
     <string name="time_warning_toast">Les fois doivent être au moins 15 mins minutes d\'intervalle.</string>
-    <string name="time_enter">"Entrez une fois pour chaque horloge. "</string>
+    <string name="time_enter">Entrez une fois pour chaque horloge.</string>
     <string name="double_reminder_warning">Erreur! Il y a une copie de votre fois.</string>
     <string name="press_back_again_toast">Cliquez sur le bouton Retour pour quitter.</string>
-    <string name="custom_interval_start_day_text">"Choisissez le "</string>
+    <string name="custom_interval_start_day_text">Choisissez la date de début en utilisant le calendrier ci-dessous:</string>
 
 </resources>
