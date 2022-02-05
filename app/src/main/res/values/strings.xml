@@ -211,5 +211,10 @@
 
     <string name="custom_interval_start_day_text">Please select the start date for your custom interval.</string>
     <string name="custom_interval_start_day_error">The selected date must be between the current date and the interval length.</string>
+    <string name="donate">Donate</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="donate_monero">Donate Monero</string>
+    <string name="buy_on_play_store">Buy on Play Store</string>
+    <string name="donate_via_paypal">Donate via Paypal</string>
 
 </resources>
