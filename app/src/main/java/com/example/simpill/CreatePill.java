@@ -117,24 +117,45 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         dialogs.getChooseNameDialog(this).show();
     }
     private void openDatePickerDialog() {
-        new DatePickerDialog(this, DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT, (view, year, month, day) -> {
-            month = month + 1;
-            String selectedDate = year + "-" + month + "-" + day;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
+        if (sharedPrefs.getDarkDialogsPref(this)) {
+            new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_DARK, (view, year, month, day) -> {
+                month = month + 1;
+                String selectedDate = year + "-" + month + "-" + day;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
 
-            Date date = Calendar.getInstance().getTime();
+                Date date = Calendar.getInstance().getTime();
 
-            try {
-                simpleDateFormat.parse(selectedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            simpleDateFormat.format(date);
+                try {
+                    simpleDateFormat.parse(selectedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                simpleDateFormat.format(date);
 
-            this.date = selectedDate;
+                this.date = selectedDate;
 
-            pillStockup.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
-        }, year, month, day).show();
+                pillStockup.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
+            }, year, month, day).show();
+        } else {
+            new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, (view, year, month, day) -> {
+                month = month + 1;
+                String selectedDate = year + "-" + month + "-" + day;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
+
+                Date date = Calendar.getInstance().getTime();
+
+                try {
+                    simpleDateFormat.parse(selectedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                simpleDateFormat.format(date);
+
+                this.date = selectedDate;
+
+                pillStockup.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
+            }, year, month, day).show();
+        }
     }
     private void openTimePickerDialog() {
         times = new String[1];
@@ -178,7 +199,14 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
             pillTime.setText(time);
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(CreatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
+        TimePickerDialog timePickerDialog;
+
+        if (sharedPrefs.getDarkDialogsPref(this)) {
+            timePickerDialog = new TimePickerDialog(CreatePill.this, TimePickerDialog.THEME_HOLO_DARK, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
+        } else {
+            timePickerDialog = new TimePickerDialog(CreatePill.this, TimePickerDialog.THEME_HOLO_LIGHT, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
+        }
+
         timePickerDialog.show();
     }
     private void openEnterPillAmountDialog() {

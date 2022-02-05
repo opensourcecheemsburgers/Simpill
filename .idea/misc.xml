@@ -128,6 +128,7 @@
         <entry key="app/src/main/res/layout/choose_color.xml" value="0.33026315789473687" />
         <entry key="app/src/main/res/layout/choose_color_light.xml" value="0.33026315789473687" />
         <entry key="app/src/main/res/layout/clock_recycler_view_item.xml" value="0.5286458333333334" />
+        <entry key="app/src/main/res/layout/clock_recycler_view_item_dark.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.5286458333333334" />
         <entry key="app/src/main/res/layout/create_pill.xml" value="0.5" />
         <entry key="app/src/main/res/layout/create_pill_light.xml" value="0.33026315789473687" />
@@ -191,7 +192,7 @@
         <entry key="app/src/main/res/layout/settings.xml" value="0.264" />
         <entry key="app/src/main/res/layout/settings2.xml" value="0.4796875" />
         <entry key="app/src/main/res/layout/settings_light.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/toast.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/toast.xml" value="0.33" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.5" />
         <entry key="app/src/main/res/layout/toolbar_light.xml" value="0.25" />
         <entry key="app/src/main/res/layout/update_pill.xml" value="0.33026315789473687" />

@@ -122,22 +122,45 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         dialogs.getChooseNameDialog(this).show();
     }
     private void openDatePickerDialog() {
-        new DatePickerDialog(this, DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT, (view, year, month, day) -> {
-            month = month + 1;
-            String selectedDate = year + "-" + month + "-" + day;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
+        if (sharedPrefs.getDarkDialogsPref(this)) {
+            new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_DARK, (view, year, month, day) -> {
+                month = month + 1;
+                String selectedDate = year + "-" + month + "-" + day;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
 
-            Date date = Calendar.getInstance().getTime();
+                Date date = Calendar.getInstance().getTime();
 
-            try {
-                simpleDateFormat.parse(selectedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            simpleDateFormat.format(date);
+                try {
+                    simpleDateFormat.parse(selectedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                simpleDateFormat.format(date);
 
-            pillStockupTextView.setText(selectedDate);
-        }, year, month, day).show();
+                this.date = selectedDate;
+
+                pillStockupTextView.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
+            }, year, month, day).show();
+        } else {
+            new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, (view, year, month, day) -> {
+                month = month + 1;
+                String selectedDate = year + "-" + month + "-" + day;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
+
+                Date date = Calendar.getInstance().getTime();
+
+                try {
+                    simpleDateFormat.parse(selectedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                simpleDateFormat.format(date);
+
+                this.date = selectedDate;
+
+                pillStockupTextView.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
+            }, year, month, day).show();
+        }
     }
     private void openTimePickerDialogForSingleTime() {
         times = new String[1];

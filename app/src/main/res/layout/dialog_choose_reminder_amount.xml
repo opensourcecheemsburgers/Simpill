@@ -27,7 +27,7 @@
             android:paddingStart="20dp"
             android:paddingLeft="20dp"
             android:paddingEnd="20dp"
-            android:text="Reminders"
+            android:text="@string/reminders"
             android:textColor="@color/white"
             android:textSize="35sp"
             app:layout_constraintEnd_toEndOf="parent"

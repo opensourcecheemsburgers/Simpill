@@ -2,7 +2,7 @@
 
 <b>Features:</b>
 
-* Set daily pill reminders for your medications.
+* Set pill reminders for your medications.
 * Keep track of your medication supply and set a refill date.
 * Select a bottle color for your medication.
 * Dark and Light themes available.

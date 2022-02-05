@@ -216,5 +216,6 @@
     <string name="donate_monero">Donate Monero</string>
     <string name="buy_on_play_store">Buy on Play Store</string>
     <string name="donate_via_paypal">Donate via Paypal</string>
+    <string name="reminders">Reminders</string>
 
 </resources>

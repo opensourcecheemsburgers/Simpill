@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
@@ -68,6 +69,9 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         setOnClickListeners(holder, position);
 
         holder.timeTextView.setText(context.getString(R.string.clocks_dialog_time_text, (position + 1)));
+        if (sharedPrefs.getDarkDialogsPref(context)) {
+            holder.timeTextView.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+        }
     }
 
     public String[] returnTimeStringsArrayFromRecyclerViewClass() {
@@ -115,7 +119,12 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
             }
             times[position] = formatSelectedTimeAs24Hour(selectedHour, selectedMinute);
         };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(context));
+        TimePickerDialog timePickerDialog;
+        if (sharedPrefs.getDarkDialogsPref(context)) {
+            timePickerDialog = new TimePickerDialog(context, TimePickerDialog.THEME_HOLO_DARK, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(context));
+        } else {
+            timePickerDialog = new TimePickerDialog(context, TimePickerDialog.THEME_HOLO_LIGHT, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(context));
+        }
         timePickerDialog.show();
     }
 
