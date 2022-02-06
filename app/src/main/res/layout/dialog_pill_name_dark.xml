@@ -80,7 +80,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="@string/pill_name_dialog_text_hint"
-            android:textColor="@color/black"
+            android:textColor="@color/alice_blue"
             android:textColorHint="@color/light_gray"
             android:backgroundTint="@color/alice_blue"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,7 +93,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnWelcome"
+        android:id="@+id/done_btn"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"

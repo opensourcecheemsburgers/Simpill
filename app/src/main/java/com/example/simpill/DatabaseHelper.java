@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TITLE = "PillName";
     private static final String COLUMN_TIME = "PillTime";
     private static final String COLUMN_FREQUENCY = "PillFrequency";
+    private static final String COLUMN_START_DATE = "StartDate";
     private static final String COLUMN_STOCKUP = "PillStockup";
     private static final String COLUMN_SUPPLY = "PillSupply";
     private static final String COLUMN_ISTAKEN = "IsPillTaken";
@@ -44,11 +45,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
-
                 " (" + COLUMN_PK + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_TIME + " TEXT, " +
                 COLUMN_FREQUENCY + " INTEGER, " +
+                COLUMN_START_DATE + " TEXT, " +
                 COLUMN_STOCKUP + " TEXT, " +
                 COLUMN_SUPPLY + " INTEGER, " +
                 COLUMN_ISTAKEN + " INTEGER, " +
@@ -62,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldDbNumber, int newDbNumber) {
         if (newDbNumber > oldDbNumber) {
             db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + COLUMN_FREQUENCY + " INTEGER DEFAULT 1");
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + COLUMN_START_DATE + " TEXT DEFAULT 'null'");
         }
     }
 
@@ -90,16 +92,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public boolean addNewPill(int id, String title, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public boolean addNewPill(int id, String title, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         SQLiteDatabase pillDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        insertAllContentValues(cv, id, title, time, frequency, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
+        insertAllContentValues(cv, id, title, time, frequency, startDate, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
         long result = pillDatabase.insert(TABLE_NAME, null, cv);
         return result != -1;
     }
 
-    public boolean updatePill(String pillName, String newPillName, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public boolean updatePill(String pillName, String newPillName, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 
@@ -110,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         removeAllContentValuesExceptPk(cv);
-        insertAllContentValuesExceptPk(cv, newPillName, time, frequency, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
+        insertAllContentValuesExceptPk(cv, newPillName, time, frequency, startDate, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
 
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
 
@@ -125,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_PK, primaryKey);
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, convertArrayToString(time));
@@ -137,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ALARMSSET, alarmsSet);
         cv.put(COLUMN_BOTTLECOLOR, bottleColor);
     }
-    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String[] time, int frequency, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, convertArrayToString(time));
         cv.put(COLUMN_FREQUENCY, frequency);
@@ -253,6 +255,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_TIME, frequency);
         db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
         cursor.close();
+    }
+
+    public String getStartDate(String pillName) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
+        String[] selectionArgs = new String[]{(pillName)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String startDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE));
+            cursor.close();
+            return startDate;
+        } else {
+            throw new SQLiteException();
+            //return -1;
+        }
     }
 
     public int getPillAmount(String pillName) {
@@ -486,10 +505,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createTestingPills() {
-        addNewPill(1, "Melatonin",  new String[]{"22:00"},1, "2022-09-03", 30, 0, "null", 0, 2);
-        addNewPill(2, "Prozac", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
-        addNewPill(3, "Equasym", new String[]{"09:00", "15:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
-        addNewPill(4, "Vitamins", new String[]{"08:45", "12:00", "15:30", "19:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
+        //addNewPill(1, "Melatonin",  new String[]{"22:00"},1, "2022-09-03", 30, 0, "null", 0, 2);
+        //addNewPill(2, "Prozac", new String[]{"09:00"}, 1, "2022-09-03", 30, 0, "null", 0, 5);
+        //addNewPill(3, "Equasym", new String[]{"09:00", "15:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
+        //addNewPill(4, "Vitamins", new String[]{"08:45", "12:00", "15:30", "19:00"}, 0, "2022-09-03", 30, 0, "null", 0, 9);
     }
 
     public String[] sortTimeArray(Context context, String[] timeArray) {

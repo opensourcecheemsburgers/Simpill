@@ -82,6 +82,53 @@ public class AlarmSetter {
     }
 
     private void setPillReminder() {
+        if (pillTimesCalArray.length == 1) {
+            int requestCode = formatPrimaryKeyAsRequestCode(1);
+            int frequency = myDatabase.getFrequency(pillName);
+
+            @SuppressLint("InlinedApi") PendingIntent pillAlarmPendingIntent = PendingIntent.getBroadcast(context, requestCode,
+                    new Intent(context, ReceiverPillAlarm.class)
+                            .putExtra(context.getString(R.string.pill_name), pillName)
+                            .putExtra(context.getString(R.string.notification_id), requestCode),
+                    PendingIntent.FLAG_IMMUTABLE);
+
+            long pillReminderTime =  pillTimesCalArray[0].getTimeInMillis();
+
+            try {
+                if (!myDatabase.getStartDate(pillName).equals("null")) {
+                    System.out.println("Start date not null");
+
+                    Calendar pillTimeCal = new DateTimeManager().formatTimeStringAsCalendar(context, TimeZone.getDefault(), myDatabase.getPillTime(pillName)[0]);
+
+                    pillTimesCalArray[0].set(Calendar.YEAR, pillTimeCal.get(Calendar.YEAR));
+                    pillTimesCalArray[0].set(Calendar.MONTH, pillTimeCal.get(Calendar.MONTH));
+                    pillTimesCalArray[0].set(Calendar.DAY_OF_MONTH, pillTimeCal.get(Calendar.DAY_OF_MONTH));
+
+                    System.out.println(pillTimesCalArray[0]);
+                    System.out.println(dateTimeManager.formatLongAsDateString(context, pillTimesCalArray[0].getTimeInMillis()));
+
+                    pillReminderTime = pillTimesCalArray[0].getTimeInMillis();
+                }
+            } catch (NullPointerException nullPointerException) {}
+
+            while (pillReminderTime <= System.currentTimeMillis()) {
+                pillReminderTime = pillReminderTime + AlarmManager.INTERVAL_DAY;
+            }
+
+            System.out.println(pillName + " reminder time = " + dateTimeManager.formatLongAsDateString(context, pillReminderTime));
+
+            if (frequency <= 1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, pillReminderTime, pillAlarmPendingIntent);
+                }
+            } else {
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, pillReminderTime, AlarmManager.INTERVAL_DAY * frequency, pillAlarmPendingIntent);
+            }
+        }
+
+
         for (int currentNumber = 0; currentNumber < pillTimesCalArray.length; currentNumber++) {
             int requestCode = formatPrimaryKeyAsRequestCode(currentNumber);
             int frequency = myDatabase.getFrequency(pillName);

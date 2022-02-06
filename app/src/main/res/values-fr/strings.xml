@@ -108,9 +108,9 @@
     <string name="welcome_dialog_message">Pour créer votre première médicament, cliquez sur le button plus en bas de votre écran.</string>
 
     <!--Pill Name Dialog Strings-->
-    <string name="pill_name_dialog_title">Nom - faites court :)</string>
+    <string name="pill_name_dialog_title">Nom</string>
     <string name="pill_name_dialog_msg">Veuillez entrer un nom pour votre médicament par cliquez sur la ligne ci-dessous.\n</string>
-    <string name="pill_name_dialog_text_hint">Nom</string>
+    <string name="pill_name_dialog_text_hint">Nom - faites court :)</string>
 
     <!--Pill Amount Dialog Strings-->
     <string name="done">Terminé</string>
@@ -150,19 +150,15 @@
     <string name="date_format_with_timezone" translatable="false">yyyy-MM-dd Z</string>
     <string name="full_date_time_format" translatable="false">yyyy-MM-dd, HH:mm Z</string>
 
-
     <string name="take_pill_content_description">Le bouton de prendre votre médicament</string>
     <string name="choose_frequency_dialog_reminder_amount_text">Combien de fois vous prenez ce médicament chaque jour?</string>
-
 
     <string name="btc_address_copied">BTC address a été copiée :)</string>
     <string name="xmr_address_copied">XMR address a été copiée :)</string>
     <string name="pnd_address_copied">PND address a été copiée :)</string>
 
-
     <string name="custom_interval_dialog_text">Choisissez plutôt un intervalle personnalisé pour votre rappel de médicament en utilisant les boutons ci-dessous.</string>
     <string name="custom_interval_dialog_title">Intervalle</string>
-
 
     <string name="context_menu_update">Mettre á jour</string>
     <string name="context_menu_delete">Supprimer</string>
@@ -177,7 +173,6 @@
     <string name="dark">Sombre</string>
     <string name="purple">Violet</string>
 
-
     <string name="dark_dialogs_setting">Les boîtes de dialogue sombre</string>
     <string name="dark_dialogs_toast">Les boîtes de dialogue sombre ont été appliquée :)</string>
     <string name="light_dialogs_toast">Les boîtes de dialogue clair ont été appliquée :)</string>
@@ -190,6 +185,6 @@
     <string name="time_enter">Entrez une fois pour chaque horloge.</string>
     <string name="double_reminder_warning">Erreur! Il y a une copie de votre fois.</string>
     <string name="press_back_again_toast">Cliquez sur le bouton Retour pour quitter.</string>
-    <string name="custom_interval_start_day_text">Choisissez la date de début en utilisant le calendrier ci-dessous:</string>
+    <string name="custom_interval_start_day_text">Choisissez la date de début de votre médicament en utilisant le calendrier ci-dessous:</string>
 
 </resources>

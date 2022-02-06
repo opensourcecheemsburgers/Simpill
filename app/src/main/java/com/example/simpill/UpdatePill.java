@@ -15,10 +15,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
-        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener,  Dialogs.ChooseTimesDialogListener {
+        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener,  Dialogs.ChooseTimesDialogListener, Dialogs.GetStartDateDialogListener {
 
     private final SharedPrefs sharedPrefs = new SharedPrefs();
     private AlarmSetter alarmSetter;
@@ -33,6 +32,8 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
     Typeface truenoReg;
 
     int intervalInDays = 1;
+
+    String selectedStartDate;
 
     String[] times;
 
@@ -202,6 +203,10 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
                 }
             }
             pillTimeTextView.setText(time);
+
+            if (intervalInDays > 1) {
+                dialogs.getStartDateDialog(this).show();
+            }
         };
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(UpdatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
@@ -244,13 +249,32 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
             toasts.showCustomToast(this, this.getString(R.string.non_unique_pill_name_warning));
         } else {
             if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
-                if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)), pillNameTextView.getText().toString().trim(), myDatabase.convertStringToArray(pillTimeTextView.getText().toString()), getIntervalInDays(),
-                        pillStockupTextView.getText().toString().trim(),
-                        Integer.parseInt(pillSupplyTextView.getText().toString()),
-                        isTaken, timeTaken, 0, bottleColor)) {
-                    toasts.showCustomToast(this, pillNameTextView.getText().toString().trim() + getString(R.string.append_updated_toast));
-                    openMainActivity();
-                    alarmSetter.setAlarms(0);
+                if (intervalInDays > 1) {
+                    if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)),
+                            pillNameTextView.getText().toString().trim(),
+                            myDatabase.convertStringToArray(pillTimeTextView.getText().toString()),
+                            getIntervalInDays(),
+                            selectedStartDate,
+                            pillStockupTextView.getText().toString().trim(),
+                            Integer.parseInt(pillSupplyTextView.getText().toString()),
+                            isTaken, timeTaken, 0, bottleColor)) {
+                        toasts.showCustomToast(this, pillNameTextView.getText().toString().trim() + getString(R.string.append_updated_toast));
+                        openMainActivity();
+                        alarmSetter.setAlarms(0);
+                    }
+                } else {
+                    if (myDatabase.updatePill(getIntent().getStringExtra(getString(R.string.pill_name)),
+                            pillNameTextView.getText().toString().trim(),
+                            myDatabase.convertStringToArray(pillTimeTextView.getText().toString()),
+                            getIntervalInDays(),
+                            "null",
+                            pillStockupTextView.getText().toString().trim(),
+                            Integer.parseInt(pillSupplyTextView.getText().toString()),
+                            isTaken, timeTaken, 0, bottleColor)) {
+                        toasts.showCustomToast(this, pillNameTextView.getText().toString().trim() + getString(R.string.append_updated_toast));
+                        openMainActivity();
+                        alarmSetter.setAlarms(0);
+                    }
                 }
             }
         }
@@ -374,5 +398,10 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
     @Override
     public void returnTimesStringArray(String[] times) {
         pillTimeTextView.setText(myDatabase.convertArrayToString(times));
+    }
+
+    @Override
+    public void applyStartDate(String startDate) {
+        this.selectedStartDate = startDate;
     }
 }

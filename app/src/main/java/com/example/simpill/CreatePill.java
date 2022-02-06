@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
-        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener, Dialogs.ChooseTimesDialogListener {
+        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener, Dialogs.ChooseTimesDialogListener, Dialogs.GetStartDateDialogListener {
 
     private final SharedPrefs sharedPrefs = new SharedPrefs();
     Dialogs dialogs = new Dialogs();
@@ -34,6 +34,7 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     Typeface truenoReg;
 
     int intervalInDays;
+    String selectedStartDate;
 
     String[] times;
     String date;
@@ -197,6 +198,10 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
                 }
             }
             pillTime.setText(time);
+
+            if (intervalInDays > 1) {
+                dialogs.getStartDateDialog(this).show();
+            }
         };
 
         TimePickerDialog timePickerDialog;
@@ -222,20 +227,37 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         if (!isNameUnique()) {
             toasts.showCustomToast(this, getString(R.string.non_unique_pill_name_warning));
         } else {
-            if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid())
-            {
-                if (myDatabase.addNewPill(
-                        getNewPillId(),
-                        pillName.getText().toString().trim(),
-                        myDatabase.convertStringToArray(pillTime.getText().toString()),
-                        intervalInDays,
-                        date,
-                        Integer.parseInt(pillSupply.getText().toString()),
-                        defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
-                    toasts.showCustomToast(this, getString(R.string.pill_created_toast, pillName.getText().toString().trim()));
-                    Intent intent = new Intent(this, ChooseColor.class);
-                    intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
-                    startActivity(intent);
+            if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
+                if (intervalInDays > 1) {
+                    if (myDatabase.addNewPill(
+                            getNewPillId(),
+                            pillName.getText().toString().trim(),
+                            myDatabase.convertStringToArray(pillTime.getText().toString()),
+                            intervalInDays,
+                            selectedStartDate,
+                            date,
+                            Integer.parseInt(pillSupply.getText().toString()),
+                            defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
+                        toasts.showCustomToast(this, getString(R.string.pill_created_toast, pillName.getText().toString().trim()));
+                        Intent intent = new Intent(this, ChooseColor.class);
+                        intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
+                        startActivity(intent);
+                    }
+            } else {
+                    if (myDatabase.addNewPill(
+                            getNewPillId(),
+                            pillName.getText().toString().trim(),
+                            myDatabase.convertStringToArray(pillTime.getText().toString()),
+                            intervalInDays,
+                            "null",
+                            date,
+                            Integer.parseInt(pillSupply.getText().toString()),
+                            defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
+                        toasts.showCustomToast(this, getString(R.string.pill_created_toast, pillName.getText().toString().trim()));
+                        Intent intent = new Intent(this, ChooseColor.class);
+                        intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
+                        startActivity(intent);
+                    }
                 }
             }
         }
@@ -324,8 +346,6 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         startActivity(intent);
     }
 
-
-
     @Override
     public void applyPillName(String userPillName) {
         pillName.setText(userPillName);
@@ -359,4 +379,8 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
         pillTime.setText(myDatabase.convertArrayToString(times));
     }
 
+    @Override
+    public void applyStartDate(String startDate) {
+        this.selectedStartDate = startDate;
+    }
 }

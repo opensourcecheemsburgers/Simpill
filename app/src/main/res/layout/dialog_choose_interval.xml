@@ -48,7 +48,7 @@
 
 
         <EditText
-            android:id="@+id/amountTextView"
+            android:id="@+id/calendar_btn"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_marginBottom="40dp"
@@ -74,7 +74,7 @@
             android:background="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/amountTextView"
+            app:layout_constraintStart_toEndOf="@+id/calendar_btn"
             app:layout_constraintTop_toBottomOf="@id/textView2"
             android:contentDescription="@string/plus_button" />
 
@@ -85,7 +85,7 @@
             android:layout_marginBottom="40dp"
             android:background="@drawable/ic_minus"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/amountTextView"
+            app:layout_constraintEnd_toStartOf="@+id/calendar_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             android:contentDescription="@string/minus_button" />
@@ -108,7 +108,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnWelcome"
+        android:id="@+id/done_btn"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"

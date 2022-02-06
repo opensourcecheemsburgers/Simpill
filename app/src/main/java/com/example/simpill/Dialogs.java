@@ -1,5 +1,6 @@
 package com.example.simpill;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class Dialogs extends AppCompatDialogFragment {
 
@@ -136,7 +143,7 @@ public class Dialogs extends AppCompatDialogFragment {
             setViewAndCreateDialog(R.layout.dialog_welcome);
         }
 
-        Button welcomeBtn = dialogView.findViewById(R.id.btnWelcome);
+        Button welcomeBtn = dialogView.findViewById(R.id.done_btn);
         welcomeBtn.setOnClickListener(view -> dialog.dismiss());
 
         return dialog;
@@ -206,7 +213,7 @@ public class Dialogs extends AppCompatDialogFragment {
 
         TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
         TextView titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
-        Button doneBtn = dialogView.findViewById(R.id.btnWelcome);
+        Button doneBtn = dialogView.findViewById(R.id.done_btn);
         EditText enterNameEditText = dialogView.findViewById(R.id.editTextTextPersonName2);
 
         doneBtn.setOnClickListener(view -> {
@@ -230,10 +237,10 @@ public class Dialogs extends AppCompatDialogFragment {
 
         TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
         ImageView pillIcon = dialogView.findViewById(R.id.imageView13);
-        Button doneBtn = dialogView.findViewById(R.id.btnWelcome);
+        Button doneBtn = dialogView.findViewById(R.id.done_btn);
         Button addBtn = dialogView.findViewById(R.id.addBtn);
         Button minusBtn = dialogView.findViewById(R.id.minusBtn);
-        EditText enterAmountEditText = dialogView.findViewById(R.id.amountTextView);
+        EditText enterAmountEditText = dialogView.findViewById(R.id.calendar_btn);
 
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -277,10 +284,10 @@ public class Dialogs extends AppCompatDialogFragment {
             setViewAndCreateDialog(R.layout.dialog_choose_reminder_amount);
         }
 
-        Button doneBtn = dialogView.findViewById(R.id.btnWelcome);
+        Button doneBtn = dialogView.findViewById(R.id.done_btn);
         Button addBtn = dialogView.findViewById(R.id.addBtn);
         Button minusBtn = dialogView.findViewById(R.id.minusBtn);
-        EditText enterAmountEditText = dialogView.findViewById(R.id.amountTextView);
+        EditText enterAmountEditText = dialogView.findViewById(R.id.calendar_btn);
 
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -340,7 +347,7 @@ public class Dialogs extends AppCompatDialogFragment {
 
         doneBtn.setOnClickListener(view -> {
             if (timesRecyclerViewAdapter.checkForEmptyTimes()) {
-                toasts.showCustomToast(context, getString(R.string.time_enter));
+                toasts.showCustomToast(context, context.getString(R.string.time_enter));
             }
             else if(timesRecyclerViewAdapter.checkForAdjacentTimes()){
                 toasts.showCustomToast(context, context.getString(R.string.time_warning_toast));
@@ -372,7 +379,7 @@ public class Dialogs extends AppCompatDialogFragment {
         dailyTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.DAILY));
         everyOtherDayTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.EVERY_OTHER_DAY));
         weeklyTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.WEEKLY));
-        customIntervalTextView.setOnClickListener(view -> getCustomDialog(context));
+        customIntervalTextView.setOnClickListener(view -> getCustomIntervalDialog(context));
 
         return dialog;
     }
@@ -388,7 +395,7 @@ public class Dialogs extends AppCompatDialogFragment {
             chooseFrequencyDialogListener.openTimePicker(frequency);
         }
     }
-    public Dialog getCustomDialog(Context context) {
+    public Dialog getCustomIntervalDialog(Context context) {
         init(context);
         if (isDarkDialogTheme(context)){
             setViewAndCreateDialog(R.layout.dialog_choose_interval_dark);
@@ -399,10 +406,10 @@ public class Dialogs extends AppCompatDialogFragment {
 
         TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
         ImageView pillIcon = dialogView.findViewById(R.id.imageView13);
-        Button doneBtn = dialogView.findViewById(R.id.btnWelcome);
+        Button doneBtn = dialogView.findViewById(R.id.done_btn);
         Button addBtn = dialogView.findViewById(R.id.addBtn);
         Button minusBtn = dialogView.findViewById(R.id.minusBtn);
-        EditText enterAmountEditText = dialogView.findViewById(R.id.amountTextView);
+        EditText enterAmountEditText = dialogView.findViewById(R.id.calendar_btn);
 
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -439,6 +446,43 @@ public class Dialogs extends AppCompatDialogFragment {
         return dialog;
     }
 
+    public Dialog getStartDateDialog(Context context) {
+        init(context);
+        setViewAndCreateDialog(R.layout.dialog_choose_start_date);
+
+        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
+        ImageButton calendarBtn = dialogView.findViewById(R.id.calendar_btn);
+        TextView dateTextView = dialogView.findViewById(R.id.user_date_textview);
+        Button doneBtn = dialogView.findViewById(R.id.done_btn);
+
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, selectedYear, selectedMonth, selectedDay) -> {
+            selectedMonth = selectedMonth + 1;
+            String selectedDate = selectedYear + "-" + selectedMonth + "-" + selectedDay;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
+
+            Date date = Calendar.getInstance().getTime();
+
+            try {
+                simpleDateFormat.parse(selectedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String formattedDate = new DateTimeManager().convertISODateStringToLocallyFormattedString(context, simpleDateFormat.format(date));
+
+            dateTextView.setText(formattedDate);
+
+            GetStartDateDialogListener getStartDateDialogListener = (GetStartDateDialogListener) context;
+            getStartDateDialogListener.applyStartDate(formattedDate);
+        };
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, DatePickerDialog.THEME_HOLO_LIGHT, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        calendarBtn.setOnClickListener(view -> datePickerDialog.show());
+
+        doneBtn.setOnClickListener(view -> dialog.dismiss());
+        return dialog;
+    }
 
 
     public Dialog getDonationDialog(Context context) {
@@ -519,5 +563,8 @@ public class Dialogs extends AppCompatDialogFragment {
     }
     public interface ChooseTimesDialogListener {
         void returnTimesStringArray(String[] times);
+    }
+    public interface GetStartDateDialogListener {
+        void applyStartDate(String startDate);
     }
 }
