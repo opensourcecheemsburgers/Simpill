@@ -186,5 +186,11 @@
     <string name="double_reminder_warning">Erreur! Il y a une copie de votre fois.</string>
     <string name="press_back_again_toast">Cliquez sur le bouton Retour pour quitter.</string>
     <string name="custom_interval_start_day_text">Choisissez la date de début de votre médicament en utilisant le calendrier ci-dessous:</string>
+    <string name="donate">Faire un don</string>
+    <string name="dismiss">Ok</string>
+    <string name="donate_monero">Donner de Monero</string>
+    <string name="buy_on_play_store">Acheter sur Play Store</string>
+    <string name="donate_via_paypal">Donner avec Paypal</string>
+    <string name="reminders">Rappels</string>
 
 </resources>

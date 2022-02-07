@@ -455,32 +455,37 @@ public class Dialogs extends AppCompatDialogFragment {
         TextView dateTextView = dialogView.findViewById(R.id.user_date_textview);
         Button doneBtn = dialogView.findViewById(R.id.done_btn);
 
-        DatePickerDialog.OnDateSetListener dateSetListener = (view, selectedYear, selectedMonth, selectedDay) -> {
-            selectedMonth = selectedMonth + 1;
-            String selectedDate = selectedYear + "-" + selectedMonth + "-" + selectedDay;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
+        GetStartDateDialogListener getStartDateDialogListener = (GetStartDateDialogListener) context;
 
-            Date date = Calendar.getInstance().getTime();
+        int defaultYear, defaultMonth, defaultDay;
+
+        Calendar calendar = Calendar.getInstance();
+
+        defaultYear = calendar.get(Calendar.YEAR);
+        defaultMonth = calendar.get(Calendar.MONTH);
+        defaultDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, DatePickerDialog.THEME_HOLO_LIGHT, (view, year, month, day) -> {
+            month = month + 1;
+            String selectedDate = year + "-" + month + "-" + day;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
 
             try {
                 simpleDateFormat.parse(selectedDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            String formattedDate = new DateTimeManager().convertISODateStringToLocallyFormattedString(context, simpleDateFormat.format(date));
 
-            dateTextView.setText(formattedDate);
+            getStartDateDialogListener.applyStartDate(selectedDate);
 
-            GetStartDateDialogListener getStartDateDialogListener = (GetStartDateDialogListener) context;
-            getStartDateDialogListener.applyStartDate(formattedDate);
-        };
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, DatePickerDialog.THEME_HOLO_LIGHT, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            dateTextView.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(context, selectedDate));
+        }, defaultYear, defaultMonth, defaultDay);
 
         calendarBtn.setOnClickListener(view -> datePickerDialog.show());
 
-        doneBtn.setOnClickListener(view -> dialog.dismiss());
+        doneBtn.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
         return dialog;
     }
 

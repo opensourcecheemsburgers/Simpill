@@ -132,6 +132,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, convertArrayToString(time));
         cv.put(COLUMN_FREQUENCY, frequency);
+        cv.put(COLUMN_START_DATE, startDate);
         cv.put(COLUMN_STOCKUP, stockup);
         cv.put(COLUMN_SUPPLY, supply);
         cv.put(COLUMN_ISTAKEN, isTaken);
@@ -143,6 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_TIME, convertArrayToString(time));
         cv.put(COLUMN_FREQUENCY, frequency);
+        cv.put(COLUMN_START_DATE, startDate);
         cv.put(COLUMN_STOCKUP, stockup);
         cv.put(COLUMN_SUPPLY, supply);
         cv.put(COLUMN_ISTAKEN, isTaken);
@@ -154,6 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.remove(COLUMN_TITLE);
         cv.remove(COLUMN_TIME);
         cv.remove(COLUMN_FREQUENCY);
+        cv.remove(COLUMN_START_DATE);
         cv.remove(COLUMN_STOCKUP);
         cv.remove(COLUMN_SUPPLY);
         cv.remove(COLUMN_ISTAKEN);

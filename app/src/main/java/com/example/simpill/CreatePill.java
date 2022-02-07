@@ -1,11 +1,16 @@
 package com.example.simpill;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +20,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.zip.Inflater;
 
 public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
         Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener, Dialogs.ChooseTimesDialogListener, Dialogs.GetStartDateDialogListener {
@@ -223,7 +230,6 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
 
 
     private void createPill() {
-
         if (!isNameUnique()) {
             toasts.showCustomToast(this, getString(R.string.non_unique_pill_name_warning));
         } else {
@@ -372,7 +378,6 @@ public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDia
     public void applyNumberOfReminders(int reminders) {
         times = new String[reminders];
     }
-
 
     @Override
     public void returnTimesStringArray(String[] times) {

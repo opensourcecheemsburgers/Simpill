@@ -38,7 +38,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
     String[] times;
 
     String pillName, timeTaken, date;
-    int primaryKeyId, supply, isTaken, bottleColor;
+    int primaryKeyId, supply, isTaken, bottleColor, frequency;
 
     DatabaseHelper myDatabase = new DatabaseHelper(this);
 
@@ -209,8 +209,11 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
             }
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(UpdatePill.this, R.style.MyTimePickerDialogStyle, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
-        timePickerDialog.show();
+        if (sharedPrefs.getDarkDialogsPref(this)) {
+            new TimePickerDialog(UpdatePill.this, TimePickerDialog.THEME_HOLO_DARK, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this)).show();
+        } else {
+            new TimePickerDialog(UpdatePill.this, TimePickerDialog.THEME_HOLO_LIGHT, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this)).show();
+        }
     }
     private void openEnterPillAmountDialog() {
         dialogs.getChooseSupplyAmountDialog(this).show();
@@ -223,6 +226,8 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         primaryKeyId = getIntent().getIntExtra(getString(R.string.primary_key_id), -1);
         pillName = getIntent().getStringExtra(getString(R.string.pill_name));
         times = getIntent().getStringArrayExtra(getString(R.string.pill_time));
+        frequency = getIntent().getIntExtra(this.getString(R.string.pill_frequency), -1);
+        selectedStartDate = getIntent().getStringExtra(this.getString(R.string.pill_start_date));
         date = getIntent().getStringExtra(getString(R.string.pill_date));
         supply = getIntent().getIntExtra(getString(R.string.pill_amount), 1);
         isTaken = getIntent().getIntExtra(getString(R.string.is_pill_taken), 0);

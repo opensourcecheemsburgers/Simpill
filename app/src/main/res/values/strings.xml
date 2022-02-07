@@ -15,6 +15,8 @@
     <string name="primary_key_id" translatable="false">Primary Key Id</string>
     <string name="pill_name" translatable="false">pill name</string>
     <string name="pill_time" translatable="false">pill time</string>
+    <string name="pill_frequency" translatable="false">pill frequency</string>
+    <string name="pill_start_date" translatable="false">pill frequency</string>
     <string name="pill_date" translatable="false">pill date</string>
     <string name="pill_amount" translatable="false">pill amount</string>
     <string name="is_pill_taken" translatable="false">is pill taken</string>
@@ -218,5 +220,7 @@
     <string name="buy_on_play_store">Buy on Play Store</string>
     <string name="donate_via_paypal">Donate via Paypal</string>
     <string name="reminders">Reminders</string>
+
+    <string name="simpill_source_link" translatable="false">https://gitlab.com/simpilldev/simpill</string>
 
 </resources>

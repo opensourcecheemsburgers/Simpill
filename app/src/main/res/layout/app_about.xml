@@ -84,7 +84,7 @@
             android:layout_marginEnd="32dp"
             android:autoLink="all"
             android:fontFamily="@font/truenoreg"
-            android:text="https://gitlab.com/Winston69/simpill"
+            android:text="@string/simpill_source_link"
             android:textColor="@color/alice_blue"
             android:textColorLink="@color/light_blue"
             android:textSize="18sp"
