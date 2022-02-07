@@ -1,19 +1,17 @@
 package com.example.simpill;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -22,56 +20,60 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.TimeZone;
+import java.util.zip.Inflater;
 
-public class CreatePill extends AppCompatActivity implements DialogPillName.ExampleDialogListener, DialogPillAmount.ExampleDialogListener {
+public class CreatePill extends AppCompatActivity implements Dialogs.PillNameDialogListener, Dialogs.PillAmountDialogListener,
+        Dialogs.ChooseFrequencyDialogListener,Dialogs.PillReminderAmountDialogListener, Dialogs.ChooseTimesDialogListener, Dialogs.GetStartDateDialogListener {
 
-    private Simpill simpill;
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
+    Dialogs dialogs = new Dialogs();
+    private final Toasts toasts = new Toasts();
 
     private static final int defaultIsTaken = 0;
     private static final int defaultBottleColor = 2;
 
     Button createNewPillButton, pillNameButton, pillDateButton, pillClockButton, pillAmountButton;
     TextView pillName, pillTime, pillStockup, pillSupply;
-    ImageButton settingsButton, aboutButton;
+    Button settingsButton, aboutButton;
     int year, month, day, hour, min;
+
     Typeface truenoReg;
 
-    PillDBHelper myDatabase = new PillDBHelper(this);
+    int intervalInDays;
+    String selectedStartDate;
+
+    String[] times;
+    String date;
+
+    DatabaseHelper myDatabase = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        simpill = (Simpill) getApplicationContext();
-
-        loadSharedPrefs();
-
         setContentViewBasedOnThemeSetting();
-
         findViewsByIds();
         initiateTexts();
         initiateCalendar();
         initiateButtons();
     }
 
-    private void loadSharedPrefs() {
-        SharedPreferences themePref = getSharedPreferences(Simpill.THEME_PREF_BOOLEAN, MODE_PRIVATE);
-        Boolean theme = themePref.getBoolean(Simpill.USER_THEME, true);
-        simpill.setCustomTheme(theme);
-        SharedPreferences is24HrPref= getSharedPreferences(Simpill.IS_24HR_BOOLEAN, MODE_PRIVATE);
-        Boolean is24Hr = is24HrPref.getBoolean(Simpill.USER_IS_24HR, true);
-        simpill.setUserIs24Hr(is24Hr);
-    }
-
     private void setContentViewBasedOnThemeSetting() {
-        if (simpill.getCustomTheme())
-        {
-            setContentView(R.layout.create_pill);
+        int theme = sharedPrefs.getThemesPref(this);
+
+        if (theme == Simpill.BLUE_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlueBackground);
+        } else if (theme == Simpill.GREY_THEME) {
+            setTheme(R.style.SimpillAppTheme_GreyBackground);
+        } else if (theme == Simpill.BLACK_THEME) {
+            setTheme(R.style.SimpillAppTheme_BlackBackground);
         }
         else {
-            setContentView(R.layout.create_pill_light);
+            setTheme(R.style.SimpillAppTheme_PurpleBackground);
         }
+
+        setContentView(R.layout.app_create_pill);
     }
 
     private void findViewsByIds(){
@@ -95,18 +97,16 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         pillSupply.setTypeface(truenoReg);
         createNewPillButton.setTypeface(truenoReg);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pillName.setLetterSpacing(0.05f);
-            pillTime.setLetterSpacing(0.05f);
-            pillStockup.setLetterSpacing(0.05f);
-            pillSupply.setLetterSpacing(0.05f);
-            createNewPillButton.setLetterSpacing(0.05f);
-        }
+        pillName.setLetterSpacing(0.025f);
+        pillTime.setLetterSpacing(0.025f);
+        pillStockup.setLetterSpacing(0.025f);
+        pillSupply.setLetterSpacing(0.025f);
+        createNewPillButton.setLetterSpacing(0.025f);
     }
     private void initiateButtons() {
         pillNameButton.setOnClickListener(view -> openEnterPillNameDialog());
         pillAmountButton.setOnClickListener(view -> openEnterPillAmountDialog());
-        pillClockButton.setOnClickListener(v -> openTimePickerDialog());
+        pillClockButton.setOnClickListener(v -> openFrequencyDialog());
         pillDateButton.setOnClickListener(v -> openDatePickerDialog());
         createNewPillButton.setOnClickListener(v -> createPill());
         settingsButton.setOnClickListener(v -> openSettingsActivity());
@@ -122,81 +122,79 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     }
 
     private void openEnterPillNameDialog() {
-        DialogPillName dialogPillName = new DialogPillName();
-        dialogPillName.show(getSupportFragmentManager(), getString(R.string.pill_name_dialog));
+        dialogs.getChooseNameDialog(this).show();
     }
     private void openDatePickerDialog() {
-        int theme;
+        if (sharedPrefs.getDarkDialogsPref(this)) {
+            new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_DARK, (view, year, month, day) -> {
+                month = month + 1;
+                String selectedDate = year + "-" + month + "-" + day;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
 
-        if(simpill.getCustomTheme()) {
-            theme = DatePickerDialog.THEME_DEVICE_DEFAULT_DARK;
+                Date date = Calendar.getInstance().getTime();
+
+                try {
+                    simpleDateFormat.parse(selectedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                simpleDateFormat.format(date);
+
+                this.date = selectedDate;
+
+                pillStockup.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
+            }, year, month, day).show();
+        } else {
+            new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, (view, year, month, day) -> {
+                month = month + 1;
+                String selectedDate = year + "-" + month + "-" + day;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
+
+                Date date = Calendar.getInstance().getTime();
+
+                try {
+                    simpleDateFormat.parse(selectedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                simpleDateFormat.format(date);
+
+                this.date = selectedDate;
+
+                pillStockup.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(this, this.date));
+            }, year, month, day).show();
         }
-        else {
-            theme = DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
-        }
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, theme, (view, year, month, day) -> {
-            month = month + 1;
-            String selectedDate = year + "-" + month + "-" + day;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
-
-            Date date = Calendar.getInstance().getTime();
-
-            try {
-                simpleDateFormat.parse(selectedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            simpleDateFormat.format(date);
-
-            pillStockup.setText(selectedDate);
-        }, year, month, day);
-        datePickerDialog.show();
     }
     private void openTimePickerDialog() {
-        DateTimeManager dateTimeManager = new DateTimeManager();
+        times = new String[1];
 
-        int theme;
-        if(simpill.getCustomTheme()) {
-            theme = TimePickerDialog.THEME_DEVICE_DEFAULT_DARK;
-        }
-        else {
-            theme = TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT;
-        }
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, theme, (timePicker, selectedHour, selectedMinute) -> {
-
+        TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+            DateTimeManager dateTimeManager = new DateTimeManager();
             String amOrPm;
             String time;
 
-            if (!simpill.getUserIs24Hr()){
+            if (!sharedPrefs.get24HourFormatPref(this)) {
                 if (selectedHour > 12) {
                     amOrPm = "pm";
                     selectedHour = selectedHour - 12;
-                }
-                else if (selectedHour == 12){
+                } else if (selectedHour == 12) {
                     amOrPm = "pm";
-                }
-                else if (selectedHour == 0){
+                } else if (selectedHour == 0) {
                     selectedHour = selectedHour + 12;
                     amOrPm = "am";
-                }
-                else {
+                } else {
                     amOrPm = "am";
                 }
-                if  (selectedMinute < 10) {
+                if (selectedMinute < 10) {
                     time = selectedHour + ":0" + selectedMinute + " " + amOrPm;
-                }
-                else {
+                } else {
                     time = selectedHour + ":" + selectedMinute + " " + amOrPm;
                 }
-                time = dateTimeManager.convert12HrTimeTo24HrTime(getApplicationContext(), time);
-            }
-            else {
-                if  (selectedMinute < 10) {
+                time = dateTimeManager.convert12HrTimeTo24HrTime(CreatePill.this, time);
+            } else {
+                if (selectedMinute < 10) {
                     time = selectedHour + ":0" + selectedMinute;
-                }
-                else {
+                } else {
                     time = selectedHour + ":" + selectedMinute;
                 }
                 if (selectedHour < 10) {
@@ -207,73 +205,68 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                 }
             }
             pillTime.setText(time);
+
+            if (intervalInDays > 1) {
+                dialogs.getStartDateDialog(this).show();
+            }
+        };
+
+        TimePickerDialog timePickerDialog;
+
+        if (sharedPrefs.getDarkDialogsPref(this)) {
+            timePickerDialog = new TimePickerDialog(CreatePill.this, TimePickerDialog.THEME_HOLO_DARK, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
+        } else {
+            timePickerDialog = new TimePickerDialog(CreatePill.this, TimePickerDialog.THEME_HOLO_LIGHT, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(this));
         }
-                ,12, 0, simpill.getUserIs24Hr());
+
         timePickerDialog.show();
     }
     private void openEnterPillAmountDialog() {
-        DialogPillAmount dialogPillAmount = new DialogPillAmount();
-        dialogPillAmount.show(getSupportFragmentManager(), "Pill Amount Dialog");
+        dialogs.getChooseSupplyAmountDialog(this).show();
+    }
+    private void openFrequencyDialog() {
+        dialogs.getFrequencyDialog(this).show();
     }
 
 
     private void createPill() {
         if (!isNameUnique()) {
-            showCustomToast(2);
+            toasts.showCustomToast(this, getString(R.string.non_unique_pill_name_warning));
         } else {
             if (areTextViewsNonEmpty() && isPillAmountValid() && isFirstCharLetter() && isDateValid()) {
-                if (myDatabase.addNewPill(getNewPillId(), pillName.getText().toString().trim(),
-                        pillTime.getText().toString().trim(),
-                        pillStockup.getText().toString().trim(),
-                        Integer.parseInt(pillSupply.getText().toString()),
-                        defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
-                    showCustomToast(1);
-                    Intent intent = new Intent(this, ChooseColor.class);
-                    intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
-                    startActivity(intent);
+                if (intervalInDays > 1) {
+                    if (myDatabase.addNewPill(
+                            getNewPillId(),
+                            pillName.getText().toString().trim(),
+                            myDatabase.convertStringToArray(pillTime.getText().toString()),
+                            intervalInDays,
+                            selectedStartDate,
+                            date,
+                            Integer.parseInt(pillSupply.getText().toString()),
+                            defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
+                        toasts.showCustomToast(this, getString(R.string.pill_created_toast, pillName.getText().toString().trim()));
+                        Intent intent = new Intent(this, ChooseColor.class);
+                        intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
+                        startActivity(intent);
+                    }
+            } else {
+                    if (myDatabase.addNewPill(
+                            getNewPillId(),
+                            pillName.getText().toString().trim(),
+                            myDatabase.convertStringToArray(pillTime.getText().toString()),
+                            intervalInDays,
+                            "null",
+                            date,
+                            Integer.parseInt(pillSupply.getText().toString()),
+                            defaultIsTaken, getString(R.string.nullString), 0, defaultBottleColor)) {
+                        toasts.showCustomToast(this, getString(R.string.pill_created_toast, pillName.getText().toString().trim()));
+                        Intent intent = new Intent(this, ChooseColor.class);
+                        intent.putExtra(getString(R.string.pill_name), pillName.getText().toString().trim());
+                        startActivity(intent);
+                    }
                 }
             }
         }
-    }
-
-    private void showCustomToast(int toastNumber) {
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        View toastLayout;
-        if (simpill.getCustomTheme()) {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_layout));
-        }
-        else {
-            toastLayout = layoutInflater.inflate(R.layout.custom_toast_light,findViewById(R.id.custom_toast_layout_light));
-        }
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 250);
-        toast.setView(toastLayout);
-
-        TextView toastTextView = toastLayout.findViewById(R.id.custom_toast_message);
-
-        switch (toastNumber) {
-            case 1:
-                toastTextView.setText(pillName.getText().toString().trim() + " created :)");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                break;
-            case 2:
-                toastTextView.setText("Pill name already in use :(");
-                break;
-            case 3:
-                toastTextView.setText("Amount must be greater than 0.");
-                break;
-            case 4:
-                toastTextView.setText(getString(R.string.fill_fields_warning));
-                break;
-            case 5:
-                toastTextView.setText(getString(R.string.pill_name_warning));
-                break;
-        }
-
-        toast.show();
     }
 
     private Boolean isNameUnique() {
@@ -289,7 +282,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             numberFormatException.printStackTrace();
         }
         if(supplyAmount <= 0) {
-            showCustomToast(3);
+            toasts.showCustomToast(this, getString(R.string.pill_supply_warning));
             return false;
         }
         else {
@@ -301,7 +294,7 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
                 pillTime.getText().toString().trim().length() == 0 ||
                 pillStockup.getText().toString().trim().length() == 0 ||
                 pillSupply.getText().toString().trim().length() == 0) {
-            showCustomToast(4);
+            toasts.showCustomToast(this, getString(R.string.fill_fields_warning));
             return false;
         }
         else {
@@ -313,47 +306,43 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
             return true;
         }
         else {
-            showCustomToast(5);
+            toasts.showCustomToast(this, getString(R.string.pill_name_warning));
             return false;
         }
     }
-    private Boolean isDateValid(){
+
+    private Boolean isDateValid() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.date_format));
         DateTimeManager dateTimeManager = new DateTimeManager();
         Date currentDate = null;
         try {
             currentDate = simpleDateFormat.parse(dateTimeManager.getCurrentDate(getApplicationContext(), dateTimeManager.getUserTimezone()));
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
-            throw new UnknownError();
         }
         Date stockupDate;
         try {
-            stockupDate = simpleDateFormat.parse(pillStockup.getText().toString().trim());
-        } catch (ParseException e) {
-            Toast.makeText(this, getString(R.string.set_date), Toast.LENGTH_LONG).show();
+            stockupDate = simpleDateFormat.parse(date);
+        }
+        catch (ParseException e) {
+            toasts.showCustomToast(this, getString(R.string.set_date));
             e.printStackTrace();
             return false;
         }
         if (currentDate.after(stockupDate)) {
-            DialogPastDate dialogPastDate = new DialogPastDate();
-            dialogPastDate.show(getSupportFragmentManager(), "Tardis Warning");
+            new Dialogs().getPastDateDialog(this).show();
             return false;
         }
         else {
             return true;
         }
-
     }
 
     private int getNewPillId() {
         return myDatabase.getRowCount() + 1;
     }
 
-    private void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
     private void openAboutActivity() {
         Intent intent = new Intent(this, About.class);
         startActivity(intent);
@@ -362,17 +351,6 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void applyPillName(String userPillName) {
@@ -384,5 +362,30 @@ public class CreatePill extends AppCompatActivity implements DialogPillName.Exam
     public void applyPillSupply(String userPillSupply) {
         pillSupply.setText(userPillSupply);
         pillSupply.setTypeface(truenoReg);
+    }
+
+    @Override
+    public void openTimePicker(int frequency) {
+        openTimePickerDialog();
+    }
+
+    @Override
+    public void setInterval(int intervalInDays) {
+        this.intervalInDays = intervalInDays;
+    }
+
+    @Override
+    public void applyNumberOfReminders(int reminders) {
+        times = new String[reminders];
+    }
+
+    @Override
+    public void returnTimesStringArray(String[] times) {
+        pillTime.setText(myDatabase.convertArrayToString(times));
+    }
+
+    @Override
+    public void applyStartDate(String startDate) {
+        this.selectedStartDate = startDate;
     }
 }

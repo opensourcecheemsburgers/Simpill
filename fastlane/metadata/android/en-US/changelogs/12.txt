@@ -1,0 +1,8 @@
+BIG Update
+
+Complete UI redesign including new themes
+Ability to set multiple reminders a day for a medication
+Ability to select a custom interval in days
+Pills can be now swiped to delete or update
+Added a 'Dark dialogs' option
+Added Spanish and French translations

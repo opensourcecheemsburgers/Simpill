@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.widget.Toast;
 
 import java.util.Objects;
@@ -17,18 +16,16 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
     AlarmSetter alarmSetter;
     AlarmManager alarmManager;
-    DateTimeManager dateTimeManager;
 
     @SuppressLint("ShortAlarm")
     @Override
     public void onReceive(Context context, Intent intent) {
-        PillDBHelper myDatabase = new PillDBHelper(context);
+        DatabaseHelper myDatabase = new DatabaseHelper(context);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                Objects.equals(intent.getAction(), "android.intent.action.BOOT_COMPLETED") &&
+        if (Objects.equals(intent.getAction(), "android.intent.action.BOOT_COMPLETED") &&
                 myDatabase.getRowCount() > 0) {
 
-            Toast.makeText(context, "Resetting alarms for Simpill :)", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.device_restart_toast), Toast.LENGTH_LONG).show();
 
             alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Cursor cursor = myDatabase.readSqlDatabase();
@@ -39,9 +36,9 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             for (currentRow = 0; currentRow <= lastRow; currentRow++) {
                 cursor.moveToPosition(currentRow);
 
-                String pillName = cursor.getString(cursor.getColumnIndexOrThrow("PillName"));
+                String pillName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TITLE));
                 myDatabase.setIsReminderSet(pillName, 0);
-                alarmSetter = new AlarmSetter(context, pillName, currentRow + 1);
+                alarmSetter = new AlarmSetter(context, pillName);
                 alarmSetter.setAlarms(alarmCodeForAllAlarms);
             }
         }

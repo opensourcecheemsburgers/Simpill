@@ -2,8 +2,6 @@ package com.example.simpill;
 
 import android.app.Application;
 import android.os.Build;
-import android.widget.Toast;
-
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -14,28 +12,35 @@ public class Simpill extends Application {
     public static final String PILL_EXTRA_REMINDERS_CHANNEL = "pillExtraRemindershannel";
     public static final String PILL_STOCKUP_CHANNEL = "pillStockupChannel";
 
-    public static final String THEME_PREF_BOOLEAN = "Theme Preference Boolean";
-    public static final String IS_24HR_BOOLEAN = "Is 24Hr Boolean";
-    public static final String PERMANENT_NOTIFICATIONS_BOOLEAN = "Permanent Notification Boolean";
+    public static final String OPEN_COUNT_FILENAME = "open_count";
+    public static final String DARK_DIALOGS_FILENAME = "dark_dialogs";
+    public static final String SELECTED_THEME_FILENAME = "User Theme";
+    public static final String IS_24HR_BOOLEAN_FILENAME = "Is 24Hr Boolean";
+    public static final String PERMANENT_NOTIFICATIONS_FILENAME = "Permanent Notification Boolean";
 
-    public static final String USER_THEME = "User Theme";
-    public static final String USER_IS_24HR = "User Is24Hr";
-    public static final String USER_PERMANENT_NOTIFICATIONS = "User PermanentNotifications";
+    public static final String DARK_DIALOGS_TAG = "Dark Dialogs";
+    public static final String OPEN_COUNT_TAG = "Open Count";
+    public static final String USER_THEME_TAG = "User Theme";
+    public static final String USER_IS_24HR_TAG = "User Is24Hr";
+    public static final String USER_PERMANENT_NOTIFICATIONS_TAG = "User PermanentNotifications";
 
-    private boolean userThemeBoolean;
-    private boolean is24Hr;
-    private boolean permanentNotifications;
+    public static final int BLUE_THEME = 1;
+    public static final int BLACK_THEME = 2;
+    public static final int GREY_THEME = 3;
+    public static final int PURPLE_THEME = 4;
 
     public void onCreate() {
         super.onCreate();
+
         createNotificationChannels();
         handleUncaughtException();
     }
 
     void handleUncaughtException() {
-        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) ->
-
-                Toast.makeText(getApplicationContext(), "An unknown error has occurred in Simpill :( Tell the dev to write better code.", Toast.LENGTH_LONG).show());
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            new Dialogs().getDonationDialog(this).show();
+            new Toasts().showCustomToast(this, getString(R.string.unknown_error_toast));
+        });
     }
 
     void createNotificationChannels() {
@@ -64,26 +69,5 @@ public class Simpill extends Application {
             notificationManagerCompat.createNotificationChannel(pillExtraRemindersNotificationChannel);
         }
     }
-
-    public boolean getCustomTheme() {
-        return userThemeBoolean;
-    }
-    public boolean getUserIs24Hr() {
-        return is24Hr;
-    }
-    public boolean getUserPermanentNotifications() {
-        return permanentNotifications;
-    }
-
-    public void setUserIs24Hr(Boolean is24Hr) {
-        this.is24Hr = is24Hr;
-    }
-    public void setCustomTheme(Boolean customTheme) {
-        this.userThemeBoolean = customTheme;
-    }
-    public void setUserPermanentNotifications(Boolean permanentNotifications) {
-        this.permanentNotifications = permanentNotifications;
-    }
-
 
 }

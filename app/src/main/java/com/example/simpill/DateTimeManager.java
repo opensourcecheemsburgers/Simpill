@@ -24,12 +24,14 @@ public class DateTimeManager {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.date_format_with_timezone));
         return dateFormat.format(date);
     }
+
     public String getCurrentDateAndTime(Context ct, TimeZone userTimeZone) {
         Calendar calendar = GregorianCalendar.getInstance(userTimeZone);
         Date date = calendar.getTime();
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat(ct.getString(R.string.full_date_time_format));
         return dateFormat.format(date);
     }
+
     public String getCurrentTime(Context ct, TimeZone userTimeZone) {
         Calendar calendar = GregorianCalendar.getInstance(userTimeZone);
         Date date = calendar.getTime();
@@ -41,10 +43,18 @@ public class DateTimeManager {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.full_date_time_format), Locale.getDefault());
         return simpleDateFormat.format(date);
     }
-    public String formatLongAsString(Context ct, long dateInMillis) {
+
+    public String formatLongAsDateString(Context ct, long dateInMillis) {
         Date date = new Date();
         date.setTime(dateInMillis);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.full_date_time_format));
+        return simpleDateFormat.format(date);
+    }
+
+    public String formatLongAsTimeString(Context ct, long dateInMillis) {
+        Date date = new Date();
+        date.setTime(dateInMillis);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ct.getString(R.string.time_format_24hr));
         return simpleDateFormat.format(date);
     }
 
@@ -63,8 +73,7 @@ public class DateTimeManager {
 
         if (date != null) {
             return dateFormat1.format(date);
-        }
-        else {
+        } else {
             throw new NullPointerException();
         }
     }
@@ -81,11 +90,38 @@ public class DateTimeManager {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat1 = new SimpleDateFormat(ct.getString(R.string.time_format_12hr), Locale.US);
 
         if (date != null) {
-            return dateFormat1.format(date);
-        }
-        else {
+
+            String dateString = dateFormat1.format(date);
+
+            if (dateString.indexOf("0") == 0) {
+                dateString = dateString.substring(1);
+            }
+
+            dateString =  dateString.replace(" PM", " pm");
+            dateString = dateString.replace(" AM", " am");
+
+            return dateString;
+        } else {
             throw new NullPointerException();
         }
+    }
+
+    public String convertISODateStringToLocallyFormattedString(Context ct, String dateString) {
+        return DateFormat
+                .getDateInstance(DateFormat.LONG, Locale.getDefault())
+                .format(formatDateStringAsDate(ct, getUserTimezone(), dateString));
+    }
+
+    public Date formatDateStringAsDate(Context context, TimeZone userTimezone, String dateString){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
+
+        Date date = Calendar.getInstance(userTimezone).getTime();
+        try {
+            date = simpleDateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public Calendar formatDateStringAsCalendar(Context ct, TimeZone userTimezone, String dateString) {
