@@ -59,24 +59,19 @@
     <string name="time">Temps</string>
     <string name="notifications">Notifications</string>
     <string name="sticky">Notifications Rigides</string>
-    <string name="_24_hour_format">Format de 24 heures</string>
+    <string name="_24_hour_format">Format de 24 Heures</string>
     <string name="database">Base de données</string>
-    <string name="delete_all_pills">Supprimer tous les pilules</string>
+    <string name="delete_all_pills">Supprimer tous vos pilules</string>
     <string name="theme_applied">Thème %1$s a été appliqué :)</string>
     <string name="select_theme_dialog_title">Choisissez</string>
     <string name="change_theme">Choisissez une Thème</string>
 
 
     <!--About Strings-->
-    <string name="MoneroWebsite" translatable="false">https://www.getmonero.org</string>
-    <string name="BitcoinWebsite" translatable="false">https://bitcoin.org</string>
-    <string name="PandacoinWebsite" translatable="false">https://pandacoin.tech</string>
-    <string name="monero_address" translatable="false">86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
-    <string name="bitcoin_address" translatable="false">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
-    <string name="pandacoin_address" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
 
     <!--Pill Time TextView Strings-->
-    <string name="take_at">Prenez à %1$s</string>
+    <string name="take_at">Take at %1$s</string><!--1st parameter is the reminder times-->
+    <string name="take_at_custom_interval">Prenez à %1$s\n(%2$s)</string>
     <string name="taken_at">Pris à %1$s</string>
 
     <!--Toast Strings-->
@@ -95,7 +90,7 @@
     <string name="append_updated_toast">%1$s a été mis à jour :)</string>
     <string name="pill_db_deleted_toast">Tous les pilules ont été supprimés!</string>
     <string name="append_pill_deleted_toast">%1$s a été supprimé!</string>
-    <string name="pill_bottle_amount_toast">Vous avez %1$d %2$s pilules.</string>
+    <string name="pill_bottle_amount_toast">Vous avez %1$d pilules de %2$s.</string>
 
     <!--Stockup Notification Strings-->
     <string name="stockup_notification_title">Rappel de renouvellement</string>
@@ -138,17 +133,12 @@
     <string name="choose_frequency_dialog_text">Combien de fois vous prenez ce médicament?</string>
     <string name="choose_frequency_dialog_title">Fréquence</string>
     <string name="choose_frequency_dialog_custom_interval">Choisissez plutôt un intervalle personnalisé</string>
-    <string name="choose_frequency_dialog_weekly">Hebdomadaire</string>
+    <string name="choose_frequency_dialog_weekly">Chaque semaine</string>
     <string name="choose_frequency_dialog_every_other_day">Tous les autres jours</string>
-    <string name="choose_frequency_dialog_daily">quotidiennement</string>
+    <string name="choose_frequency_dialog_daily">Chaque jour</string>
     <string name="choose_frequency_dialog_multiple_daily">Plusieurs fois par jour</string>
 
     <!--Date Time Formatting Strings (Very fragile, do not touch)-->
-    <string name="time_format_12hr" translatable="false">hh:mm a</string>
-    <string name="time_format_24hr" translatable="false">HH:mm</string>
-    <string name="date_format" translatable="false">yyyy-MM-dd</string>
-    <string name="date_format_with_timezone" translatable="false">yyyy-MM-dd Z</string>
-    <string name="full_date_time_format" translatable="false">yyyy-MM-dd, HH:mm Z</string>
 
     <string name="take_pill_content_description">Le bouton de prendre votre médicament</string>
     <string name="choose_frequency_dialog_reminder_amount_text">Combien de fois vous prenez ce médicament chaque jour?</string>
@@ -173,7 +163,7 @@
     <string name="dark">Sombre</string>
     <string name="purple">Violet</string>
 
-    <string name="dark_dialogs_setting">Les boîtes de dialogue sombre</string>
+    <string name="dark_dialogs_setting">Boîtes de Dialogue Sombre</string>
     <string name="dark_dialogs_toast">Les boîtes de dialogue sombre ont été appliquée :)</string>
     <string name="light_dialogs_toast">Les boîtes de dialogue clair ont été appliquée :)</string>
 
@@ -192,5 +182,7 @@
     <string name="buy_on_play_store">Acheter sur Play Store</string>
     <string name="donate_via_paypal">Donner avec Paypal</string>
     <string name="reminders">Rappels</string>
+    <string name="append_days_to_custom_interval">Tous les %1$d jours</string>
+    <string name="start_date">Date de début</string>
 
 </resources>

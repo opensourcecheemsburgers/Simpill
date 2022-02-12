@@ -93,7 +93,8 @@
     <string name="pandacoin_address" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
 
     <!--Pill Time TextView Strings-->
-    <string name="take_at">Take at %1$s</string><!--1st parameter are the reminder times-->
+    <string name="take_at">Take at %1$s</string><!--1st parameter is the reminder times-->
+    <string name="take_at_custom_interval">Take at %1$s\n(%2$s)</string><!--1st parameter are the reminder times-->
     <string name="taken_at">Taken at %1$s</string><!--1st parameter is the time the pill has been taken at by user-->
 
     <!--Toast Strings-->
@@ -222,5 +223,6 @@
     <string name="reminders">Reminders</string>
 
     <string name="simpill_source_link" translatable="false">https://gitlab.com/simpilldev/simpill</string>
+    <string name="append_days_to_custom_interval">Every %1$d days</string>
 
 </resources>

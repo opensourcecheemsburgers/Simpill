@@ -136,14 +136,33 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         }
         else {
             String times;
-
-            myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
+            String frequencyString;
+            
             if (sharedPrefs.get24HourFormatPref(myContext)) {
                 times = myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
             } else {
                 times = myDatabase.convertArrayToString(myDatabase.convert24HrArrayTo12HrArray(myContext, myDatabase.getPillTime(pillName)));
             }
-            times = myContext.getString(R.string.take_at, times);
+            
+            int pillFrequency = myDatabase.getFrequency(pillName);
+            
+            switch (pillFrequency) {
+                case 0: case 1:
+                    times = myContext.getString(R.string.take_at, times);
+                    break;
+                case 2:
+                    frequencyString = myContext.getString(R.string.choose_frequency_dialog_every_other_day);
+                    times = myContext.getString(R.string.take_at_custom_interval, times, frequencyString);
+                    break;
+                case 7:
+                    frequencyString = myContext.getString(R.string.choose_frequency_dialog_weekly);
+                    times = myContext.getString(R.string.take_at_custom_interval, times, frequencyString);
+                    break;
+                default:
+                    frequencyString = myContext.getString(R.string.append_days_to_custom_interval, pillFrequency);
+                    times = myContext.getString(R.string.take_at_custom_interval, times, frequencyString);
+                    break;
+            }
 
             holder.pill_time_textview.setText(times);
             holder.reset_btn.setVisibility(View.INVISIBLE);

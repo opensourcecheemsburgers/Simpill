@@ -1,0 +1,3 @@
+Added strings to show for custom date intervals
+Fixed missing dark dialog for choosing a start date on a custom interval
+Added some missing translations

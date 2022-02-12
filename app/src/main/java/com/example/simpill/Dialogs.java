@@ -399,8 +399,7 @@ public class Dialogs extends AppCompatDialogFragment {
         init(context);
         if (isDarkDialogTheme(context)){
             setViewAndCreateDialog(R.layout.dialog_choose_interval_dark);
-        }
-        else {
+        } else {
             setViewAndCreateDialog(R.layout.dialog_choose_interval);
         }
 
@@ -448,7 +447,11 @@ public class Dialogs extends AppCompatDialogFragment {
 
     public Dialog getStartDateDialog(Context context) {
         init(context);
-        setViewAndCreateDialog(R.layout.dialog_choose_start_date);
+        if (isDarkDialogTheme(context)){
+            setViewAndCreateDialog(R.layout.dialog_choose_start_date_dark);
+        } else {
+            setViewAndCreateDialog(R.layout.dialog_choose_start_date);
+        }
 
         TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
         ImageButton calendarBtn = dialogView.findViewById(R.id.calendar_btn);

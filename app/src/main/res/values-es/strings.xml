@@ -60,7 +60,7 @@
     <string name="ok">Vale</string>
     <string name="pill_name_dialog_title">Nombre de la pastilla</string>
     <string name="pill_name_dialog_msg">"Por favor, introduzca un nombre para su medicamento pulsando la siguiente línea:\n"</string>
-    <string name="pill_name_dialog_text_hint">Nombre</string>
+    <string name="pill_name_dialog_text_hint">Nombre - mantenerlo corto :)</string>
     <string name="done">Hecho</string>
     <string name="amount">Cantidad</string>
     <string name="pill_deletion_dialog_title">Suprimir %1$s?</string>
@@ -81,6 +81,7 @@
     <string name="take_pill_content_description">Botón Tomar Pastilla</string>
     <string name="welcome_dialog_message">Para crear su primera pastilla, seleccione el botón con el símbolo "+" situado en la parte inferior de la pantalla.</string>
     <string name="take_at">Tomar a las %1$s</string>
+    <string name="take_at_custom_interval">Tomar a las %1$s\n(%2$s)</string>
     <string name="taken_at">Tomado a las %1$s</string>
     <string name="back">Volver</string>
     <string name="blue_theme_button_content_description">Botón de tema azul</string>
@@ -119,4 +120,13 @@
     <string name="light_dialogs_toast">Dialogos claros aplicados :)</string>
     <string name="dev_email">Email del desarrolador</string>
     <string name="simpill_code">Código de Simpill</string>
+    <string name="append_days_to_custom_interval">Cada %1$d días</string>
+    <string name="reminders">Recordatorios</string>
+    <string name="buy_on_play_store">Comprar en Play Store</string>
+    <string name="donate_monero">Donar con Monero</string>
+    <string name="donate_via_paypal">Donar con Paypal</string>
+    <string name="dismiss">Vale</string>
+    <string name="donate">Hacer una donación</string>
+    <string name="clocks_dialog_time_text">Hora #%1$d</string>
+    <string name="start_date">Fecha de inicio</string>
 </resources>

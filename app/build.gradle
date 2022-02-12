@@ -4,14 +4,14 @@ plugins {
 
 android {
     compileSdkVersion 32
-    buildToolsVersion '32.0.0'
+    buildToolsVersion '32.1.0-rc1'
 
     defaultConfig {
         applicationId "com.winston69.simpill"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 12
-        versionName "1.2.0"
+        versionCode 13
+        versionName "1.2.0.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,10 +39,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.test:monitor:1.5.0'
     implementation 'androidx.test.ext:junit:1.1.3'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
-    implementation 'androidx.navigation:navigation-fragment:2.4.0'
-    implementation 'androidx.navigation:navigation-ui:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment:2.4.1'
+    implementation 'androidx.navigation:navigation-ui:2.4.1'
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.3'
     implementation 'com.ms-square:expandableTextView:0.1.4'
 }

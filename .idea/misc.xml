@@ -148,7 +148,8 @@
         <entry key="app/src/main/res/layout/dialog_choose_interval_dark.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_choose_reminder_amount.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_choose_reminder_amount_dark.xml" value="0.2942708333333333" />
-        <entry key="app/src/main/res/layout/dialog_choose_start_date.xml" value="0.5286458333333334" />
+        <entry key="app/src/main/res/layout/dialog_choose_start_date.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_choose_start_date_dark.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_choose_theme.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_choose_theme_dark.xml" value="0.5286458333333334" />
         <entry key="app/src/main/res/layout/dialog_choose_times.xml" value="0.22" />
