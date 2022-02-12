@@ -379,7 +379,7 @@ public class Dialogs extends AppCompatDialogFragment {
         dailyTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.DAILY));
         everyOtherDayTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.EVERY_OTHER_DAY));
         weeklyTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.WEEKLY));
-        customIntervalTextView.setOnClickListener(view -> getCustomIntervalDialog(context));
+        customIntervalTextView.setOnClickListener(view -> getCustomIntervalDialog(context).show());
 
         return dialog;
     }
