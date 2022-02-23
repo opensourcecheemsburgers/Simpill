@@ -345,7 +345,7 @@ public class UpdatePill extends AppCompatActivity implements Dialogs.PillNameDia
         pillNameTextView.setText(userPillName);
         pillNameTextView.setTypeface(truenoReg);
     }
-    
+
     @Override
     public void applyPillSupply(String userPillSupply) {
         pillSupplyTextView.setText(userPillSupply);

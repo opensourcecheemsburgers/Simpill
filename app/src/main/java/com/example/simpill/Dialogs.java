@@ -381,11 +381,26 @@ public class Dialogs extends AppCompatDialogFragment {
         TextView weeklyTextView = dialogView.findViewById(R.id.weekly);
         TextView customIntervalTextView = dialogView.findViewById(R.id.custom_interval);
 
-        multipleDailyTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.MULTIPLE_DAILY));
-        dailyTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.DAILY));
-        everyOtherDayTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.EVERY_OTHER_DAY));
-        weeklyTextView.setOnClickListener(view -> onClickFrequency(context, DatabaseHelper.WEEKLY));
-        customIntervalTextView.setOnClickListener(view -> getCustomIntervalDialog(context).show());
+        multipleDailyTextView.setOnClickListener(view -> {
+            dialog.dismiss();
+            onClickFrequency(context, DatabaseHelper.MULTIPLE_DAILY);
+        });
+        dailyTextView.setOnClickListener(view -> {
+            dialog.dismiss();
+            onClickFrequency(context, DatabaseHelper.DAILY);
+        });
+        everyOtherDayTextView.setOnClickListener(view -> {
+            dialog.dismiss();
+            onClickFrequency(context, DatabaseHelper.EVERY_OTHER_DAY);
+        });
+        weeklyTextView.setOnClickListener(view -> {
+            dialog.dismiss();
+            onClickFrequency(context, DatabaseHelper.WEEKLY);
+        });
+        customIntervalTextView.setOnClickListener(view -> {
+            dialog.dismiss();
+            getCustomIntervalDialog(context).show();
+        });
 
         return dialog;
     }
@@ -445,6 +460,7 @@ public class Dialogs extends AppCompatDialogFragment {
         });
 
         doneBtn.setOnClickListener(view -> {
+            dialog.dismiss();
             chooseFrequencyDialogListener.setInterval(Integer.parseInt(enterAmountEditText.getText().toString()));
             chooseFrequencyDialogListener.openTimePicker(Integer.parseInt(enterAmountEditText.getText().toString()));
         });
