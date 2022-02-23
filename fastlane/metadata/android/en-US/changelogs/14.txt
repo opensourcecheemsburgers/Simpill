@@ -1,0 +1,2 @@
+Fix update pill bugs.
+Make custom interval dialogs close on finish instead of hanging in the background.
