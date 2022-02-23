@@ -31,6 +31,8 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
             String pillName = intent.getStringExtra(context.getString(R.string.pill_name));
             int notificationCode = intent.getIntExtra(context.getString(R.string.notification_id), 0);
 
+            System.out.println("Notification Code = " + notificationCode);
+
             DatabaseHelper myDatabase = new DatabaseHelper(context);
             alarmSetter = new AlarmSetter(context, pillName);
             dateTimeManager = new DateTimeManager();

@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements Dialogs.PillDelet
         myAdapter.notifyItemRemoved(position);
     }
 
-
     @Override
     public void notifyAdapterOfResetPill(String pillName, MainRecyclerViewAdapter.MyViewHolder holder, int position, MediaPlayer resetSoundPlayer) {
         holder.reset_btn.setClickable(false);

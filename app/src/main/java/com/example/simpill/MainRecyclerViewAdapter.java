@@ -265,7 +265,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             holder.reset_btn.setClickable(true);
             takenMediaPlayer.start();
 
-            deleteActiveNotifications();
+            deleteActiveNotifications(pillName);
             toasts.showCustomToast(myContext, myContext.getString(R.string.pill_taken_toast, pillName));
         });
 
@@ -291,9 +291,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         }
     }
 
-    private void deleteActiveNotifications() {
-        for (int currentNumber = 0; currentNumber < myDatabase.getPillTime(pillName).length; currentNumber++) {
-            NotificationManagerCompat.from(myContext).cancel(pillName, myDatabase.getPrimaryKeyId(pillName) * 10 * 10 * 10 + currentNumber);
+    private void deleteActiveNotifications(String pillName) {
+        int pk = myDatabase.getPrimaryKeyId(pillName);
+        for (int currentNumber = 1; currentNumber < myDatabase.getPillTime(pillName).length + 1; currentNumber++) {
+            NotificationManagerCompat.from(myContext).cancel(pillName, pk * 10 * 10 * 10 + currentNumber);
         }
     }
 
