@@ -63,6 +63,7 @@ public class AlarmSetter {
         dateTimeManager = new DateTimeManager();
 
         userTimezone = dateTimeManager.getUserTimezone();
+
         pillTimesCalArray = getPillTimeCalendar();
         supplyDateCal = getReminderDateCalendar();
     }
@@ -268,20 +269,22 @@ public class AlarmSetter {
         }
     }
     private void setSupplyReminder() {
-        Intent startPillSupplyReceiver = new Intent (context, ReceiverPillSupply.class);
-        startPillSupplyReceiver.putExtra(context.getString(R.string.pill_name), pillName);
+        if (!myDatabase.getPillDate(pillName).equalsIgnoreCase("null")){
+            Intent startPillSupplyReceiver = new Intent (context, ReceiverPillSupply.class);
+            startPillSupplyReceiver.putExtra(context.getString(R.string.pill_name), pillName);
 
-        @SuppressLint("InlinedApi")
-        PendingIntent pillSupplyPendingIntent = PendingIntent.getBroadcast(context, primaryKey, startPillSupplyReceiver, PendingIntent.FLAG_IMMUTABLE);
+            @SuppressLint("InlinedApi")
+            PendingIntent pillSupplyPendingIntent = PendingIntent.getBroadcast(context, primaryKey, startPillSupplyReceiver, PendingIntent.FLAG_IMMUTABLE);
 
-        long supplyReminderTime = supplyDateCal.getTimeInMillis();
+            long supplyReminderTime = supplyDateCal.getTimeInMillis();
 
-        //System.out.println("Supply reminder time = " + dateTimeManager.formatLongAsDateString(myContext, supplyReminderTime));
+            //System.out.println("Supply reminder time = " + dateTimeManager.formatLongAsDateString(myContext, supplyReminderTime));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, supplyReminderTime, pillSupplyPendingIntent);
+            }
         }
     }
 }

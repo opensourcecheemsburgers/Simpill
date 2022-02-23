@@ -225,8 +225,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
 
         holder.pill_bottle_image.setOnClickListener(v -> {
-            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast, myDatabase.getPillAmount(pillName), pillName));
-            shakeMediaPlayer.start();
+            if ((myDatabase.getPillAmount(pillName) > 0)) {
+                toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast, myDatabase.getPillAmount(pillName), pillName));
+                shakeMediaPlayer.start();
+            }
         });
     }
     private void initButtons(MyViewHolder holder, String pillName, int position) {
@@ -275,6 +277,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             intent.putExtra(myContext.getString(R.string.pill_name), myDatabase.getPillName(pillName));
             intent.putExtra(myContext.getString(R.string.pill_time), myDatabase.getPillTime(pillName));
             intent.putExtra(myContext.getString(R.string.pill_date), myDatabase.getPillDate(pillName));
+            intent.putExtra(myContext.getString(R.string.pill_frequency), myDatabase.getFrequency(pillName));
+            intent.putExtra(myContext.getString(R.string.pill_start_date), myDatabase.getStartDate(pillName));
             intent.putExtra(myContext.getString(R.string.pill_amount), myDatabase.getPillAmount(pillName));
             intent.putExtra(myContext.getString(R.string.is_pill_taken), myDatabase.getIsTaken(pillName));
             intent.putExtra(myContext.getString(R.string.time_taken), myDatabase.getTimeTaken(pillName));

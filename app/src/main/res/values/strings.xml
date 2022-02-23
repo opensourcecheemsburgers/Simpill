@@ -16,7 +16,7 @@
     <string name="pill_name" translatable="false">pill name</string>
     <string name="pill_time" translatable="false">pill time</string>
     <string name="pill_frequency" translatable="false">pill frequency</string>
-    <string name="pill_start_date" translatable="false">pill frequency</string>
+    <string name="pill_start_date" translatable="false">pill start date</string>
     <string name="pill_date" translatable="false">pill date</string>
     <string name="pill_amount" translatable="false">pill amount</string>
     <string name="is_pill_taken" translatable="false">is pill taken</string>
@@ -62,7 +62,7 @@
     <string name="pill_name_warning">Your pill\'s name must begin with a letter.</string>
     <string name="set_date">Please set a date for your refill reminder.</string>
     <string name="pill_supply_warning">Your pill supply amount must be greater than 0.</string>
-    <string name="fill_fields_warning">Error! Please fill out all of the fields first :)</string>
+    <string name="fill_fields_warning">Please fill out the pill name and time first :)</string>
 
     <!--Settings Strings-->
     <string name="theme">Theme</string>

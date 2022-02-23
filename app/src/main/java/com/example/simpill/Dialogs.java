@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,8 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class Dialogs extends AppCompatDialogFragment {
 
@@ -198,7 +197,7 @@ public class Dialogs extends AppCompatDialogFragment {
         return dialog;
     }
 
-    public Dialog getChooseNameDialog(Context context) {
+    public Dialog getChooseNameDialog(Context context, @Nullable String pillName) {
         init(context);
 
         if (isDarkDialogTheme(context)){
@@ -216,6 +215,10 @@ public class Dialogs extends AppCompatDialogFragment {
         Button doneBtn = dialogView.findViewById(R.id.done_btn);
         EditText enterNameEditText = dialogView.findViewById(R.id.editTextTextPersonName2);
 
+        if (pillName != null) {
+            enterNameEditText.setText(pillName);
+        }
+
         doneBtn.setOnClickListener(view -> {
             pillNameDialogListener.applyPillName(enterNameEditText.getText().toString());
             dialog.dismiss();
@@ -223,7 +226,7 @@ public class Dialogs extends AppCompatDialogFragment {
 
         return dialog;
     }
-    public Dialog getChooseSupplyAmountDialog(Context context) {
+    public Dialog getChooseSupplyAmountDialog(Context context, int supply) {
         init(context);
         if (isDarkDialogTheme(context)){
             setViewAndCreateDialog(R.layout.dialog_pill_amount_dark);
@@ -243,6 +246,9 @@ public class Dialogs extends AppCompatDialogFragment {
         EditText enterAmountEditText = dialogView.findViewById(R.id.calendar_btn);
 
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        if (supply > 0) {
+            enterAmountEditText.setText(String.valueOf(supply));
+        }
 
         doneBtn.setOnClickListener(view -> {
             pillAmountDialogListener.applyPillSupply(enterAmountEditText.getText().toString());
@@ -485,6 +491,7 @@ public class Dialogs extends AppCompatDialogFragment {
         }, defaultYear, defaultMonth, defaultDay);
 
         calendarBtn.setOnClickListener(view -> datePickerDialog.show());
+        dateTextView.setOnClickListener(view -> datePickerDialog.show());
 
         doneBtn.setOnClickListener(view -> {
             dialog.dismiss();

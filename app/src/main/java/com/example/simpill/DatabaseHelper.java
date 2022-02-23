@@ -491,6 +491,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Boolean checkIfPillNameExists(String pillName){
+        System.out.println("Checking if " + pillName + " exists already.");
+
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
         String[] selectionArgs = new String[]{(pillName)};
 

@@ -258,7 +258,7 @@
         app:layout_constraintTop_toTopOf="@id/pill" />
 
     <Button
-        android:id="@+id/update_pill"
+        android:id="@+id/update_pill_btn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.05"
@@ -282,8 +282,8 @@
         android:textSize="28sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline7"
-        app:layout_constraintEnd_toEndOf="@+id/update_pill"
-        app:layout_constraintStart_toStartOf="@+id/update_pill"
+        app:layout_constraintEnd_toEndOf="@+id/update_pill_btn"
+        app:layout_constraintStart_toStartOf="@+id/update_pill_btn"
         app:layout_constraintTop_toTopOf="@+id/horizontalGuideline5" />
 
 
