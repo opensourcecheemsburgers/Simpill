@@ -8,15 +8,13 @@
 
     <color name="blue_background_nav_bar_color">#037ac6</color>
     <color name="grey_background_nav_bar_color">#4e7a9e</color>
-    <color name="purple_background_nav_bar_color">#a575c0</color>
-
+    <color name="purple_background_nav_bar_color">#B993D6</color>
+    <color name="dark_background_nav_bar_color">#212121</color>
 
 
     <color name="black">#FF000000</color>
     <color name="chinese_black">#141414</color>
 
-    <color name="blue_magenta">#b13dff</color>
-    <color name="slightly_darker_blue_magenta">#A070C0</color>
     <color name="blue">#3232ff</color>
     <color name="light_blue">#a6b5ff</color>
 
@@ -26,7 +24,7 @@
 
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#282828</color>
-    <color name="lighter_gray">#D2D2D2</color>
+    <color name="toast_dark">#454545</color>
 
     <color name="dark_green">#196919</color>
     <color name="green">#4ca64c</color>
@@ -42,10 +40,8 @@
 
     <color name="light_gray">#b3b3b3</color>
     <color name="dark_gray">#212121</color>
-    <color name="dim_gray">#696969</color>
 
     <color name="light_purple">#9182C4</color>
-    <color name="light_background">#fbf5ff</color>
     <color name="pink_lace">#FBC7D4</color>
     <color name="background_grey_bottom">#517fa4</color>
     <color name="background_grey_top">#243949</color>

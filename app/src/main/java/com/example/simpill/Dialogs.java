@@ -1,379 +1,558 @@
+/* (C) 2022 */
 package com.example.simpill;
 
-import android.app.DatePickerDialog;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import com.airbnb.lottie.LottieAnimationView;
 
 public class Dialogs extends AppCompatDialogFragment {
 
+    final Toasts toasts;
+    final Context context;
 
-    Toasts toasts = new Toasts();
-    DatabaseHelper myDatabase;
-    AlertDialog.Builder dialogBuilder;
-    LayoutInflater inflater;
-    View dialogView;
-    Dialog dialog;
+    public Dialogs(Context context) {
+        this.context = context;
+        this.toasts = new Toasts(context);
+    }
 
-    public Dialog getPillResetDialog(Context context, String pillName, MainRecyclerViewAdapter.MyViewHolder holder, int position, MediaPlayer resetSoundPlayer) {
-        init(context);
+    private boolean isDarkMode(Context context) {
+        return new SharedPrefs(context).getDarkDialogsPref();
+    }
 
-        if(isDarkDialogTheme(context)) {
-            setViewAndCreateDialog(R.layout.dialog_reset_warning_dark);
+    public Dialog getPillResetDialog(Pill pill, int position) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog, null);
+        dialogView.setBackground(new ColorDrawable(0));
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        } else {
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
         }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_reset_warning);
-        }
-        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
-        TextView titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
-        Button yesBtn = dialogView.findViewById(R.id.btnYes);
-        Button cancelBtn = dialogView.findViewById(R.id.btnNo);
 
         titleTextView.setText(context.getString(R.string.reset_pill_dialog_title));
-        titleMessageView.setText(context.getString(R.string.reset_pill_dialog_message, pillName));
+        messageTextView.setText(
+                context.getString(R.string.reset_pill_dialog_message, pill.getName()));
+        rightButton.setText(context.getString(R.string.yes));
+        leftButton.setText(context.getString(R.string.no));
 
-        yesBtn.setOnClickListener(view -> {
-            super.onDestroy();
-            PillResetDialogListener pillResetDialogListener = (PillResetDialogListener) context;
-            pillResetDialogListener.notifyAdapterOfResetPill(pillName, holder, position, resetSoundPlayer);
-            dialog.dismiss();
-        });
-        cancelBtn.setOnClickListener(view -> dialog.dismiss());
-        return dialog;
-    }
-    public Dialog getPillDeletionDialog(Context context, String pillName, int position) {
-        init(context);
-
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_delete_pill_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_delete_pill);
-        }
-
-        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
-        TextView titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
-        titleMessageView.setText(context.getString(R.string.pill_deletion_dialog_message, pillName));
-
-        Button yesBtn = dialogView.findViewById(R.id.btnYes);
-        Button cancelBtn = dialogView.findViewById(R.id.btnNo);
-
-        yesBtn.setOnClickListener(view -> {
-            if (myDatabase.deletePill(pillName)) {
-                super.onDestroy();
-                toasts.showCustomToast(context, context.getString(R.string.append_pill_deleted_toast, pillName));
-                PillDeleteDialogListener pillDeleteDialogListener = (PillDeleteDialogListener) context;
-                pillDeleteDialogListener.notifyAdapterOfDeletedPill(position);
-                dialog.dismiss();
-            }
-        });
-        cancelBtn.setOnClickListener(view -> dialog.dismiss());
-
-        return dialog;
-    }
-    public Dialog getDatabaseDeletionDialog(Context context) {
-        init(context);
-
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_db_reset_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_db_reset);
-        }
-
-        Button resetDbBtn = dialogView.findViewById(R.id.btnYes);
-        Button cancelBtn = dialogView.findViewById(R.id.btnNo);
-
-        resetDbBtn.setOnClickListener(view -> {
-            myDatabase.deleteDatabase();
-            dialog.dismiss();
-            toasts.showCustomToast(context, context.getString(R.string.pill_db_deleted_toast));
-        });
-        cancelBtn.setOnClickListener(view -> dialog.dismiss());
-
+        rightButton.setOnClickListener(
+                view -> {
+                    super.onDestroy();
+                    pill.resetPill(context, position);
+                    dialog.dismiss();
+                });
+        leftButton.setOnClickListener(view -> dialog.dismiss());
         return dialog;
     }
 
+    public Dialog getPillDeletionDialog(Pill pill, int position) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
 
-    public Dialog getPastDateDialog(Context context) {
-        init(context);
-
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_past_date_dark);
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        } else {
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_red));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
         }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_past_date);
-        }
 
-        Button okBtn = dialogView.findViewById(R.id.btnOk);
-        okBtn.setOnClickListener(view -> dialog.dismiss());
+        titleTextView.setText(context.getString(R.string.pill_deletion_dialog_title));
+        messageTextView.setText(
+                context.getString(R.string.pill_deletion_dialog_message, pill.getName()));
+        rightButton.setText(context.getString(R.string.yes));
+        leftButton.setText(context.getString(R.string.no));
+
+        rightButton.setOnClickListener(
+                view -> {
+                    pill.deletePillFromDatabase(context, position);
+                    super.onDestroy();
+                    toasts.showCustomToast(
+                            context.getString(R.string.append_pill_deleted_toast, pill.getName()));
+                    dialog.dismiss();
+                });
+        leftButton.setOnClickListener(view -> dialog.dismiss());
 
         return dialog;
     }
-    public Dialog getWelcomeDialog(Context context) {
-        init(context);
 
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_welcome_dark);
+    public Dialog getDatabaseDeletionDialog() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_red));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        } else {
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_red));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
         }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_welcome);
+
+        titleTextView.setText(context.getString(R.string.pill_db_reset_dialog_title));
+        messageTextView.setText(context.getString(R.string.pill_db_reset_dialog_message));
+        rightButton.setText(context.getString(R.string.yes));
+        leftButton.setText(context.getString(R.string.no));
+
+        rightButton.setOnClickListener(
+                view -> {
+                    new DatabaseHelper(context).deleteDatabase();
+                    dialog.dismiss();
+                    toasts.showCustomToast(context.getString(R.string.pill_db_deleted_toast));
+                });
+        leftButton.setOnClickListener(view -> dialog.dismiss());
+
+        return dialog;
+    }
+
+    public Dialog getPastDateDialog() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
+
+        titleTextView.setText(context.getString(R.string.past_date_dialog_title));
+        messageTextView.setText(context.getString(R.string.past_date_dialog_message));
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        } else {
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_green));
+        }
+
+        rightButton.setText(context.getString(R.string.ok));
+        leftButton.setText(context.getString(R.string.dismiss));
+
+        rightButton.setOnClickListener(view -> dialog.dismiss());
+        leftButton.setOnClickListener(view -> dialog.dismiss());
+
+        return dialog;
+    }
+
+    public Dialog getWelcomeDialog() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_welcome, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
         }
 
         Button welcomeBtn = dialogView.findViewById(R.id.done_btn);
         welcomeBtn.setOnClickListener(view -> dialog.dismiss());
+        dialog.setOnDismissListener(
+                view -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                            && !android.provider.Settings.canDrawOverlays(context)) {
+                        getPermissionOverlayDialog().show();
+                    }
+                });
 
         return dialog;
     }
 
-    public Dialog getChooseThemeDialog(Context context) {
-        SharedPrefs sharedPrefs = new SharedPrefs();
+    public Dialog getChooseThemeDialog() {
+        SharedPrefs sharedPrefs = new SharedPrefs(context);
 
-        init(context);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_choose_theme, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_choose_theme_dark);
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
         }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_choose_theme);
-        }
 
-        super.onDestroy();
         SettingsDialogListener settingsDialogListener = (SettingsDialogListener) context;
-
-        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
 
         ImageButton blueThemeBtn = dialogView.findViewById(R.id.blue_theme_btn);
         ImageButton greyThemeBtn = dialogView.findViewById(R.id.grey_theme_btn);
         ImageButton purpleThemeBtn = dialogView.findViewById(R.id.purple_theme_btn);
         ImageButton blackThemeBtn = dialogView.findViewById(R.id.black_theme_btn);
 
-        blueThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, Simpill.BLUE_THEME);
-            toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.blue)));
-            ((SettingsDialogListener) context).recreateScreen();
-            dialog.dismiss();
-        });
-        greyThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, Simpill.GREY_THEME);
-            toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.grey)));
-            settingsDialogListener.recreateScreen();
-            dialog.dismiss();
-        });
-        purpleThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, Simpill.PURPLE_THEME);
-            toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.purple)));
-            settingsDialogListener.recreateScreen();
-            dialog.dismiss();
-        });
-        blackThemeBtn.setOnClickListener(view -> {
-            sharedPrefs.setThemesPref(context, Simpill.BLACK_THEME);
-            toasts.showCustomToast(context, context.getString(R.string.theme_applied, context.getString(R.string.dark)));
-            settingsDialogListener.recreateScreen();
-            dialog.dismiss();
-        });
+        blueThemeBtn.setOnClickListener(
+                view -> {
+                    sharedPrefs.setThemesPref(Simpill.BLUE_THEME);
+                    toasts.showCustomToast(
+                            context.getString(
+                                    R.string.theme_applied, context.getString(R.string.blue)));
+                    dialog.dismiss();
+                    settingsDialogListener.recreateScreen();
+                });
+        greyThemeBtn.setOnClickListener(
+                view -> {
+                    sharedPrefs.setThemesPref(Simpill.GREY_THEME);
+                    toasts.showCustomToast(
+                            context.getString(
+                                    R.string.theme_applied, context.getString(R.string.grey)));
+                    dialog.dismiss();
+                    settingsDialogListener.recreateScreen();
+                });
+        purpleThemeBtn.setOnClickListener(
+                view -> {
+                    sharedPrefs.setThemesPref(Simpill.PURPLE_THEME);
+                    toasts.showCustomToast(
+                            context.getString(
+                                    R.string.theme_applied, context.getString(R.string.purple)));
+                    dialog.dismiss();
+                    settingsDialogListener.recreateScreen();
+                });
+        blackThemeBtn.setOnClickListener(
+                view -> {
+                    sharedPrefs.setThemesPref(Simpill.BLACK_THEME);
+                    toasts.showCustomToast(
+                            context.getString(
+                                    R.string.theme_applied, context.getString(R.string.dark)));
+                    dialog.dismiss();
+                    settingsDialogListener.recreateScreen();
+                });
+
         return dialog;
     }
 
-    public Dialog getChooseNameDialog(Context context, @Nullable String pillName) {
-        init(context);
+    public Dialog getChooseNameDialog(@Nullable String pillName) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_pill_name, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_pill_name_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_pill_name);
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+
+        Button centerButton = dialogView.findViewById(R.id.done_btn);
+        EditText enterNameEditText = dialogView.findViewById(R.id.editTextTextPersonName2);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            enterNameEditText.setHintTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.light_gray, null));
+            enterNameEditText.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            centerButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
         }
 
         super.onAttach(context);
         PillNameDialogListener pillNameDialogListener = (PillNameDialogListener) context;
-
-        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
-        TextView titleMessageView = dialogView.findViewById(R.id.dialogMessageTextView);
-        Button doneBtn = dialogView.findViewById(R.id.done_btn);
-        EditText enterNameEditText = dialogView.findViewById(R.id.editTextTextPersonName2);
-
         if (pillName != null) {
             enterNameEditText.setText(pillName);
         }
-
-        doneBtn.setOnClickListener(view -> {
-            pillNameDialogListener.applyPillName(enterNameEditText.getText().toString());
-            dialog.dismiss();
-        });
+        centerButton.setOnClickListener(
+                view -> {
+                    pillNameDialogListener.applyPillName(enterNameEditText.getText().toString());
+                    dialog.dismiss();
+                });
 
         return dialog;
     }
-    public Dialog getChooseSupplyAmountDialog(Context context, int supply) {
-        init(context);
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_pill_amount_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_pill_amount);
-        }
 
-        super.onAttach(context);
-        PillAmountDialogListener pillAmountDialogListener = (PillAmountDialogListener) context;
+    public Dialog getChooseSupplyAmountDialog(int supply) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_pill_amount, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
         ImageView pillIcon = dialogView.findViewById(R.id.imageView13);
         Button doneBtn = dialogView.findViewById(R.id.done_btn);
         Button addBtn = dialogView.findViewById(R.id.addBtn);
         Button minusBtn = dialogView.findViewById(R.id.minusBtn);
         EditText enterAmountEditText = dialogView.findViewById(R.id.calendar_btn);
 
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            enterAmountEditText.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            doneBtn.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        }
+
+        super.onAttach(context);
+        PillAmountDialogListener pillAmountDialogListener = (PillAmountDialogListener) context;
+
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         if (supply > 0) {
             enterAmountEditText.setText(String.valueOf(supply));
         }
 
-        doneBtn.setOnClickListener(view -> {
-            pillAmountDialogListener.applyPillSupply(enterAmountEditText.getText().toString());
-            dialog.dismiss();
-        });
-        addBtn.setOnClickListener(view -> {
-            int pillAmount;
-            if (enterAmountEditText.getText().toString().equals("")) {
-                pillAmount = 30;
-            }
-            else {
-                pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
-            }
-            enterAmountEditText.setText(String.valueOf(pillAmount + 1));
-        });
-        minusBtn.setOnClickListener(view -> {
-            int pillAmount;
-            if (enterAmountEditText.getText().toString().equals("")) {
-                pillAmount = 30;
-            }
-            else {
-                pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
-            }
-            if(!(pillAmount - 1 <= 0)) {
-                enterAmountEditText.setText(String.valueOf(pillAmount - 1));
-            }
-        });
+        doneBtn.setOnClickListener(
+                view -> {
+                    pillAmountDialogListener.applyPillSupply(
+                            enterAmountEditText.getText().toString());
+                    dialog.dismiss();
+                });
 
-        pillAmountDialogListener.applyPillSupply(enterAmountEditText.getText().toString());
+        addBtn.setOnClickListener(
+                view -> {
+                    int pillAmount;
+                    if (enterAmountEditText.getText().toString().equals("")) {
+                        pillAmount = 30;
+                    } else {
+                        pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+                    }
+                    enterAmountEditText.setText(String.valueOf(pillAmount + 1));
+                });
+        minusBtn.setOnClickListener(
+                view -> {
+                    int pillAmount;
+                    if (enterAmountEditText.getText().toString().equals("")) {
+                        pillAmount = 30;
+                    } else {
+                        pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+                    }
+                    if (!(pillAmount - 1 <= 0)) {
+                        enterAmountEditText.setText(String.valueOf(pillAmount - 1));
+                    }
+                });
 
         return dialog;
     }
-    public Dialog getChooseReminderAmountDialog(Context context) {
-        init(context);
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_choose_reminder_amount_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_choose_reminder_amount);
-        }
 
+    public Dialog getChooseReminderAmountDialog(int amount) {
+        View dialogView =
+                LayoutInflater.from(context).inflate(R.layout.dialog_choose_reminder_amount, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
         Button doneBtn = dialogView.findViewById(R.id.done_btn);
         Button addBtn = dialogView.findViewById(R.id.addBtn);
         Button minusBtn = dialogView.findViewById(R.id.minusBtn);
         EditText enterAmountEditText = dialogView.findViewById(R.id.calendar_btn);
 
+        if (isDarkMode(context)) {
+            int color = ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null);
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(color);
+            enterAmountEditText.setTextColor(color);
+        }
+
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        PillReminderAmountDialogListener pillReminderAmountDialogListener = (PillReminderAmountDialogListener) context;
+        doneBtn.setOnClickListener(
+                view -> {
+                    dialog.dismiss();
+                    getChooseTimesDialog(Integer.parseInt(enterAmountEditText.getText().toString()))
+                            .show();
+                });
 
-        doneBtn.setOnClickListener(view -> {
-            dialog.dismiss();
-            pillReminderAmountDialogListener.applyNumberOfReminders(Integer.parseInt(enterAmountEditText.getText().toString()));
-            getChooseTimesDialog(context, Integer.parseInt(enterAmountEditText.getText().toString())).show();
-        });
-
-        addBtn.setOnClickListener(view -> {
-            int reminderAmount;
-
-            if (enterAmountEditText.getText().toString().equals("")) {
-                reminderAmount = 30;
-            } else {
-                reminderAmount = Integer.parseInt(enterAmountEditText.getText().toString());
-
-            enterAmountEditText.setText(String.valueOf(reminderAmount + 1));
-            }
-        });
-        minusBtn.setOnClickListener(view -> {
-            int pillAmount;
-            if (enterAmountEditText.getText().toString().equals("")) {
-                pillAmount = 30;
-            }
-            else {
-                pillAmount = Integer.parseInt(enterAmountEditText.getText().toString());
-            }
-            if(!(pillAmount - 1 <= 0)) {
-                enterAmountEditText.setText(String.valueOf(pillAmount - 1));
-            }
-        });
+        addBtn.setOnClickListener(view -> enterAmountEditText.setText(String.valueOf(amount + 1)));
+        minusBtn.setOnClickListener(
+                view -> {
+                    if (!(amount - 1 <= 2)) {
+                        enterAmountEditText.setText(String.valueOf(amount - 1));
+                    }
+                });
 
         return dialog;
     }
-    public Dialog getChooseTimesDialog(Context context, int clocks) {
-        init(context);
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_choose_times_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_choose_times);
+
+    public Dialog getChooseTimesDialog(int clocks) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_choose_times, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+
+        if (isDarkMode(context)) {
+            int color = ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null);
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(color);
         }
 
         Button doneBtn = dialogView.findViewById(R.id.btnDone);
 
-        TimesRecyclerViewAdapter timesRecyclerViewAdapter = new TimesRecyclerViewAdapter(context, clocks);
+        TimesRecyclerViewAdapter timesRecyclerViewAdapter =
+                new TimesRecyclerViewAdapter(context, clocks);
         RecyclerView recyclerView = dialogView.findViewById(R.id.times_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setItemViewCacheSize(clocks+1);
+        recyclerView.setItemViewCacheSize(clocks + 1);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(timesRecyclerViewAdapter);
 
         ChooseTimesDialogListener chooseTimesDialogListener = (ChooseTimesDialogListener) context;
 
-        doneBtn.setOnClickListener(view -> {
-            if (timesRecyclerViewAdapter.checkForEmptyTimes()) {
-                toasts.showCustomToast(context, context.getString(R.string.time_enter));
-            }
-            else if(timesRecyclerViewAdapter.checkForAdjacentTimes()){
-                toasts.showCustomToast(context, context.getString(R.string.time_warning_toast));
-            }
-            else {
-                dialog.dismiss();
-                chooseTimesDialogListener.returnTimesStringArray(timesRecyclerViewAdapter.returnTimeStringsArrayFromRecyclerViewClass());
-            }
-        });
+        doneBtn.setOnClickListener(
+                view -> {
+                    if (timesRecyclerViewAdapter.checkForEmptyTimes()) {
+                        toasts.showCustomToast(context.getString(R.string.time_enter));
+                    } else if (timesRecyclerViewAdapter.checkForAdjacentTimes()) {
+                        toasts.showCustomToast(context.getString(R.string.time_warning_toast));
+                    } else {
+                        dialog.dismiss();
+                        chooseTimesDialogListener.returnTimesStringArray(
+                                timesRecyclerViewAdapter
+                                        .returnTimeStringsArrayFromRecyclerViewClass());
+                        getAlarmOrNotificationDialog().show();
+                    }
+                });
 
         return dialog;
     }
-    public Dialog getFrequencyDialog(Context context) {
-        init(context);
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_choose_frequency_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_choose_frequency);
-        }
+
+    public Dialog getFrequencyDialog() {
+        View dialogView =
+                LayoutInflater.from(context).inflate(R.layout.dialog_choose_frequency, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
 
         TextView multipleDailyTextView = dialogView.findViewById(R.id.multiple_daily);
         TextView dailyTextView = dialogView.findViewById(R.id.daily);
@@ -381,221 +560,575 @@ public class Dialogs extends AppCompatDialogFragment {
         TextView weeklyTextView = dialogView.findViewById(R.id.weekly);
         TextView customIntervalTextView = dialogView.findViewById(R.id.custom_interval);
 
-        multipleDailyTextView.setOnClickListener(view -> {
-            dialog.dismiss();
-            onClickFrequency(context, DatabaseHelper.MULTIPLE_DAILY);
-        });
-        dailyTextView.setOnClickListener(view -> {
-            dialog.dismiss();
-            onClickFrequency(context, DatabaseHelper.DAILY);
-        });
-        everyOtherDayTextView.setOnClickListener(view -> {
-            dialog.dismiss();
-            onClickFrequency(context, DatabaseHelper.EVERY_OTHER_DAY);
-        });
-        weeklyTextView.setOnClickListener(view -> {
-            dialog.dismiss();
-            onClickFrequency(context, DatabaseHelper.WEEKLY);
-        });
-        customIntervalTextView.setOnClickListener(view -> {
-            dialog.dismiss();
-            getCustomIntervalDialog(context).show();
-        });
+        if (isDarkMode(context)) {
+            int color = ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null);
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(color);
+            dailyTextView.setTextColor(color);
+            multipleDailyTextView.setTextColor(color);
+            everyOtherDayTextView.setTextColor(color);
+            weeklyTextView.setTextColor(color);
+        }
+
+        ChooseFrequencyDialogListener chooseFrequencyDialogListener =
+                (ChooseFrequencyDialogListener) context;
+
+        multipleDailyTextView.setOnClickListener(
+                view -> {
+                    dialog.dismiss();
+                    chooseFrequencyDialogListener.setInterval(DatabaseHelper.MULTIPLE_DAILY);
+                    getChooseReminderAmountDialog(2).show();
+                    chooseFrequencyDialogListener.hideIntervalSubText();
+                });
+        dailyTextView.setOnClickListener(
+                view -> {
+                    dialog.dismiss();
+                    chooseFrequencyDialogListener.setInterval(DatabaseHelper.DAILY);
+                    chooseFrequencyDialogListener.openTimePicker();
+                    chooseFrequencyDialogListener.hideIntervalSubText();
+                });
+        everyOtherDayTextView.setOnClickListener(
+                view -> {
+                    dialog.dismiss();
+                    chooseFrequencyDialogListener.setInterval(DatabaseHelper.EVERY_OTHER_DAY);
+                    chooseFrequencyDialogListener.openStartDatePicker();
+                });
+        weeklyTextView.setOnClickListener(
+                view -> {
+                    dialog.dismiss();
+                    chooseFrequencyDialogListener.setInterval(DatabaseHelper.WEEKLY);
+                    chooseFrequencyDialogListener.openStartDatePicker();
+                });
+        customIntervalTextView.setOnClickListener(
+                view -> {
+                    dialog.dismiss();
+                    getCustomIntervalDialog().show();
+                });
 
         return dialog;
     }
-    private void onClickFrequency(Context context, int frequency) {
-        dialog.dismiss();
-        ChooseFrequencyDialogListener chooseFrequencyDialogListener = (ChooseFrequencyDialogListener) context;
-        chooseFrequencyDialogListener.setInterval(frequency);
 
-        if(frequency == 0) {
-            getChooseReminderAmountDialog(context).show();
-        }
-        else {
-            chooseFrequencyDialogListener.openTimePicker(frequency);
-        }
-    }
-    public Dialog getCustomIntervalDialog(Context context) {
-        init(context);
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_choose_interval_dark);
-        } else {
-            setViewAndCreateDialog(R.layout.dialog_choose_interval);
-        }
+    public Dialog getCustomIntervalDialog() {
+        View dialogView =
+                LayoutInflater.from(context).inflate(R.layout.dialog_choose_interval, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
-        ImageView pillIcon = dialogView.findViewById(R.id.imageView13);
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
         Button doneBtn = dialogView.findViewById(R.id.done_btn);
         Button addBtn = dialogView.findViewById(R.id.addBtn);
         Button minusBtn = dialogView.findViewById(R.id.minusBtn);
         EditText enterAmountEditText = dialogView.findViewById(R.id.calendar_btn);
 
+        if (isDarkMode(context)) {
+            int color = ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null);
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(color);
+            enterAmountEditText.setTextColor(color);
+        }
+
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        ChooseFrequencyDialogListener chooseFrequencyDialogListener = (ChooseFrequencyDialogListener) context;
+        ChooseFrequencyDialogListener chooseFrequencyDialogListener =
+                (ChooseFrequencyDialogListener) context;
 
-        addBtn.setOnClickListener(view -> {
-            int days;
-            if (enterAmountEditText.getText().toString().equals("")) {
-                days = 2;
-            }
-            else {
-                days = Integer.parseInt(enterAmountEditText.getText().toString()) + 1;
-            }
-            enterAmountEditText.setText(String.valueOf(days));
-        });
-        minusBtn.setOnClickListener(view -> {
-            int days;
-            if (enterAmountEditText.getText().toString().equals("")) {
-                days = 2;
-            }
-            else if (Integer.parseInt(enterAmountEditText.getText().toString()) > 1) {
-                days = Integer.parseInt(enterAmountEditText.getText().toString()) - 1;
-            }
-            else {
-                days = Integer.parseInt(enterAmountEditText.getText().toString());
-            }
-            enterAmountEditText.setText(String.valueOf(days));
-        });
+        addBtn.setOnClickListener(
+                view -> {
+                    int days;
+                    if (enterAmountEditText.getText().toString().equals("")) {
+                        days = 2;
+                    } else {
+                        days = Integer.parseInt(enterAmountEditText.getText().toString()) + 1;
+                    }
+                    enterAmountEditText.setText(String.valueOf(days));
+                });
+        minusBtn.setOnClickListener(
+                view -> {
+                    int days;
+                    if (enterAmountEditText.getText().toString().equals("")) {
+                        days = 2;
+                    } else if (Integer.parseInt(enterAmountEditText.getText().toString()) > 1) {
+                        days = Integer.parseInt(enterAmountEditText.getText().toString()) - 1;
+                    } else {
+                        days = Integer.parseInt(enterAmountEditText.getText().toString());
+                    }
+                    enterAmountEditText.setText(String.valueOf(days));
+                });
 
-        doneBtn.setOnClickListener(view -> {
-            dialog.dismiss();
-            chooseFrequencyDialogListener.setInterval(Integer.parseInt(enterAmountEditText.getText().toString()));
-            chooseFrequencyDialogListener.openTimePicker(Integer.parseInt(enterAmountEditText.getText().toString()));
-        });
+        doneBtn.setOnClickListener(
+                view -> {
+                    dialog.dismiss();
+                    chooseFrequencyDialogListener.setInterval(
+                            Integer.parseInt(enterAmountEditText.getText().toString()));
+                    chooseFrequencyDialogListener.openTimePicker();
+                });
         return dialog;
     }
 
-    public Dialog getStartDateDialog(Context context) {
-        init(context);
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_choose_start_date_dark);
-        } else {
-            setViewAndCreateDialog(R.layout.dialog_choose_start_date);
-        }
+    public Dialog getStartDateDialog(Pill pill) {
+        View dialogView =
+                LayoutInflater.from(context)
+                        .inflate(
+                                isDarkMode(context)
+                                        ? R.layout.dialog_choose_start_date_dark
+                                        : R.layout.dialog_choose_start_date,
+                                null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-        TextView titleTextView = dialogView.findViewById(R.id.dialogTitleTextView);
-        ImageButton calendarBtn = dialogView.findViewById(R.id.calendar_btn);
-        TextView dateTextView = dialogView.findViewById(R.id.user_date_textview);
         Button doneBtn = dialogView.findViewById(R.id.done_btn);
 
-        GetStartDateDialogListener getStartDateDialogListener = (GetStartDateDialogListener) context;
+        DateTimeManager dateTimeManager = new DateTimeManager();
 
-        int defaultYear, defaultMonth, defaultDay;
+        GetStartDateDialogListener getStartDateDialogListener =
+                (GetStartDateDialogListener) context;
 
-        Calendar calendar = Calendar.getInstance();
+        CalendarView calendarView = dialogView.findViewById(R.id.calendarView);
+        calendarView.setOnDateChangeListener(
+                (view, year, month, dayOfMonth) -> {
+                    month = month + 1;
 
-        defaultYear = calendar.get(Calendar.YEAR);
-        defaultMonth = calendar.get(Calendar.MONTH);
-        defaultDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    String selectedDate = year + "/" + month + "/" + dayOfMonth;
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, DatePickerDialog.THEME_HOLO_LIGHT, (view, year, month, day) -> {
-            month = month + 1;
-            String selectedDate = year + "-" + month + "-" + day;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
+                    if (dateTimeManager.formatDateTimeStringAsLong(selectedDate + " 12:00")
+                            < System.currentTimeMillis()) {
+                        doneBtn.setOnClickListener(
+                                v -> {
+                                    getPastDateDialog().show();
+                                });
+                    } else {
+                        doneBtn.setOnClickListener(
+                                v -> {
+                                    pill.setStartDate(selectedDate);
+                                    getStartDateDialogListener.applyStartDate(selectedDate);
+                                    dialog.dismiss();
+                                });
+                    }
+                });
 
-            try {
-                simpleDateFormat.parse(selectedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            getStartDateDialogListener.applyStartDate(selectedDate);
-
-            dateTextView.setText(new DateTimeManager().convertISODateStringToLocallyFormattedString(context, selectedDate));
-        }, defaultYear, defaultMonth, defaultDay);
-
-        calendarBtn.setOnClickListener(view -> datePickerDialog.show());
-        dateTextView.setOnClickListener(view -> datePickerDialog.show());
-
-        doneBtn.setOnClickListener(view -> {
-            dialog.dismiss();
-        });
+        doneBtn.setOnClickListener(view -> dialog.dismiss());
         return dialog;
     }
 
+    public Dialog getStockupDateDialog(Pill pill) {
+        View dialogView =
+                LayoutInflater.from(context)
+                        .inflate(
+                                isDarkMode(context)
+                                        ? R.layout.dialog_choose_start_date_dark
+                                        : R.layout.dialog_choose_start_date,
+                                null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-    public Dialog getDonationDialog(Context context) {
-        init(context);
-        if (isDarkDialogTheme(context)){
-            setViewAndCreateDialog(R.layout.dialog_donate_dark);
-        }
-        else {
-            setViewAndCreateDialog(R.layout.dialog_donate);
-        }
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
 
-        ClipboardHelper clipboardHelper = new ClipboardHelper();
+        titleTextView.setText(context.getString(R.string.enter_pill_refill_date_reminder));
+        messageTextView.setText(context.getString(R.string.refill_dialog_msg));
 
+        Button doneBtn = dialogView.findViewById(R.id.done_btn);
+
+        DateTimeManager dateTimeManager = new DateTimeManager();
+
+        GetStockupDateDialogListener getStockupDateDialogListener =
+                (GetStockupDateDialogListener) context;
+
+        CalendarView calendarView = dialogView.findViewById(R.id.calendarView);
+        calendarView.setOnDateChangeListener(
+                (view, year, month, dayOfMonth) -> {
+                    month = month + 1;
+                    String selectedDate = year + "/" + month + "/" + dayOfMonth;
+                    if (dateTimeManager.formatDateTimeStringAsLong(selectedDate + " 12:00")
+                            < System.currentTimeMillis()) {
+                        doneBtn.setOnClickListener(
+                                v -> {
+                                    getPastDateDialog().show();
+                                });
+                    } else {
+                        doneBtn.setOnClickListener(
+                                v -> {
+                                    pill.setStockupDate(selectedDate);
+                                    getStockupDateDialogListener.applyStockup(selectedDate);
+                                    dialog.dismiss();
+                                });
+                    }
+                });
+
+        doneBtn.setOnClickListener(view -> dialog.dismiss());
+        return dialog;
+    }
+
+    public Dialog getDonationDialog() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_donate, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout = dialogView.findViewById(R.id.donateConstraint);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
         ImageButton paypalDonation = dialogView.findViewById(R.id.imageButton);
         TextView paypalDonationTextView = dialogView.findViewById(R.id.textView5);
-        ImageButton playStoreBtn = dialogView.findViewById(R.id.imageButton3);
-        TextView playStoreTextView = dialogView.findViewById(R.id.textView6);
+        ImageButton bitcoinBtn = dialogView.findViewById(R.id.imageButton3);
+        TextView bitcoinTextView = dialogView.findViewById(R.id.textView6);
         ImageButton moneroBtn = dialogView.findViewById(R.id.imageButton4);
         TextView moneroTextView = dialogView.findViewById(R.id.textView7);
-        Button dismissBtn = dialogView.findViewById(R.id.dismiss_btn);
+        Button dismissBtn = dialogView.findViewById(R.id.btnNo);
 
-        paypalDonation.setOnClickListener(view -> openPaypalDonation(context));
-        paypalDonationTextView.setOnClickListener(view -> openPaypalDonation(context));
-        playStoreBtn.setOnClickListener(view -> openPaidSimpillLink(context));
-        playStoreTextView.setOnClickListener(view -> openPaidSimpillLink(context));
+        if (isDarkMode(context)) {
+            int color =
+                    (ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(color);
+            paypalDonationTextView.setTextColor(color);
+            moneroTextView.setTextColor(color);
+            bitcoinTextView.setTextColor(color);
+            dismissBtn.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        }
+        ClipboardHelper clipboardHelper = new ClipboardHelper();
+
+        Intent openPaypalDonationLink =
+                new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(context.getString(R.string.paypal_donation_link)));
+
+        paypalDonation.setOnClickListener(view -> context.startActivity(openPaypalDonationLink));
+        paypalDonationTextView.setOnClickListener(
+                view -> context.startActivity(openPaypalDonationLink));
+        bitcoinBtn.setOnClickListener(
+                view -> clipboardHelper.copyAddressToClipboard(context, ClipboardHelper.BTC));
+        bitcoinTextView.setOnClickListener(
+                view -> clipboardHelper.copyAddressToClipboard(context, ClipboardHelper.BTC));
         dismissBtn.setOnClickListener(view -> dialog.dismiss());
-        moneroBtn.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(context, 2));
-        moneroTextView.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(context, 2));
+        moneroBtn.setOnClickListener(
+                view -> clipboardHelper.copyAddressToClipboard(context, ClipboardHelper.XMR));
+        moneroTextView.setOnClickListener(
+                view -> clipboardHelper.copyAddressToClipboard(context, ClipboardHelper.XMR));
         return dialog;
     }
-    private void openPaypalDonation(Context context) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.paypal_donation_link))));
-    }
-    private void openPaidSimpillLink(Context context) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.simpill_paid_version_link))));
-    }
 
-
-
-    private void init(Context context) {
-        myDatabase = new DatabaseHelper(context);
-        dialogBuilder = new AlertDialog.Builder(context);
-        inflater = LayoutInflater.from(context);
-    }
-    private void setViewAndCreateDialog(int layout) {
-        dialogView = inflater.inflate(layout, null);
-        dialogBuilder.setView(dialogView);
-
-        dialog = dialogBuilder.create();
+    @SuppressLint("InlinedApi")
+    public Dialog getPermissionOverlayDialog() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        } else {
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_purple));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+        }
+
+        titleTextView.setText(context.getString(R.string.ask_overlay_permission_dialog_title));
+        messageTextView.setText(context.getString(R.string.ask_overlay_permission_dialog_message));
+        leftButton.setText(context.getString(R.string.dismiss));
+        rightButton.setText(context.getString(R.string.settings));
+
+        rightButton.setOnClickListener(
+                v -> {
+                    context.startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION));
+                    dialog.dismiss();
+                });
+        leftButton.setOnClickListener(v -> dialog.dismiss());
+        return dialog;
     }
 
-    private boolean isDarkDialogTheme(Context context) {
-        return new SharedPrefs().getDarkDialogsPref(context);
+    public Dialog getAlarmOrNotificationDialog() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+        } else {
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_red));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
+        }
+
+        titleTextView.setText(context.getString(R.string.alarm_or_notification_dialog_title));
+        messageTextView.setText(context.getString(R.string.alarm_or_notification_dialog_message));
+        rightButton.setText(R.string.alarm);
+        leftButton.setText(R.string.notification);
+
+        PillReminderMethodListener pillReminderMethodListener =
+                (PillReminderMethodListener) context;
+
+        rightButton.setOnClickListener(
+                v -> {
+                    pillReminderMethodListener.applyReminderMethod(DatabaseHelper.ALARM);
+                    dialog.dismiss();
+                    getCustomAlarmDialog().show();
+                });
+        leftButton.setOnClickListener(
+                v -> {
+                    pillReminderMethodListener.applyReminderMethod(DatabaseHelper.NOTIFICATION);
+                    dialog.dismiss();
+                });
+
+        return dialog;
+    }
+
+    public Dialog getCustomAlarmDialog() {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
+        } else {
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_green));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
+        }
+
+        titleTextView.setText(context.getString(R.string.custom_alarm_dialog_title));
+        messageTextView.setText(context.getString(R.string.custom_alarm_dialog_message));
+        rightButton.setText(R.string.default_alarm);
+        leftButton.setText(R.string.custom_alarm);
+
+        PillReminderMethodListener pillReminderMethodListener =
+                (PillReminderMethodListener) context;
+
+        rightButton.setOnClickListener(
+                v -> {
+                    pillReminderMethodListener.applyReminderMethod(DatabaseHelper.ALARM);
+                    dialog.dismiss();
+                });
+        leftButton.setOnClickListener(
+                v -> {
+                    pillReminderMethodListener.applyReminderMethod(DatabaseHelper.CUSTOM_ALARM);
+                    pillReminderMethodListener.openFileSelect();
+                    dialog.dismiss();
+                });
+
+        return dialog;
+    }
+
+    public TimePickerDialog getTimePickerDialog(int cachedHour, int cachedMinute) {
+        SharedPrefs sharedPrefs = new SharedPrefs(context);
+
+        TimePickerDialog.OnTimeSetListener timeSetListener =
+                (timePicker, selectedHour, selectedMinute) -> {
+                    OnReminderTimeSetListener onReminderTimeSetListener =
+                            (OnReminderTimeSetListener) context;
+                    DateTimeManager dateTimeManager = new DateTimeManager();
+                    String amOrPm;
+                    String time;
+
+                    onReminderTimeSetListener.setCachedTime(selectedHour, selectedMinute);
+
+                    if (selectedMinute < 10) {
+                        time = selectedHour + ":0" + selectedMinute;
+                    } else {
+                        time = selectedHour + ":" + selectedMinute;
+                    }
+                    if (selectedHour < 10) {
+                        time = "0" + selectedHour + ":" + selectedMinute;
+                    }
+                    if (selectedHour < 10 && selectedMinute < 10) {
+                        time = "0" + selectedHour + ":0" + selectedMinute;
+                    }
+
+                    Log.i("TIME", "SELECTED TIME: " + time);
+
+                    onReminderTimeSetListener.applySelectedTime(time);
+                };
+
+        return new TimePickerDialog(
+                context,
+                sharedPrefs.getDarkDialogsPref()
+                        ? TimePickerDialog.THEME_DEVICE_DEFAULT_DARK
+                        : TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                timeSetListener,
+                cachedHour,
+                cachedMinute,
+                sharedPrefs.get24HourFormatPref());
+    }
+
+    public Dialog getCrashDialog(String error) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_crash, null);
+        Dialog dialog = new AlertDialog.Builder(context).setView(dialogView).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        ConstraintLayout dialogLayout =
+                dialogView.findViewById(R.id.custom_dialog_constraint_layout);
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title_textview);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_textview);
+        LottieAnimationView catError = dialogView.findViewById(R.id.crash_lottieview);
+        Button rightButton = dialogView.findViewById(R.id.btnYes);
+        Button leftButton = dialogView.findViewById(R.id.btnNo);
+
+        if (isDarkMode(context)) {
+            dialogLayout.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_background_dark));
+            titleTextView.setBackground(
+                    AppCompatResources.getDrawable(
+                            context, R.drawable.dialog_title_background_dark));
+            messageTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_dark));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
+        } else {
+            rightButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_green));
+            leftButton.setBackground(
+                    AppCompatResources.getDrawable(context, R.drawable.dialog_bottom_btn_purple));
+        }
+
+        titleTextView.setText(context.getString(R.string.crash_dialog_title));
+        messageTextView.setText(error);
+        leftButton.setText(R.string.report);
+        rightButton.setText(R.string.ok);
+        leftButton.setOnClickListener(
+                v -> {
+                    Intent selectorIntent = new Intent(Intent.ACTION_SENDTO);
+                    selectorIntent.setData(Uri.parse("mailto:"));
+
+                    String emailAddress = "simpilldev@gmail.com";
+                    String emailTitle = "Simpill Crash Report";
+                    String emailBody =
+                            "Hi Stephen,\n\n"
+                                + "I encountered an error while using Simpill. Here is the error"
+                                + " log:\n\n"
+                                    + error;
+
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {emailAddress});
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailTitle);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
+                    emailIntent.setSelector(selectorIntent);
+
+                    context.startActivity(
+                            Intent.createChooser(emailIntent, "Send error report..."));
+                });
+        rightButton.setOnClickListener(v -> dialog.dismiss());
+        return dialog;
     }
 
     public interface PillNameDialogListener {
         void applyPillName(String userPillName);
     }
+
     public interface PillAmountDialogListener {
         void applyPillSupply(String pillSupply);
     }
+
     public interface SettingsDialogListener {
         void recreateScreen();
     }
-    public interface PillDeleteDialogListener {
-        void notifyAdapterOfDeletedPill(int position);
-    }
-    public interface PillResetDialogListener {
-        void notifyAdapterOfResetPill(String pillName, MainRecyclerViewAdapter.MyViewHolder holder, int position, MediaPlayer resetSoundPlayer);
-    }
+
     public interface ChooseFrequencyDialogListener {
-        void openTimePicker(int frequency);
+        void openTimePicker();
+
         void setInterval(int intervalInDays);
+
+        void hideIntervalSubText();
+
+        void openStartDatePicker();
     }
+
     public interface PillReminderAmountDialogListener {
         void applyNumberOfReminders(int reminders);
     }
+
     public interface ChooseTimesDialogListener {
         void returnTimesStringArray(String[] times);
     }
+
     public interface GetStartDateDialogListener {
         void applyStartDate(String startDate);
+    }
+
+    public interface GetStockupDateDialogListener {
+        void applyStockup(String stockupDate);
+    }
+
+    public interface PillReminderMethodListener {
+        void applyReminderMethod(int alarmType);
+        void openFileSelect();
+    }
+
+    public interface OnReminderTimeSetListener {
+        void setCachedTime(int cachedHour, int cachedMin);
+
+        void applySelectedTime(String selectedTime);
     }
 }

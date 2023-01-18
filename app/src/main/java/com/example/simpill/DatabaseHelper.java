@@ -1,69 +1,101 @@
+/* (C) 2022 */
 package com.example.simpill;
 
-import android.content.ContentValues;
+import static com.example.simpill.ArrayHelper.STR_SEPARATOR;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import androidx.annotation.Nullable;
-
-import java.util.Calendar;
-import java.util.TimeZone;
+import android.net.Uri;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "PillList.db";
     private static final int DATABASE_VERSION = 2;
     private static final String TABLE_NAME = "PillList";
 
-    private static final String COLUMN_PK = "PrimaryKey";
+    public static final String COLUMN_PK = "PrimaryKey";
     public static final String COLUMN_TITLE = "PillName";
-    private static final String COLUMN_TIME = "PillTime";
-    private static final String COLUMN_FREQUENCY = "PillFrequency";
-    private static final String COLUMN_START_DATE = "StartDate";
-    private static final String COLUMN_STOCKUP = "PillStockup";
-    private static final String COLUMN_SUPPLY = "PillSupply";
-    private static final String COLUMN_ISTAKEN = "IsPillTaken";
-    private static final String COLUMN_TIMETAKEN = "TimeTaken";
-    private static final String COLUMN_ALARMSSET = "AlarmsSet";
-    private static final String COLUMN_BOTTLECOLOR = "BottleColor";
+    public static final String COLUMN_TIME = "PillTime";
+    public static final String COLUMN_FREQUENCY = "PillFrequency";
+    public static final String COLUMN_START_DATE = "StartDate";
+    public static final String COLUMN_STOCKUP = "PillStockup";
+    public static final String COLUMN_SUPPLY = "PillSupply";
+    public static final String COLUMN_ISTAKEN = "IsPillTaken";
+    public static final String COLUMN_TIMETAKEN = "TimeTaken";
+    public static final String COLUMN_ALARMSSET = "AlarmsSet";
+    public static final String COLUMN_BOTTLECOLOR = "BottleColor";
+    public static final String COLUMN_CUSTOM_ALARM_URI = "CustomAlarmUri";
+    public static final String COLUMN_ALARM_TYPE = "AlarmType";
+
+    public static final int NOTIFICATION = 0;
+    public static final int ALARM = 1;
+    public static final int CUSTOM_ALARM = 2;
 
     public static final int MULTIPLE_DAILY = 0;
     public static final int DAILY = 1;
     public static final int EVERY_OTHER_DAY = 2;
     public static final int WEEKLY = 7;
 
-    private static final String SELECTION = "PillName = ?";
+    private static final String SELECTION = "PrimaryKey = ?";
 
-    public static String strSeparator = ", ";
-
-    public DatabaseHelper(@Nullable Context context) {
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_NAME +
-                " (" + COLUMN_PK + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_TITLE + " TEXT, " +
-                COLUMN_TIME + " TEXT, " +
-                COLUMN_FREQUENCY + " INTEGER, " +
-                COLUMN_START_DATE + " TEXT, " +
-                COLUMN_STOCKUP + " TEXT, " +
-                COLUMN_SUPPLY + " INTEGER, " +
-                COLUMN_ISTAKEN + " INTEGER, " +
-                COLUMN_TIMETAKEN + " TEXT, " +
-                COLUMN_ALARMSSET + " INTEGER, " +
-                COLUMN_BOTTLECOLOR + " INTEGER);";
-        db.execSQL(query);
+        db.execSQL(
+                "CREATE TABLE "
+                        + TABLE_NAME
+                        + " ("
+                        + COLUMN_PK
+                        + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + COLUMN_TITLE
+                        + " TEXT, "
+                        + COLUMN_TIME
+                        + " TEXT, "
+                        + COLUMN_FREQUENCY
+                        + " INTEGER, "
+                        + COLUMN_START_DATE
+                        + " TEXT, "
+                        + COLUMN_STOCKUP
+                        + " TEXT, "
+                        + COLUMN_SUPPLY
+                        + " INTEGER, "
+                        + COLUMN_ISTAKEN
+                        + " INTEGER, "
+                        + COLUMN_TIMETAKEN
+                        + " TEXT, "
+                        + COLUMN_ALARMSSET
+                        + " INTEGER, "
+                        + COLUMN_ALARM_TYPE
+                        + " INTEGER, "
+                        + COLUMN_CUSTOM_ALARM_URI
+                        + " TEXT, "
+                        + COLUMN_BOTTLECOLOR
+                        + " INTEGER);");
+    }
+
+    public int printDbVersion() {
+        return this.getReadableDatabase().getVersion();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldDbNumber, int newDbNumber) {
-        if (newDbNumber > oldDbNumber) {
-            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + COLUMN_FREQUENCY + " INTEGER DEFAULT 1");
-            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + COLUMN_START_DATE + " TEXT DEFAULT 'null'");
+        String addColumn = "ALTER TABLE " + TABLE_NAME + " ADD ";
+
+        if (oldDbNumber == 1) {
+            db.execSQL(addColumn + COLUMN_FREQUENCY + " INTEGER DEFAULT 1");
+            db.execSQL(addColumn + COLUMN_START_DATE + " TEXT DEFAULT 'null'");
+            db.execSQL(addColumn + COLUMN_ALARMSSET + " INTEGER DEFAULT 0");
+            db.execSQL(addColumn + COLUMN_ALARM_TYPE + " INTEGER DEFAULT 0");
+            db.execSQL(addColumn + COLUMN_CUSTOM_ALARM_URI + "TEXT DEFAULT 'null'");
+        }
+
+        if (oldDbNumber == 2) {
+            db.execSQL(addColumn + COLUMN_ALARM_TYPE + " INTEGER DEFAULT 0");
+            db.execSQL(addColumn + COLUMN_CUSTOM_ALARM_URI + "TEXT DEFAULT 'null'");
         }
     }
 
@@ -92,472 +124,84 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public boolean addNewPill(int id, String title, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
+    public void addPill(Pill userPill) {
         SQLiteDatabase pillDatabase = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        insertAllContentValues(cv, id, title, time, frequency, startDate, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
-        long result = pillDatabase.insert(TABLE_NAME, null, cv);
-        return result != -1;
+        pillDatabase.insert(TABLE_NAME, null, userPill.getContentValues());
     }
 
-    public boolean updatePill(String pillName, String newPillName, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
+    public void updatePill(Pill userPill) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PK + " = ?";
+        String[] selectionArgs = new String[] {String.valueOf((userPill.getPrimaryKey()))};
 
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
         Cursor cursor = db.rawQuery(query, selectionArgs);
-
         cursor.moveToFirst();
 
-        removeAllContentValuesExceptPk(cv);
-        insertAllContentValuesExceptPk(cv, newPillName, time, frequency, startDate, stockup, supply, isTaken, takenTime, alarmsSet, bottleColor);
-
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-
+        int result = db.update(TABLE_NAME, userPill.getContentValues(), SELECTION, selectionArgs);
         cursor.close();
-        return true;
     }
-    public Boolean deletePill(String pillName) {
+
+    public boolean deletePill(Pill userPill) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String[] selectionArgs = new String[]{(pillName)};
+        String[] selectionArgs = new String[] {String.valueOf((userPill.getPrimaryKey()))};
 
         long result = db.delete(TABLE_NAME, SELECTION, selectionArgs);
         return result != -1;
     }
 
-    private void insertAllContentValues(ContentValues cv, int primaryKey, String title, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
-        cv.put(COLUMN_PK, primaryKey);
-        cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_TIME, convertArrayToString(time));
-        cv.put(COLUMN_FREQUENCY, frequency);
-        cv.put(COLUMN_START_DATE, startDate);
-        cv.put(COLUMN_STOCKUP, stockup);
-        cv.put(COLUMN_SUPPLY, supply);
-        cv.put(COLUMN_ISTAKEN, isTaken);
-        cv.put(COLUMN_TIMETAKEN, takenTime);
-        cv.put(COLUMN_ALARMSSET, alarmsSet);
-        cv.put(COLUMN_BOTTLECOLOR, bottleColor);
-    }
-    private void insertAllContentValuesExceptPk(ContentValues cv, String title, String[] time, int frequency, String startDate, String stockup, int supply, int isTaken, String takenTime, int alarmsSet, int bottleColor) {
-        cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_TIME, convertArrayToString(time));
-        cv.put(COLUMN_FREQUENCY, frequency);
-        cv.put(COLUMN_START_DATE, startDate);
-        cv.put(COLUMN_STOCKUP, stockup);
-        cv.put(COLUMN_SUPPLY, supply);
-        cv.put(COLUMN_ISTAKEN, isTaken);
-        cv.put(COLUMN_TIMETAKEN, takenTime);
-        cv.put(COLUMN_ALARMSSET, alarmsSet);
-        cv.put(COLUMN_BOTTLECOLOR, bottleColor);
-    }
-    private void removeAllContentValuesExceptPk(ContentValues cv) {
-        cv.remove(COLUMN_TITLE);
-        cv.remove(COLUMN_TIME);
-        cv.remove(COLUMN_FREQUENCY);
-        cv.remove(COLUMN_START_DATE);
-        cv.remove(COLUMN_STOCKUP);
-        cv.remove(COLUMN_SUPPLY);
-        cv.remove(COLUMN_ISTAKEN);
-        cv.remove(COLUMN_TIMETAKEN);
-        cv.remove(COLUMN_ALARMSSET);
-        cv.remove(COLUMN_BOTTLECOLOR);
-    }
-
-    public void deleteDatabase(){
+    public void deleteDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
     }
 
-    public String getPillName(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
+    public Pill getPill(int primaryKey) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PK + " = ?";
+        String[] selectionArgs = new String[] {(String.valueOf(primaryKey))};
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, selectionArgs);
-        if (cursor != null && cursor.moveToFirst()) {
-            String userPillName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
-            cursor.close();
-            return userPillName;
-        }
-        else {
-            return "null";
-        }
-    }
-    public void setPillName(String pillName, String newPillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
         cursor.moveToFirst();
-        cv.remove(COLUMN_TITLE);
-        cv.put(COLUMN_TITLE, newPillName);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
+        Pill pill = returnPillFromCursor(cursor);
         cursor.close();
+        return pill;
     }
 
-    public String[] getPillTime(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            String[] pillTime = convertStringToArray(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)));
-            cursor.close();
-            return pillTime;
-        } else {
-            throw new SQLiteException();
+    public Pill[] getAllPills() {
+        Cursor cursor = readSqlDatabase();
+        Pill[] pills = new Pill[cursor.getCount()];
+        for (int index = 0; index < cursor.getCount(); index++) {
+            cursor.moveToPosition(index);
+            pills[index] = returnPillFromCursor(cursor);
         }
-    }
-    public void setPillTime(String pillName, String[] newPillTime) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_TIME);
-        cv.put(COLUMN_TIME, convertArrayToString(newPillTime));
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
+        return pills;
     }
 
-    public int getFrequency(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int frequency = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FREQUENCY));
-            cursor.close();
-            return frequency;
-        } else {
-            throw new SQLiteException();
-        }
-    }
-    public void setFrequency(String pillName, int frequency) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_TIME);
-        cv.put(COLUMN_TIME, frequency);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
+    private Pill returnPillFromCursor(Cursor cursor) {
+        Pill pill =
+                new Pill(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PK)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME))
+                                .split(STR_SEPARATOR),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCKUP)),
+                        Uri.parse(
+                                cursor.getString(
+                                        cursor.getColumnIndexOrThrow(COLUMN_CUSTOM_ALARM_URI))),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FREQUENCY)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ISTAKEN)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMETAKEN)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SUPPLY)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TYPE)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARMSSET)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR)));
+        pill.printPillInfoToConsole();
+        return pill;
     }
 
-    public String getStartDate(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            String startDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE));
-            cursor.close();
-            return startDate;
-        } else {
-            throw new SQLiteException();
-            //return -1;
-        }
-    }
-
-    public int getPillAmount(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int pillSupplyInSqlDatabase = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SUPPLY));
-            cursor.close();
-            return pillSupplyInSqlDatabase;
-        } else {
-            throw new SQLiteException();
-            //return -1;
-        }
-
-    }
-    public void setPillAmount(String pillName, int newPillSupply) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_SUPPLY);
-        cv.put(COLUMN_SUPPLY, newPillSupply);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
-    }
-
-    public String getPillDate(String pillName) {
-        System.out.println("Pill Name passed is: " + pillName);
-
-
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            String stockup = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCKUP));
-            cursor.close();
-            return stockup;
-        } else {
-            throw new SQLiteException();
-            //return "PillDBHelper cannot fetch Pill Date";
-        }
-    }
-    public void setPillDate(String pillName, String newPillDate) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_STOCKUP);
-        cv.put(COLUMN_STOCKUP, newPillDate);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
-    }
-
-    public String getTimeTaken(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToNext()) {
-            String TimeTakenInSqlDatabase = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMETAKEN));
-            cursor.close();
-            return TimeTakenInSqlDatabase;
-        } else {
-            throw new SQLiteException();
-            //return "There is no data in the SQLite database.";
-        }
-    }
-    public void setTimeTaken(String pillName, String currentTime) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_TIMETAKEN);
-        cv.put(COLUMN_TIMETAKEN, currentTime);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
-    }
-
-    public int getIsTaken(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int isTakenInSqlDatabase = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ISTAKEN));
-            cursor.close();
-            return isTakenInSqlDatabase;
-        } else {
-            throw new SQLiteException();
-            //return -1;
-        }
-    }
-    public void setIsTaken(String pillName, int isTakenValue) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_ISTAKEN);
-        cv.put(COLUMN_ISTAKEN, isTakenValue);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
-
-    }
-
-    public boolean getIsReminderSet(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int isTakenInSqlDatabase = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARMSSET));
-            cursor.close();
-            return isTakenInSqlDatabase == 1;
-        } else {
-            throw new SQLiteException();
-            //return -1;
-        }
-    }
-    public void setIsReminderSet(String pillName, int alarmsSetValue) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_ALARMSSET);
-        cv.put(COLUMN_ALARMSSET, alarmsSetValue);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
-    }
-
-    public int getBottleColor(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int bottleColor = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR));
-            cursor.close();
-            return bottleColor;
-        } else {
-            throw new SQLiteException();
-            //return -1;
-        }
-    }
-    public void setBottleColor(String pillName, int bottleColor) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        cursor.moveToFirst();
-        cv.remove(COLUMN_BOTTLECOLOR);
-        cv.put(COLUMN_BOTTLECOLOR, bottleColor);
-        db.update(TABLE_NAME, cv, SELECTION, selectionArgs);
-        cursor.close();
-    }
-
-    public String getPillNameFromCursor(int position) {
+    public Pill getPillFromPosition(int position) {
         Cursor cursor = readSqlDatabase();
         cursor.moveToPosition(position);
-        return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
-    }
-
-    public int getPrimaryKeyId(String pillName) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-        if (cursor != null && cursor.moveToFirst()) {
-            int primaryKeyId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PK));
-            cursor.close();
-            return primaryKeyId;
-        }
-        else {
-            throw new SQLiteException();
-        }
-    }
-
-    public Boolean checkIfPillNameExists(String pillName){
-        System.out.println("Checking if " + pillName + " exists already.");
-
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = ?";
-        String[] selectionArgs = new String[]{(pillName)};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            cursor.close();
-            System.out.println("Name not unique");
-            return true;
-        } else {
-            System.out.println("Name unique");
-            return false;
-        }
-    }
-
-    public String[] sortTimeArray(Context context, String[] timeArray) {
-        DateTimeManager dateTimeManager = new DateTimeManager();
-        TimeZone timeZone = TimeZone.getDefault();
-
-        for (int arraySortAttempt = 0; arraySortAttempt < timeArray.length; arraySortAttempt++) {
-            for (int currentNumber = 0; currentNumber < timeArray.length - 1; currentNumber++) {
-                int nextNumber = currentNumber + 1;
-
-                Calendar currentArrIndexCal = dateTimeManager.formatTimeStringAsCalendar(context, timeZone, timeArray[currentNumber]);
-                Calendar nextArrIndexCal = dateTimeManager.formatTimeStringAsCalendar(context, timeZone, timeArray[currentNumber + 1]);
-
-                String currentTime = dateTimeManager.formatLongAsTimeString(context, currentArrIndexCal.getTimeInMillis());
-                String nextTime = dateTimeManager.formatLongAsTimeString(context, nextArrIndexCal.getTimeInMillis());
-
-                if (currentArrIndexCal.compareTo(nextArrIndexCal) > 0) {
-                    timeArray[currentNumber] = nextTime;
-                    timeArray[nextNumber] = currentTime;
-                }
-                else if (currentArrIndexCal.compareTo(nextArrIndexCal) == 0) {
-                    new Toasts().showCustomToast(context, context.getString(R.string.double_reminder_warning));
-                }
-            }
-        }
-        return timeArray;
-    }
-
-    public String convertArrayToString(String[] array){
-        StringBuilder timeArrayAsString = new StringBuilder();
-        for (int currentArrayNumber = 0; currentArrayNumber < array.length; currentArrayNumber++) {
-            timeArrayAsString.append(array[currentArrayNumber]);
-
-            if (currentArrayNumber < array.length - 1) {
-                timeArrayAsString.append(strSeparator);
-            }
-        }
-        return timeArrayAsString.toString();
-    }
-    public String[] convert24HrArrayTo12HrArray(Context context, String[] array) {
-        for (int currentArrayNumber = 0; currentArrayNumber < array.length; currentArrayNumber++) {
-            array[currentArrayNumber] =  new DateTimeManager().convert24HrTimeTo12HrTime(context, array[currentArrayNumber]);
-        }
-
-        return array;
-    }
-    public String[] convertStringToArray(String str){
-        return str.split(strSeparator);
+        return returnPillFromCursor(cursor);
     }
 }
-
-
-
-

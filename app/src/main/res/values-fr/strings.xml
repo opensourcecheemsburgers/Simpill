@@ -10,14 +10,12 @@
     <!--General Strings-->
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="back">Retour</string>
     <string name="ok">Ok</string>
 
 
     <!--Content Description Strings-->
     <string name="clock_content_description">L\'icône d\'horloge</string>
     <string name="calendar_content_description">L\'icône de calendrier</string>
-    <string name="pill_refill_content_description">Le bouton de rappel du renouvellement</string>
     <string name="pill_bottle_content_description">L\'icône de boite de pilules</string>
     <string name="pill_content_description">L\'icône de pilule</string>
     <string name="reset_pill_content_description">Le bouton de réinitialisation de la pilule</string>
@@ -45,14 +43,8 @@
     <string name="enter_pill_refill_date_reminder">Renouvellement?</string>
     <string name="enter_pill_amount">Quantité?</string>
     <string name="create_pill_btn">Créer</string>
-    <string name="update_pill_btn">Mettre à jour</string>
 
     <!--Create/Update Pill Warning Strings-->
-    <string name="non_unique_pill_name_warning"> Le nom (%1$s) est déjà utilisé :(</string>
-    <string name="pill_name_warning">Le nom de votre pilule doit commencer par une lettre.</string>
-    <string name="set_date">Veuillez choisir une date pour votre rappel de pilule.</string>
-    <string name="pill_supply_warning">Le quantité doit être supérieur à 0.</string>
-    <string name="fill_fields_warning">Veuillez remplir tous les champs.</string>
 
     <!--Settings Strings-->
     <string name="theme">Thème</string>
@@ -75,10 +67,6 @@
     <string name="taken_at">Pris à %1$s</string>
 
     <!--Toast Strings-->
-    <string name="database_reset_toast">Tous les pilules ont été supprimés!</string>
-    <string name="pill_created_toast">"%1$s a été créé :)"</string>
-    <string name="already_in_about_toast">Vous êtes déjà dans la section à propos!</string>
-    <string name="already_in_settings_toast">Vous êtes déjà dans les paramètres!</string>
     <string name="device_restart_toast">Les alarms ont été réinitialisées.</string>
     <string name="time_format_24hr_toast">Le format de temps a été fixé au format de 24 heures.</string>
     <string name="time_format_12hr_toast">Le format de temps a été fixé au format de 12 heures.</string>
@@ -87,14 +75,11 @@
     <string name="sticky_notifications_enabled_toast">Les notifications rigides ont été activées.</string>
     <string name="sticky_notifications_disabled_toast">Les notifications rigides ont été désactivées.</string>
     <string name="unknown_error_toast">Erreur Inconnue :(</string>
-    <string name="append_updated_toast">%1$s a été mis à jour :)</string>
     <string name="pill_db_deleted_toast">Tous les pilules ont été supprimés!</string>
     <string name="append_pill_deleted_toast">%1$s a été supprimé!</string>
     <string name="pill_bottle_amount_toast">Vous avez %1$d pilules de %2$s.</string>
 
     <!--Stockup Notification Strings-->
-    <string name="stockup_notification_title">Rappel de renouvellement</string>
-    <string name="dont_forget_stockup">N\'oubliez pas de renouveler de votre médicament: %1$s :)</string>
 
     <!--Reminder Notification Strings-->
     <string name="reminder_notification_description">Il est temps de prendre votre médicament: %1$s :)</string>
@@ -109,28 +94,26 @@
 
     <!--Pill Amount Dialog Strings-->
     <string name="done">Terminé</string>
-    <string name="amount">Quantité</string>
+    <string name="choose_pill_amount_dialog_title">Quantité</string>
 
     <!--Delete Pill Dialog Strings-->
     <string name="pill_deletion_dialog_title">Supprimer %1$s?</string>
     <string name="pill_deletion_dialog_message"> Vous êtes sûr de vouloir supprimer %1$s?\n\nVeuillez noter que cette action est irréversible!</string>
 
     <!--Delete Database Dialog Strings-->
-    <string name="pill_db_reset">Supprimer les pilules</string>
-    <string name="pill_db_reset_warning">Aimeriez-vous supprimer tous les pilules dans votre base de donnée?\n\nVeuillez noter que cette action est irréversible!</string>
+    <string name="pill_db_reset_dialog_title">Supprimer les pilules</string>
+    <string name="pill_db_reset_dialog_message">Aimeriez-vous supprimer tous les pilules dans votre base de donnée?\n\nVeuillez noter que cette action est irréversible!</string>
 
     <!--Pill Reset Dialog Strings-->
     <string name="reset_pill_dialog_title">Réinitialisation?</string>
     <string name="reset_pill_dialog_message">Aimeriez-vous réinitialiser l\'état de %1$s?</string>
 
     <!--Past Date Dialog Strings-->
-    <string name="past_date_dialog_title">Date Incorrecte?</string>
-    <string name="past_date_dialog_message">La date ne peut pas être dans le temps.</string>
 
     <!--Extra Reminder Dialog Strings-->
 
     <!--Frequency Dialog Strings-->
-    <string name="choose_frequency_dialog_text">Combien de fois vous prenez ce médicament?</string>
+    <string name="choose_frequency_dialog_message">Combien de fois vous prenez ce médicament?</string>
     <string name="choose_frequency_dialog_title">Fréquence</string>
     <string name="choose_frequency_dialog_custom_interval">Choisissez plutôt un intervalle personnalisé</string>
     <string name="choose_frequency_dialog_weekly">Chaque semaine</string>
@@ -141,13 +124,12 @@
     <!--Date Time Formatting Strings (Very fragile, do not touch)-->
 
     <string name="take_pill_content_description">Le bouton de prendre votre médicament</string>
-    <string name="choose_frequency_dialog_reminder_amount_text">Combien de fois vous prenez ce médicament chaque jour?</string>
+    <string name="choose_times_per_day_dialog_message">Combien de fois vous prenez ce médicament chaque jour?</string>
 
     <string name="btc_address_copied">BTC address a été copiée :)</string>
     <string name="xmr_address_copied">XMR address a été copiée :)</string>
-    <string name="pnd_address_copied">PND address a été copiée :)</string>
 
-    <string name="custom_interval_dialog_text">Choisissez plutôt un intervalle personnalisé pour votre rappel de médicament en utilisant les boutons ci-dessous.</string>
+    <string name="custom_interval_dialog_message">Choisissez plutôt un intervalle personnalisé pour votre rappel de médicament en utilisant les boutons ci-dessous.</string>
     <string name="custom_interval_dialog_title">Intervalle</string>
 
     <string name="context_menu_update">Mettre á jour</string>
@@ -173,16 +155,20 @@
     <string name="chooses_times_dialog_text">Choisissez les rappels de votre médicament en utilisant les horloges ci-dessous:</string>
     <string name="time_warning_toast">Les fois doivent être au moins 15 mins minutes d\'intervalle.</string>
     <string name="time_enter">Entrez une fois pour chaque horloge.</string>
-    <string name="double_reminder_warning">Erreur! Il y a une copie de votre fois.</string>
     <string name="press_back_again_toast">Cliquez sur le bouton Retour pour quitter.</string>
-    <string name="custom_interval_start_day_text">Choisissez la date de début de votre médicament en utilisant le calendrier ci-dessous:</string>
-    <string name="donate">Faire un don</string>
+    <string name="choose_start_date_dialog_message">Choisissez la date de début de votre médicament en utilisant le calendrier ci-dessous:</string>
+    <string name="donate_dialog_title">Faire un don</string>
     <string name="dismiss">Ok</string>
     <string name="donate_monero">Donner de Monero</string>
-    <string name="buy_on_play_store">Acheter sur Play Store</string>
     <string name="donate_via_paypal">Donner avec Paypal</string>
-    <string name="reminders">Rappels</string>
+    <string name="choose_times_per_day_dialog_title">Rappels</string>
     <string name="append_days_to_custom_interval">Tous les %1$d jours</string>
-    <string name="start_date">Date de début</string>
+    <string name="choose_start_date_dialog_title">Date de début</string>
+    <string name="sound">Son</string>
+    <string name="sound_switch">Notifications Sonores</string>
+    <string name="app_sounds_enabled">App sounds enabled.</string>
+    <string name="app_sounds_disabled">App sounds disabled.</string>
+    <string name="donate_bitcoin">Donate Bitcoin</string>
+    <string name="pill_time_interval_text">Tous les %1$d jours, dès %2$s</string>
 
 </resources>

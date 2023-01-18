@@ -1,18 +1,33 @@
+/* (C) 2022 */
 package com.example.simpill;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.content.res.AppCompatResources;
 
 public class Toasts {
 
-    public void showCustomToast(Context context, String toastMessage) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+    private final Context context;
 
-        View toastLayout = layoutInflater.inflate(R.layout.toast, null);
+    public Toasts(Context context) {
+        this.context = context;
+    }
+
+    public void showCustomToast(String toastMessage) {
+        @SuppressLint("InflateParams")
+        View toastLayout = LayoutInflater.from(context).inflate(R.layout.toast, null);
+
+        if (new SharedPrefs(context).getDarkDialogsPref()) {
+            toastLayout
+                    .findViewById(R.id.rootToastLayout)
+                    .setBackground(
+                            AppCompatResources.getDrawable(context, R.drawable.toast_background));
+        }
 
         Toast toast = new Toast(context);
         toast.setDuration(Toast.LENGTH_SHORT);
@@ -24,5 +39,4 @@ public class Toasts {
 
         toast.show();
     }
-
 }

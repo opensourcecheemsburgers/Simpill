@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pillLayout"
+    android:id="@+id/pill_recycler_view_item_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="22dp">
+    android:layout_marginTop="20dp">
 
     <ImageView
         android:layout_width="0dp"
@@ -21,15 +22,17 @@
 
 
     <ImageView
-        android:id="@+id/pillBottleImage"
+        android:id="@+id/pill_bottle_image"
         android:layout_width="70dp"
-        android:layout_height="90dp"
+        android:layout_height="80dp"
+        android:scaleX="1.05"
+        android:scaleY="1.15"
+        android:layout_marginVertical="20dp"
+        android:layout_marginStart="16dp"
         android:contentDescription="@string/pill_bottle_content_description"
-        android:scaleX="1"
-        android:scaleY="1.1"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_horizontal_guideline"
-        app:layout_constraintStart_toStartOf="@+id/start_vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/pill_bottle_color_2" />
 
     <Button
@@ -37,12 +40,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:background="@android:color/transparent"
         android:visibility="visible"
-        app:layout_constraintStart_toEndOf="@id/pillBottleImage"
-        app:layout_constraintEnd_toStartOf="@id/mid_vertical_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/mid_vertical_guideline"
+        app:layout_constraintStart_toEndOf="@id/pill_bottle_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -50,42 +52,34 @@
         android:id="@+id/pillName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:ellipsize="end"
+        android:paddingTop="12dp"
         android:gravity="bottom"
-        android:text="Fluoxetine"
+        android:maxLines="1"
         android:textColor="@color/alice_blue"
         android:textSize="28sp"
         android:verticalScrollbarPosition="right"
-        app:layout_constraintEnd_toStartOf="@+id/mid_vertical_guideline"
-        app:layout_constraintStart_toEndOf="@+id/pillBottleImage"
-        app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="4dp" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toStartOf="@id/mid_vertical_guideline"
+        app:layout_constraintStart_toEndOf="@+id/pill_bottle_image" />
 
     <TextView
         android:id="@+id/pillTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="top"
-        android:ellipsize="end"
-        android:singleLine="false"
-        android:text=""
-        app:flow_verticalAlign="bottom"
-        android:textSize="15sp"
-        android:textColor="@color/alice_blue"
         android:alpha="0.75"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_horizontal_guideline"
-        app:layout_constraintEnd_toStartOf="@+id/mid_vertical_guideline"
-        app:layout_constraintStart_toEndOf="@+id/pillBottleImage"
-        app:layout_constraintTop_toBottomOf="@id/pillName"
-        android:layout_marginRight="16dp" />
+        android:ellipsize="end"
+        android:gravity="top"
+        android:paddingVertical="4dp"
+        android:singleLine="false"
+        android:textColor="@color/alice_blue"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/mid_vertical_guideline"
+        app:layout_constraintStart_toEndOf="@id/pill_bottle_image"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <ImageButton
         android:id="@+id/resetButton"
@@ -97,9 +91,10 @@
         android:scaleX="1.1"
         android:scaleY="1.2"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_horizontal_guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline"
+        app:layout_constraintStart_toStartOf="@id/mid_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_reset" />
 
     <ImageButton
@@ -112,9 +107,10 @@
         android:scaleX="1.1"
         android:scaleY="1.2"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_horizontal_guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline"
+        app:layout_constraintStart_toStartOf="@id/mid_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_check_tick_svgrepo_com" />
 
 
@@ -123,7 +119,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.06" />
+        app:layout_constraintGuide_percent="0.075" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -138,7 +140,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.925" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_horizontal_guideline"
@@ -152,7 +154,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_begin="108dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

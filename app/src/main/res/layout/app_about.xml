@@ -8,7 +8,6 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,56 +16,43 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="32dp"
+            android:fontFamily="@font/inter_reg"
             android:letterSpacing="0.01"
             android:lineSpacingMultiplier="1.15"
-            android:fontFamily="@font/truenoreg"
             android:text="@string/simpillAboutParagraph_1"
             android:textColor="@color/alice_blue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/aboutButton"
+            app:layout_constraintTop_toBottomOf="@id/back_button"
             tools:ignore="UnusedAttribute" />
 
         <Button
-            android:id="@+id/aboutButton"
+            android:id="@+id/back_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
+            android:background="@drawable/chevron_left"
             android:scaleX="1.6"
             android:scaleY="1.6"
-            android:background="@drawable/ic_question_svgrepo_com"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="24dp" />
-
-        <Button
-            android:id="@+id/settingsButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/ic_hamburger"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="24dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/gitlab_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/inter_medium"
             android:letterSpacing="0.01"
             android:text="@string/simpill_code"
-            android:textSize="18sp"
             android:textColor="@color/alice_blue"
-            android:fontFamily="@font/truenoreg"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/simpill_paragraph"
             app:layout_constraintTop_toBottomOf="@+id/simpill_paragraph" />
 
         <ImageView
-            android:id="@+id/gitlab_img"
             android:layout_width="30dp"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
@@ -79,11 +65,11 @@
             android:id="@+id/gitlab_link"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:letterSpacing="0.01"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="32dp"
             android:autoLink="all"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_reg"
+            android:letterSpacing="0.01"
             android:text="@string/simpill_source_link"
             android:textColor="@color/alice_blue"
             android:textColorLink="@color/light_blue"
@@ -93,22 +79,20 @@
             app:layout_constraintTop_toBottomOf="@+id/gitlab_title" />
 
 
-
         <TextView
             android:id="@+id/dev_email_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:fontFamily="@font/inter_medium"
             android:letterSpacing="0.01"
             android:text="@string/dev_email"
-            android:textSize="18sp"
             android:textColor="@color/alice_blue"
-            android:fontFamily="@font/truenoreg"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/simpill_paragraph"
             app:layout_constraintTop_toBottomOf="@+id/gitlab_link" />
 
         <ImageView
-            android:id="@+id/dev_email_img"
             android:layout_width="30dp"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
@@ -124,9 +108,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="32dp"
-            android:letterSpacing="0.01"
             android:autoLink="all"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_reg"
+            android:letterSpacing="0.01"
             android:text="simpilldev@gmail.com"
             android:textColor="@color/alice_blue"
             android:textColorLink="@color/light_blue"
@@ -139,12 +123,12 @@
             android:id="@+id/simpill_paragraph_2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
+            android:fontFamily="@font/inter_reg"
             android:letterSpacing="0.01"
             android:lineSpacingMultiplier="1.15"
-            android:fontFamily="@font/truenoreg"
             android:text="@string/simpillAboutParagraph_2"
             android:textColor="@color/alice_blue"
             android:textSize="18sp"
@@ -153,211 +137,61 @@
             app:layout_constraintTop_toBottomOf="@id/dev_email_link"
             tools:ignore="UnusedAttribute" />
 
-        <TextView
-            android:id="@+id/paypal_title"
+
+        <Button
+            android:id="@+id/xmr_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:letterSpacing="0.01"
-            android:text="Paypal"
-            android:textSize="18sp"
-            android:textColor="@color/alice_blue"
-            android:fontFamily="@font/truenoreg"
-            app:layout_constraintStart_toStartOf="@+id/simpill_paragraph"
-            app:layout_constraintTop_toBottomOf="@+id/simpill_paragraph_2"/>
-
-        <ImageView
-            android:id="@+id/paypal_img"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:letterSpacing="0.01"
-            app:layout_constraintBottom_toBottomOf="@+id/paypal_title"
-            app:layout_constraintStart_toEndOf="@+id/paypal_title"
-            app:layout_constraintTop_toTopOf="@+id/paypal_title"
-            app:srcCompat="@drawable/ic_paypal_svgrepo_com" />
-
-        <TextView
-            android:id="@+id/paypal_link"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:letterSpacing="0.01"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="32dp"
-            android:autoLink="all"
-            android:fontFamily="@font/truenoreg"
-            android:text="https://www.paypal.com/donate/?hosted_button_id=A8UNN2A4D3P3G"
-            android:textColor="@color/alice_blue"
-            android:textColorLink="@color/light_blue"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/paypal_title"
-            app:layout_constraintTop_toBottomOf="@+id/paypal_title" />
-
-        <TextView
-            android:id="@+id/play_store_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:letterSpacing="0.01"
-            android:text="Google Play Store"
-            android:textSize="18sp"
-            android:textColor="@color/alice_blue"
-            android:fontFamily="@font/truenoreg"
-            app:layout_constraintStart_toStartOf="@+id/simpill_paragraph"
-            app:layout_constraintTop_toBottomOf="@+id/paypal_link"/>
-
-        <ImageView
-            android:id="@+id/play_store_img"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:letterSpacing="0.01"
-            app:layout_constraintBottom_toBottomOf="@+id/play_store_title"
-            app:layout_constraintStart_toEndOf="@+id/play_store_title"
-            app:layout_constraintTop_toTopOf="@+id/play_store_title"
-            app:srcCompat="@drawable/ic_google_play_social_media_svgrepo_com" />
-
-        <TextView
-            android:id="@+id/play_store_link"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:letterSpacing="0.01"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="32dp"
-            android:autoLink="all"
-            android:fontFamily="@font/truenoreg"
-            android:text="https://play.google.com/store/apps/details?id=com.winston69.simpill.ty"
-            android:textColor="@color/alice_blue"
-            android:textColorLink="@color/light_blue"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/play_store_title"
-            app:layout_constraintTop_toBottomOf="@+id/play_store_title" />
-
-        <TextView
-            android:id="@+id/monero_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:letterSpacing="0.01"
+            android:layout_height="48dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/dialog_bottom_btn_purple"
+            android:backgroundTint="#f26822"
+            android:drawableStart="@drawable/monero"
+            android:drawablePadding="6dp"
+            android:paddingHorizontal="14dp"
             android:text="@string/monero"
-            android:textSize="18sp"
+            android:textAllCaps="false"
             android:textColor="@color/alice_blue"
-            android:fontFamily="@font/truenoreg"
-            app:layout_constraintStart_toStartOf="@+id/simpill_paragraph"
-            app:layout_constraintTop_toBottomOf="@+id/play_store_link"/>
+            app:layout_constraintEnd_toStartOf="@+id/btc_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/paypal_btn"
+            app:layout_constraintTop_toBottomOf="@+id/simpill_paragraph_2" />
 
-        <ImageView
-            android:id="@+id/monero_img"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:letterSpacing="0.01"
-            app:layout_constraintBottom_toBottomOf="@+id/monero_title"
-            app:layout_constraintStart_toEndOf="@+id/monero_title"
-            app:layout_constraintTop_toTopOf="@+id/monero_title"
-            app:srcCompat="@drawable/ic_monero" />
-
-        <TextView
-            android:id="@+id/monero_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:letterSpacing="0.01"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="32dp"
-            android:autoLink="all"
-            android:fontFamily="@font/truenoreg"
-            android:text="@string/monero_address"
-            android:textColor="@color/alice_blue"
-            android:textColorLink="@color/light_blue"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/monero_title"
-            app:layout_constraintTop_toBottomOf="@+id/monero_title" />
-
-        <TextView
-            android:id="@+id/bitcoin_title"
+        <Button
+            android:id="@+id/btc_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:letterSpacing="0.01"
+            android:layout_height="48dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/dialog_bottom_btn_purple"
+            android:backgroundTint="#f7931a"
+            android:drawableStart="@drawable/ic_bitcoin"
+            android:drawablePadding="2dp"
+            android:paddingEnd="14dp"
+            android:paddingStart="8dp"
             android:text="@string/bitcoin"
-            android:textSize="18sp"
+            android:textAllCaps="false"
             android:textColor="@color/alice_blue"
-            android:fontFamily="@font/truenoreg"
-            app:layout_constraintStart_toStartOf="@+id/simpill_paragraph"
-            app:layout_constraintTop_toBottomOf="@+id/monero_address"/>
-
-        <ImageView
-            android:id="@+id/bitcoin_img"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:letterSpacing="0.01"
-            app:layout_constraintBottom_toBottomOf="@+id/bitcoin_title"
-            app:layout_constraintStart_toEndOf="@+id/bitcoin_title"
-            app:layout_constraintTop_toTopOf="@+id/bitcoin_title"
-            app:srcCompat="@drawable/ic_bitcoin" />
-
-        <TextView
-            android:id="@+id/bitcoin_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:letterSpacing="0.01"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="32dp"
-            android:autoLink="all"
-            android:fontFamily="@font/truenoreg"
-            android:text="@string/bitcoin_address"
-            android:textColor="@color/alice_blue"
-            android:textColorLink="@color/light_blue"
-            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/bitcoin_title"
-            app:layout_constraintTop_toBottomOf="@+id/bitcoin_title" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/xmr_btn"
+            app:layout_constraintTop_toBottomOf="@+id/simpill_paragraph_2" />
 
-        <TextView
-            android:id="@+id/pandacoin_title"
+        <Button
+            android:id="@+id/paypal_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:letterSpacing="0.01"
-            android:text="@string/pandacoin"
-            android:textSize="18sp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/dialog_bottom_btn_purple"
+            android:backgroundTint="@color/blue_background_bottom"
+            android:drawableStart="@drawable/ic_paypal_svgrepo_com"
+            android:drawablePadding="6dp"
+            android:paddingHorizontal="14dp"
+            android:text="@string/paypal"
+            android:textAllCaps="false"
             android:textColor="@color/alice_blue"
-            android:fontFamily="@font/truenoreg"
-            app:layout_constraintStart_toStartOf="@+id/simpill_paragraph"
-            app:layout_constraintTop_toBottomOf="@+id/bitcoin_address"/>
-
-        <ImageView
-            android:id="@+id/pandacoin_img"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:letterSpacing="0.01"
-            app:layout_constraintBottom_toBottomOf="@+id/pandacoin_title"
-            app:layout_constraintStart_toEndOf="@+id/pandacoin_title"
-            app:layout_constraintTop_toTopOf="@+id/pandacoin_title"
-            app:srcCompat="@drawable/ic_pandacoin" />
-
-        <TextView
-            android:id="@+id/pandacoin_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="64dp"
-            android:layout_marginTop="4dp"
-            android:paddingBottom="32dp"
-            android:fontFamily="@font/truenoreg"
-            android:letterSpacing="0.01"
-            android:text="@string/pandacoin_address"
-            android:textColor="@color/alice_blue"
-            android:textColorLink="@color/light_blue"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@id/simpill_paragraph"
-            app:layout_constraintStart_toStartOf="@+id/pandacoin_title"
-            app:layout_constraintTop_toBottomOf="@+id/pandacoin_title" />
-
+            app:layout_constraintEnd_toStartOf="@+id/xmr_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/simpill_paragraph_2" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

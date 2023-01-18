@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/customDialogContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
@@ -10,14 +9,14 @@
     android:layout_margin="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/customDialogLayout"
+        android:id="@+id/custom_dialog_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/dialog_background">
 
         <TextView
-            android:id="@+id/dialogTitleTextView"
+            android:id="@+id/dialog_title_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/dialog_title_background_purple"
@@ -28,7 +27,7 @@
             android:paddingRight="20dp"
             android:text="@string/pill_name_dialog_title"
             android:textSize="35sp"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_medium"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,19 +38,16 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/dialogTitleTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_title_textview"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/dialogTitleTextView"
+            app:layout_constraintTop_toTopOf="@id/dialog_title_textview"
             app:srcCompat="@drawable/ic_pill"
-            android:layout_marginRight="20dp"
             android:contentDescription="@string/pill_content_description"/>
 
         <TextView
-            android:id="@+id/dialogMessageTextView"
+            android:id="@+id/dialog_message_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="18dp"
             android:layout_marginTop="20dp"
@@ -60,12 +56,12 @@
             android:paddingEnd="4dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_reg"
             android:text="@string/pill_name_dialog_msg"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:lineSpacingMultiplier="1.15"
-            app:layout_constraintTop_toBottomOf="@id/dialogTitleTextView"
+            app:layout_constraintTop_toBottomOf="@id/dialog_title_textview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -76,17 +72,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="@string/pill_name_dialog_text_hint"
+            android:fontFamily="@font/inter_reg"
             android:textColor="@color/black"
             android:textColorHint="@color/gray"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/dialogMessageTextView"
-            app:layout_constraintStart_toStartOf="@id/dialogMessageTextView"
-            app:layout_constraintTop_toBottomOf="@id/dialogMessageTextView"
+            app:layout_constraintEnd_toEndOf="@id/dialog_message_textview"
+            app:layout_constraintStart_toStartOf="@id/dialog_message_textview"
+            app:layout_constraintTop_toBottomOf="@id/dialog_message_textview"
             android:autofillHints="name"
             tools:ignore="UnusedAttribute" />
 
@@ -94,22 +90,19 @@
 
     <Button
         android:id="@+id/done_btn"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:fontFamily="@font/truenoreg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="48dp"
+        android:fontFamily="@font/inter_medium"
         android:text="@string/done"
         android:textSize="18sp"
         android:textColor="@color/alice_blue"
         android:textAllCaps="false"
-        android:background="@drawable/dialog_bottom_btn"
+        android:background="@drawable/dialog_bottom_btn_purple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
-        app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
+        app:layout_constraintBottom_toBottomOf="@id/custom_dialog_constraint_layout"
+        app:layout_constraintTop_toBottomOf="@id/custom_dialog_constraint_layout"/>
 
 
 

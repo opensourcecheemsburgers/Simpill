@@ -1,36 +1,37 @@
+/* (C) 2022 */
 package com.example.simpill;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 public class About extends AppCompatActivity {
 
-    Toasts toasts = new Toasts();
+    final Toasts toasts = new Toasts(this);
 
-    Button settingsButton, aboutButton;
-    TextView simpillParagraph, btc, xmr, pnd, btcAddress, xmrAddress, pndAddress;
-    ImageView btcLogo, xmrLogo, pndLogo;
+    Button aboutButton, paypalButton, xmrButton, btcButton;
+    TextView simpillParagraph;
     Typeface truenoLight, truenoReg;
+    private final int XMR = 1, BTC = 2;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentViewBasedOnThemeSetting();
         findViewsByIds();
         initiateTextViews();
         setButtonOnClickListeners();
     }
 
-
     private void setContentViewBasedOnThemeSetting() {
-        int theme = new SharedPrefs().getThemesPref(this);
+        int theme = new SharedPrefs(this).getThemesPref();
 
         if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
@@ -38,8 +39,7 @@ public class About extends AppCompatActivity {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
         } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
-        }
-        else {
+        } else {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
         }
 
@@ -48,43 +48,52 @@ public class About extends AppCompatActivity {
 
     private void findViewsByIds() {
         simpillParagraph = findViewById(R.id.simpill_paragraph);
-        btc = findViewById(R.id.bitcoin_title);
-        xmr = findViewById(R.id.monero_title);
-        pnd = findViewById(R.id.pandacoin_title);
-        btcAddress = findViewById(R.id.bitcoin_address);
-        xmrAddress = findViewById(R.id.monero_address);
-        pndAddress = findViewById(R.id.pandacoin_address);
-        btcLogo = findViewById(R.id.bitcoin_img);
-        xmrLogo = findViewById(R.id.monero_img);
-        pndLogo = findViewById(R.id.pandacoin_img);
-        settingsButton = findViewById(R.id.settingsButton);
-        aboutButton = findViewById(R.id.aboutButton);
+        aboutButton = findViewById(R.id.back_button);
+        paypalButton = findViewById(R.id.paypal_btn);
+        xmrButton = findViewById(R.id.xmr_btn);
+        btcButton = findViewById(R.id.btc_btn);
     }
 
     private void initiateTextViews() {
-        truenoLight = ResourcesCompat.getFont(this, R.font.truenolight);
-        truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
+        truenoLight = ResourcesCompat.getFont(this, R.font.inter_reg);
+        truenoReg = ResourcesCompat.getFont(this, R.font.inter_medium);
 
-        ClipboardHelper clipboardHelper = new ClipboardHelper();
+        paypalButton.setOnClickListener(
+                view ->
+                        startActivity(
+                                new Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(this.getString(R.string.paypal_donation_link)))));
+        btcButton.setOnClickListener(view -> copyCryptoAddressToClipboard(BTC));
+        xmrButton.setOnClickListener(view -> copyCryptoAddressToClipboard(XMR));
+    }
 
-        btc.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 1));
-        xmr.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 2));
-        pnd.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 3));
-        btcAddress.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 1));
-        xmrAddress.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 2));
-        pndAddress.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 3));
-        btcLogo.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 1));
-        xmrLogo.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 2));
-        pndLogo.setOnClickListener(view -> clipboardHelper.copyAddressToClipboard(this, 3));
+    private void copyCryptoAddressToClipboard(int cryptoNumber) {
+        ClipboardManager clipboardManager =
+                (ClipboardManager) this.getSystemService((Context.CLIPBOARD_SERVICE));
+        ClipData clipData = null;
+
+        String toastMessage = "";
+
+        switch (cryptoNumber) {
+            case BTC:
+                clipData =
+                        ClipData.newPlainText(
+                                "btcAddress", this.getString(R.string.bitcoin_address));
+                toastMessage = this.getString(R.string.btc_address_copied);
+                break;
+            case XMR:
+                clipData =
+                        ClipData.newPlainText(
+                                "xmrAddress", this.getString(R.string.monero_address));
+                toastMessage = this.getString(R.string.xmr_address_copied);
+                break;
+        }
+        clipboardManager.setPrimaryClip(clipData);
+        toasts.showCustomToast(toastMessage);
     }
 
     private void setButtonOnClickListeners() {
-        settingsButton.setOnClickListener(v -> openSettingsActivity());
-        aboutButton.setOnClickListener(v -> toasts.showCustomToast(this, getString(R.string.already_in_about_toast)));
-    }
-
-    private void openSettingsActivity() {
-        Intent intent = new Intent(this, Settings.class);
-        startActivity(intent);
+        aboutButton.setOnClickListener(v -> finish());
     }
 }

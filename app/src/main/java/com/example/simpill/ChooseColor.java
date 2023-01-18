@@ -1,136 +1,68 @@
+/* (C) 2022 */
 package com.example.simpill;
 
-import android.content.Intent;
+import static com.example.simpill.Pill.PRIMARY_KEY_INTENT_KEY_STRING;
+
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 public class ChooseColor extends AppCompatActivity {
 
-    DatabaseHelper myDatabase = new DatabaseHelper(this);
+    final DatabaseHelper myDatabase = new DatabaseHelper(this);
     int selectedColor = 2;
-    ImageView color1, color2, color3, color4, color5, color6,
-            color7, color8, color9, color10, color11, color12;
-    Button settingsButton, aboutButton;
+    final ImageView[] bottles = new ImageView[12];
+    Button backButton;
     Typeface truenoReg;
+
+    Pill pill;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        pill = myDatabase.getPill(getIntent().getIntExtra(PRIMARY_KEY_INTENT_KEY_STRING, -1));
         setContentViewBasedOnThemeSetting();
-
-        String pillName = getIntent().getStringExtra(getString(R.string.pill_name));
-
         findViewsByIds();
-        createOnClickListeners(pillName);
+        createOnClickListeners();
     }
 
     private void findViewsByIds() {
-        settingsButton = findViewById(R.id.settingsButton);
-        aboutButton = findViewById(R.id.aboutButton);
+        backButton = findViewById(R.id.back_button);
 
-        truenoReg = ResourcesCompat.getFont(this, R.font.truenoreg);
+        truenoReg = ResourcesCompat.getFont(this, R.font.inter_reg);
 
-        color1 = findViewById(R.id.imageView1);
-        color2 = findViewById(R.id.imageView2);
-        color3 = findViewById(R.id.imageView3);
-        color4 = findViewById(R.id.imageView4);
-        color5 = findViewById(R.id.imageView5);
-        color6 = findViewById(R.id.imageView6);
-        color7 = findViewById(R.id.imageView7);
-        color8 = findViewById(R.id.imageView8);
-        color9 = findViewById(R.id.imageView9);
-        color10 = findViewById(R.id.imageView10);
-        color11 = findViewById(R.id.imageView11);
-        color12 = findViewById(R.id.imageView12);
+        bottles[0] = findViewById(R.id.imageView1);
+        bottles[1] = findViewById(R.id.imageView2);
+        bottles[2] = findViewById(R.id.imageView3);
+        bottles[3] = findViewById(R.id.imageView4);
+        bottles[4] = findViewById(R.id.imageView5);
+        bottles[5] = findViewById(R.id.imageView6);
+        bottles[6] = findViewById(R.id.imageView7);
+        bottles[7] = findViewById(R.id.imageView8);
+        bottles[8] = findViewById(R.id.imageView9);
+        bottles[9] = findViewById(R.id.imageView10);
+        bottles[10] = findViewById(R.id.imageView11);
+        bottles[11] = findViewById(R.id.imageView12);
     }
 
-    private void createOnClickListeners(String pillName) {
-        settingsButton.setOnClickListener(view -> openSettingsActivity());
-        aboutButton.setOnClickListener(view -> openAboutActivity());
+    private void createOnClickListeners() {
+        backButton.setOnClickListener(view -> finish());
 
-        color1.setOnClickListener(view -> {
-            selectedColor = 1;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color2.setOnClickListener(view -> {
-            selectedColor = 2;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color3.setOnClickListener(view -> {
-            selectedColor = 3;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color4.setOnClickListener(view -> {
-            selectedColor = 4;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color5.setOnClickListener(view -> {
-            selectedColor = 5;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color6.setOnClickListener(view -> {
-            selectedColor = 6;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color7.setOnClickListener(view -> {
-            selectedColor = 7;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color8.setOnClickListener(view -> {
-            selectedColor = 8;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color9.setOnClickListener(view -> {
-            selectedColor = 9;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color10.setOnClickListener(view -> {
-            selectedColor = 10;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color11.setOnClickListener(view -> {
-            selectedColor = 11;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-        color12.setOnClickListener(view -> {
-            selectedColor = 12;
-            myDatabase.setBottleColor(pillName, selectedColor);
-            openMainActivity();
-        });
-    }
-
-    private void openSettingsActivity() {
-        Intent intent = new Intent(this, Settings.class);
-        startActivity(intent);
-    }
-    private void openAboutActivity() {
-        Intent intent = new Intent(this, About.class);
-        startActivity(intent);
-    }
-    private void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        for (int index = 0; index < bottles.length; index++) {
+            int color = index + 1;
+            bottles[index].setOnClickListener(
+                    v -> {
+                        pill.setBottleColor(color);
+                        pill.updatePillInDatabase(this);
+                        finish();
+                    });
+        }
     }
 
     private void setContentViewBasedOnThemeSetting() {
-        int theme = new SharedPrefs().getThemesPref(this);
+        int theme = new SharedPrefs(this).getThemesPref();
 
         if (theme == Simpill.BLUE_THEME) {
             setTheme(R.style.SimpillAppTheme_BlueBackground);
@@ -138,8 +70,7 @@ public class ChooseColor extends AppCompatActivity {
             setTheme(R.style.SimpillAppTheme_GreyBackground);
         } else if (theme == Simpill.BLACK_THEME) {
             setTheme(R.style.SimpillAppTheme_BlackBackground);
-        }
-        else {
+        } else {
             setTheme(R.style.SimpillAppTheme_PurpleBackground);
         }
 

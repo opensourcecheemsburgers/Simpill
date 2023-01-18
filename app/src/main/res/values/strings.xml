@@ -1,32 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name" translatable="false">Simpill</string>
-    <string name="nullString" translatable="false">null</string>
 
     <!--General Strings-->
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="back">back</string>
-    <string name="ok">Ok</string>
-
-    <!--Intent Strings (Very fragile, do not touch)-->
-    <string name="notification_id" translatable="false">Notification ID</string>
-    <string name="notification_pill_name" translatable="false">Pill Taken From Notification Click</string>
-    <string name="primary_key_id" translatable="false">Primary Key Id</string>
-    <string name="pill_name" translatable="false">pill name</string>
-    <string name="pill_time" translatable="false">pill time</string>
-    <string name="pill_frequency" translatable="false">pill frequency</string>
-    <string name="pill_start_date" translatable="false">pill start date</string>
-    <string name="pill_date" translatable="false">pill date</string>
-    <string name="pill_amount" translatable="false">pill amount</string>
-    <string name="is_pill_taken" translatable="false">is pill taken</string>
-    <string name="time_taken" translatable="false">time taken</string>
-    <string name="bottle_color" translatable="false">bottle color</string>
+    <string name="ok" tools:ignore="ButtonCase,Typos">Ok</string>
+    <string name="taken">Taken</string>
+    <string name="dismiss">Dismiss</string>
 
     <!--Content Description Strings-->
     <string name="clock_content_description">Clock Icon</string>
     <string name="calendar_content_description">Calendar Icon</string>
-    <string name="pill_refill_content_description">Pill Refill Date Button</string>
     <string name="pill_bottle_content_description">Pill Bottle Icon</string>
     <string name="pill_content_description">Pill Icon</string>
     <string name="reset_pill_content_description">Reset Pill Taken Button</string>
@@ -55,16 +40,12 @@
     <string name="enter_pill_refill_date_reminder">Refill Date?</string>
     <string name="enter_pill_amount">Supply?</string>
     <string name="create_pill_btn">Create</string>
-    <string name="update_pill_btn">Update</string>
 
     <!--Create/Update Pill Warning Strings-->
-    <string name="non_unique_pill_name_warning">This name is already in use :)</string>
-    <string name="pill_name_warning">Your pill\'s name must begin with a letter.</string>
-    <string name="set_date">Please set a date for your refill reminder.</string>
-    <string name="pill_supply_warning">Your pill supply amount must be greater than 0.</string>
-    <string name="fill_fields_warning">Please fill out the pill name and time first :)</string>
+    <!--1st param is pill name-->
 
     <!--Settings Strings-->
+    <string name="settings">Settings</string>
     <string name="theme">Theme</string>
     <string name="time">Time</string>
     <string name="notifications">Notifications</string>
@@ -80,17 +61,12 @@
 
     <!--About Strings-->
     <string name="simpillAboutParagraph_1">Simpill is a free and open-source medication reminder app without any trackers, annoying ads or unnecessary permissions.</string>
-    <string name="simpillAboutParagraph_2">Simpill is provided as a completely free application and it does not generate any revenue from ads or selling data.\n\nIf would you to like to support Simpill and its future development, there are a number of donation options:</string>
+    <string name="simpillAboutParagraph_2">Simpill is provided as a completely free application and it does not generate any revenue from ads or selling data.\n\nIf you would like to support Simpill and its future development, there are a number of donation options:</string>
 
     <string name="monero" translatable="false">Monero</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
-    <string name="pandacoin" translatable="false">Pandacoin</string>
-    <string name="MoneroWebsite" translatable="false">https://www.getmonero.org</string>
-    <string name="BitcoinWebsite" translatable="false">https://bitcoin.org</string>
-    <string name="PandacoinWebsite" translatable="false">https://pandacoin.tech</string>
     <string name="monero_address" translatable="false">86ywTu1eDABJB2CxGf9mwMbX6ibfc7pga1XusQCrfvMYdNpNPto1BaDSbWeas13Nkg3iLigkzS7wSGc8YoQxEkHhHdrA4Ni</string>
-    <string name="bitcoin_address" translatable="false">bc1q8r90zc8j8a2rvkq4ds8374pxh3rpccxgnjx5x2</string>
-    <string name="pandacoin_address" translatable="false">pn1qdfzqkjg3gh6az5al6pf93w8a9phj7xmz28jrme</string>
+    <string name="bitcoin_address" translatable="false">bc1qmx2fpalg6lk4hur4pqgsnz0ts8q6wsm47j8w9p</string>
 
     <!--Pill Time TextView Strings-->
     <string name="take_at">Take at %1$s</string><!--1st parameter is the reminder times-->
@@ -98,10 +74,7 @@
     <string name="taken_at">Taken at %1$s</string><!--1st parameter is the time the pill has been taken at by user-->
 
     <!--Toast Strings-->
-    <string name="database_reset_toast">All pills deleted!</string>
-    <string name="pill_created_toast">%1$s created :)</string> <!--1st parameter = name of created pill-->
-    <string name="already_in_about_toast">You are already in the About section!</string>
-    <string name="already_in_settings_toast">You are already in the Settings section!</string>
+    <!--1st parameter = name of created pill-->
     <string name="device_restart_toast">Resetting alarms for Simpill :)</string>
     <string name="time_format_24hr_toast">Time format set to 24hr.</string>
     <string name="time_format_12hr_toast">Time format set to 12hr.</string>
@@ -110,14 +83,13 @@
     <string name="sticky_notifications_enabled_toast">Sticky notifications enabled.</string>
     <string name="sticky_notifications_disabled_toast">Sticky notifications disabled.</string>
     <string name="unknown_error_toast">Unknown error in Simpill :(</string>
-    <string name="append_updated_toast">%1$s updated :)</string> <!--1st parameter = name of the updated pill-->
+    <!--1st parameter = name of the updated pill-->
     <string name="pill_db_deleted_toast">All pills deleted.</string>
     <string name="append_pill_deleted_toast">%1$s deleted.</string> <!--1st parameter = name of the deleted pill-->
     <string name="pill_bottle_amount_toast">You have %1$d %2$s pills left.</string> <!--1st parameter = current pill amount     2nd parameter = pill name-->
 
     <!--Stockup Notification Strings-->
-    <string name="stockup_notification_title">Stockup Reminder</string>
-    <string name="dont_forget_stockup">Don\'t forget to stockup on your %1$s soon :)</string> <!--1st parameter = name of pill-->
+    <!--1st parameter = name of pill-->
 
     <!--Reminder Notification Strings-->
     <string name="reminder_notification_description">It\'s time to take your medication: %1$s :)</string> <!--1st parameter = name of pill-->
@@ -127,35 +99,32 @@
     <string name="welcome_dialog_message">To create your first pill, select the plus button at the bottom of your screen.</string>
 
     <!--Pill Name Dialog Strings-->
-    <string name="pill_name_dialog_tag" translatable="false">Pill Name Dialog</string>
     <string name="pill_name_dialog_title">Pill Name</string>
     <string name="pill_name_dialog_msg">Please enter a name for your medication by clicking the line below:\n</string>
     <string name="pill_name_dialog_text_hint">Name - keep it short :)</string>
 
     <!--Pill Amount Dialog Strings-->
     <string name="done">Done</string>
-    <string name="amount">Amount</string>
+    <string name="choose_pill_amount_dialog_title">Amount</string>
 
     <!--Delete Pill Dialog Strings-->
     <string name="pill_deletion_dialog_title">Delete?</string>
     <string name="pill_deletion_dialog_message">Are you sure you want to delete %1$s?\n\nThis cannot be undone!</string> <!--1st parameter = name of pill-->
 
     <!--Delete Database Dialog Strings-->
-    <string name="pill_db_reset">Delete Pills</string>
-    <string name="pill_db_reset_warning">Would you like to delete the entire pill database?\n\nWARNING: This will remove all pills - it CANNOT be undone!</string>
+    <string name="pill_db_reset_dialog_title">Delete Pills</string>
+    <string name="pill_db_reset_dialog_message">Would you like to delete the entire pill database?\n\nWARNING: This will remove all pills - it CANNOT be undone!</string>
 
     <!--Pill Reset Dialog Strings-->
     <string name="reset_pill_dialog_title">Reset?</string>
     <string name="reset_pill_dialog_message">Would you like to reset the taken status of %1$s?</string>
 
     <!--Past Date Dialog Strings-->
-    <string name="past_date_dialog_title">Wrong Date?</string>
-    <string name="past_date_dialog_message">Unless you have access to a TARDIS, the date cannot be set in the past.</string>
 
     <!--Extra Reminder Dialog Strings-->
 
     <!--Frequency Dialog Strings-->
-    <string name="choose_frequency_dialog_text">How often do you take this medication?</string>
+    <string name="choose_frequency_dialog_message">How often do you take this medication?</string>
     <string name="choose_frequency_dialog_title">Frequency</string>
     <string name="choose_frequency_dialog_custom_interval">Set a custom interval instead</string>
     <string name="choose_frequency_dialog_weekly">Weekly</string>
@@ -163,23 +132,25 @@
     <string name="choose_frequency_dialog_daily">Daily</string>
     <string name="choose_frequency_dialog_multiple_daily">Multiple times a day</string>
 
+    <!--Ask Overlay Permission Dialog Strings-->
+    <string name="ask_overlay_permission_dialog_title">Overlay</string>
+    <string name="ask_overlay_permission_dialog_message">To set alarms, Simpill needs the \'display over other apps\' permission.\n\nIf you would like to receive full-screen alarm reminders, please grant this permission to Simpill in your settings.\n\nNote: You can enable this permission at any time via your device\'s settings.</string>
+
+    <!--Ask Overlay Permission Dialog Strings-->
+    <string name="alarm_or_notification_dialog_title">Alarm?</string>
+    <string name="alarm_or_notification_dialog_message">Would you like to be reminded about this medication with an alarm or notification?</string>
+
     <!--Date Time Formatting Strings (Very fragile, do not touch)-->
-    <string name="time_format_12hr" translatable="false">hh:mm a</string>
-    <string name="time_format_24hr" translatable="false">HH:mm</string>
-    <string name="date_format" translatable="false">yyyy-MM-dd</string>
-    <string name="date_format_with_timezone" translatable="false">yyyy-MM-dd Z</string>
-    <string name="full_date_time_format" translatable="false">yyyy-MM-dd, HH:mm Z</string>
 
 
     <string name="take_pill_content_description">Take Pill Button</string>
-    <string name="choose_frequency_dialog_reminder_amount_text">How many times a day do you take this medication?</string>
+    <string name="choose_times_per_day_dialog_message">How many times a day do you take this medication?</string>
 
 
     <string name="btc_address_copied">BTC address copied :)</string>
     <string name="xmr_address_copied">XMR address copied :)</string>
-    <string name="pnd_address_copied">PND address copied :)</string>
 
-    <string name="custom_interval_dialog_text">Set a custom interval (in days) for your medication reminder using the buttons below:</string>
+    <string name="custom_interval_dialog_message">Set a custom interval (in days) for your medication reminder using the buttons below:</string>
     <string name="custom_interval_dialog_title">Interval</string>
 
 
@@ -193,7 +164,6 @@
     <string name="reminder_already_taken_description">You have already taken your %1$s :)</string> <!--1st parameter = name of pill-->
 
     <string name="paypal_donation_link" translatable="false">https://www.paypal.com/donate/?hosted_button_id=A8UNN2A4D3P3G</string>
-    <string name="simpill_paid_version_link" translatable="false">https://play.google.com/store/apps/details?id=com.winston69.simpill.ty</string>
 
     <!--Use masculine for translations-->
     <string name="blue">Blue</string>
@@ -209,20 +179,53 @@
     <string name="simpill_code">Simpill\'s code</string>
     <string name="time_warning_toast">Times must be at least 15 mins apart.</string>
     <string name="time_enter">Please enter a time for each clock.</string>
-    <string name="double_reminder_warning">Error!! Cannot have the same reminder twice.</string>
     <string name="press_back_again_toast">Press the back button again to exit.</string>
 
-    <string name="start_date">Start Date</string>
-    <string name="custom_interval_start_day_text">Click the calendar below, to select the start date for your medication reminders.</string>
-    <string name="custom_interval_start_day_error">The selected date must be between the current date and the interval length.</string>
-    <string name="donate">Donate</string>
-    <string name="dismiss">Dismiss</string>
+    <string name="choose_start_date_dialog_title">Start Date</string>
+    <string name="choose_start_date_dialog_message">Select the starting date for your medication using the calendar below.</string>
+    <string name="donate_dialog_title">Donate</string>
     <string name="donate_monero">Donate Monero</string>
-    <string name="buy_on_play_store">Buy on Play Store</string>
     <string name="donate_via_paypal">Donate via Paypal</string>
-    <string name="reminders">Reminders</string>
+    <string name="choose_times_per_day_dialog_title">Reminders</string>
 
     <string name="simpill_source_link" translatable="false">https://gitlab.com/simpilldev/simpill</string>
     <string name="append_days_to_custom_interval">Every %1$d days</string>
-
+    <string name="sound">Sound</string>
+    <string name="sound_switch">App Sounds</string>
+    <string name="app_sounds_enabled">App sounds enabled.</string>
+    <string name="app_sounds_disabled">App sounds disabled.</string>
+    <string name="donate_bitcoin">Donate Bitcoin</string>
+    <string name="pill_time_interval_text">Every %1$d days, starting %2$s</string>
+    <string name="frequency">Frequency:\n</string>
+    <string name="alarm_type_alarm">Type: Alarm</string> <!--1st parameter = name of pill    2nd parameter = date of first pill reminder     E.g. Every 4 days, starting 13/01/2023-->
+    <!--1st parameter = file name selected by user -->
+    <string name="alarm">Alarm</string>
+    <string name="notification">Notification</string>
+    <string name="dialog_message_textview">Please set the medication times and alarm type using the buttons below.</string>
+    <string name="reminder_times">Times:\n</string>
+    <string name="reminder_type">Reminder Type:\n</string>
+    <string name="reminder_sound">File:\n</string>
+    <string name="custom_alarm_dialog_title">Custom Alarm?</string>
+    <string name="custom_alarm_dialog_message">Would you like to use your own audio file or Simpill\'s default alarm sound?</string>
+    <string name="custom_alarm">Custom</string>
+    <string name="default_alarm">Default</string>
+    <string name="no_song_selected">No audio file selected.</string>
+    <string name="its_time">It\'s %1$s!</string>
+    <string name="paypal">Paypal</string>
+    <string name="no_pills_found">No pills found.\n(╯°□°）╯︵ ┻━┻</string>
+    <string name="add">Add</string>
+    <string name="optional">Optional</string>
+    <string name="reminder">Reminder</string>
+    <string name="times">Times?</string>
+    <string name="alarm_type">Alarm Type?</string>
+    <string name="user_reminder_times">Reminder Times:\n12:00pm,</string>
+    <string name="user_frequency">Frequency:\nEvery 3 days</string>
+    <string name="user_notification">Type:\nNotification</string>
+    <string name="user_alarm_sound">Sound:\nDoomsday Alarm</string>
+    <string name="crash_dialog_title">Oh no :(</string>
+    <string name="report">report</string>
+    <string name="open">Open</string>
+    <string name="refill_dialog_msg">Select a refill date using the calendar below.</string>
+    <string name="past_date_dialog_title">Hmm...</string>
+    <string name="past_date_dialog_message">Unless you have access to a TARDIS, the date cannot be set in the past.</string> <!--1st param is current time e.g. 16:20-->
 </resources>

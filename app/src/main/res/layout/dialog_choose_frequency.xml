@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/customDialogContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
@@ -11,7 +10,7 @@
     android:theme="@style/Theme.AppCompat.Light">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/customDialogLayout"
+        android:id="@+id/custom_dialog_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_background"
@@ -20,14 +19,13 @@
 
 
         <TextView
-            android:id="@+id/dialogTitleTextView"
+            android:id="@+id/dialog_title_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/dialog_title_background_purple"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_medium"
             android:padding="10dp"
             android:paddingStart="20dp"
-            android:paddingLeft="20dp"
             android:paddingEnd="20dp"
             android:text="@string/choose_frequency_dialog_title"
             android:textColor="@color/white"
@@ -44,16 +42,16 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <TextView
-            android:id="@+id/dialogMessageTextView"
+            android:id="@+id/dialog_message_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose_frequency_dialog_text"
-            android:fontFamily="@font/truenoreg"
+            android:text="@string/choose_frequency_dialog_message"
+            android:fontFamily="@font/inter_reg"
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@id/multiple_daily"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_title_textview" />
 
         <TextView
             android:id="@+id/multiple_daily"
@@ -64,27 +62,25 @@
             android:gravity="center"
             android:text="@string/choose_frequency_dialog_multiple_daily"
             android:textColor="@color/black"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_medium"
             app:layout_constraintBottom_toTopOf="@id/daily"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialogMessageTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_message_textview" />
 
         <View
-            android:id="@+id/divider8"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toTopOf="@+id/multiple_daily"
             app:layout_constraintTop_toTopOf="@+id/multiple_daily"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <View
-            android:id="@+id/divider9"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="@+id/multiple_daily"
             app:layout_constraintTop_toBottomOf="@+id/multiple_daily"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +94,7 @@
             android:layout_marginBottom="4dp"
             android:gravity="center"
             android:text="@string/choose_frequency_dialog_daily"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_medium"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@id/every_other_day"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,20 +102,18 @@
             app:layout_constraintTop_toBottomOf="@+id/multiple_daily" />
 
         <View
-            android:id="@+id/divider10"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toTopOf="@+id/daily"
             app:layout_constraintTop_toTopOf="@+id/daily"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <View
-            android:id="@+id/divider11"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="@+id/daily"
             app:layout_constraintTop_toBottomOf="@+id/daily"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +126,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_medium"
             android:text="@string/choose_frequency_dialog_every_other_day"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@id/weekly"
@@ -141,20 +135,18 @@
             app:layout_constraintTop_toBottomOf="@+id/daily" />
 
         <View
-            android:id="@+id/divider12"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toTopOf="@+id/every_other_day"
             app:layout_constraintTop_toTopOf="@+id/every_other_day"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <View
-            android:id="@+id/divider13"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="@+id/every_other_day"
             app:layout_constraintTop_toBottomOf="@+id/every_other_day"
             app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +160,7 @@
             android:layout_marginBottom="4dp"
             android:gravity="center"
             android:text="@string/choose_frequency_dialog_weekly"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_medium"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@id/custom_interval"
             app:layout_constraintEnd_toEndOf="parent"
@@ -176,20 +168,18 @@
             app:layout_constraintTop_toBottomOf="@+id/every_other_day" />
 
         <View
-            android:id="@+id/divider14"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toTopOf="@+id/weekly"
             app:layout_constraintTop_toTopOf="@+id/weekly"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <View
-            android:id="@+id/divider15"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="0.75dp"
+            android:background="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="@+id/weekly"
             app:layout_constraintTop_toBottomOf="@+id/weekly"
             app:layout_constraintStart_toStartOf="parent"
@@ -200,7 +190,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/choose_frequency_dialog_custom_interval"
-            android:fontFamily="@font/truenoreg"
+            android:fontFamily="@font/inter_medium"
             android:textColor="@color/blue"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"

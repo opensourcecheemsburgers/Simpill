@@ -1,0 +1,7 @@
+Full-screen alarms
+Custom alarm audio
+UI improvements
+German translation (provided by tbsprs)
+Replace outdated Java Time libraries with JodaTime
+Massive code despaghettification
+Fixed a crash that would occur if a pill that was located in between the first and last pill in a database was deleted (thanks BCMM <3)

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:padding="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/custom_dialog_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/dialog_title_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_title_background_purple"
+            android:fontFamily="@font/inter_medium"
+            android:padding="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/reminder"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:visibility="gone"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_title_textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/dialog_title_textview"
+            android:contentDescription="@string/warning_icon_content_description" />
+
+
+        <ImageButton
+            android:id="@+id/clockImgBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_message_textview"
+            android:background="@drawable/ic_clock_svgrepo_com" />
+
+        <ImageButton
+            android:id="@+id/alarmBellImgBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/alarm_svgrepo_com"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clockImgBtn" />
+
+        <TextView
+            android:id="@+id/timesTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/times"
+            android:visibility="visible"
+            android:textSize="28sp"
+            android:textColor="@color/black"
+            android:gravity="start|center_vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/clockImgBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clockImgBtn"
+            app:layout_constraintTop_toTopOf="@+id/clockImgBtn" />
+
+        <TextView
+            android:id="@+id/alarmTypeTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/alarm_type"
+            android:visibility="visible"
+            android:textSize="28sp"
+            android:textColor="@color/black"
+            android:gravity="start|center_vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/alarmBellImgBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/alarmBellImgBtn"
+            app:layout_constraintTop_toTopOf="@+id/alarmBellImgBtn" />
+
+        <TextView
+            android:id="@+id/dialog_message_textview"
+            android:layout_width="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/dialog_message_textview"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_title_textview" />
+
+        <TextView
+            android:id="@+id/userTimesTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:visibility="gone"
+            android:fontFamily="@font/inter_reg"
+            android:text="@string/user_reminder_times"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clockImgBtn"
+            app:layout_constraintTop_toTopOf="@+id/clockImgBtn" />
+
+        <TextView
+            android:id="@+id/userFrequencyTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"
+            android:fontFamily="@font/inter_reg"
+            android:text="@string/user_frequency"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clockImgBtn"
+            app:layout_constraintTop_toBottomOf="@+id/userTimesTextView" />
+
+        <TextView
+            android:id="@+id/userAlarmTypeTextView"
+            android:layout_width="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_reg"
+            android:text="@string/user_notification"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/alarmBellImgBtn"
+            app:layout_constraintTop_toTopOf="@+id/alarmBellImgBtn" />
+
+        <TextView
+            android:id="@+id/userAlarmSoundTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="58dp"
+            android:fontFamily="@font/inter_reg"
+            android:visibility="gone"
+            android:text="@string/user_alarm_sound"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/alarmBellImgBtn"
+            app:layout_constraintTop_toBottomOf="@id/userAlarmTypeTextView" />
+
+        <Button
+            android:id="@+id/play_btn"
+            android:background="@drawable/play_btn"
+            android:visibility="gone"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintBottom_toBottomOf="@+id/userAlarmSoundTextView"
+            app:layout_constraintStart_toEndOf="@+id/userAlarmSoundTextView"
+            app:layout_constraintTop_toTopOf="@+id/userAlarmSoundTextView" />
+
+        <Button
+            android:id="@+id/pause_btn"
+            android:background="@drawable/pause_btn"
+            android:visibility="gone"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintBottom_toBottomOf="@+id/userAlarmSoundTextView"
+            app:layout_constraintStart_toEndOf="@+id/userAlarmSoundTextView"
+            app:layout_constraintTop_toTopOf="@+id/userAlarmSoundTextView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnYes"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/dialog_bottom_btn_red"
+        android:fontFamily="@font/inter_medium"
+        android:paddingHorizontal="48dp"
+        android:text="@string/done"
+        android:textColor="@color/alice_blue"
+        app:layout_constraintBottom_toBottomOf="@id/custom_dialog_constraint_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/custom_dialog_constraint_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

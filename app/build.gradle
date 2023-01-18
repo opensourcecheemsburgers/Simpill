@@ -3,46 +3,71 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion '32.1.0-rc1'
+    compileSdkVersion 33
+    buildToolsVersion '33.0.0'
+
+
+    lintOptions {
+        abortOnError false
+    }
+
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
 
     defaultConfig {
         applicationId "com.winston69.simpill"
         minSdkVersion 21
-        targetSdkVersion 32
-        versionCode 15
-        versionName "1.2.0.3"
+        targetSdkVersion 33
+        versionCode 16
+        versionName "1.3.0"
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.example.simpill'
 }
 
 dependencies {
-    implementation 'androidx.core:core:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation "com.airbnb.android:lottie:3.4.0"
+    implementation 'androidx.core:core:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.test:monitor:1.5.0'
-    implementation 'androidx.test.ext:junit:1.1.3'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-fragment:2.4.1'
-    implementation 'androidx.navigation:navigation-ui:2.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.test:monitor:1.6.1'
+    implementation 'androidx.test.ext:junit:1.1.5'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.3'
     implementation 'com.ms-square:expandableTextView:0.1.4'
+    implementation 'joda-time:joda-time:2.11.2'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.test:core-ktx:1.5.0'
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.5'
+    testImplementation 'org.robolectric:robolectric:4.4'
+    testImplementation 'androidx.test.ext:truth:1.5.0'
+    testImplementation 'com.google.truth:truth:1.1.3'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    implementation "androidx.test:runner:1.5.2"
 }

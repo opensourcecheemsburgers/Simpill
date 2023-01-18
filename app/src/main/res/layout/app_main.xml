@@ -10,17 +10,15 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainActivityRootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context="com.example.simpill.MainActivity">
 
         <Button
-            android:id="@+id/aboutButton"
+            android:id="@+id/about_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
             android:scaleX="1.6"
             android:scaleY="1.6"
@@ -33,7 +31,6 @@
             android:id="@+id/settingsButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="24dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/ic_hamburger"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +58,50 @@
             app:layout_constraintBottom_toTopOf="@+id/floating_action_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/aboutButton" />
+            app:layout_constraintTop_toBottomOf="@+id/about_button" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/empty" />
+
+        <TextView
+            android:id="@+id/no_pills_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/no_pills_found"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:lineSpacingMultiplier="1.35"
+            android:fontFamily="@font/inter_medium"
+            android:textSize="18sp"
+            android:textColor="@color/alice_blue"
+            app:layout_constraintBottom_toTopOf="@+id/animationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/add_btn_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:paddingHorizontal="48dp"
+            android:background="@drawable/create_update_btn_background"
+            android:visibility="gone"
+            android:text="@string/add"
+            android:textColor="@color/alice_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animationView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

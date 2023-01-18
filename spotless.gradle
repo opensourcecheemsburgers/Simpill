@@ -1,0 +1,9 @@
+apply plugin: "com.diffplug.spotless"
+spotless {
+    java {
+        target 'src/main/java/com/example/simpill/*.java', 'src/test/java/com/example/simpill/*.java', 'src/androidTest/java/com/example/simpill/*.java'
+        googleJavaFormat('1.15.0').aosp().reflowLongStrings().groupArtifact('com.google.googlejavaformat:google-java-format')
+        formatAnnotations()  // fixes formatting of type annotations, see below
+        licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
+    }
+}

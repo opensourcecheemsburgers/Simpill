@@ -1,9 +1,13 @@
+/* (C) 2022 */
 package com.example.simpill;
+
+import static com.example.simpill.Pill.PILL_TAKEN_VALUE;
+import static com.example.simpill.Pill.PILL_TAKEN_VIA_NOTIFICATION_INTENT_KEY;
+import static com.example.simpill.Pill.PRIMARY_KEY_INTENT_KEY_STRING;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -11,291 +15,257 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.TimeZone;
+public class MainRecyclerViewAdapter
+        extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
 
-
-public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
-
-    SharedPrefs sharedPrefs = new SharedPrefs();
-    Dialogs dialogs = new Dialogs();
+    SharedPrefs sharedPrefs;
+    Dialogs dialogs;
     DatabaseHelper myDatabase;
+    AudioHelper audioHelper;
     Toasts toasts;
     DateTimeManager dateTimeManager;
-    AlarmSetter alarmSetter;
-    TimeZone userTimezone;
 
     String pillName;
-    int alarmCodeForAllAlarms = 0;
-    private final Context myContext;
-    MainActivity mainActivity;
+    final int alarmCodeForAllAlarms = 0;
+    final Context context;
+    final MainActivity mainActivity;
     Activity myActivity;
-    Typeface truenoLight, truenoReg;
-
+    Typeface interReg, interMed;
     MediaPlayer takenMediaPlayer, resetMediaPlayer;
 
-    MainRecyclerViewAdapter(MainActivity mainActivity, Activity myActivity, Context myContext) {
+    Pill[] pills;
+
+    MainRecyclerViewAdapter(MainActivity mainActivity, Activity myActivity, Context context) {
         this.myActivity = myActivity;
         this.mainActivity = mainActivity;
-        this.myContext = myContext;
+        this.pills = mainActivity.pills;
+        this.context = context;
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder
+            implements View.OnCreateContextMenuListener {
 
-        TextView pill_time_textview, pill_name_textview;
-        ImageButton taken_btn, reset_btn;
-        Button big_button;
-        ImageView pill_bottle_image;
+        final ConstraintLayout constraintLayout;
+        final TextView pillTimeTextView;
+        final TextView pillNameTextView;
+        final ImageButton takenBtn;
+        final ImageButton resetBtn;
+        final Button bigButton;
+        final ImageView pillBottleImage;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            pill_name_textview = itemView.findViewById(R.id.pillName);
-            pill_time_textview = itemView.findViewById(R.id.pillTime);
-            taken_btn = itemView.findViewById(R.id.tickButton);
-            reset_btn = itemView.findViewById(R.id.resetButton);
-            pill_bottle_image = itemView.findViewById(R.id.pillBottleImage);
-            big_button = itemView.findViewById(R.id.bigButton);
-            pill_bottle_image.setOnCreateContextMenuListener(this);
-            big_button.setOnCreateContextMenuListener(this);
+            constraintLayout =
+                    itemView.findViewById(R.id.pill_recycler_view_item_constraint_layout);
+            pillNameTextView = itemView.findViewById(R.id.pillName);
+            pillTimeTextView = itemView.findViewById(R.id.pillTime);
+            takenBtn = itemView.findViewById(R.id.tickButton);
+            resetBtn = itemView.findViewById(R.id.resetButton);
+            pillBottleImage = itemView.findViewById(R.id.pill_bottle_image);
+            bigButton = itemView.findViewById(R.id.bigButton);
+            pillBottleImage.setOnCreateContextMenuListener(this);
+            bigButton.setOnCreateContextMenuListener(this);
         }
 
         @Override
-        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+        public void onCreateContextMenu(
+                ContextMenu menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             menu.add(this.getAbsoluteAdapterPosition() + 1, 1, 0, R.string.context_menu_update);
             menu.add(this.getAbsoluteAdapterPosition() + 1, 2, 0, R.string.context_menu_delete);
-            menu.add(this.getAbsoluteAdapterPosition() + 1, 3, 0, R.string.context_menu_change_color);
+            menu.add(
+                    this.getAbsoluteAdapterPosition() + 1,
+                    3,
+                    0,
+                    R.string.context_menu_change_color);
         }
     }
 
     @Override
     public int getItemCount() {
-        DatabaseHelper myDatabase = new DatabaseHelper(myContext);
-        return myDatabase.getRowCount();
+        return pills.length;
     }
 
-    @NonNull
-    @Override
-    public MainRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_pill_new, parent, false));
+    @NonNull @Override
+    public MainRecyclerViewAdapter.MyViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
+        return new MyViewHolder(
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.example_pill_new, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        initAll(holder, position);
-
-        alarmSetter.setAlarms(alarmCodeForAllAlarms);
+        Pill currentPill = pills[position];
+        checkForNotificationOpenedOnAppStart(holder, position);
+        initAll(holder, currentPill, position);
     }
 
-    private void initAll(MyViewHolder holder, int position) {
-        initClasses(position);
-        initTextViews(holder, pillName);
-        initBottleImage(holder, pillName);
-        initButtons(holder, pillName, position);
-    }
-    private void initClasses(int position) {
-        myActivity = new Activity();
-        myDatabase = new DatabaseHelper(myContext);
-        toasts = new Toasts();
-        dateTimeManager = new DateTimeManager();
-        pillName = myDatabase.getPillNameFromCursor(position);
-        userTimezone = dateTimeManager.getUserTimezone();
-        alarmSetter = new AlarmSetter(myContext, pillName);
-    }
-
-    private void initTextViews(MyViewHolder holder, String pillName) {
-        truenoLight = ResourcesCompat.getFont(myContext, R.font.truenolight);
-        truenoReg = ResourcesCompat.getFont(myContext, R.font.truenoreg);
-
-        holder.pill_name_textview.setTypeface(truenoReg);
-        holder.pill_time_textview.setTypeface(truenoReg);
-        holder.pill_name_textview.setTextSize(27.0f);
-        holder.pill_time_textview.setTextSize(15.0f);
-
-        holder.pill_name_textview.setLetterSpacing(0.025f);
-        holder.pill_time_textview.setLetterSpacing(0.025f);
-
-        holder.pill_name_textview.setText(myDatabase.getPillName(pillName));
-
-        if (!myDatabase.getTimeTaken(pillName).equals(myContext.getString(R.string.nullString))) {
-            String takenTime = myContext.getString(R.string.taken_at, myDatabase.getTimeTaken(pillName));
-            holder.pill_time_textview.setText(takenTime);
-            holder.taken_btn.setVisibility(View.INVISIBLE);
-            holder.taken_btn.setClickable(false);
-            holder.reset_btn.setVisibility(View.VISIBLE);
-            holder.reset_btn.setClickable(true);
+    private void checkForNotificationOpenedOnAppStart(MyViewHolder holder, int position) {
+        Intent mainActivityIntent = mainActivity.getIntent();
+        if (mainActivityIntent.hasExtra(PILL_TAKEN_VIA_NOTIFICATION_INTENT_KEY)) {
+            int pk = mainActivityIntent.getIntExtra(PILL_TAKEN_VIA_NOTIFICATION_INTENT_KEY, -1);
+            ArrayHelper arrayHelper = new ArrayHelper();
+            int pillPosition = arrayHelper.findPillUsingPrimaryKey(pills, pk);
+            if (pillPosition == position)
+                holder.constraintLayout.startAnimation(
+                        AnimationUtils.loadAnimation(context, R.anim.recycler_item_enlarge));
         }
-        else {
-            String times;
+    }
+
+    private void initAll(MyViewHolder holder, Pill pill, int position) {
+
+        initClasses();
+        initTextViews(holder, pill);
+        initBottleImage(holder, pill);
+        initButtons(holder, pill, position);
+    }
+
+    private void initClasses() {
+        myActivity = new Activity();
+        dialogs = new Dialogs(context);
+        myDatabase = new DatabaseHelper(context);
+        sharedPrefs = new SharedPrefs(context);
+        audioHelper = new AudioHelper(context);
+        toasts = new Toasts(context);
+        dateTimeManager = new DateTimeManager();
+    }
+
+    private void initTextViews(MyViewHolder holder, Pill pill) {
+        interReg = ResourcesCompat.getFont(context, R.font.inter_reg);
+        interMed = ResourcesCompat.getFont(context, R.font.inter_medium);
+
+        holder.pillNameTextView.setTypeface(interMed);
+        holder.pillTimeTextView.setTypeface(interMed);
+        holder.pillNameTextView.setTextSize(27.0f);
+        holder.pillTimeTextView.setTextSize(15.0f);
+
+        holder.pillNameTextView.setText(pill.getName());
+
+        if (pill.getTaken() == PILL_TAKEN_VALUE) {
+            String takenTime = context.getString(R.string.taken_at, pill.getTimeTaken());
+            holder.pillTimeTextView.setText(takenTime);
+            holder.takenBtn.setVisibility(View.INVISIBLE);
+            holder.takenBtn.setClickable(false);
+            holder.resetBtn.setVisibility(View.VISIBLE);
+            holder.resetBtn.setClickable(true);
+        } else {
+            String times =
+                    sharedPrefs.get24HourFormatPref()
+                            ? pill.getTimes24HrFormat()
+                            : pill.getTimes12HrFormat();
             String frequencyString;
-            
-            if (sharedPrefs.get24HourFormatPref(myContext)) {
-                times = myDatabase.convertArrayToString(myDatabase.getPillTime(pillName));
-            } else {
-                times = myDatabase.convertArrayToString(myDatabase.convert24HrArrayTo12HrArray(myContext, myDatabase.getPillTime(pillName)));
-            }
-            
-            int pillFrequency = myDatabase.getFrequency(pillName);
-            
+
+            int pillFrequency = pill.getFrequency();
+
             switch (pillFrequency) {
-                case 0: case 1:
-                    times = myContext.getString(R.string.take_at, times);
+                case 0:
+                case 1:
+                    times = context.getString(R.string.take_at, times);
                     break;
                 case 2:
-                    frequencyString = myContext.getString(R.string.choose_frequency_dialog_every_other_day);
-                    times = myContext.getString(R.string.take_at_custom_interval, times, frequencyString);
+                    frequencyString =
+                            context.getString(R.string.choose_frequency_dialog_every_other_day);
+                    times =
+                            context.getString(
+                                    R.string.take_at_custom_interval, times, frequencyString);
                     break;
                 case 7:
-                    frequencyString = myContext.getString(R.string.choose_frequency_dialog_weekly);
-                    times = myContext.getString(R.string.take_at_custom_interval, times, frequencyString);
+                    frequencyString = context.getString(R.string.choose_frequency_dialog_weekly);
+                    times =
+                            context.getString(
+                                    R.string.take_at_custom_interval, times, frequencyString);
                     break;
                 default:
-                    frequencyString = myContext.getString(R.string.append_days_to_custom_interval, pillFrequency);
-                    times = myContext.getString(R.string.take_at_custom_interval, times, frequencyString);
+                    frequencyString =
+                            context.getString(
+                                    R.string.append_days_to_custom_interval, pillFrequency);
+                    times =
+                            context.getString(
+                                    R.string.take_at_custom_interval, times, frequencyString);
                     break;
             }
 
-            holder.pill_time_textview.setText(times);
-            holder.reset_btn.setVisibility(View.INVISIBLE);
-            holder.reset_btn.setClickable(false);
-            holder.taken_btn.setVisibility(View.VISIBLE);
-            holder.taken_btn.setClickable(true);
+            holder.pillTimeTextView.setText(times);
+            holder.resetBtn.setVisibility(View.INVISIBLE);
+            holder.resetBtn.setClickable(false);
+            holder.takenBtn.setVisibility(View.VISIBLE);
+            holder.takenBtn.setClickable(true);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            holder.pill_name_textview.setContextClickable(true);
-            holder.pill_time_textview.setContextClickable(true);
+            holder.pillNameTextView.setContextClickable(true);
+            holder.pillTimeTextView.setContextClickable(true);
         }
     }
-    private void initBottleImage(MyViewHolder holder, String pillName) {
-        MediaPlayer shakeMediaPlayer = MediaPlayer.create(myContext, R.raw.shake);
 
+    private void initBottleImage(MyViewHolder holder, Pill pill) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            holder.pill_bottle_image.setContextClickable(true);
+            holder.pillBottleImage.setContextClickable(true);
         }
 
-        int bottleColor = myDatabase.getBottleColor(pillName);
-        switch (bottleColor) {
-            case 1:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_1));
-                break;
-            case 2: default:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_2));
-                break;
-            case 3:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_3));
-                break;
-            case 4:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_4));
-                break;
-            case 5:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_5));
-                break;
-            case 6:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_6));
-                break;
-            case 7:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_7));
-                break;
-            case 8:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_8));
-                break;
-            case 9:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_9));
-                break;
-            case 10:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_10));
-                break;
-            case 11:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_11));
-                break;
-            case 12:
-                holder.pill_bottle_image.setImageDrawable(AppCompatResources.getDrawable(myContext, R.drawable.pill_bottle_color_12));
-                break;
-        }
+        holder.pillBottleImage.setImageDrawable(pill.getBottleDrawable(context));
 
-
-        holder.pill_bottle_image.setOnClickListener(v -> {
-            if ((myDatabase.getPillAmount(pillName) > 0)) {
-                toasts.showCustomToast(myContext, myContext.getString(R.string.pill_bottle_amount_toast, myDatabase.getPillAmount(pillName), pillName));
-                shakeMediaPlayer.start();
-            }
-        });
+        holder.pillBottleImage.setOnClickListener(
+                v -> {
+                    holder.constraintLayout.startAnimation(
+                            AnimationUtils.loadAnimation(context, R.anim.bottle_shake));
+                    if ((pill.getSupply() > 0)) {
+                        toasts.showCustomToast(
+                                context.getString(
+                                        R.string.pill_bottle_amount_toast,
+                                        pill.getSupply(),
+                                        pill.getName()));
+                        if (sharedPrefs.getPillSoundPref()) audioHelper.getShakePlayer().start();
+                    }
+                    pill.sendPillNotification(context);
+                });
     }
-    private void initButtons(MyViewHolder holder, String pillName, int position) {
-        takenMediaPlayer = MediaPlayer.create(myContext, R.raw.correct);
-        resetMediaPlayer = MediaPlayer.create(myContext, R.raw.wrong);
-        takenMediaPlayer.setVolume(0.5f, 0.5f);
 
+    private void initButtons(MyViewHolder holder, Pill pill, int position) {
+        holder.takenBtn.setOnClickListener(
+                v -> {
+                    pill.takePill(context);
 
-        int thisPillAmount = myDatabase.getPillAmount(pillName);
+                    String time =
+                            sharedPrefs.get24HourFormatPref()
+                                    ? pill.getTimeTaken()
+                                    : dateTimeManager.convert24HrTimeTo12HrTime(
+                                            pill.getTimeTaken());
+                    String takenAtTime = context.getString(R.string.taken_at, time);
 
-        holder.taken_btn.setOnClickListener(v -> {
-            int newPillAmount = thisPillAmount - 1;
+                    holder.pillTimeTextView.setText(takenAtTime);
+                    holder.takenBtn.setVisibility(View.INVISIBLE);
+                    holder.takenBtn.setClickable(false);
+                    holder.resetBtn.setVisibility(View.VISIBLE);
+                    holder.resetBtn.setClickable(true);
+                    if (sharedPrefs.getPillSoundPref()) audioHelper.getTakenPlayer().start();
+                    pill.deleteActiveNotifications(context);
+                    toasts.showCustomToast(
+                            context.getString(R.string.pill_taken_toast, pill.getName()));
+                });
 
-            String currentTime = dateTimeManager.getCurrentTime(myContext, userTimezone);
-            if (!sharedPrefs.get24HourFormatPref(myContext)){
-                currentTime = dateTimeManager.convert24HrTimeTo12HrTime(myContext, currentTime);
-            }
-            String takenTime = myContext.getString(R.string.taken_at, currentTime);
+        holder.resetBtn.setOnClickListener(v -> dialogs.getPillResetDialog(pill, position).show());
 
-            myDatabase.setPillAmount(pillName, newPillAmount);
-            myDatabase.setIsTaken(pillName, 1);
-            myDatabase.setTimeTaken(pillName, currentTime);
-
-            if (myDatabase.getPillAmount(pillName) != newPillAmount ||
-                    myDatabase.getIsTaken(pillName) != 1 ||
-                    myDatabase.convertArrayToString(myDatabase.getPillTime(pillName)).equals(myContext.getString(R.string.nullString))) {
-                throw new SQLiteException();
-            }
-
-            holder.pill_time_textview.setText(takenTime);
-            holder.taken_btn.setVisibility(View.INVISIBLE);
-            holder.taken_btn.setClickable(false);
-            holder.reset_btn.setVisibility(View.VISIBLE);
-            holder.reset_btn.setClickable(true);
-            takenMediaPlayer.start();
-
-            deleteActiveNotifications(pillName);
-            toasts.showCustomToast(myContext, myContext.getString(R.string.pill_taken_toast, pillName));
-        });
-
-        holder.reset_btn.setOnClickListener(v -> dialogs.getPillResetDialog(myContext, pillName, holder, position, resetMediaPlayer).show());
-
-        holder.big_button.setOnClickListener(view -> {
-            Intent intent = new Intent(myContext, UpdatePill.class);
-            intent.putExtra(myContext.getString(R.string.primary_key_id), myDatabase.getPrimaryKeyId(pillName));
-            intent.putExtra(myContext.getString(R.string.pill_name), myDatabase.getPillName(pillName));
-            intent.putExtra(myContext.getString(R.string.pill_time), myDatabase.getPillTime(pillName));
-            intent.putExtra(myContext.getString(R.string.pill_date), myDatabase.getPillDate(pillName));
-            intent.putExtra(myContext.getString(R.string.pill_frequency), myDatabase.getFrequency(pillName));
-            intent.putExtra(myContext.getString(R.string.pill_start_date), myDatabase.getStartDate(pillName));
-            intent.putExtra(myContext.getString(R.string.pill_amount), myDatabase.getPillAmount(pillName));
-            intent.putExtra(myContext.getString(R.string.is_pill_taken), myDatabase.getIsTaken(pillName));
-            intent.putExtra(myContext.getString(R.string.time_taken), myDatabase.getTimeTaken(pillName));
-            intent.putExtra(myContext.getString(R.string.bottle_color), myDatabase.getBottleColor(pillName));
-            myContext.startActivity(intent);
-            MainActivity.backPresses = 0;
-        });
+        holder.bigButton.setOnClickListener(
+                view -> {
+                    Intent intent = new Intent(context, CreatePill.class);
+                    intent.putExtra(PRIMARY_KEY_INTENT_KEY_STRING, pill.getPrimaryKey());
+                    context.startActivity(intent);
+                    MainActivity.backPresses = 0;
+                });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            holder.big_button.setContextClickable(true);
+            holder.bigButton.setContextClickable(true);
         }
     }
-
-    private void deleteActiveNotifications(String pillName) {
-        int pk = myDatabase.getPrimaryKeyId(pillName);
-        for (int currentNumber = 1; currentNumber < myDatabase.getPillTime(pillName).length + 1; currentNumber++) {
-            NotificationManagerCompat.from(myContext).cancel(pillName, pk * 10 * 10 * 10 + currentNumber);
-        }
-    }
-
 }

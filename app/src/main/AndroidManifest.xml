@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.simpill">
+    xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".Simpill"
         android:exported="true"
@@ -15,27 +19,26 @@
         android:supportsRtl="true"
         android:theme="@style/SimpillAppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".UpdatePill" />
         <activity
             android:name=".CreatePill"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/SimpillAppTheme"
-            tools:targetApi="jelly_bean" />
+            android:theme="@style/SimpillAppTheme" />
         <activity
             android:name=".Settings"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/SimpillAppTheme"
-            tools:targetApi="jelly_bean" />
+            android:theme="@style/SimpillAppTheme" />
         <activity
             android:name=".About"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/SimpillAppTheme"
-            tools:targetApi="jelly_bean" />
+            android:theme="@style/SimpillAppTheme" />
         <activity
             android:name=".ChooseColor"
             android:parentActivityName=".MainActivity"
+            android:theme="@style/SimpillAppTheme" />
+        <activity
+            android:name=".PillAlarmDisplay"
             android:theme="@style/SimpillAppTheme"
-            tools:targetApi="jelly_bean" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -1,3 +1,4 @@
+/* (C) 2022 */
 package com.example.simpill;
 
 import android.app.TimePickerDialog;
@@ -8,19 +9,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Calendar;
+public class TimesRecyclerViewAdapter
+        extends RecyclerView.Adapter<TimesRecyclerViewAdapter.MyViewHolder> {
 
-public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecyclerViewAdapter.MyViewHolder> {
+    final Context context;
 
-
-    Context context;
-
-    Simpill simpill;
     SharedPrefs sharedPrefs;
     DatabaseHelper myDatabase;
     Dialogs dialogs;
@@ -29,8 +26,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
 
     String[] times;
 
-    int itemCount;
-
+    final int itemCount;
 
     TimesRecyclerViewAdapter(Context myContext, int clocks) {
         this.context = myContext;
@@ -39,10 +35,9 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        ImageButton clockBtn;
-        Button doneBtn;
-        TextView timeTextView;
+        final ImageButton clockBtn;
+        final Button doneBtn;
+        final TextView timeTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,15 +47,17 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         }
     }
 
-    @NonNull
-    @Override
-    public TimesRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    @NonNull @Override
+    public TimesRecyclerViewAdapter.MyViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View clocksView = inflater.inflate(R.layout.clock_recycler_view_item, parent, false);
         MyViewHolder holder = new MyViewHolder(clocksView);
         holder.setIsRecyclable(false);
 
-        return new TimesRecyclerViewAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.clock_recycler_view_item, parent, false));
+        return new TimesRecyclerViewAdapter.MyViewHolder(
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.clock_recycler_view_item, parent, false));
     }
 
     @Override
@@ -68,9 +65,11 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         initClasses();
         setOnClickListeners(holder, position);
 
-        holder.timeTextView.setText(context.getString(R.string.clocks_dialog_time_text, (position + 1)));
-        if (sharedPrefs.getDarkDialogsPref(context)) {
-            holder.timeTextView.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
+        holder.timeTextView.setText(
+                context.getString(R.string.clocks_dialog_time_text, (position + 1)));
+        if (sharedPrefs.getDarkDialogsPref()) {
+            holder.timeTextView.setTextColor(
+                    ResourcesCompat.getColor(context.getResources(), R.color.alice_blue, null));
         }
     }
 
@@ -86,19 +85,24 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         }
         return false;
     }
+
     public boolean checkForAdjacentTimes() {
-        for(int currentArrayNumber = 0; currentArrayNumber < times.length; currentArrayNumber++) {
+        for (int currentArrayNumber = 0; currentArrayNumber < times.length; currentArrayNumber++) {
             if (currentArrayNumber + 1 < times.length) {
-                times = myDatabase.sortTimeArray(context, times);
-                Calendar calendar = dateTimeManager.formatTimeStringAsCalendar(context, dateTimeManager.getUserTimezone(), times[currentArrayNumber]);
-                Calendar nextCalendar = dateTimeManager.formatTimeStringAsCalendar(context, dateTimeManager.getUserTimezone(), times[currentArrayNumber + 1]);
+                times = new ArrayHelper().sortTimeArray(times);
+                long currentReminderTime =
+                        dateTimeManager.convertTimeToCurrentDateTimeInMillis(
+                                times[currentArrayNumber]);
+                long nextReminderTime =
+                        dateTimeManager.convertTimeToCurrentDateTimeInMillis(
+                                times[currentArrayNumber + 1]);
 
-                long currentCalTime = calendar.getTimeInMillis();
-                long nextCalTime = nextCalendar.getTimeInMillis();
+                System.out.println(
+                        "Checking times " + currentReminderTime + " and " + nextReminderTime);
+                System.out.println("Checking times " + (nextReminderTime - currentReminderTime));
 
-                if (nextCalTime - currentCalTime < 900000L) {
-                    return true;
-                }
+                long difference = nextReminderTime - currentReminderTime;
+                return difference > 0 ? difference < 900000L : difference * -1 < 900000L;
             }
         }
         return false;
@@ -109,21 +113,37 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         holder.timeTextView.setOnClickListener(view -> showTimePicker(holder, position));
     }
 
-
     private void showTimePicker(MyViewHolder holder, int position) {
-        TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, selectedHour, selectedMinute) -> {
-            if (!sharedPrefs.get24HourFormatPref(context)) {
-                holder.timeTextView.setText(formatSelectedTimeAs12Hour(selectedHour, selectedMinute));
-            } else {
-                holder.timeTextView.setText(formatSelectedTimeAs24Hour(selectedHour, selectedMinute));
-            }
-            times[position] = formatSelectedTimeAs24Hour(selectedHour, selectedMinute);
-        };
+        TimePickerDialog.OnTimeSetListener timeSetListener =
+                (timePicker, selectedHour, selectedMinute) -> {
+                    if (!sharedPrefs.get24HourFormatPref()) {
+                        holder.timeTextView.setText(
+                                formatSelectedTimeAs12Hour(selectedHour, selectedMinute));
+                    } else {
+                        holder.timeTextView.setText(
+                                formatSelectedTimeAs24Hour(selectedHour, selectedMinute));
+                    }
+                    times[position] = formatSelectedTimeAs24Hour(selectedHour, selectedMinute);
+                };
         TimePickerDialog timePickerDialog;
-        if (sharedPrefs.getDarkDialogsPref(context)) {
-            timePickerDialog = new TimePickerDialog(context, TimePickerDialog.THEME_HOLO_DARK, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(context));
+        if (sharedPrefs.getDarkDialogsPref()) {
+            timePickerDialog =
+                    new TimePickerDialog(
+                            context,
+                            TimePickerDialog.THEME_HOLO_DARK,
+                            timeSetListener,
+                            12,
+                            0,
+                            sharedPrefs.get24HourFormatPref());
         } else {
-            timePickerDialog = new TimePickerDialog(context, TimePickerDialog.THEME_HOLO_LIGHT, timeSetListener, 12, 0, sharedPrefs.get24HourFormatPref(context));
+            timePickerDialog =
+                    new TimePickerDialog(
+                            context,
+                            TimePickerDialog.THEME_HOLO_LIGHT,
+                            timeSetListener,
+                            12,
+                            0,
+                            sharedPrefs.get24HourFormatPref());
         }
         timePickerDialog.show();
     }
@@ -155,8 +175,7 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
 
         if (selectedMinute < 10) {
             timeIn24HourFormat = selectedHour + ":0" + selectedMinute;
-        }
-        else {
+        } else {
             timeIn24HourFormat = selectedHour + ":" + selectedMinute;
         }
         if (selectedHour < 10) {
@@ -168,13 +187,11 @@ public class TimesRecyclerViewAdapter extends RecyclerView.Adapter<TimesRecycler
         return timeIn24HourFormat;
     }
 
-
     private void initClasses() {
-        simpill = new Simpill();
-        sharedPrefs = new SharedPrefs();
+        sharedPrefs = new SharedPrefs(context);
         myDatabase = new DatabaseHelper(context);
-        dialogs = new Dialogs();
-        toasts = new Toasts();
+        dialogs = new Dialogs(context);
+        toasts = new Toasts(context);
         dateTimeManager = new DateTimeManager();
     }
 

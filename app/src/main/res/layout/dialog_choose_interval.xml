@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/customDialogContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
@@ -10,7 +9,7 @@
     android:layout_margin="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/customDialogLayout"
+        android:id="@+id/custom_dialog_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_background"
@@ -19,14 +18,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/dialogTitleTextView"
+            android:id="@+id/dialog_title_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/dialog_title_background_purple"
             android:padding="10dp"
             android:paddingStart="20dp"
-            android:paddingLeft="20dp"
             android:paddingEnd="20dp"
+            android:fontFamily="@font/inter_medium"
             android:text="@string/custom_interval_dialog_title"
             android:textColor="@color/white"
             android:textSize="35sp"
@@ -39,11 +38,10 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
             android:contentDescription="@string/pill_content_description"
-            app:layout_constraintBottom_toBottomOf="@+id/dialogTitleTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_title_textview"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/dialogTitleTextView"
+            app:layout_constraintTop_toTopOf="@id/dialog_title_textview"
             app:srcCompat="@drawable/ic_clock_svgrepo_com" />
 
 
@@ -57,13 +55,14 @@
             android:paddingStart="4dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
+            android:fontFamily="@font/inter_medium"
             android:text="2"
             android:textColor="@color/black"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView2"
+            app:layout_constraintTop_toBottomOf="@id/dialog_message_textview"
             tools:ignore="HardcodedText,LabelFor,TextFields" />
 
         <Button
@@ -75,7 +74,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/calendar_btn"
-            app:layout_constraintTop_toBottomOf="@id/textView2"
+            app:layout_constraintTop_toBottomOf="@id/dialog_message_textview"
             android:contentDescription="@string/plus_button" />
 
         <Button
@@ -87,43 +86,41 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/calendar_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_message_textview"
             android:contentDescription="@string/minus_button" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/dialog_message_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:fontFamily="@font/truenoreg"
-            android:text="@string/custom_interval_dialog_text"
+            android:fontFamily="@font/inter_reg"
+            android:text="@string/custom_interval_dialog_message"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialogTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_title_textview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/done_btn"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="48dp"
+        android:fontFamily="@font/inter_medium"
         android:text="@string/done"
         android:textSize="18sp"
         android:textAllCaps="false"
         android:textColor="@color/alice_blue"
-        android:background="@drawable/dialog_bottom_btn"
+        android:background="@drawable/dialog_bottom_btn_purple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/customDialogLayout"
-        app:layout_constraintTop_toBottomOf="@id/customDialogLayout"/>
+        app:layout_constraintBottom_toBottomOf="@id/custom_dialog_constraint_layout"
+        app:layout_constraintTop_toBottomOf="@id/custom_dialog_constraint_layout"/>
 
 
 

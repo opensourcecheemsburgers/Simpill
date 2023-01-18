@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable-v21/dialog_bottom_btn_light.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable-v21/dialog_title_background_red.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/addicon.xml" value="0.5354166666666667" />
+        <entry key="app/src/main/res/drawable/animated_pill_bottle.xml" value="0.237" />
         <entry key="app/src/main/res/drawable/background_black.xml" value="0.5225" />
         <entry key="app/src/main/res/drawable/background_blue.xml" value="0.54" />
         <entry key="app/src/main/res/drawable/background_grey.xml" value="0.54" />
@@ -31,6 +32,7 @@
         <entry key="app/src/main/res/drawable/dialog_bottom_btn.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/dialog_bottom_btn_dark.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/dialog_bottom_btn_red.xml" value="0.523" />
+        <entry key="app/src/main/res/drawable/dialog_bottom_green.xml" value="0.2655" />
         <entry key="app/src/main/res/drawable/dialog_title_background.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/dialog_title_background_dark.xml" value="0.523" />
         <entry key="app/src/main/res/drawable/dialog_title_background_light.xml" value="0.3296875" />
@@ -38,6 +40,11 @@
         <entry key="app/src/main/res/drawable/dialog_title_background_red.xml" value="0.523" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.413" />
         <entry key="app/src/main/res/drawable/ic_add_svgrepo_com.xml" value="0.5447916666666667" />
+        <entry key="app/src/main/res/drawable/ic_alarm_bell_svgrepo_com.xml" value="0.3595" />
+        <entry key="app/src/main/res/drawable/ic_alarm_svgrepo_com.xml" value="0.3595" />
+        <entry key="app/src/main/res/drawable/ic_bell_svgrepo_com.xml" value="0.3595" />
+        <entry key="app/src/main/res/drawable/ic_bitcoin.xml" value="0.3595" />
+        <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.3595" />
         <entry key="app/src/main/res/drawable/ic_calendar_svgrepo_com.xml" value="0.5447916666666667" />
         <entry key="app/src/main/res/drawable/ic_check_svgrepo_com.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/ic_check_tick_svgrepo_com.xml" value="0.4015625" />
@@ -58,6 +65,7 @@
         <entry key="app/src/main/res/drawable/ic_question.xml" value="0.5447916666666667" />
         <entry key="app/src/main/res/drawable/ic_question_svgrepo_com.xml" value="0.5447916666666667" />
         <entry key="app/src/main/res/drawable/ic_remove_svgrepo_com.xml" value="0.5447916666666667" />
+        <entry key="app/src/main/res/drawable/ic_reset.xml" value="0.3075" />
         <entry key="app/src/main/res/drawable/ic_right_tick_svgrepo_com.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/ic_tick_svgrepo_com.xml" value="0.3296875" />
         <entry key="app/src/main/res/drawable/ic_warning_svgrepo_com.xml" value="0.5447916666666667" />
@@ -72,6 +80,7 @@
         <entry key="app/src/main/res/drawable/pill_background.xml" value="0.5447916666666667" />
         <entry key="app/src/main/res/drawable/pill_bottle.xml" value="0.23585526315789473" />
         <entry key="app/src/main/res/drawable/pill_bottle_blue.xml" value="0.4027777777777778" />
+        <entry key="app/src/main/res/drawable/pill_bottle_color_1.xml" value="0.237" />
         <entry key="app/src/main/res/drawable/pill_bottle_color_10.xml" value="0.4655" />
         <entry key="app/src/main/res/drawable/pill_bottle_color_11.xml" value="0.4655" />
         <entry key="app/src/main/res/drawable/pill_bottle_color_12.xml" value="0.4655" />
@@ -121,9 +130,12 @@
         <entry key="app/src/main/res/layout/app_about_nex.xml" value="0.528125" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/app_choose_color.xml" value="0.31354166666666666" />
-        <entry key="app/src/main/res/layout/app_create_pill.xml" value="0.31354166666666666" />
+        <entry key="app/src/main/res/layout/app_create_pill.xml" value="0.25" />
         <entry key="app/src/main/res/layout/app_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/app_settings.xml" value="0.31354166666666666" />
+        <entry key="app/src/main/res/layout/app_pill_alarm.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/app_pill_calendar.xml" value="0.24711415134672937" />
+        <entry key="app/src/main/res/layout/app_select_pill_name.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/app_settings.xml" value="0.5" />
         <entry key="app/src/main/res/layout/app_update_pill.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout/choose_color.xml" value="0.33026315789473687" />
         <entry key="app/src/main/res/layout/choose_color_light.xml" value="0.33026315789473687" />
@@ -142,6 +154,8 @@
         <entry key="app/src/main/res/layout/db_reset_dialog_layout_light.xml" value="0.3299342105263158" />
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout.xml" value="0.33480176211453744" />
         <entry key="app/src/main/res/layout/delete_pill_dialog_layout_light.xml" value="0.3310344827586207" />
+        <entry key="app/src/main/res/layout/dialog_ask_overlay_permission.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_ask_overlay_permission_dark.xml" value="0.3514322359982899" />
         <entry key="app/src/main/res/layout/dialog_choose_frequency.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_choose_frequency_dark.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_choose_interval.xml" value="0.5286458333333334" />
@@ -165,12 +179,12 @@
         <entry key="app/src/main/res/layout/dialog_past_date_dark.xml" value="0.5286458333333334" />
         <entry key="app/src/main/res/layout/dialog_pill_amount.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_pill_amount_dark.xml" value="0.67" />
-        <entry key="app/src/main/res/layout/dialog_pill_name.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_pill_name.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_pill_name_dark.xml" value="0.5286458333333334" />
         <entry key="app/src/main/res/layout/dialog_reset_warning.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/dialog_reset_warning_dark.xml" value="0.5286458333333334" />
         <entry key="app/src/main/res/layout/dialog_welcome.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/dialog_welcome_dark.xml" value="0.5286458333333334" />
+        <entry key="app/src/main/res/layout/dialog_welcome_dark.xml" value="0.25" />
         <entry key="app/src/main/res/layout/enter_amount_dialog.xml" value="0.8597122302158273" />
         <entry key="app/src/main/res/layout/enter_amount_dialog_light.xml" value="0.33" />
         <entry key="app/src/main/res/layout/enter_name_dialog.xml" value="0.3299342105263158" />
@@ -195,6 +209,7 @@
         <entry key="app/src/main/res/layout/settings2.xml" value="0.4796875" />
         <entry key="app/src/main/res/layout/settings_light.xml" value="0.5" />
         <entry key="app/src/main/res/layout/toast.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/toast_dark.xml" value="0.30104166666666665" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.5" />
         <entry key="app/src/main/res/layout/toolbar_light.xml" value="0.25" />
         <entry key="app/src/main/res/layout/update_pill.xml" value="0.33026315789473687" />
@@ -212,6 +227,7 @@
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="androidx.annotation.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
