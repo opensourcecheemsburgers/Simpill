@@ -338,8 +338,13 @@ public class CreatePill extends AppCompatActivity
     }
 
     private Boolean areTextViewsNonEmpty() {
-        return pillNameTextView.getText().toString().trim().length() != 0
-                && pillTimesTextView.getText().toString().trim().length() != 0;
+        if(pillNameTextView.getText().toString().trim().length() != 0
+                && pillTimesTextView.getText().toString().trim().length() != 0) {
+            createNewPillButton.setAlpha(1f);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -348,6 +353,7 @@ public class CreatePill extends AppCompatActivity
         pillNameTextView.setText(userPillName);
         isPillReady();
         pillNameAnimation.playAnimation();
+        areTextViewsNonEmpty();
     }
 
     @Override
@@ -519,6 +525,7 @@ public class CreatePill extends AppCompatActivity
         timesTextView.setVisibility(View.GONE);
         userTimesTextView.setVisibility(View.VISIBLE);
         userTimesTextView.setText(this.getString(R.string.reminder_times).concat(time));
+        areTextViewsNonEmpty();
     }
 
     @Override

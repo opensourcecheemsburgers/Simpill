@@ -28,6 +28,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
+
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -66,6 +68,35 @@ public class Pill {
     private int[] alarmRequestCodes;
     private int alarmsSet = 0;
     private int bottleColor = 2;
+
+    public Pill(
+            String name,
+            String[] timesArray,
+            String startDate,
+            String stockupDate,
+            Uri customAlarmUri,
+            int frequency,
+            int taken,
+            String timeTaken,
+            int supply,
+            int alarmType,
+            int alarmsSet,
+            int bottleColor) {
+        setName(name);
+        setTimesArray(timesArray);
+        setAlarmReminderTimes();
+        setStartDate(startDate);
+        setStockupDate(stockupDate);
+        setCustomAlarmUri(customAlarmUri);
+        setFrequency(frequency);
+        setTaken(taken);
+        setTimeTaken(timeTaken);
+        setSupply(supply);
+        setAlarmType(alarmType);
+        setAlarmsSet(alarmsSet);
+        setAlarmRequestCodes();
+        setBottleColor(bottleColor);
+    }
 
     public Pill(
             int primaryKey,
@@ -281,11 +312,15 @@ public class Pill {
     public void setAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+        Log.d("PILL_ALARM", "Setting alarms for " + getName());
 
-        for (int index = 0; getAlarmRequestCodes()[index] < getAlarmReminderTimes().length - 1; index++) {
+        for (int index = 0; index < getAlarmReminderTimes().length; index++) {
             int frequency = getFrequency();
             int requestCode = getAlarmRequestCodes()[index];
             long reminderTime = getAlarmReminderTimes()[index];
+
+            Log.d("PILL_ALARM", "at " + dateTimeManager.formatLongAsDateTimeString(reminderTime));
+            Log.d("PILL_ALARM", "with request code" + requestCode);
 
             @SuppressLint("InlinedApi")
             PendingIntent pillAlarmPendingIntent =
@@ -399,7 +434,7 @@ public class Pill {
     public void cancelAlarms(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        for (int index = 0; getAlarmRequestCodes()[index] < getAlarmReminderTimes().length; index++) {
+        for (int index = 0; index < getAlarmReminderTimes().length; index++) {
             int requestCode = getAlarmRequestCodes()[index];
 
             @SuppressLint("InlinedApi")
@@ -427,24 +462,6 @@ public class Pill {
                         PendingIntent.FLAG_IMMUTABLE);
 
         alarmManager.cancel(pillSupplyPendingIntent);
-    }
-
-    public void printPillInfoToConsole() {
-//        System.out.println("Name: " + getName());
-//        System.out.println("PK: " + getPrimaryKey());
-//        for (String time : timesArray) System.out.println("Times Array Element: " + time);
-        for (int requestCode: getAlarmRequestCodes()) System.out.println("Request code: " + requestCode);
-//        System.out.println("Times 24hr Format: " + times24HrFormat);
-//        System.out.println("Times 12hr Format: " + times12HrFormat);
-//        System.out.println("Time taken: " + timeTaken);
-//        System.out.println("Is pill taken: " + taken);
-//        System.out.println("Start date: " + startDate);
-//        System.out.println("Stockup date: " + stockupDate);
-//        System.out.println("Supply: " + supply);
-//        System.out.println("Alarm Type: " + alarmType);
-//        System.out.println("Alarm URI: " + customAlarmUri);
-//        System.out.println("Alarms Set: " + alarmsSet);
-//        System.out.println("Bottle Color: " + bottleColor);
     }
 
     public void addToDatabase(Context context) {

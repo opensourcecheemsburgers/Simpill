@@ -11,9 +11,8 @@ public class ReceiverPillAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Pill pill =
-                new DatabaseHelper(context)
-                        .getPill(intent.getIntExtra(PRIMARY_KEY_INTENT_KEY_STRING, -1));
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        Pill pill = databaseHelper.getPill(intent.getIntExtra(PRIMARY_KEY_INTENT_KEY_STRING, -1));
         pill.sendPillNotification(context);
         pill.setAlarm(context);
     }

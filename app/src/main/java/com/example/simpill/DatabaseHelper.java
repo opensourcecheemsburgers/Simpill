@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "PillList.db";
@@ -155,6 +156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Pill getPill(int primaryKey) {
+        Log.d("db", "trying to find pk " + primaryKey);
+
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PK + " = ?";
         String[] selectionArgs = new String[] {(String.valueOf(primaryKey))};
 
@@ -177,31 +180,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private Pill returnPillFromCursor(Cursor cursor) {
-        Pill pill =
-                new Pill(
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PK)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME))
-                                .split(STR_SEPARATOR),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCKUP)),
-                        Uri.parse(
-                                cursor.getString(
-                                        cursor.getColumnIndexOrThrow(COLUMN_CUSTOM_ALARM_URI))),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FREQUENCY)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ISTAKEN)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMETAKEN)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SUPPLY)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TYPE)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARMSSET)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR)));
-        pill.printPillInfoToConsole();
-        return pill;
-    }
-
-    public Pill getPillFromPosition(int position) {
-        Cursor cursor = readSqlDatabase();
-        cursor.moveToPosition(position);
-        return returnPillFromCursor(cursor);
+        return new Pill(
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PK)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME))
+                        .split(STR_SEPARATOR),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCKUP)),
+                Uri.parse(
+                        cursor.getString(
+                                cursor.getColumnIndexOrThrow(COLUMN_CUSTOM_ALARM_URI))),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FREQUENCY)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ISTAKEN)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMETAKEN)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SUPPLY)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TYPE)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARMSSET)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR)));
     }
 }

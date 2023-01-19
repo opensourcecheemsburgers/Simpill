@@ -18,51 +18,56 @@ public class DatabaseTest {
     private static final Uri DEFAULT_ALARM_URI =
             Uri.parse("android.resource://com.winston69.simpill/" + R.raw.eas_alarm);
 
+    public String getTestTime(int offset) {
+       DateTimeManager dateTimeManager = new DateTimeManager();
+       long oneMin = 60000L;
+       return dateTimeManager.formatLongAsTimeString(System.currentTimeMillis() + (oneMin * offset));
+    }
+
     public Pill[] getTestPills() {
         Pill[] pills = new Pill[5];
 
-        int[] primaryKeys = new int[] {1, 2, 3, 4, 5};
         String[] pillNames = {"Melatonin", "Prozac", "Adderall", "Vitamins", "Supplements"};
         String[][] pillTimes = {
-            new String[] {"00:00"},
-            new String[] {"08:00", "16:00"},
-            new String[] {"09:00", "15:00"},
-            new String[] {"08:00", "13:00", "17:00"},
-            new String[] {"08:00", "13:00", "17:00", "21:00"}
+                new String[]{getTestTime(0)},
+                new String[]{getTestTime(1), getTestTime(2)},
+                new String[]{getTestTime(3), getTestTime(4)},
+                new String[]{getTestTime(5), getTestTime(6), getTestTime(7)},
+                new String[]{getTestTime(8), getTestTime(9), getTestTime(10), getTestTime(11)}
         };
         String[] pillStockups = {
-            "2023/01/19", "2023/01/19", "2023/01/19", "2023/01/19", "2023/01/19"
+                "2023/01/19", "2023/01/19", "2023/01/19", "2023/01/19", "2023/01/19"
         };
         Uri[] customAlarmUris = {
-            DEFAULT_ALARM_URI,
-            DEFAULT_ALARM_URI,
-            DEFAULT_ALARM_URI,
-            DEFAULT_ALARM_URI,
-            DEFAULT_ALARM_URI
+                DEFAULT_ALARM_URI,
+                DEFAULT_ALARM_URI,
+                DEFAULT_ALARM_URI,
+                DEFAULT_ALARM_URI,
+                DEFAULT_ALARM_URI
         };
         String[] pillStartDates = {
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING
         };
         int[] pillSupplies = {30, 30, 30, 30, 30};
         int[] pillFrequency = {1, 0, 0, 0, 0};
         int[] isTaken = {0, 0, 0, 0, 0};
         int[] alarmTypes = {
-            DatabaseHelper.ALARM,
-            DatabaseHelper.ALARM,
-            DatabaseHelper.ALARM,
-            DatabaseHelper.ALARM,
-            DatabaseHelper.ALARM
+                DatabaseHelper.ALARM,
+                DatabaseHelper.ALARM,
+                DatabaseHelper.ALARM,
+                DatabaseHelper.ALARM,
+                DatabaseHelper.ALARM
         };
         String[] pillTakenTimes = {
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING,
-            NULL_DB_ENTRY_STRING
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING,
+                NULL_DB_ENTRY_STRING
         };
         int[] alarmsSetArr = {0, 0, 0, 0, 0};
         int[] bottleColorArr = {2, 2, 2, 2, 2};
@@ -70,7 +75,6 @@ public class DatabaseTest {
         for (int index = 0; index < pills.length; index++) {
             pills[index] =
                     new Pill(
-                            primaryKeys[index],
                             pillNames[index],
                             pillTimes[index],
                             pillStartDates[index],
@@ -88,7 +92,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void addAndRetrievePill() throws SQLDataException {
+    public void addPills() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
 
@@ -98,7 +102,16 @@ public class DatabaseTest {
         for (Pill pill : pills) {
             pill.addToDatabase(context);
         }
+    }
 
+    @Test
+    public void retrieveAndVerifyPills() throws SQLDataException {
+        addPills();
+
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+
+        Pill[] pills = getTestPills();
         Pill[] retrievedPills = databaseHelper.getAllPills();
 
         for (int index = 0; index < pills.length; index++) {
@@ -123,11 +136,22 @@ public class DatabaseTest {
                             .toString()
                             .equals(retrievedPill.getCustomAlarmUri().toString());
             boolean alarmType = retrievedPill.getAlarmType() == pill.getAlarmType();
-            boolean alarmsSet =
-                    retrievedPill.getAlarmsSet()
-                            != pill.getAlarmsSet(); // this gets changed because alarms are set
-            // after being added to db.
+            boolean alarmsSet = retrievedPill.getAlarmsSet() == pill.getAlarmsSet();
             boolean bottleColor = retrievedPill.getBottleColor() == pill.getBottleColor();
+
+            String eq = "equal";
+            String notEq = "not equal";
+
+            System.out.println("Name " + (name ? eq : notEq));
+            System.out.println("Times " + (times ? eq : notEq));
+            System.out.println("TimeTaken " + (timeTaken ? eq : notEq));
+            System.out.println("StartDate " + (startDate ? eq : notEq));
+            System.out.println("StockupDate " + (stockupDate ? eq : notEq));
+            System.out.println("Uri " + (customAlarmUri ? eq : notEq));
+            System.out.println("AlarmType " + (alarmType ? eq : notEq));
+            System.out.println("AlarmsSet " + (alarmsSet ? eq : notEq));
+            System.out.println("BottleColor " + (bottleColor ? eq : notEq));
+            
 
             if (!name
                     || !times
@@ -138,6 +162,8 @@ public class DatabaseTest {
                     || !alarmType
                     || !alarmsSet
                     || !bottleColor) throw new SQLDataException();
+
+            System.out.println("");
         }
     }
 
@@ -148,5 +174,17 @@ public class DatabaseTest {
 
         Cursor cursor = databaseHelper.readSqlDatabase();
         cursor.moveToFirst();
+    }
+
+    @Test
+    public void retrievePillsByPrimaryKey() {
+        addPills();
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        Pill[] retrievedPills = databaseHelper.getAllPills();
+
+        for (Pill retrievedPill : retrievedPills) {
+            databaseHelper.getPill(retrievedPill.getPrimaryKey());
+        }
     }
 }

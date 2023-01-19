@@ -228,7 +228,6 @@ public class MainRecyclerViewAdapter
                                         pill.getName()));
                         if (sharedPrefs.getPillSoundPref()) audioHelper.getShakePlayer().start();
                     }
-                    pill.sendPillNotification(context);
                 });
     }
 
