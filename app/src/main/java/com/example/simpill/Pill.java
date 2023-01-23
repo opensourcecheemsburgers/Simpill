@@ -309,12 +309,7 @@ public class Pill {
 
     public void setAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-<<<<<<< HEAD
-=======
-        Log.d("PILL_ALARM", "Setting alarms for " + getName());
-
->>>>>>> 655fef7 (Simpill 1.3.1)
+        
         for (int index = 0; index < getAlarmReminderTimes().length; index++) {
             int frequency = getFrequency();
             int requestCode = getAlarmRequestCodes()[index];
@@ -464,12 +459,8 @@ public class Pill {
 
         alarmManager.cancel(pillSupplyPendingIntent);
     }
-
-<<<<<<< HEAD
+    
     public Pill addToDatabase(Context context) {
-=======
-    public void addToDatabase(Context context) {
->>>>>>> 655fef7 (Simpill 1.3.1)
         setContentValues();
         setAlarmRequestCodes();
         Pill pill = new DatabaseHelper(context).addPill(this);

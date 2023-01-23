@@ -347,12 +347,7 @@ public class CreatePill extends AppCompatActivity
     }
 
     private Boolean areTextViewsNonEmpty() {
-<<<<<<< HEAD
-        if (pillNameTextView.getText().toString().trim().length() != 0
-=======
-        if(pillNameTextView.getText().toString().trim().length() != 0
->>>>>>> 655fef7 (Simpill 1.3.1)
-                && pillTimesTextView.getText().toString().trim().length() != 0) {
+        if(pillNameTextView.getText().toString().trim().length() != 0 && pillTimesTextView.getText().toString().trim().length() != 0) {
             createNewPillButton.setAlpha(1f);
             return true;
         } else {

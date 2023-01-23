@@ -195,31 +195,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return new Pill(
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PK)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
-<<<<<<< HEAD
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)).split(STR_SEPARATOR),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCKUP)),
                 Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOM_ALARM_URI))),
-=======
-                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME))
-                        .split(STR_SEPARATOR),
-                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCKUP)),
-                Uri.parse(
-                        cursor.getString(
-                                cursor.getColumnIndexOrThrow(COLUMN_CUSTOM_ALARM_URI))),
->>>>>>> 655fef7 (Simpill 1.3.1)
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FREQUENCY)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ISTAKEN)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMETAKEN)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SUPPLY)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TYPE)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARMSSET)),
-<<<<<<< HEAD
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR))
         );
-=======
-                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR)));
->>>>>>> 655fef7 (Simpill 1.3.1)
     }
 }
