@@ -21,8 +21,13 @@ android {
         applicationId "com.winston69.simpill"
         minSdkVersion 21
         targetSdkVersion 33
+<<<<<<< HEAD
+        versionCode 18
+        versionName "1.3.2"
+=======
         versionCode 17
         versionName "1.3.1"
+>>>>>>> 655fef7 (Simpill 1.3.1)
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -70,4 +75,5 @@ dependencies {
     testImplementation 'com.google.truth:truth:1.1.3'
     testImplementation 'org.mockito:mockito-core:3.3.3'
     implementation "androidx.test:runner:1.5.2"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

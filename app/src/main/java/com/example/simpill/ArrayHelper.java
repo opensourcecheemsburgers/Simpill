@@ -71,4 +71,11 @@ public class ArrayHelper {
         System.arraycopy(pillArray, index + 1, pillArrayCopy, index, pillArray.length - index - 1);
         return pillArrayCopy;
     }
+
+    public Pill[] addPillToPillArray(Pill[] pillArray, Pill pill) {
+        Pill[] pillArrayCopy = new Pill[pillArray.length + 1];
+        System.arraycopy(pillArray, 0, pillArrayCopy, 0, pillArray.length);
+        pillArrayCopy[pillArrayCopy.length - 1] = pill;
+        return pillArrayCopy;
+    }
 }

@@ -671,7 +671,7 @@ public class Dialogs extends AppCompatDialogFragment {
                     dialog.dismiss();
                     chooseFrequencyDialogListener.setInterval(
                             Integer.parseInt(enterAmountEditText.getText().toString()));
-                    chooseFrequencyDialogListener.openTimePicker();
+                    chooseFrequencyDialogListener.openStartDatePicker();
                 });
         return dialog;
     }
@@ -1123,6 +1123,7 @@ public class Dialogs extends AppCompatDialogFragment {
 
     public interface PillReminderMethodListener {
         void applyReminderMethod(int alarmType);
+
         void openFileSelect();
     }
 

@@ -1,6 +1,7 @@
 /* (C) 2022 */
 package com.example.simpill;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
@@ -30,7 +31,6 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
                 && getIntent().getBooleanExtra("theme_changed_bool", false)) {
             settingsChanged = true;
         }
-
         setContentViewBasedOnThemeSetting();
         initWidgets();
         createOnClickListeners();
@@ -53,7 +53,11 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
     private void createOnClickListeners() {
         Dialogs getDialogs = new Dialogs(this);
 
-        deleteAllBtn.setOnClickListener(view -> getDialogs.getDatabaseDeletionDialog().show());
+        deleteAllBtn.setOnClickListener(view -> {
+            Dialog dialog = getDialogs.getDatabaseDeletionDialog();
+            dialog.findViewById(R.id.btnYes).setOnClickListener(v -> Process.killProcess(Process.myPid()));
+            dialog.show();
+        });
         backButton.setOnClickListener(
                 v -> {
                     if (settingsChanged) {

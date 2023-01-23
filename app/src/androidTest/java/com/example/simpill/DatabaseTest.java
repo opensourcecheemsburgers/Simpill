@@ -6,6 +6,7 @@ import static com.example.simpill.Pill.NULL_DB_ENTRY_STRING;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import java.sql.SQLDataException;
@@ -19,9 +20,16 @@ public class DatabaseTest {
             Uri.parse("android.resource://com.winston69.simpill/" + R.raw.eas_alarm);
 
     public String getTestTime(int offset) {
+<<<<<<< HEAD
+        DateTimeManager dateTimeManager = new DateTimeManager();
+        long oneMin = 60000L;
+        return dateTimeManager.formatLongAsTimeString(
+                System.currentTimeMillis() + (oneMin * offset));
+=======
        DateTimeManager dateTimeManager = new DateTimeManager();
        long oneMin = 60000L;
        return dateTimeManager.formatLongAsTimeString(System.currentTimeMillis() + (oneMin * offset));
+>>>>>>> 655fef7 (Simpill 1.3.1)
     }
 
     public Pill[] getTestPills() {
@@ -29,11 +37,19 @@ public class DatabaseTest {
 
         String[] pillNames = {"Melatonin", "Prozac", "Adderall", "Vitamins", "Supplements"};
         String[][] pillTimes = {
+<<<<<<< HEAD
+            new String[] {getTestTime(0)},
+            new String[] {getTestTime(1), getTestTime(2)},
+            new String[] {getTestTime(3), getTestTime(4)},
+            new String[] {getTestTime(5), getTestTime(6), getTestTime(7)},
+            new String[] {getTestTime(8), getTestTime(9), getTestTime(10), getTestTime(11)}
+=======
                 new String[]{getTestTime(0)},
                 new String[]{getTestTime(1), getTestTime(2)},
                 new String[]{getTestTime(3), getTestTime(4)},
                 new String[]{getTestTime(5), getTestTime(6), getTestTime(7)},
                 new String[]{getTestTime(8), getTestTime(9), getTestTime(10), getTestTime(11)}
+>>>>>>> 655fef7 (Simpill 1.3.1)
         };
         String[] pillStockups = {
                 "2023/01/19", "2023/01/19", "2023/01/19", "2023/01/19", "2023/01/19"
@@ -105,7 +121,11 @@ public class DatabaseTest {
     }
 
     @Test
+<<<<<<< HEAD
+    public void retrieveAndVerifyPills() {
+=======
     public void retrieveAndVerifyPills() throws SQLDataException {
+>>>>>>> 655fef7 (Simpill 1.3.1)
         addPills();
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -117,6 +137,9 @@ public class DatabaseTest {
         for (int index = 0; index < pills.length; index++) {
             Pill pill = pills[index];
             Pill retrievedPill = retrievedPills[index];
+<<<<<<< HEAD
+            assert arePillsEqual(pill, retrievedPill);
+=======
 
             boolean name = retrievedPill.getName().equals(pill.getName());
             boolean times = true;
@@ -164,11 +187,13 @@ public class DatabaseTest {
                     || !bottleColor) throw new SQLDataException();
 
             System.out.println("");
+>>>>>>> 655fef7 (Simpill 1.3.1)
         }
     }
 
     @Test
     public void readPillsCursor() {
+        addPills();
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
 
@@ -181,10 +206,65 @@ public class DatabaseTest {
         addPills();
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
+<<<<<<< HEAD
+        Pill[] pills = databaseHelper.getAllPills();
+
+        for (Pill pill : pills) {
+            Pill retrievedPill = databaseHelper.getPill(pill.getPrimaryKey());
+            assert arePillsEqual(pill, retrievedPill);
+        }
+    }
+
+    public boolean arePillsEqual(Pill firstPill, Pill secondPill) {
+        boolean name = firstPill.getName().equals(secondPill.getName());
+        boolean times = true;
+        String[] pillTimesArray = secondPill.getTimesArray();
+        String[] retrievedPillTimesArray = firstPill.getTimesArray();
+        for (int timeIndex = 0; timeIndex < retrievedPillTimesArray.length; timeIndex++) {
+            if (!retrievedPillTimesArray[timeIndex].equals(pillTimesArray[timeIndex])) {
+                times = false;
+                break;
+            }
+        }
+        boolean timeTaken = firstPill.getTimeTaken().equals(secondPill.getTimeTaken());
+        boolean startDate = firstPill.getStartDate().equals(secondPill.getStartDate());
+        boolean stockupDate = firstPill.getStockupDate().equals(secondPill.getStockupDate());
+        boolean customAlarmUri =
+                secondPill.getCustomAlarmUri()
+                        .toString()
+                        .equals(firstPill.getCustomAlarmUri().toString());
+        boolean alarmType = firstPill.getAlarmType() == secondPill.getAlarmType();
+        boolean bottleColor = firstPill.getBottleColor() == secondPill.getBottleColor();
+
+
+        String eq = "equal";
+        String notEq = "not equal";
+
+        System.out.println("Name " + (name ? eq : notEq));
+        System.out.println("Times " + (times ? eq : notEq));
+        System.out.println("TimeTaken " + (timeTaken ? eq : notEq));
+        System.out.println("StartDate " + (startDate ? eq : notEq));
+        System.out.println("StockupDate " + (stockupDate ? eq : notEq));
+        System.out.println("Uri " + (customAlarmUri ? eq : notEq));
+        System.out.println("AlarmType " + (alarmType ? eq : notEq));
+        System.out.println("BottleColor " + (bottleColor ? eq : notEq));
+
+        return name
+                && times
+                && timeTaken
+                && startDate
+                && stockupDate
+                && customAlarmUri
+                && alarmType
+                && bottleColor;
+    }
+
+=======
         Pill[] retrievedPills = databaseHelper.getAllPills();
 
         for (Pill retrievedPill : retrievedPills) {
             databaseHelper.getPill(retrievedPill.getPrimaryKey());
         }
     }
+>>>>>>> 655fef7 (Simpill 1.3.1)
 }

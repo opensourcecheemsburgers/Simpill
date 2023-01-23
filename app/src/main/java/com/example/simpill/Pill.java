@@ -146,7 +146,7 @@ public class Pill {
         setAlarmsSet(1);
         updatePillInDatabase(context);
         PillListener pillListener = (PillListener) context;
-        pillListener.notifyAdapterOfResetPill(recyclerViewPosition);
+        pillListener.notifyResetPill(recyclerViewPosition);
     }
 
     public void autoResetPill(Context context) {
@@ -301,19 +301,20 @@ public class Pill {
     }
 
     public void deleteActiveNotifications(Context context) {
-            for (int currentNumber = 1;
-                 currentNumber < getTimesArray().length + 1;
-                 currentNumber++) {
-                NotificationManagerCompat.from(context)
-                        .cancel(getName(), primaryKey * 10 * 10 * 10 + currentNumber);
+        for (int currentNumber = 1; currentNumber < getTimesArray().length + 1; currentNumber++) {
+            NotificationManagerCompat.from(context)
+                    .cancel(getName(), primaryKey * 10 * 10 * 10 + currentNumber);
         }
     }
 
     public void setAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+<<<<<<< HEAD
+=======
         Log.d("PILL_ALARM", "Setting alarms for " + getName());
 
+>>>>>>> 655fef7 (Simpill 1.3.1)
         for (int index = 0; index < getAlarmReminderTimes().length; index++) {
             int frequency = getFrequency();
             int requestCode = getAlarmRequestCodes()[index];
@@ -464,13 +465,18 @@ public class Pill {
         alarmManager.cancel(pillSupplyPendingIntent);
     }
 
+<<<<<<< HEAD
+    public Pill addToDatabase(Context context) {
+=======
     public void addToDatabase(Context context) {
+>>>>>>> 655fef7 (Simpill 1.3.1)
         setContentValues();
         setAlarmRequestCodes();
-        new DatabaseHelper(context).addPill(this);
-        setAlarm(context);
-        setStockupAlarm(context);
-        setAlarmsSet(1);
+        Pill pill = new DatabaseHelper(context).addPill(this);
+        pill.setAlarm(context);
+        pill.setStockupAlarm(context);
+        pill.setAlarmsSet(1);
+        return pill;
     }
 
     public void updatePillInDatabase(Context context) {
@@ -482,7 +488,7 @@ public class Pill {
         cancelAlarms(context);
         new DatabaseHelper(context).deletePill(this);
         PillListener pillListener = (PillListener) context;
-        pillListener.notifyAdapterOfDeletedPill(this, recyclerViewPosition);
+        pillListener.notifyDeletedPill(this, recyclerViewPosition);
     }
 
     private void setAlarmReminderTimes() {
@@ -551,6 +557,10 @@ public class Pill {
     }
 
     public int getPrimaryKey() {
+        if (primaryKey <= 0) {
+
+        }
+
         return this.primaryKey;
     }
 
@@ -777,8 +787,11 @@ public class Pill {
     }
 
     public interface PillListener {
-        void notifyAdapterOfDeletedPill(Pill pill, int position);
 
-        void notifyAdapterOfResetPill(int position);
+        void notifyAddedPill(Pill pill);
+
+        void notifyDeletedPill(Pill pill, int position);
+
+        void notifyResetPill(int position);
     }
 }

@@ -1,6 +1,7 @@
 /* (C) 2022 */
 package com.example.simpill;
 
+import static com.example.simpill.CreatePill.NEW_PILL_INTENT_KEY;
 import static com.example.simpill.Pill.PILL_TAKEN_VIA_NOTIFICATION_INTENT_KEY;
 import static com.example.simpill.Pill.PRIMARY_KEY_INTENT_KEY_STRING;
 import static com.example.simpill.Simpill.CRASH_DATA_INTENT_KEY_STRING;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements Pill.PillListener
 
     private final SharedPrefs sharedPrefs = new SharedPrefs(this);
     private final DatabaseHelper myDatabase = new DatabaseHelper(this);
+    private final ArrayHelper arrayHelper = new ArrayHelper();
     private final Toasts toasts = new Toasts(this);
     public Pill[] pills;
 
@@ -66,6 +68,15 @@ public class MainActivity extends AppCompatActivity implements Pill.PillListener
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        boolean newPillAdded = intent.hasExtra(NEW_PILL_INTENT_KEY);
+        int pk = intent.getIntExtra(NEW_PILL_INTENT_KEY, -1);
+
+        if(newPillAdded && pk != -1) {
+            Pill[] newPillArray = arrayHelper.addPillToPillArray(pills, myDatabase.getPill(intent.getIntExtra(NEW_PILL_INTENT_KEY, -1)));
+            pills = newPillArray;
+            myAdapter.pills = newPillArray;
+            myAdapter.notifyItemInserted(newPillArray.length - 1);
+        }
         onNotificationClicked(intent);
     }
 
@@ -295,8 +306,16 @@ public class MainActivity extends AppCompatActivity implements Pill.PillListener
     }
 
     @Override
-    public void notifyAdapterOfDeletedPill(Pill pill, int position) {
-        Pill[] newPillArray = new ArrayHelper().deletePillFromPillArray(myAdapter.pills, pill);
+    public void notifyAddedPill(Pill pill) {
+        Pill[] newPillArray = arrayHelper.addPillToPillArray(myAdapter.pills, pill);
+        this.pills = newPillArray;
+        myAdapter.pills = newPillArray;
+        myAdapter.notifyItemInserted(newPillArray.length - 1);
+    }
+
+    @Override
+    public void notifyDeletedPill(Pill pill, int position) {
+        Pill[] newPillArray = arrayHelper.deletePillFromPillArray(myAdapter.pills, pill);
         this.pills = newPillArray;
         myAdapter.pills = newPillArray;
         myAdapter.notifyItemRemoved(position);
@@ -304,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements Pill.PillListener
     }
 
     @Override
-    public void notifyAdapterOfResetPill(int position) {
+    public void notifyResetPill(int position) {
         myAdapter.notifyItemChanged(position);
     }
 }

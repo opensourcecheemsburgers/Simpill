@@ -125,9 +125,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void addPill(Pill userPill) {
+    public Pill addPill(Pill userPill) {
         SQLiteDatabase pillDatabase = this.getWritableDatabase();
         pillDatabase.insert(TABLE_NAME, null, userPill.getContentValues());
+        return getNewestPill();
     }
 
     public void updatePill(Pill userPill) {
@@ -153,6 +154,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
+    }
+
+    private Pill getNewestPill() {
+        String query = "SELECT * FROM " + TABLE_NAME;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToLast();
+        Pill pill = returnPillFromCursor(cursor);
+        cursor.close();
+        return pill;
     }
 
     public Pill getPill(int primaryKey) {
@@ -183,6 +195,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return new Pill(
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PK)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
+<<<<<<< HEAD
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)).split(STR_SEPARATOR),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCKUP)),
+                Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOM_ALARM_URI))),
+=======
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME))
                         .split(STR_SEPARATOR),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE)),
@@ -190,12 +208,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Uri.parse(
                         cursor.getString(
                                 cursor.getColumnIndexOrThrow(COLUMN_CUSTOM_ALARM_URI))),
+>>>>>>> 655fef7 (Simpill 1.3.1)
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FREQUENCY)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ISTAKEN)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMETAKEN)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SUPPLY)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TYPE)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ALARMSSET)),
+<<<<<<< HEAD
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR))
+        );
+=======
                 cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_BOTTLECOLOR)));
+>>>>>>> 655fef7 (Simpill 1.3.1)
     }
 }

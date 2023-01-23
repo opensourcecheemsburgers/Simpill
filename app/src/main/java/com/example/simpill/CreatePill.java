@@ -40,6 +40,7 @@ public class CreatePill extends AppCompatActivity
                 Dialogs.OnReminderTimeSetListener,
                 Dialogs.GetStockupDateDialogListener {
 
+    public static final String NEW_PILL_INTENT_KEY = "pill_created";
     private final SharedPrefs sharedPrefs = new SharedPrefs(this);
     final Dialogs dialogs = new Dialogs(this);
     private final Toasts toasts = new Toasts(this);
@@ -111,7 +112,12 @@ public class CreatePill extends AppCompatActivity
 
             timesTextView.setVisibility(View.GONE);
             userTimesTextView.setVisibility(View.VISIBLE);
-            userTimesTextView.setText(this.getString(R.string.reminder_times).concat(is24HrFormat ? userPill.getTimes24HrFormat() : userPill.getTimes12HrFormat()));
+            userTimesTextView.setText(
+                    this.getString(R.string.reminder_times)
+                            .concat(
+                                    is24HrFormat
+                                            ? userPill.getTimes24HrFormat()
+                                            : userPill.getTimes12HrFormat()));
             setInterval(userPill.getFrequency());
             applyReminderMethod(userPill.getAlarmType());
 
@@ -134,7 +140,9 @@ public class CreatePill extends AppCompatActivity
 
     private void createPill() {
         if (areTextViewsNonEmpty()) {
-            userPill.addToDatabase(this);
+            Pill pill = userPill.addToDatabase(this);
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(NEW_PILL_INTENT_KEY, pill.getPrimaryKey());
             startActivity(new Intent(this, MainActivity.class));
         }
     }
@@ -231,11 +239,12 @@ public class CreatePill extends AppCompatActivity
         reminderMethodTextView.setOnClickListener(
                 v -> dialogs.getAlarmOrNotificationDialog().show());
         alarmBellButton.setOnClickListener(v -> dialogs.getAlarmOrNotificationDialog().show());
-        userTimesTextView.setOnClickListener(v -> {
-            if (userPill.getFrequency() < DatabaseHelper.DAILY) {
-                dialogs.getChooseReminderAmountDialog(2);
-            }
-        });
+        userTimesTextView.setOnClickListener(
+                v -> {
+                    if (userPill.getFrequency() < DatabaseHelper.DAILY) {
+                        dialogs.getChooseReminderAmountDialog(2);
+                    }
+                });
     }
 
     private void stopAlarm() {
@@ -338,7 +347,11 @@ public class CreatePill extends AppCompatActivity
     }
 
     private Boolean areTextViewsNonEmpty() {
+<<<<<<< HEAD
+        if (pillNameTextView.getText().toString().trim().length() != 0
+=======
         if(pillNameTextView.getText().toString().trim().length() != 0
+>>>>>>> 655fef7 (Simpill 1.3.1)
                 && pillTimesTextView.getText().toString().trim().length() != 0) {
             createNewPillButton.setAlpha(1f);
             return true;
@@ -536,5 +549,9 @@ public class CreatePill extends AppCompatActivity
         pillStockupSubtext.setVisibility(View.GONE);
         pillStockupTextView.setPadding(0, 0, 0, 0);
         pillDateAnimation.playAnimation();
+    }
+
+    public interface PillCreationListener {
+        void notifyAddedPill(Pill pill);
     }
 }
