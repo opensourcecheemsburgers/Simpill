@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
+import android.util.Log;
 import android.widget.Button;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,8 +56,8 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
 
         deleteAllBtn.setOnClickListener(view -> {
             Dialog dialog = getDialogs.getDatabaseDeletionDialog();
-            dialog.findViewById(R.id.btnYes).setOnClickListener(v -> Process.killProcess(Process.myPid()));
             dialog.show();
+            dialog.findViewById(R.id.btnYes).setOnClickListener(v -> Process.killProcess(Process.myPid()));
         });
         backButton.setOnClickListener(
                 v -> {
