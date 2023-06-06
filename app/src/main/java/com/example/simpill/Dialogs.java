@@ -474,6 +474,7 @@ public class Dialogs extends AppCompatDialogFragment {
         }
 
         enterAmountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        enterAmountEditText.setText(String.valueOf(amount));
 
         doneBtn.setOnClickListener(
                 view -> {
@@ -482,11 +483,15 @@ public class Dialogs extends AppCompatDialogFragment {
                             .show();
                 });
 
-        addBtn.setOnClickListener(view -> enterAmountEditText.setText(String.valueOf(amount + 1)));
+        addBtn.setOnClickListener(view -> {
+            int currentAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+            enterAmountEditText.setText(String.valueOf(currentAmount + 1));
+        });
         minusBtn.setOnClickListener(
                 view -> {
-                    if (!(amount - 1 <= 2)) {
-                        enterAmountEditText.setText(String.valueOf(amount - 1));
+                    int currentAmount = Integer.parseInt(enterAmountEditText.getText().toString());
+                    if (currentAmount - 1 > 0) {
+                        enterAmountEditText.setText(String.valueOf(currentAmount - 1));
                     }
                 });
 
