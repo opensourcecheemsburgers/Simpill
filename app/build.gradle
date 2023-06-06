@@ -1,15 +1,11 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
 }
 
 android {
     compileSdkVersion 33
     buildToolsVersion '33.0.0'
-
-
-    lintOptions {
-        abortOnError false
-    }
 
 
     testOptions {
@@ -21,8 +17,8 @@ android {
         applicationId "com.winston69.simpill"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 18
-        versionName "1.3.2"
+        versionCode 19
+        versionName "1.3.3"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,19 +39,23 @@ android {
         viewBinding true
     }
     namespace 'com.example.simpill'
+    lint {
+        abortOnError false
+    }
 }
 
 dependencies {
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     implementation "com.airbnb.android:lottie:3.4.0"
-    implementation 'androidx.core:core:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.core:core:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.test:monitor:1.6.1'
     implementation 'androidx.test.ext:junit:1.1.5'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.3'

@@ -55,8 +55,8 @@ public class Settings extends AppCompatActivity implements Dialogs.SettingsDialo
 
         deleteAllBtn.setOnClickListener(view -> {
             Dialog dialog = getDialogs.getDatabaseDeletionDialog();
-            dialog.findViewById(R.id.btnYes).setOnClickListener(v -> Process.killProcess(Process.myPid()));
             dialog.show();
+            settingsChanged = true;
         });
         backButton.setOnClickListener(
                 v -> {
